@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.bt.Smart.Hox">
+
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <!--qq申请权限-->
+    <!--<uses-permission android:name="android.permission.INTERNET" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
+    <!-- Required -->
+    <!--<permission-->
+    <!--android:name="com.bt.andy.ZhiHaoShi.permission.JPUSH_MESSAGE"-->
+    <!--android:protectionLevel="signature"/>-->
+
+    <!-- Required -->
+    <uses-permission android:name="com.bt.Smart.Hox.permission.JPUSH_MESSAGE"/>
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
+    <!-- Optional. Required for location feature -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/> <!-- 用于开启 debug 版本的应用在6.0 系统上 层叠窗口权限 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <application
+        android:name="com.bt.Smart.Hox.MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name="com.bt.Smart.Hox.MainActivity"
+            android:screenOrientation="portrait">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN"/>-->
+            <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
+        </activity>
+        <!--启动页activity-->
+        <activity
+            android:name="com.bt.Smart.Hox.activity.FirstActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name="com.bt.Smart.Hox.activity.LoginActivity"/>
+        <activity android:name="com.bt.Smart.Hox.activity.RegisterActivity"/>
+        <activity android:name=".activity.homeActivity.AddRoomActivity"/>
+        <activity android:name=".activity.homeActivity.AddDeviceActivity"/>
+        <activity android:name=".activity.homeActivity.DeviceListActivity"/>
+        <activity android:name=".activity.homeActivity.AddDevDetailActivity"/>
+        <activity android:name="com.bt.Smart.Hox.activity.homeActivity.RoomManagerActivity"/>
+        <activity android:name="com.bt.Smart.Hox.activity.homeActivity.MoveDeviceActivity"/>
+        <activity android:name="com.bt.Smart.Hox.activity.meActivity.HomeListActivity"/>
+        <activity android:name="com.bt.Smart.Hox.activity.meActivity.HomeDetailActivity"/>
+        <activity android:name=".activity.meActivity.FeedBackActivity"/>
+        <activity android:name="com.bt.Smart.Hox.activity.UploadPicActivity"/>
+        <activity android:name="com.bt.Smart.Hox.activity.SaomiaoUIActivity"/>
+
+        <!--qq注册activity-->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:scheme="101519054"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+
+
+        <!-- Required SDK 核心功能-->
+        <!-- 可配置android:process参数将PushService放在其他进程中 -->
+        <!--<service-->
+        <!--android:name="cn.jpush.android.service.PushService"-->
+        <!--android:enabled="true"-->
+        <!--android:exported="false">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="cn.jpush.android.intent.REGISTER"/>-->
+        <!--<action android:name="cn.jpush.android.intent.REPORT"/>-->
+        <!--<action android:name="cn.jpush.android.intent.PushService"/>-->
+        <!--<action android:name="cn.jpush.android.intent.PUSH_TIME"/>-->
+        <!--</intent-filter>-->
+        <!--</service>-->
+
+        <!--&lt;!&ndash; since 3.1.0 Required SDK 核心功能&ndash;&gt;-->
+        <!--<provider-->
+        <!--android:name="cn.jpush.android.service.DownloadProvider"-->
+        <!--android:authorities="com.bt.andy.ZhiHaoShi.DownloadProvider"-->
+        <!--android:exported="true"/>-->
+
+        <!--&lt;!&ndash; Required SDK核心功能&ndash;&gt;-->
+        <!--<receiver-->
+        <!--android:name="cn.jpush.android.service.PushReceiver"-->
+        <!--android:enabled="true">-->
+        <!--<intent-filter android:priority="1000">-->
+        <!--<action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY"/>-->
+        <!--<category android:name="com.bt.andy.sanlianASxcx"/>-->
+        <!--</intent-filter>-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.USER_PRESENT"/>-->
+        <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>-->
+        <!--</intent-filter>-->
+        <!--&lt;!&ndash; Optional &ndash;&gt;-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.PACKAGE_ADDED"/>-->
+        <!--<action android:name="android.intent.action.PACKAGE_REMOVED"/>-->
+
+        <!--<data android:scheme="package"/>-->
+        <!--</intent-filter>-->
+        <!--</receiver>-->
+        <!--&lt;!&ndash; Required SDK核心功能&ndash;&gt;-->
+        <!--<activity-->
+        <!--android:name="cn.jpush.android.ui.PushActivity"-->
+        <!--android:configChanges="orientation|keyboardHidden"-->
+        <!--android:exported="false"-->
+        <!--android:theme="@android:style/Theme.NoTitleBar">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="cn.jpush.android.ui.PushActivity"/>-->
+
+        <!--<category android:name="android.intent.category.DEFAULT"/>-->
+        <!--<category android:name="com.bt.andy.sanlianASxcx"/>-->
+        <!--</intent-filter>-->
+        <!--</activity>-->
+        <!--&lt;!&ndash; Required SDK核心功能&ndash;&gt;-->
+        <!--<service-->
+        <!--android:name="cn.jpush.android.service.DownloadService"-->
+        <!--android:enabled="true"-->
+        <!--android:exported="false">-->
+        <!--</service>-->
+        <!--&lt;!&ndash; Required SDK核心功能&ndash;&gt;-->
+        <!--<receiver android:name="cn.jpush.android.service.AlarmReceiver"/>-->
+        <!--&lt;!&ndash; Required since 3.0.7 &ndash;&gt;-->
+        <!--&lt;!&ndash; 新的tag/alias接口结果返回需要开发者配置一个自定的广播 &ndash;&gt;-->
+        <!--&lt;!&ndash; 该广播需要继承JPush提供的JPushMessageReceiver类, 并如下新增一个 Intent-Filter &ndash;&gt;-->
+        <!--<receiver-->
+        <!--android:name="com.bt.andy.ZhiHaoShi.MyReceiverForJPush"-->
+        <!--android:enabled="true"-->
+        <!--android:exported="false">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE"/>-->
+        <!--<category android:name="com.bt.andy.sanlianASxcx"/>-->
+        <!--</intent-filter>-->
+        <!--</receiver>-->
+        <!--&lt;!&ndash; Required. AppKey copied from Portal &ndash;&gt;-->
+        <!--<meta-data-->
+        <!--android:name="JPUSH_APPKEY"-->
+        <!--android:value="4ab518039a4729f114822dc0"/>-->
+
+        <!--&lt;!&ndash;自定义接收推送消息&ndash;&gt;-->
+        <!--<receiver-->
+        <!--android:name="com.bt.andy.ZhiHaoShi.util.MyJPushDefineReceIver"-->
+        <!--android:enabled="true"-->
+        <!--android:exported="false">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="cn.jpush.android.intent.REGISTRATION"/>-->
+        <!--<action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED"/>-->
+        <!--<action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED"/>-->
+        <!--<action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED"/>-->
+        <!--<action android:name="cn.jpush.android.intent.NOTIFICATION_CLICK_ACTION"/>-->
+        <!--<action android:name="cn.jpush.android.intent.CONNECTION"/>-->
+
+        <!--<category android:name="com.bt.andy.sanlianASxcx"/>-->
+        <!--</intent-filter>-->
+        <!--</receiver>-->
+    </application>
+
+</manifest>
