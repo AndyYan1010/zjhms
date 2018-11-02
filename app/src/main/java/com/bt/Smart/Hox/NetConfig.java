@@ -29,5 +29,13 @@ public class NetConfig {
     //获取房间设备信息
     public static String DEVICE = ROOT + "device";
 
+    //添加家庭
+    public static String home = ROOT + "home";
+    //家详细信息
+    public static String HOMEDETAIL = ROOT + "homeDetail";
+    //家庭成员信息
+    public static String HOMEMEMBER = ROOT + "homeMember";
+    //添加家庭成员
+    public static String homeMember = ROOT + "homeMember";
 
 }

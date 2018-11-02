@@ -1,5 +1,6 @@
 package com.bt.Smart.Hox.activity.homeActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 
 import com.bt.Smart.Hox.BaseActivity;
 import com.bt.Smart.Hox.R;
+import com.bt.Smart.Hox.utils.ToastUtils;
 
 /**
  * @创建者 AndyYan
@@ -25,6 +27,7 @@ public class AddRoomActivity extends BaseActivity implements View.OnClickListene
     private TextView  tv_recom1;
     private TextView  tv_recom2;
     private TextView  tv_submit;
+    private int ROOM_REQUEST_CODE = 1001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +69,14 @@ public class AddRoomActivity extends BaseActivity implements View.OnClickListene
                 et_name.setText("衣帽间");
                 break;
             case R.id.tv_submit://提交房间
+                String room_name = String.valueOf(et_name.getText()).trim();
+                if ("".equals(room_name)||"房间名称".equals(room_name)) {
+                    ToastUtils.showToast(this,"请填写房间名称");
+                    return;
+                }
+                Intent intent = new Intent();
+                intent.putExtra("roomName", room_name);
+                setResult(ROOM_REQUEST_CODE, intent);
                 finish();
                 break;
         }

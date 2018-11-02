@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.activity.LoginActivity;
-import com.bt.Smart.Hox.messegeInfo.SendSMSInfo;
+import com.bt.Smart.Hox.messegeInfo.CommonInfo;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
 import com.bt.Smart.Hox.utils.RequestParamsFM;
 import com.bt.Smart.Hox.utils.ToastUtils;
@@ -146,7 +146,7 @@ public class RegisterPhoneFragment extends Fragment implements View.OnClickListe
                     return;
                 }
                 Gson gson = new Gson();
-                SendSMSInfo sendSMSInfo = gson.fromJson(resbody, SendSMSInfo.class);
+                CommonInfo sendSMSInfo = gson.fromJson(resbody, CommonInfo.class);
                 if (1 == sendSMSInfo.getCode()) {
                     startActivity(new Intent(getContext(), LoginActivity.class));
                     getActivity().finish();
@@ -174,7 +174,7 @@ public class RegisterPhoneFragment extends Fragment implements View.OnClickListe
                     return;
                 }
                 Gson gson = new Gson();
-                SendSMSInfo sendSMSInfo = gson.fromJson(resbody, SendSMSInfo.class);
+                CommonInfo sendSMSInfo = gson.fromJson(resbody, CommonInfo.class);
                 if (1 == sendSMSInfo.getCode()) {
                     getActivity().finish();
                     isFinish=true;
@@ -200,7 +200,7 @@ public class RegisterPhoneFragment extends Fragment implements View.OnClickListe
                     return;
                 }
                 Gson gson = new Gson();
-                SendSMSInfo sendSMSInfo = gson.fromJson(resbody, SendSMSInfo.class);
+                CommonInfo sendSMSInfo = gson.fromJson(resbody, CommonInfo.class);
                 if (1 == sendSMSInfo.getCode()) {
                     ToastUtils.showToast(getContext(), "验证码发送成功");
                     vCode = sendSMSInfo.getValidateCode();

@@ -24,10 +24,11 @@ import java.util.List;
  */
 
 public class RoomManagerActivity extends BaseActivity implements View.OnClickListener {
-    private ImageView img_back;
-    private TextView  tv_title;
-    private TextView  tv_add;//添加家
-    private ListView  lv_room;
+    private ImageView    img_back;
+    private TextView     tv_title;
+    private TextView     tv_add;//添加家
+    private ListView     lv_room;
+    private List<String> mData;//房间列表
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class RoomManagerActivity extends BaseActivity implements View.OnClickLis
         img_back.setVisibility(View.VISIBLE);
         img_back.setOnClickListener(this);
         tv_title.setText("房间管理");
-        List<String> mData = new ArrayList();
+        mData = new ArrayList();
         mData.add("次卧");
         mData.add("书房");
         mData.add("主卧");

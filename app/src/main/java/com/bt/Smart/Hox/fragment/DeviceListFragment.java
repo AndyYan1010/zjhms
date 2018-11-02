@@ -59,7 +59,7 @@ public class DeviceListFragment extends Fragment implements View.OnClickListener
     }
 
     private void initData() {
-        //        lin_nomsg.setVisibility(View.GONE);
+        //lin_nomsg.setVisibility(View.GONE);
         mData = new ArrayList();
         deviceAdapter = new LvDeviceAdapter(getContext(), mData);
         lv_dev.setAdapter(deviceAdapter);
@@ -68,6 +68,7 @@ public class DeviceListFragment extends Fragment implements View.OnClickListener
     }
 
     public void refreshInfo() {
+        //获取房间设备
         getDeviceOfRoom();
     }
 

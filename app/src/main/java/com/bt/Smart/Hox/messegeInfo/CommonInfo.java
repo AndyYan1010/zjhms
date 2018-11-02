@@ -9,7 +9,7 @@ package com.bt.Smart.Hox.messegeInfo;
  * @更新描述 ${TODO}
  */
 
-public class SendSMSInfo {
+public class CommonInfo {
 
     /**
      * validateCode : 123456
@@ -20,6 +20,11 @@ public class SendSMSInfo {
     private String validateCode;
     private String message;
     private int    code;
+    /**
+     * home_id : 77566746b6464841860460971f9959a0
+     */
+
+    private String home_id;
 
     public String getValidateCode() {
         return validateCode;
@@ -43,5 +48,14 @@ public class SendSMSInfo {
 
     public void setCode(int code) {
         this.code = code;
+    }
+
+
+    public String getHome_id() {
+        return home_id;
+    }
+
+    public void setHome_id(String home_id) {
+        this.home_id = home_id;
     }
 }

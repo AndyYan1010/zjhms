@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.bt.Smart.Hox.R;
+import com.bt.Smart.Hox.messegeInfo.UserHomeInfo;
 
 import java.util.List;
 
@@ -20,10 +21,10 @@ import java.util.List;
  */
 
 public class LvHomeAdapter extends BaseAdapter {
-    private Context mContext;
-    private List    mList;
+    private Context                         mContext;
+    private List<UserHomeInfo.HomeListBean> mList;
 
-    public LvHomeAdapter(Context context, List<String> list) {
+    public LvHomeAdapter(Context context, List<UserHomeInfo.HomeListBean> list) {
         this.mContext = context;
         this.mList = list;
     }
@@ -54,11 +55,11 @@ public class LvHomeAdapter extends BaseAdapter {
         } else {
             viewholder = (MyViewholder) view.getTag();
         }
-
+        viewholder.tv_name.setText(mList.get(i).getHome_name());
         return view;
     }
 
     private class MyViewholder {
-        TextView       tv_name;
+        TextView tv_name;
     }
 }

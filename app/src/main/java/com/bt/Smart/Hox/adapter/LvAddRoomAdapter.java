@@ -5,9 +5,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.bt.Smart.Hox.R;
+import com.bt.Smart.Hox.messegeInfo.RoomChoiceInfo;
 
 import java.util.List;
 
@@ -21,10 +23,10 @@ import java.util.List;
  */
 
 public class LvAddRoomAdapter extends BaseAdapter {
-    private List    mList;
-    private Context mContext;
+    private List<RoomChoiceInfo> mList;
+    private Context              mContext;
 
-    public LvAddRoomAdapter(Context context, List list) {
+    public LvAddRoomAdapter(Context context, List<RoomChoiceInfo> list) {
         this.mContext = context;
         this.mList = list;
     }
@@ -45,7 +47,7 @@ public class LvAddRoomAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
         MyViewholder viewholder;
         if (null == view) {
             viewholder = new MyViewholder();
@@ -56,7 +58,14 @@ public class LvAddRoomAdapter extends BaseAdapter {
         } else {
             viewholder = (MyViewholder) view.getTag();
         }
-
+        viewholder.tv_name.setText(mList.get(i).getRoom_name());
+        viewholder.cb_choice.setChecked(mList.get(i).isIsChoice());
+        viewholder.cb_choice.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                mList.get(i).setIsChoice(b);
+            }
+        });
         return view;
     }
 

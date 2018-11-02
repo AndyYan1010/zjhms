@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bt.Smart.Hox.R;
+import com.bt.Smart.Hox.messegeInfo.HomeMembersInfo;
+import com.bt.Smart.Hox.util.GlideLoaderUtil;
 
 import java.util.List;
 
@@ -21,10 +23,10 @@ import java.util.List;
  */
 
 public class LvMemberAdapter extends BaseAdapter {
-    private List    mList;
-    private Context mContext;
+    private List<HomeMembersInfo.HomeListBean> mList;
+    private Context                            mContext;
 
-    public LvMemberAdapter(Context context, List list) {
+    public LvMemberAdapter(Context context, List<HomeMembersInfo.HomeListBean> list) {
         this.mContext = context;
         this.mList = list;
     }
@@ -54,17 +56,30 @@ public class LvMemberAdapter extends BaseAdapter {
             viewholder.tv_name = view.findViewById(R.id.tv_name);
             viewholder.tv_phone = view.findViewById(R.id.tv_phone);
             viewholder.tv_power = view.findViewById(R.id.tv_power);
-
+            viewholder.img_next = view.findViewById(R.id.img_next);
             view.setTag(viewholder);
         } else {
             viewholder = (MyViewholder) view.getTag();
         }
-
+        if (null == mList.get(i).getWx_name() || "".equals(mList.get(i).getWx_name())) {
+            viewholder.tv_name.setText(mList.get(i).getWx_name());
+        } else {
+            viewholder.tv_name.setText(mList.get(i).getFtelephone());
+        }
+        GlideLoaderUtil.showImgWithIcon(mContext, mList.get(i).getWx_pic(), R.drawable.iman, R.drawable.iman, viewholder.img_head);
+        viewholder.tv_phone.setText(mList.get(i).getFtelephone());
+        if ("1".equals(mList.get(i).getIsmanager())) {
+            viewholder.img_next.setVisibility(View.GONE);
+            viewholder.tv_power.setText("管理员");
+        } else {
+            viewholder.tv_power.setText("");
+            viewholder.img_next.setVisibility(View.VISIBLE);
+        }
         return view;
     }
 
     private class MyViewholder {
-        ImageView img_head;
-        TextView  tv_name, tv_phone, tv_power;
+        ImageView img_head, img_next;
+        TextView tv_name, tv_phone, tv_power;
     }
 }

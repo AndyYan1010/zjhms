@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:text="在哪些房间有只能设备："
+            android:text="在哪些房间有智能设备："
             android:textColor="@color/vm_black_54"
             android:textSize="14sp"/>
 

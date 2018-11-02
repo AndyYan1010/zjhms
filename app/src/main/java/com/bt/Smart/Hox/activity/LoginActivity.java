@@ -115,6 +115,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 if ("".equals(phone) || "手机号".equals(phone)) {
                     ToastUtils.showToast(LoginActivity.this, "请输入手机号");
                     return;
+                } else {
+                    // 账号不匹配手机号格式（11位数字且以1开头）
+                    if (phone.length() != 11) {
+                        ToastUtils.showToast(this, "手机号码格式不正确");
+                        return;
+                    }
                 }
                 if ("".equals(psd) || "请输入密码".equals(psd)) {
                     ToastUtils.showToast(LoginActivity.this, "请输入密码");
@@ -155,16 +161,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             Gson gson = new Gson();
             ToastUtils.showToast(LoginActivity.this, o.toString());
             QQLoginInfo qqLoginInfo = gson.fromJson(o.toString(), QQLoginInfo.class);
+            ProgressDialogUtil.hideDialog();
         }
 
         @Override
         public void onError(UiError uiError) {
+            ProgressDialogUtil.hideDialog();
             //未获取到
             ToastUtils.showToast(LoginActivity.this, "QQ授权登录失败，未获取到信息");
         }
 
         @Override
         public void onCancel() {
+            ProgressDialogUtil.hideDialog();
             ToastUtils.showToast(LoginActivity.this, "取消QQ授权登录");
         }
     }

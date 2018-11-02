@@ -202,7 +202,6 @@ public class Home_F extends Fragment implements View.OnClickListener {
                 }
             }
         });
-
     }
 
     private void showRoomsInfo(String hDefID) {
