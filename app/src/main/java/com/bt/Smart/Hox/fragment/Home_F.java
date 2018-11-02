@@ -7,8 +7,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -111,31 +109,14 @@ public class Home_F extends Fragment implements View.OnClickListener {
             mTablayout.getTabAt(i).setText(contsList.get(i));
         }
         tv_mine.setOnClickListener(this);
-        //获取账户下所有家数目
-        getHomes();
+
     }
 
-    private class DemodAdapter extends FragmentStatePagerAdapter {
-
-        public DemodAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public int getCount() {
-            return 0;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-
-            return super.getPageTitle(position);
-        }
+    @Override
+    public void onResume() {
+        super.onResume();
+        //获取账户下所有家数目
+        getHomes();
     }
 
     @Override

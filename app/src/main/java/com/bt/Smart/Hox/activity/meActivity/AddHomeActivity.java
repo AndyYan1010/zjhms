@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bt.Smart.Hox.BaseActivity;
@@ -15,13 +14,18 @@ import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.activity.homeActivity.AddRoomActivity;
 import com.bt.Smart.Hox.adapter.LvAddRoomAdapter;
-import com.bt.Smart.Hox.messegeInfo.RoomChoiceInfo;
 import com.bt.Smart.Hox.messegeInfo.CommonInfo;
+import com.bt.Smart.Hox.messegeInfo.RoomChoiceInfo;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
 import com.bt.Smart.Hox.utils.ProgressDialogUtil;
 import com.bt.Smart.Hox.utils.RequestParamsFM;
 import com.bt.Smart.Hox.utils.ToastUtils;
+import com.bt.Smart.Hox.viewmodle.MyListView;
 import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,10 +49,9 @@ public class AddHomeActivity extends BaseActivity implements View.OnClickListene
     private TextView             tv_choice;//选择
     private LinearLayout         lin_add;//添加其他房间
     private List<RoomChoiceInfo> mData;//可添加房间数据
-    private ListView             lv_room;//房间列表
+    private MyListView           lv_room;//房间列表
     private LvAddRoomAdapter     addRoomAdapter;
     private TextView             tv_setup;//确认创建
-
     private int REQUEST_CODE = 1001;//添加房间返回值
 
     @Override
@@ -65,7 +68,7 @@ public class AddHomeActivity extends BaseActivity implements View.OnClickListene
         et_name = (EditText) findViewById(R.id.et_name);
         tv_choice = (TextView) findViewById(R.id.tv_choice);
         lin_add = (LinearLayout) findViewById(R.id.lin_add);
-        lv_room = (ListView) findViewById(R.id.lv_room);
+        lv_room = (MyListView) findViewById(R.id.lv_room);
         tv_setup = (TextView) findViewById(R.id.tv_setup);
     }
 
@@ -94,8 +97,7 @@ public class AddHomeActivity extends BaseActivity implements View.OnClickListene
                 finish();
                 break;
             case R.id.tv_choice://选择位置
-
-
+                ToastUtils.showToast(this, "正在开发。。。");
                 break;
             case R.id.lin_add://添加其他房间
                 Intent intent = new Intent(this, AddRoomActivity.class);
@@ -108,10 +110,11 @@ public class AddHomeActivity extends BaseActivity implements View.OnClickListene
                     ToastUtils.showToast(this, "请填写家庭名称");
                     return;
                 }
-                if ("".equals(address) || "请选择".equals(address)) {
+                if ("".equals(address) || "".equals(address)) {
                     ToastUtils.showToast(this, "请选择地址");
                     return;
                 }
+                address = "江苏省南通市海门市";
                 boolean notnull = false;//选择的房间数为0
                 for (RoomChoiceInfo choiceInfo : mData) {
                     if (choiceInfo.isIsChoice()) {
@@ -128,23 +131,34 @@ public class AddHomeActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void creatHome(String home_name, String address) {
-        String homecanshu = "[{\"home_name\": \"" + home_name + "\",\"faddress\":\"" + address + "\",\"register_id\":\"" + MyApplication.userID + "\"}]";
-        String house_member = "[";
+        JSONArray jsonArray1 = new JSONArray();
+        try {
+            JSONObject jsonObject1 = new JSONObject();
+            jsonObject1.put("home_name", home_name);
+            jsonObject1.put("faddress", address);
+            jsonObject1.put("register_id", MyApplication.userID);
+            jsonArray1.put(jsonObject1);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JSONArray jsonArray2 = new JSONArray();
         for (int i = 0; i < mData.size(); i++) {
-            if (mData.get(i).isIsChoice()) {
-                if (i <= mData.size() - 2) {
-                    house_member = house_member + "{\"house_name\": \"" + mData.get(i).getRoom_name() + "\"},";
-                } else {
-                    house_member = house_member + "{\"house_name\": \"" + mData.get(i).getRoom_name() + "\"}";
+            JSONObject jsonObject = new JSONObject();
+            try {
+                if (mData.get(i).isIsChoice()) {
+                    jsonObject.put("house_name", mData.get(i).getRoom_name());
+                    jsonArray2.put(jsonObject);
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }
-        house_member = house_member + "]";
         RequestParamsFM params = new RequestParamsFM();
-        params.put("home", homecanshu);
-        params.put("house_member", house_member);
+        params.put("home", jsonArray1);
+        params.put("house_member", jsonArray2);
         params.setUseJsonStreamer(true);
-        HttpOkhUtils.getInstance().doPost(NetConfig.HOME, params, new HttpOkhUtils.HttpCallBack() {
+        HttpOkhUtils.getInstance().doPostBeanToString(NetConfig.HOME, params, new HttpOkhUtils.HttpCallBack() {
             @Override
             public void onError(Request request, IOException e) {
                 ProgressDialogUtil.hideDialog();

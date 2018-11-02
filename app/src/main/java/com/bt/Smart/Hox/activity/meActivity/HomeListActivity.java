@@ -76,11 +76,17 @@ public class HomeListActivity extends BaseActivity implements View.OnClickListen
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //跳转家庭编辑界面
                 Intent intent = new Intent(HomeListActivity.this, HomeDetailActivity.class);
-                intent.putExtra("homeID",mData.get(i).getHome_id());
-                intent.putExtra("isDefault",mData.get(i).getIsdefault());
+                intent.putExtra("homeID", mData.get(i).getHome_id());
+                intent.putExtra("isDefault", mData.get(i).getIsdefault());
                 startActivity(intent);
             }
         });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         //获取家庭列表
         getHomeList();
     }

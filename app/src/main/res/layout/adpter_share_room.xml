@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/gray_ef"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:minHeight="40dp">
+
+        <CheckBox
+            android:id="@+id/cb_room"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="次卧"
+            android:textColor="@color/vm_black_100"
+            android:textSize="16sp"/>
+
+        <ImageView
+            android:id="@+id/img_down"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:padding="12dp"
+            android:src="@drawable/icon_down"/>
+    </RelativeLayout>
+
+    <com.bt.Smart.Hox.viewmodle.MyListView
+        android:id="@+id/lv_device"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </com.bt.Smart.Hox.viewmodle.MyListView>
+</LinearLayout>

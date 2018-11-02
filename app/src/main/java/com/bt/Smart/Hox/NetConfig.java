@@ -30,12 +30,15 @@ public class NetConfig {
     public static String DEVICE = ROOT + "device";
 
     //添加家庭
-    public static String home = ROOT + "home";
+    public static String home              = ROOT + "home";
     //家详细信息
-    public static String HOMEDETAIL = ROOT + "homeDetail";
+    public static String HOMEDETAIL        = ROOT + "homeDetail";
     //家庭成员信息
-    public static String HOMEMEMBER = ROOT + "homeMember";
+    public static String HOMEMEMBER        = ROOT + "homeMember";
     //添加家庭成员
-    public static String homeMember = ROOT + "homeMember";
+    public static String homeMember        = ROOT + "homeMember";
+    //家授权，查询房间设备列表
+    public static String AUTHORIZATIONEDIT = ROOT + "authorizationEdit";
+
 
 }

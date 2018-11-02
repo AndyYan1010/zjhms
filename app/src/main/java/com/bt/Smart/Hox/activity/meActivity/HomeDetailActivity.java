@@ -102,8 +102,10 @@ public class HomeDetailActivity extends BaseActivity implements View.OnClickList
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (!"1".equals(mData.get(i).getIsmanager())) {//共享房间设置
                     Intent intent = new Intent(HomeDetailActivity.this, ShareRoomActivity.class);
-                    intent.putExtra("userID", mData.get(i).getId());//成员id//TODO
-                    intent.putExtra("homeID", homeID);//成员id//TODO
+                    intent.putExtra("memberID", mData.get(i).getId());//成员id//TODO
+                    intent.putExtra("homeID", homeID);//家id//TODO
+                    intent.putExtra("name", mData.get(i).getFtelephone());//
+                    intent.putExtra("phone", mData.get(i).getFtelephone());//
                     startActivity(intent);
                 }
             }
