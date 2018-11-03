@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bt.Smart.Hox.MyApplication;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.activity.meActivity.FeedBackActivity;
 import com.bt.Smart.Hox.activity.meActivity.HomeListActivity;
@@ -29,7 +30,8 @@ public class User_F extends Fragment implements View.OnClickListener {
     private TextView       tv_title;
     private RelativeLayout rtv_setName;//设置名称
     private ImageView      img_head;
-    private TextView       tv_id;
+    private TextView       tv_name;//用户名称
+    private TextView       tv_phone;
     private RelativeLayout rtv_home;//家庭管理
     private RelativeLayout rtv_feedback;//意见反馈
 
@@ -45,13 +47,17 @@ public class User_F extends Fragment implements View.OnClickListener {
         tv_title = mRootView.findViewById(R.id.tv_title);
         rtv_setName = mRootView.findViewById(R.id.rtv_setName);
         img_head = mRootView.findViewById(R.id.img_head);
-        tv_id = mRootView.findViewById(R.id.tv_id);
+        tv_name = mRootView.findViewById(R.id.tv_name);
+        tv_phone = mRootView.findViewById(R.id.tv_phone);
         rtv_home = mRootView.findViewById(R.id.rtv_home);
         rtv_feedback = mRootView.findViewById(R.id.rtv_feedback);
     }
 
     private void initData() {
         tv_title.setText("我");
+        tv_name.setText(MyApplication.userName);
+        tv_phone.setText(MyApplication.userPhone);
+        rtv_setName.setOnClickListener(this);
         rtv_home.setOnClickListener(this);
         rtv_feedback.setOnClickListener(this);
     }
@@ -59,6 +65,9 @@ public class User_F extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.rtv_setName://设置姓名
+
+                break;
             case R.id.rtv_home: //跳转家管理界面
                 startActivity(new Intent(getContext(), HomeListActivity.class));
                 break;

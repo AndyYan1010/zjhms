@@ -10,6 +10,7 @@ import com.bt.Smart.Hox.MyApplication;
 import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.adapter.LvShareAdapter;
+import com.bt.Smart.Hox.messegeInfo.CommonInfo;
 import com.bt.Smart.Hox.messegeInfo.RoomsDeviceInfo;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
 import com.bt.Smart.Hox.utils.ProgressDialogUtil;
@@ -17,6 +18,10 @@ import com.bt.Smart.Hox.utils.RequestParamsFM;
 import com.bt.Smart.Hox.utils.ToastUtils;
 import com.bt.Smart.Hox.viewmodle.MyListView;
 import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,6 +47,8 @@ public class ShareRoomActivity extends BaseActivity implements View.OnClickListe
     private MyListView                          lv_room_device;
     private List<RoomsDeviceInfo.HouseListBean> mData;
     private LvShareAdapter                      shareAdapter;
+    private TextView                            tv_delete;//移除成员
+    private TextView                            tv_save;//保存修改
 
     private String homeID;
     private String memberID;
@@ -63,7 +70,8 @@ public class ShareRoomActivity extends BaseActivity implements View.OnClickListe
         tv_name = (TextView) findViewById(R.id.tv_name);
         tv_phone = (TextView) findViewById(R.id.tv_phone);
         lv_room_device = (MyListView) findViewById(R.id.lv_room_device);
-
+        tv_delete = (TextView) findViewById(R.id.tv_delete);
+        tv_save = (TextView) findViewById(R.id.tv_save);
     }
 
     private void setData() {
@@ -71,7 +79,7 @@ public class ShareRoomActivity extends BaseActivity implements View.OnClickListe
         img_back.setOnClickListener(this);
         tv_title.setText("共享设备");
         mData = new ArrayList();
-        shareAdapter = new LvShareAdapter(this, mData);
+        shareAdapter = new LvShareAdapter(this, mData, -1);
         lv_room_device.setAdapter(shareAdapter);
         homeID = getIntent().getStringExtra("homeID");
         memberID = getIntent().getStringExtra("memberID");
@@ -81,6 +89,7 @@ public class ShareRoomActivity extends BaseActivity implements View.OnClickListe
         tv_phone.setText(phone);
         //获取该房间下所有设备信息
         getAllInfoOfRoom();
+        tv_delete.setOnClickListener(this);
     }
 
     @Override
@@ -89,7 +98,77 @@ public class ShareRoomActivity extends BaseActivity implements View.OnClickListe
             case R.id.img_back:
                 finish();
                 break;
+            case R.id.tv_delete://移除成员
+                deleteMember();
+                break;
+            case R.id.tv_save://保存修改
+                saveChange();
+                break;
         }
+    }
+
+    private void saveChange() {
+        ProgressDialogUtil.startShow(ShareRoomActivity.this, "正在提交...");
+        JSONArray jsonArray = new JSONArray();
+        for (int i = 0; i < mData.size(); i++) {
+            try {
+                if (mData.get(i).isMineIschoice()) {//该房间有选中
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("home_id", homeID);
+                    jsonObject.put("house_id", mData.get(i).getHouse_id());
+                    jsonObject.put("register_id", MyApplication.userID);
+                    //设备数组
+                    JSONArray jsonArray1 = new JSONArray();
+                    for (RoomsDeviceInfo.HouseListBean.DeviceListBean bean : mData.get(i).getDeviceList()) {
+                        if (bean.isMeChoice()) {//该房间的设备有选中
+                            JSONObject jsonObject1 = new JSONObject();
+                            jsonObject1.put("second_control_id", bean.getSecond_control_id());
+                            jsonObject1.put("main_control_code", bean.getMain_control_code());
+                            jsonObject1.put("register_id", MyApplication.userID);
+                            jsonObject1.put("second_control_device_id", bean.getSecond_control_id());//TODO？？？
+                            jsonObject1.put("home_id", homeID);
+                            jsonObject1.put("house_id", mData.get(i).getHouse_id());
+                            jsonArray1.put(jsonObject1);
+                        }
+                    }
+                    jsonObject.put("device_member", jsonArray1);
+                    jsonArray.put(jsonObject);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        RequestParamsFM params = new RequestParamsFM();
+        params.put("home_info", jsonArray);
+        params.put("home_id_member", homeID);
+        params.put("register_id_member", memberID);
+        HttpOkhUtils.getInstance().doPostBeanToString(NetConfig.AUTHORIZATION, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(ShareRoomActivity.this, "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(ShareRoomActivity.this, "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                CommonInfo commonInfo = gson.fromJson(resbody, CommonInfo.class);
+                ToastUtils.showToast(ShareRoomActivity.this, commonInfo.getMessage());
+                if (1 == commonInfo.getCode()) {
+                    finish();
+                }
+            }
+        });
+    }
+
+    private void deleteMember() {
+
+
     }
 
     private void getAllInfoOfRoom() {

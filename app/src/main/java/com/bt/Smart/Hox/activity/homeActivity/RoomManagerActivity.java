@@ -8,11 +8,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bt.Smart.Hox.BaseActivity;
+import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.adapter.LvRoomAdapter;
+import com.bt.Smart.Hox.messegeInfo.HouseDetailInfo;
+import com.bt.Smart.Hox.utils.HttpOkhUtils;
+import com.bt.Smart.Hox.utils.ProgressDialogUtil;
+import com.bt.Smart.Hox.utils.RequestParamsFM;
+import com.bt.Smart.Hox.utils.ToastUtils;
+import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Request;
 
 /**
  * @创建者 AndyYan
@@ -24,11 +34,13 @@ import java.util.List;
  */
 
 public class RoomManagerActivity extends BaseActivity implements View.OnClickListener {
-    private ImageView    img_back;
-    private TextView     tv_title;
-    private TextView     tv_add;//添加家
-    private ListView     lv_room;
-    private List<String> mData;//房间列表
+    private ImageView                           img_back;
+    private TextView                            tv_title;
+    private TextView                            tv_add;//添加家
+    private List<HouseDetailInfo.HouseListBean> mData;//房间列表
+    private ListView                            lv_room;
+    private LvRoomAdapter                       roomAdapter;
+    private String                              homeID;//家的id
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +62,12 @@ public class RoomManagerActivity extends BaseActivity implements View.OnClickLis
         img_back.setOnClickListener(this);
         tv_title.setText("房间管理");
         mData = new ArrayList();
-        mData.add("次卧");
-        mData.add("书房");
-        mData.add("主卧");
-        LvRoomAdapter roomAdapter = new LvRoomAdapter(this, mData);
+        roomAdapter = new LvRoomAdapter(this, mData);
         lv_room.setAdapter(roomAdapter);
         tv_add.setOnClickListener(this);
+        homeID = getIntent().getStringExtra("homeID");
+        //获取家中房间列表
+        getHouseList();
     }
 
     @Override
@@ -68,5 +80,40 @@ public class RoomManagerActivity extends BaseActivity implements View.OnClickLis
                 startActivity(new Intent(this, AddRoomActivity.class));
                 break;
         }
+    }
+
+    private void getHouseList() {
+        RequestParamsFM params = new RequestParamsFM();
+        params.put("home_id", homeID);
+        HttpOkhUtils.getInstance().doGetWithParams(NetConfig.HOUSE, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(RoomManagerActivity.this, "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(RoomManagerActivity.this, "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                HouseDetailInfo houseDetailInfo = gson.fromJson(resbody, HouseDetailInfo.class);
+                if (1 == houseDetailInfo.getCode()) {
+                    ToastUtils.showToast(RoomManagerActivity.this, "房间数查询成功");
+                    if (null == mData) {
+                        mData = new ArrayList<>();
+                    } else {
+                        mData.clear();
+                    }
+                    mData.addAll(houseDetailInfo.getHouseList());
+                    roomAdapter.notifyDataSetChanged();
+                } else {
+                    ToastUtils.showToast(RoomManagerActivity.this, "房间查询失败");
+                }
+            }
+        });
     }
 }

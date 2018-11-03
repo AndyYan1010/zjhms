@@ -101,7 +101,6 @@ public class HttpOkhUtils {
         RequestBody requestBody;
         boolean toJson = bean.getIsUseJsonStreamer();
         if (toJson) {
-            Gson gson = new Gson();
             //使用Gson将对象转换为json字符串
             String json = bean.toString();
             //MediaType  设置Content-Type 标头中包含的媒体类型值
@@ -147,7 +146,8 @@ public class HttpOkhUtils {
         if (toJson) {
             Gson gson = new Gson();
             //使用Gson将对象转换为json字符串
-            String json = gson.toJson(bean);
+//            String json = gson.toJson(bean);
+            String json = bean.toString();
             //MediaType  设置Content-Type 标头中包含的媒体类型值
             requestBody = FormBody.create(MediaType.parse("application/json; charset=utf-8"), json);
         } else {
@@ -159,7 +159,6 @@ public class HttpOkhUtils {
             }
             requestBody = builder.build();
         }
-
         Request request = new Request.Builder().url(url).delete(requestBody).build();
         client.newCall(request).enqueue(new StringCallBack(request, httpCallBack));
     }

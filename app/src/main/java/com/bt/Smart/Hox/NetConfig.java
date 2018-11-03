@@ -39,6 +39,9 @@ public class NetConfig {
     public static String homeMember        = ROOT + "homeMember";
     //家授权，查询房间设备列表
     public static String AUTHORIZATIONEDIT = ROOT + "authorizationEdit";
+    //共享设备
+    public static String AUTHORIZATION = ROOT + "authorization";
+
 
 
 }

@@ -63,6 +63,11 @@ public class RoomsDeviceInfo {
         private String               id;
         private String               register_id;
         private List<DeviceListBean> deviceList;
+        /**
+         * mineIschoice : false
+         */
+
+        private boolean mineIschoice;
 
         public String getHouse_id() {
             return house_id;
@@ -112,6 +117,14 @@ public class RoomsDeviceInfo {
             this.deviceList = deviceList;
         }
 
+        public boolean isMineIschoice() {
+            return mineIschoice;
+        }
+
+        public void setMineIschoice(boolean mineIschoice) {
+            this.mineIschoice = mineIschoice;
+        }
+
         public static class DeviceListBean {
             /**
              * deviceType : 1
@@ -148,6 +161,11 @@ public class RoomsDeviceInfo {
             private String         default_device_type;
             private String         home_id;
             private String         id;
+            /**
+             * meChoice : false
+             */
+
+            private boolean        meChoice;
 
             public String getDeviceType() {
                 return deviceType;
@@ -275,6 +293,14 @@ public class RoomsDeviceInfo {
 
             public void setId(String id) {
                 this.id = id;
+            }
+
+            public boolean isMeChoice() {
+                return meChoice;
+            }
+
+            public void setMeChoice(boolean meChoice) {
+                this.meChoice = meChoice;
             }
 
             public static class CreateTimeBean {

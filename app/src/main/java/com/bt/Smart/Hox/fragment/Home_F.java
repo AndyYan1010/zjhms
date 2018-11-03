@@ -62,6 +62,8 @@ public class Home_F extends Fragment implements View.OnClickListener {
     private boolean hDefault = false;//是否有默认家
     private String  hDefID   = "";
     private List<UserHomeInfo.HomeListBean> mHomeList;//家列表数据
+    private int REQUEST_HOME_F           = 1003;//修改了家后的响应值
+    private int REQUESTCODE_ROOM_MANAGER = 1004;//修改了房间后的响应值
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -109,12 +111,6 @@ public class Home_F extends Fragment implements View.OnClickListener {
             mTablayout.getTabAt(i).setText(contsList.get(i));
         }
         tv_mine.setOnClickListener(this);
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         //获取账户下所有家数目
         getHomes();
     }
@@ -127,9 +123,28 @@ public class Home_F extends Fragment implements View.OnClickListener {
                 openPopupWindow(tv_mine, mHomeList);
                 break;
             case R.id.img_more:
+                if (null == hDefID || "".equals(hDefID)) {
+                    ToastUtils.showToast(getContext(), "请先创建家，再添加设备");
+                    return;
+                }
                 //跳转房间管理界面
-                startActivity(new Intent(getContext(), RoomManagerActivity.class));
+                Intent intent = new Intent(getContext(), RoomManagerActivity.class);
+                intent.putExtra("homeID", hDefID);
+                startActivityForResult(intent, REQUESTCODE_ROOM_MANAGER);
                 break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_HOME_F) {//从家庭管理界面返回
+            //获取账户下所有家数目
+            getHomes();
+        }
+        if (requestCode == REQUESTCODE_ROOM_MANAGER) {//从房间管理界面返回
+            //刷新房间信息
+            showRoomsInfo(hDefID);
         }
     }
 
@@ -171,6 +186,7 @@ public class Home_F extends Fragment implements View.OnClickListener {
                             hDefID = userHomeInfo.getHomeList().get(0).getHome_id();
                         }
                         if (null == hDefID || "".equals(hDefID)) {
+                            hDefID = "";
                             ToastUtils.showToast(getContext(), "家信息查询失败");
                             return;
                         }
@@ -318,7 +334,8 @@ public class Home_F extends Fragment implements View.OnClickListener {
             @Override
             public void onClick(View view) {
                 //跳转家庭管理界面
-                startActivity(new Intent(getContext(), HomeListActivity.class));
+                Intent intent = new Intent(getContext(), HomeListActivity.class);
+                startActivityForResult(intent, REQUEST_HOME_F);
             }
         });
     }

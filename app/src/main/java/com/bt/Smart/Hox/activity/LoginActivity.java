@@ -84,7 +84,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             String name = SpUtils.getString(LoginActivity.this, "name");
             String psd = SpUtils.getString(LoginActivity.this, "psd");
             edit_num.setText(name);
+            edit_num.setSelection(name.length());
             edit_psd.setText(psd);
+            edit_psd.setSelection(psd.length());
         }
         ck_remPas.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -128,7 +130,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 }
 
                 //是否记住账号密码
-                //isNeedRem(name, psd);
+                isNeedRem(phone, psd);
                 //登录
                 loginToService(phone, psd);
                 break;
@@ -203,7 +205,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 if (loginInfo.getCode() == 1) {
                     LoginInfo.MemberInfoBean memberInfo = loginInfo.getMemberInfo();
                     MyApplication.userID = memberInfo.getId();
-                    MyApplication.userName = memberInfo.getFtelephone();
+                    MyApplication.userName = memberInfo.getWx_name();
+                    MyApplication.userPhone = memberInfo.getFtelephone();
                     //跳转主页面
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();

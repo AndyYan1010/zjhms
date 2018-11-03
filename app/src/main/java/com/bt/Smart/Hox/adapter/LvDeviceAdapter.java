@@ -83,13 +83,20 @@ public class LvDeviceAdapter extends BaseAdapter {
             }else {
                 viewholder.tv_onl.setText("ON");
             }
-
         }
         viewholder.img_move.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //跳转设备移动界面
                 mContext.startActivity(new Intent(mContext, MoveDeviceActivity.class));
+            }
+        });
+        viewholder.tv_onl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if ("lamp".equals(mList.get(i).getDefault_device_type())){//灯的开关事件
+
+                }
             }
         });
         return view;

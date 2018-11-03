@@ -24,10 +24,16 @@ import java.util.List;
 public class LvRoomDeviceAdapter extends BaseAdapter {
     private Context                                            mContext;
     private List<RoomsDeviceInfo.HouseListBean.DeviceListBean> mList;
+    private List<RoomsDeviceInfo.HouseListBean>                mTopList;
+    private LvShareAdapter                                     mTopAdapter;
+    private CheckBox                                           mTopCheckBox;
 
-    public LvRoomDeviceAdapter(Context context, List list) {
+    public LvRoomDeviceAdapter(Context context, List<RoomsDeviceInfo.HouseListBean.DeviceListBean> deviceList, List topList, LvShareAdapter lvShareAdapter, CheckBox checkBox) {
         this.mContext = context;
-        this.mList = list;
+        this.mList = deviceList;
+        this.mTopList = topList;
+        this.mTopAdapter = lvShareAdapter;
+        this.mTopCheckBox = checkBox;
     }
 
     @Override
@@ -47,7 +53,7 @@ public class LvRoomDeviceAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
-        MyViewholder viewholder;
+        final MyViewholder viewholder;
         if (null == view) {
             viewholder = new MyViewholder();
             view = View.inflate(mContext, R.layout.adpter_room_dev, null);
@@ -58,6 +64,36 @@ public class LvRoomDeviceAdapter extends BaseAdapter {
             viewholder = (MyViewholder) view.getTag();
         }
         viewholder.tv_name.setText(mList.get(i).getDevice_name());
+        if (mList.get(i).isMeChoice()) {
+            viewholder.cb_choice.setChecked(true);
+        } else {
+            viewholder.cb_choice.setChecked(false);
+        }
+        viewholder.cb_choice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (viewholder.cb_choice.isChecked()) {
+                    mList.get(i).setMeChoice(true);
+                    mTopList.get(mTopAdapter.mineSelectItem()).setMineIschoice(true);
+                    mTopCheckBox.setChecked(true);
+                } else {
+                    mList.get(i).setMeChoice(false);
+                    boolean hasChoice = false;
+                    for (RoomsDeviceInfo.HouseListBean.DeviceListBean bean : mList) {
+                        if (bean.isMeChoice()) {
+                            hasChoice = true;
+                        }
+                    }
+                    if (hasChoice) {
+                        mTopList.get(mTopAdapter.mineSelectItem()).setMineIschoice(true);
+                        mTopCheckBox.setChecked(true);
+                    } else {
+                        mTopList.get(mTopAdapter.mineSelectItem()).setMineIschoice(false);
+                        mTopCheckBox.setChecked(false);
+                    }
+                }
+            }
+        });
         return view;
     }
 

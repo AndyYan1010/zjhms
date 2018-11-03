@@ -21,21 +21,21 @@ public class RegisterActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.register_actiivty);
+        setContentView(R.layout.activity_base_frame);
         setView();
         setData();
     }
 
     private void setView() {
-
-    }
-
-    private void setData() {
         String kind = getIntent().getStringExtra("kind");
         RegisterPhoneFragment regisPhoneFt = new RegisterPhoneFragment();
         regisPhoneFt.setKind(kind);
         FragmentTransaction ftt = getSupportFragmentManager().beginTransaction();
         ftt.add(R.id.frame, regisPhoneFt, "regisPhoneFt");
         ftt.commit();
+    }
+
+    private void setData() {
+
     }
 }

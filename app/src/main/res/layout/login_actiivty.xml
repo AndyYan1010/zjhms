@@ -90,14 +90,14 @@
         android:text="记住密码"
         android:textColor="@color/blue_87"
         android:textSize="14sp"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
     <CheckBox
         android:id="@+id/cb_agree"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:text="我同意 服务协议 与 隐私政策"/>
 
     <Button
@@ -108,7 +108,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/bg_round_corner_gray"
+        android:background="@drawable/bg_round_blue_50"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
         android:text="登录"

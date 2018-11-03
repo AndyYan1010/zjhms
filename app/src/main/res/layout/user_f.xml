@@ -42,18 +42,19 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="点此设置昵称"
+                        android:text="昵称"
                         android:textColor="@color/vm_black_100"
                         android:textSize="18sp"/>
 
                     <TextView
-                        android:id="@+id/tv_id"
+                        android:id="@+id/tv_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="86-18036215618"
+                        android:text="18036215618"
                         android:textColor="@color/vm_black_54"
                         android:textSize="16sp"/>
                 </LinearLayout>
