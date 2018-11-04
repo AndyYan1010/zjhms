@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/gray_ef"
+              android:orientation="vertical">
+
+    <include layout="@layout/title_view_img"/>
+
+    <EditText
+        android:id="@+id/et_cont"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
+        android:gravity="top"
+        android:hint="请详细描述您的问题和不满，例如您在做什么时遇到了问题，希望我们有什么功能等。(最多150个字)"
+        android:minHeight="150dp"
+        android:padding="5dp"
+        android:textColor="@color/vm_black_100"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/tv_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/bg_round_blue_50"
+        android:gravity="center"
+        android:minHeight="50dp"
+        android:text="确认添加"
+        android:textColor="@color/white"
+        android:textSize="18sp"/>
+</LinearLayout>

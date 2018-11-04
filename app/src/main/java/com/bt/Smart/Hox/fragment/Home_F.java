@@ -136,6 +136,14 @@ public class Home_F extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (null != popupWindow) {
+            popupWindow.dismiss();
+        }
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_HOME_F) {//从家庭管理界面返回

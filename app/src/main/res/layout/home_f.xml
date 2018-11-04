@@ -42,7 +42,8 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="26dp"
             android:layout_toLeftOf="@+id/img_add"
-            android:src="@drawable/huatong"/>
+            android:src="@drawable/huatong"
+            android:visibility="invisible"/>
 
         <ImageView
             android:id="@+id/img_add"

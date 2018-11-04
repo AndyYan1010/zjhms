@@ -59,12 +59,10 @@ public class DeviceListFragment extends Fragment implements View.OnClickListener
     }
 
     private void initData() {
-        //lin_nomsg.setVisibility(View.GONE);
         mData = new ArrayList();
         deviceAdapter = new LvDeviceAdapter(getContext(), mData);
         lv_dev.setAdapter(deviceAdapter);
         lin_add.setOnClickListener(this);
-
     }
 
     public void refreshInfo() {

@@ -42,6 +42,7 @@ public class NetConfig {
     //共享设备
     public static String AUTHORIZATION = ROOT + "authorization";
 
-
+    //意见反馈
+    public static String COMPLAINTFEEDBACK = ROOT + "complaintFeedback";
 
 }

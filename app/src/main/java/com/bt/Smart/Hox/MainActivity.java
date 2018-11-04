@@ -16,20 +16,22 @@ import com.bt.Smart.Hox.fragment.User_F;
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private long        exitTime   = 0;//记录点击物理返回键的时间
     // 界面底部的菜单按钮
-    private ImageView[] bt_menu    = new ImageView[3];
+    private ImageView[] bt_menu    = new ImageView[4];
     // 界面底部的未选中菜单按钮资源
-    private int[]       select_off = {R.drawable.bt_menu_0_select, R.drawable.bt_menu_1_select, R.drawable.bt_menu_2_select};
+    private int[]       select_off = {R.drawable.bt_menu_0_select, R.drawable.bt_menu_1_select, R.drawable.bt_menu_2_select, R.drawable.bt_menu_3_select};
     // 界面底部的选中菜单按钮资源
-    private int[]       select_on  = {R.drawable.home_on, R.drawable.sa_on, R.drawable.me_on};
+    private int[]       select_on  = {R.drawable.zhikong_on, R.drawable.haopin_on, R.drawable.play_on, R.drawable.me_on};
     // 界面底部的菜单按钮id
-    private int[]       bt_menu_id = {R.id.iv_menu_0, R.id.iv_menu_1, R.id.iv_menu_2};
+    private int[]       bt_menu_id = {R.id.iv_menu_0, R.id.iv_menu_1,R.id.iv_menu_2, R.id.iv_menu_3};
     //底部布局按钮的id
-    private int[]       linear_id  = {R.id.linear0, R.id.linear1, R.id.linear2};
-    private LinearLayout   linear_home;//主页条目
-    private LinearLayout   linear_search;//查询条目
+    private int[]       linear_id  = {R.id.linear0, R.id.linear1, R.id.linear2, R.id.linear3};
+    private LinearLayout   linear_home;//智控条目
+    private LinearLayout   linear_search;//好品条目
+    private LinearLayout   linear_play;//适玩条目
     private LinearLayout   linear_mine;//个人条目
-    private Home_F         home_F;//我的家
-    private Intelligence_F intell_F;//智能
+    private Home_F         home_F;//智能
+    private Intelligence_F intell_F;//好品
+    private Intelligence_F play_F;//适玩
     private User_F         user_F;//我
 
     @Override
@@ -43,7 +45,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void setView() {
         linear_home = findViewById(R.id.linear0);
         linear_search = findViewById(R.id.linear1);
-        linear_mine = findViewById(R.id.linear2);
+        linear_play = findViewById(R.id.linear2);
+        linear_mine = findViewById(R.id.linear3);
     }
 
     private void setData() {
@@ -53,6 +56,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
         linear_home.setOnClickListener(this);
         linear_search.setOnClickListener(this);
+        linear_play.setOnClickListener(this);
         linear_mine.setOnClickListener(this);
         // 初始化默认显示的界面
         if (home_F == null) {
@@ -69,8 +73,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.linear0:
-                // 主界面
+            case R.id.linear0://智控界面
                 if (home_F == null) {
                     home_F = new Home_F();
                     // 判断当前界面是否隐藏，如果隐藏就进行添加显示，false表示显示，true表示当前界面隐藏
@@ -82,8 +85,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     }
                 }
                 break;
-            case R.id.linear1:
-                // 查询界面
+            case R.id.linear1:// 好品界面
                 if (intell_F == null) {
                     intell_F = new Intelligence_F();
                     // 判断当前界面是否隐藏，如果隐藏就进行添加显示，false表示显示，true表示当前界面隐藏
@@ -95,8 +97,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     }
                 }
                 break;
-            case R.id.linear2:
-                // 个人界面
+            case R.id.linear2://适玩界面
+                if (intell_F == null) {
+                    intell_F = new Intelligence_F();
+                    // 判断当前界面是否隐藏，如果隐藏就进行添加显示，false表示显示，true表示当前界面隐藏
+                    addFragment(intell_F);
+                    showFragment(intell_F);
+                } else {
+                    if (intell_F.isHidden()) {
+                        showFragment(intell_F);
+                    }
+                }
+                break;
+            case R.id.linear3:// 个人界面
                 if (user_F == null) {
                     user_F = new User_F();
                     // 判断当前界面是否隐藏，如果隐藏就进行添加显示，false表示显示，true表示当前界面隐藏
