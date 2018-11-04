@@ -153,7 +153,7 @@ public class LvRoomAdapter extends BaseAdapter {
             public void onClick(View view) {//保存修改的家庭名称
                 String roomName = String.valueOf(et_name.getText()).trim();
                 if ("".equals(roomName) || "请输入房间名称".equals(roomName)) {
-                    ToastUtils.showToast(mContext, "roomName");
+                    ToastUtils.showToast(mContext, "请输入房间名称");
                     return;
                 }
                 saveRoomNameInfo(roomName, position);

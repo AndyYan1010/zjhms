@@ -41,6 +41,7 @@ public class RoomManagerActivity extends BaseActivity implements View.OnClickLis
     private ListView                            lv_room;
     private LvRoomAdapter                       roomAdapter;
     private String                              homeID;//家的id
+    private int ROOM_REQUEST_CODE = 1001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +78,19 @@ public class RoomManagerActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.tv_add:
-                startActivity(new Intent(this, AddRoomActivity.class));
+                Intent intent = new Intent(this, AddRoomActivity.class);
+                intent.putExtra("homeID",homeID);
+                startActivityForResult(intent, ROOM_REQUEST_CODE);
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ROOM_REQUEST_CODE) {
+            //重新获取家中房间列表
+            getHouseList();
         }
     }
 

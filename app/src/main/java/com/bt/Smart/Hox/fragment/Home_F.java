@@ -60,7 +60,7 @@ public class Home_F extends Fragment implements View.OnClickListener {
     private ArrayList<DeviceListFragment> fragmentsList;//fragment集合
     private MyPagerAdapter                myPagerAdapter;//pager设配器
     private boolean hDefault = false;//是否有默认家
-    private String  hDefID   = "";
+    private String                          hDefID;//记录默认家的id
     private List<UserHomeInfo.HomeListBean> mHomeList;//家列表数据
     private int REQUEST_HOME_F           = 1003;//修改了家后的响应值
     private int REQUESTCODE_ROOM_MANAGER = 1004;//修改了房间后的响应值
@@ -209,7 +209,7 @@ public class Home_F extends Fragment implements View.OnClickListener {
         });
     }
 
-    private void showRoomsInfo(String hDefID) {
+    private void showRoomsInfo(final String hDefID) {
         RequestParamsFM params = new RequestParamsFM();
         params.put("home_id", hDefID);
         HttpOkhUtils.getInstance().doGetWithParams(NetConfig.HOUSE, params, new HttpOkhUtils.HttpCallBack() {
@@ -245,7 +245,7 @@ public class Home_F extends Fragment implements View.OnClickListener {
                         for (int i = 0; i < houseDetailInfo.getHouseList().size(); i++) {
                             //创建设备列表界面
                             DeviceListFragment deviceFragment = new DeviceListFragment();
-                            deviceFragment.setRoomID(houseDetailInfo.getHouseList().get(i).getId());
+                            deviceFragment.setRoomID(hDefID, houseDetailInfo.getHouseList().get(i).getId());
                             contsList.add(houseDetailInfo.getHouseList().get(i).getHouse_name());
                             fragmentsList.add(deviceFragment);
                         }
@@ -335,7 +335,7 @@ public class Home_F extends Fragment implements View.OnClickListener {
                 mHomeList.get(i).setIsdefault("1");
                 popupWindow.dismiss();
                 //显示，显示的是哪个家
-                tv_mine.setText("我的  " + mHomeList.get(i).getHome_name());
+                tv_mine.setText(mHomeList.get(i).getHome_name());
             }
         });
         rtv_sthome.setOnClickListener(new View.OnClickListener() {

@@ -8,8 +8,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bt.Smart.Hox.BaseActivity;
+import com.bt.Smart.Hox.MyApplication;
+import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
+import com.bt.Smart.Hox.activity.meActivity.AddHomeActivity;
+import com.bt.Smart.Hox.messegeInfo.CommonInfo;
+import com.bt.Smart.Hox.utils.HttpOkhUtils;
+import com.bt.Smart.Hox.utils.ProgressDialogUtil;
+import com.bt.Smart.Hox.utils.RequestParamsFM;
 import com.bt.Smart.Hox.utils.ToastUtils;
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.Request;
 
 /**
  * @创建者 AndyYan
@@ -60,6 +76,8 @@ public class AddRoomActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
+                Intent intent = new Intent();
+                setResult(ROOM_REQUEST_CODE, intent);
                 finish();
                 break;
             case R.id.tv_recom1:
@@ -70,15 +88,53 @@ public class AddRoomActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.tv_submit://提交房间
                 String room_name = String.valueOf(et_name.getText()).trim();
-                if ("".equals(room_name)||"房间名称".equals(room_name)) {
-                    ToastUtils.showToast(this,"请填写房间名称");
+                if ("".equals(room_name) || "房间名称".equals(room_name)) {
+                    ToastUtils.showToast(this, "请填写房间名称");
                     return;
                 }
-                Intent intent = new Intent();
-                intent.putExtra("roomName", room_name);
-                setResult(ROOM_REQUEST_CODE, intent);
-                finish();
+                //添加房间
+                addRoom(room_name);
                 break;
         }
+    }
+
+    private void addRoom(String room_name) {
+        JSONArray jsonArray = new JSONArray();
+        for (int i = 0; i < 1; i++) {
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("house_name", room_name);
+                jsonArray.put(jsonObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        RequestParamsFM params = new RequestParamsFM();
+        params.put("home_id", getIntent().getStringExtra("homeID"));
+        params.put("register_id", MyApplication.userID);
+        params.put("house_member", jsonArray);
+        params.setUseJsonStreamer(true);
+        HttpOkhUtils.getInstance().doPostBeanToString(NetConfig.HOUSE, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(AddRoomActivity.this, "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(AddRoomActivity.this, "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                CommonInfo sendSMSInfo = gson.fromJson(resbody, CommonInfo.class);
+                ToastUtils.showToast(AddRoomActivity.this, sendSMSInfo.getMessage());
+                if (1 == sendSMSInfo.getCode()) {
+                    finish();
+                }
+            }
+        });
     }
 }

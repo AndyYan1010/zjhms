@@ -40,6 +40,7 @@ public class DeviceListFragment extends Fragment implements View.OnClickListener
     private LinearLayout                              lin_nomsg;//没有信息
     private LinearLayout                              lin_add;//添加设备
     private MyListView                                lv_dev;//设备列表
+    private String                                    mHomeID;//家的ID
     private String                                    mRoomID;//房间的ID
     private List<HouseDeviceInfo.DeviceHouseListBean> mData;//设备列表
     private LvDeviceAdapter                           deviceAdapter;
@@ -122,12 +123,16 @@ public class DeviceListFragment extends Fragment implements View.OnClickListener
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.lin_add://跳转设备列表界面
-                startActivity(new Intent(getContext(), AddDeviceActivity.class));
+                Intent intent = new Intent(getContext(), AddDeviceActivity.class);
+                intent.putExtra("homeID", mHomeID);
+                intent.putExtra("roomID", mRoomID);
+                startActivity(intent);
                 break;
         }
     }
 
-    public void setRoomID(String roomID) {
+    public void setRoomID(String homeID, String roomID) {
+        mHomeID = homeID;
         mRoomID = roomID;
     }
 }

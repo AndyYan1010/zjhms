@@ -40,7 +40,14 @@ public class NetConfig {
     //家授权，查询房间设备列表
     public static String AUTHORIZATIONEDIT = ROOT + "authorizationEdit";
     //共享设备
-    public static String AUTHORIZATION = ROOT + "authorization";
+    public static String AUTHORIZATION     = ROOT + "authorization";
+
+
+    //主控列表//更新主控
+    public static String MAINCONTROL   = ROOT + "mainControl";
+    //从控列表
+    public static String SECONDCONTROL = ROOT + "secondControl";
+
 
     //意见反馈
     public static String COMPLAINTFEEDBACK = ROOT + "complaintFeedback";
