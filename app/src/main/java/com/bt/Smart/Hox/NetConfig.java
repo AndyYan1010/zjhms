@@ -44,7 +44,7 @@ public class NetConfig {
 
 
     //获取所有可添加设备列表
-    public static String DEVICETYPE = ROOT + "deviceType";
+    public static String DEVICETYPE  = ROOT + "deviceType";
     //更改设备房间
     public static String DEVICEHOUSE = ROOT + "deviceHouse";
 

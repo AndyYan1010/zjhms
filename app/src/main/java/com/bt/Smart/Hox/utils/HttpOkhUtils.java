@@ -141,16 +141,23 @@ public class HttpOkhUtils {
         client.newCall(request).enqueue(new StringCallBack(request, httpCallBack));
     }
     public void doDelete(String url, RequestParamsFM bean, HttpCallBack httpCallBack) {
-        RequestBody requestBody;
-        FormBody.Builder builder = new FormBody.Builder();
-//        FormBody build = new FormBody.Builder().build();
-        Set<String> set = bean.keySet();
-        for (String key : set) {
-            String value = bean.get(key).toString();
-            builder.add(key, value);
+        url = url + "?";
+        Iterator iter = bean.entrySet().iterator();
+        while (iter.hasNext()) {
+            Object next = iter.next();
+            if (null != next) {
+                RequestParamsFM.Entry entry = (RequestParamsFM.Entry) next;
+                Object key = entry.getKey();
+                Object value = entry.getValue();
+                url = url + key + "=" + value + "&";
+            } else {
+                RequestParamsFM.Entry entry = (RequestParamsFM.Entry) next;
+                Object key = entry.getKey();
+                Object value = entry.getValue();
+                url = url + key + "=" + value;
+            }
         }
-        requestBody = builder.build();
-        Request request = new Request.Builder().url(url).delete(requestBody).build();
+        Request request = new Request.Builder().url(url).delete().build();
         client.newCall(request).enqueue(new StringCallBack(request, httpCallBack));
     }
 

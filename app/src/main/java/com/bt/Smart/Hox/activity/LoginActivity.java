@@ -43,8 +43,7 @@ import okhttp3.Request;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private ImageView img_back;
-
-    private EditText edit_num, edit_psd;
+    private EditText  edit_num, edit_psd;
     private CheckBox     ck_remPas;//记住密码
     private CheckBox     cb_agree;//是否同意协议
     private Button       bt_login;//登录按钮
