@@ -1,5 +1,6 @@
 package com.bt.Smart.Hox.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -78,9 +79,9 @@ public class LvDeviceAdapter extends BaseAdapter {
             viewholder.tv_onl.setTextColor(mContext.getResources().getColor(R.color.white));
             viewholder.tv_onl.setBackground(mContext.getResources().getDrawable(R.drawable.bg_round_blue_50));
             viewholder.tv_onl.setTextSize(16f);
-            if ("0".equals(mList.get(i).getDevice_status())){
+            if ("0".equals(mList.get(i).getDevice_status())) {
                 viewholder.tv_onl.setText("OFF");
-            }else {
+            } else {
                 viewholder.tv_onl.setText("ON");
             }
         }
@@ -88,19 +89,26 @@ public class LvDeviceAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 //跳转设备移动界面
-                mContext.startActivity(new Intent(mContext, MoveDeviceActivity.class));
+                Intent intent = new Intent(mContext, MoveDeviceActivity.class);
+                intent.putExtra("devName", mList.get(i).getDevice_name());
+                intent.putExtra("devID", mList.get(i).getId());
+                intent.putExtra("roomID", mList.get(i).getHouse_id());
+                intent.putExtra("homeID", mList.get(i).getHome_id());
+                ((Activity) mContext).startActivityForResult(intent, REQUEST_CODE_MOVE);
             }
         });
         viewholder.tv_onl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if ("lamp".equals(mList.get(i).getDefault_device_type())){//灯的开关事件
+                if ("lamp".equals(mList.get(i).getDefault_device_type())) {//灯的开关事件
 
                 }
             }
         });
         return view;
     }
+
+    private int REQUEST_CODE_MOVE=1005;
 
     private class MyViewholder {
         ImageView img_kind, img_onl, img_move;

@@ -76,7 +76,7 @@ public class LvShareAdapter extends BaseAdapter {
         viewholder.img_down.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {//展开与闭合
-                //用 currentItem 记录点击位置s
+                //用 Item 记录点击位置s
                 int tag = (Integer) view.getTag();
                 if (tag == mItem) { //再次点击
                     mItem = -1; //给 currentItem 一个无效值

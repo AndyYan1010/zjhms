@@ -22,6 +22,7 @@ import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.messegeInfo.CommonInfo;
 import com.bt.Smart.Hox.messegeInfo.CongKongListInfo;
+import com.bt.Smart.Hox.messegeInfo.HouseDeviceInfo;
 import com.bt.Smart.Hox.messegeInfo.ZhuKongListInfo;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
 import com.bt.Smart.Hox.utils.ProgressDialogUtil;
@@ -47,11 +48,13 @@ public class LvDevListAdapter extends BaseAdapter {
     private Context mContext;
     private List    mList;
     private String  mKind;//设备类别
+    private String  mRoomID;
 
-    public LvDevListAdapter(Context context, List list, String kind) {
+    public LvDevListAdapter(Context context, List list, String kind, String roomID) {
         this.mContext = context;
         this.mList = list;
         this.mKind = kind;
+        this.mRoomID = roomID;
     }
 
     @Override
@@ -86,8 +89,8 @@ public class LvDevListAdapter extends BaseAdapter {
             viewholder.tv_name.setText(((ZhuKongListInfo.HomeListBean) mList.get(i)).getMain_control_name());//
         } else if ("ck".equals(mKind)) {
             viewholder.tv_name.setText(((CongKongListInfo.SecondControlListBean) mList.get(i)).getSecond_control_name());//
-        } else {
-
+        } else {//DeviceHouseListBean
+            viewholder.tv_name.setText(((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getDevice_name());//
         }
 
         viewholder.img_edit.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +125,7 @@ public class LvDevListAdapter extends BaseAdapter {
                 } else if ("ck".equals(mKind)) {
                     doDeleteCKDev(position);
                 } else {
-
+                    doDeleteSBDev(position);
                 }
             }
         }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -133,6 +136,39 @@ public class LvDevListAdapter extends BaseAdapter {
         });
         alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    private void doDeleteSBDev(final int position) {
+        RequestParamsFM params = new RequestParamsFM();
+        params.put("id", ((HouseDeviceInfo.DeviceHouseListBean) mList.get(position)).getId());
+        params.put("register_id", MyApplication.userID);
+        params.put("home_id", ((HouseDeviceInfo.DeviceHouseListBean) mList.get(position)).getHome_id());
+        params.put("device_type", ((HouseDeviceInfo.DeviceHouseListBean) mList.get(position)).getDeviceType());
+        params.put("second_control_id", ((HouseDeviceInfo.DeviceHouseListBean) mList.get(position)).getSecond_control_id());
+        HttpOkhUtils.getInstance().doDelete(NetConfig.DEVICE, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(mContext, "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(mContext, "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                CommonInfo commonInfo = gson.fromJson(resbody, CommonInfo.class);
+                ToastUtils.showToast(mContext, commonInfo.getMessage());
+                if (1 == commonInfo.getCode()) {
+                    alertDialog.dismiss();
+                    mList.remove(position);
+                    notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     private void doDeleteCKDev(final int position) {
@@ -263,7 +299,7 @@ public class LvDevListAdapter extends BaseAdapter {
                 } else if ("ck".equals(mKind)) {
                     editCK(position, newName);
                 } else {
-
+                    editSB(position, newName);
                 }
             }
         });
@@ -276,8 +312,65 @@ public class LvDevListAdapter extends BaseAdapter {
         ((Activity) mContext).getWindow().setAttributes(lp);
     }
 
-    private void editCK(int position, String newName) {
+    private void editSB(final int position, final String newName) {
+        RequestParamsFM params = new RequestParamsFM();
+        params.put("id", ((HouseDeviceInfo.DeviceHouseListBean) mList.get(position)).getId());
+        params.put("device_name", newName);
+        params.put("house_id", mRoomID);
+        HttpOkhUtils.getInstance().doPut(NetConfig.DEVICE, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(mContext, "网络连接错误");
+            }
 
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(mContext, "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                CommonInfo commonInfo = gson.fromJson(resbody, CommonInfo.class);
+                ToastUtils.showToast(mContext, commonInfo.getMessage());
+                if (1 == commonInfo.getCode()) {
+                    popupWindow.dismiss();
+                    ((HouseDeviceInfo.DeviceHouseListBean) mList.get(position)).setDevice_name(newName);
+                    notifyDataSetChanged();
+                }
+            }
+        });
+    }
+
+    private void editCK(final int position, final String newName) {
+        RequestParamsFM params = new RequestParamsFM();
+        params.put("id", ((CongKongListInfo.SecondControlListBean) mList.get(position)).getId());
+        params.put("second_control_name", newName);
+        HttpOkhUtils.getInstance().doPut(NetConfig.SECONDCONTROL, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(mContext, "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(mContext, "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                CommonInfo commonInfo = gson.fromJson(resbody, CommonInfo.class);
+                ToastUtils.showToast(mContext, commonInfo.getMessage());
+                if (1 == commonInfo.getCode()) {
+                    popupWindow.dismiss();
+                    ((CongKongListInfo.SecondControlListBean) mList.get(position)).setSecond_control_name(newName);
+                    notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     private void editZK(final int position, final String newName) {

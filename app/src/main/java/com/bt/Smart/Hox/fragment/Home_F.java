@@ -143,6 +143,8 @@ public class Home_F extends Fragment implements View.OnClickListener {
         }
     }
 
+    private int REQUEST_CODE_MOVE = 1005;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -151,6 +153,10 @@ public class Home_F extends Fragment implements View.OnClickListener {
             getHomes();
         }
         if (requestCode == REQUESTCODE_ROOM_MANAGER) {//从房间管理界面返回
+            //刷新房间信息
+            showRoomsInfo(hDefID);
+        }
+        if (requestCode == REQUEST_CODE_MOVE) {
             //刷新房间信息
             showRoomsInfo(hDefID);
         }
@@ -241,7 +247,6 @@ public class Home_F extends Fragment implements View.OnClickListener {
                         } else {
                             contsList.clear();
                         }
-                        //TODO:这边待测试
                         for (int i = 0; i < houseDetailInfo.getHouseList().size(); i++) {
                             //创建设备列表界面
                             DeviceListFragment deviceFragment = new DeviceListFragment();
@@ -353,5 +358,10 @@ public class Home_F extends Fragment implements View.OnClickListener {
         WindowManager.LayoutParams lp = ((Activity) getContext()).getWindow().getAttributes();
         lp.alpha = alpha;
         ((Activity) getContext()).getWindow().setAttributes(lp);
+    }
+
+    public void refreshDevFragment(int position) {
+        mTablayout.getTabAt(position).select();
+        mView_pager.setCurrentItem(position);
     }
 }

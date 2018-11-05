@@ -7,17 +7,30 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bt.Smart.Hox.BaseActivity;
+import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.activity.SaomiaoUIActivity;
+import com.bt.Smart.Hox.adapter.LvAddDevListAdapter;
+import com.bt.Smart.Hox.messegeInfo.DeviceTypeInfo;
+import com.bt.Smart.Hox.utils.HttpOkhUtils;
+import com.bt.Smart.Hox.utils.ProgressDialogUtil;
 import com.bt.Smart.Hox.utils.ToastUtils;
+import com.google.gson.Gson;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.Request;
 
 /**
  * @创建者 AndyYan
@@ -29,17 +42,17 @@ import com.uuzuche.lib_zxing.activity.CodeUtils;
  */
 
 public class AddDeviceActivity extends BaseActivity implements View.OnClickListener {
-    private ImageView      img_back;
-    private ImageView      img_more;//扫描
-    private TextView       tv_title;//标题
-    private LinearLayout   lin_zk;
-    private LinearLayout   lin_ck;
-    private LinearLayout   lin_sb;
-    private RelativeLayout rtv_zk;
-    private RelativeLayout rtv_sb;
-    private RelativeLayout rtv_light;
-    private String         roomID;//房间id
-    private String         homeID;//家id
+    private ImageView                                        img_back;
+    private ImageView                                        img_more;//扫描
+    private TextView                                         tv_title;//标题
+    private LinearLayout                                     lin_zk;
+    private LinearLayout                                     lin_ck;
+    private LinearLayout                                     lin_sb;
+    private List<DeviceTypeInfo.DeviceTypeListBean.DataBean> mData;//可添加设备数据
+    private ListView                                         lv_device;//可添加设备列表
+    private LvAddDevListAdapter                              addDevListAdapter;
+    private String                                           roomID;//房间id
+    private String                                           homeID;//家id
     private int MY_PERMISSIONS_REQUEST_CALL_PHONE2 = 1001;//申请照相机权限结果
     private int REQUEST_CODE                       = 1003;//接收扫描结果
 
@@ -59,9 +72,7 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
         lin_zk = (LinearLayout) findViewById(R.id.lin_zk);
         lin_ck = (LinearLayout) findViewById(R.id.lin_ck);
         lin_sb = (LinearLayout) findViewById(R.id.lin_sb);
-        rtv_zk = (RelativeLayout) findViewById(R.id.rtv_zk);
-        rtv_sb = (RelativeLayout) findViewById(R.id.rtv_sb);
-        rtv_light = (RelativeLayout) findViewById(R.id.rtv_light);
+        lv_device = (ListView) findViewById(R.id.lv_device);
     }
 
     private void setData() {
@@ -75,9 +86,50 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
         lin_zk.setOnClickListener(this);
         lin_ck.setOnClickListener(this);
         lin_sb.setOnClickListener(this);
-        rtv_zk.setOnClickListener(this);
-        rtv_sb.setOnClickListener(this);
-        rtv_light.setOnClickListener(this);
+        mData = new ArrayList();
+        addDevListAdapter = new LvAddDevListAdapter(this, mData);
+        lv_device.setAdapter(addDevListAdapter);
+        lv_device.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(AddDeviceActivity.this, AddDevDetailActivity.class);
+                intent.putExtra("devType", mData.get(i).getDevcieType());//主控/从控/单品
+                intent.putExtra("homeID", homeID);
+                intent.putExtra("name", mData.get(i).getDeviceDescibe());
+                intent.putExtra("control_type", mData.get(i).getDeviceTypeName());
+                intent.putExtra("device_type_id", mData.get(i).getId());
+                intent.putExtra("devcieType", mData.get(i).getDevcieType());
+                startActivity(intent);
+            }
+        });
+        //获取可添加设备列表
+        getAllAddDevList();
+    }
+
+    private void getAllAddDevList() {
+        HttpOkhUtils.getInstance().doGet(NetConfig.DEVICETYPE, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(AddDeviceActivity.this, "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(AddDeviceActivity.this, "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                DeviceTypeInfo deviceTypeInfo = gson.fromJson(resbody, DeviceTypeInfo.class);
+                ToastUtils.showToast(AddDeviceActivity.this, deviceTypeInfo.getMessage());
+                if (1 == deviceTypeInfo.getCode()) {
+                    mData.addAll(deviceTypeInfo.getDeviceTypeList().getData());
+                    addDevListAdapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     @Override
@@ -93,31 +145,39 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.lin_zk://跳转主控列表
                 Intent intentDevZ = new Intent(this, DeviceListActivity.class);
-                intentDevZ.putExtra("devKind","zk");
-                intentDevZ.putExtra("homeID",homeID);
+                intentDevZ.putExtra("devKind", "zk");
+                intentDevZ.putExtra("homeID", homeID);
                 startActivity(intentDevZ);
                 break;
             case R.id.lin_ck://跳转从控列表
                 Intent intentDevC = new Intent(this, DeviceListActivity.class);
-                intentDevC.putExtra("devKind","ck");
-                intentDevC.putExtra("homeID",homeID);
+                intentDevC.putExtra("devKind", "ck");
+                intentDevC.putExtra("homeID", homeID);
                 startActivity(intentDevC);
                 break;
             case R.id.lin_sb://跳转设备列表
                 Intent intentDevS = new Intent(this, DeviceListActivity.class);
-                intentDevS.putExtra("devKind","sb");
-                intentDevS.putExtra("homeID",homeID);
+                intentDevS.putExtra("devKind", "sb");
+                intentDevS.putExtra("homeID", homeID);
+                intentDevS.putExtra("roomID", roomID);
                 startActivity(intentDevS);
                 break;
-            case R.id.rtv_zk:
-                startActivity(new Intent(this, AddDevDetailActivity.class));
-                break;
-            case R.id.rtv_sb:
-                startActivity(new Intent(this, AddDevDetailActivity.class));
-                break;
-            case R.id.rtv_light:
-                startActivity(new Intent(this, AddDevDetailActivity.class));
-                break;
+            //            case R.id.rtv_zk:
+            //                Intent intentZk = new Intent(this, AddDevDetailActivity.class);
+            //                intentZk.putExtra("devKind", "zk");
+            //                intentZk.putExtra("homeID", homeID);
+            //                startActivity(intentZk);
+            //                break;
+            //            case R.id.rtv_sb:
+            //                Intent intentHAir = new Intent(this, AddDevDetailActivity.class);
+            //                intentHAir.putExtra("devKind", "HAir");
+            //                startActivity(intentHAir);
+            //                break;
+            //            case R.id.rtv_light:
+            //                Intent intentLight = new Intent(this, AddDevDetailActivity.class);
+            //                intentLight.putExtra("devKind", "Light");
+            //                startActivity(intentLight);
+            //                break;
         }
     }
 

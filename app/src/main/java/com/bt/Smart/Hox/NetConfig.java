@@ -43,6 +43,12 @@ public class NetConfig {
     public static String AUTHORIZATION     = ROOT + "authorization";
 
 
+    //获取所有可添加设备列表
+    public static String DEVICETYPE = ROOT + "deviceType";
+    //更改设备房间
+    public static String DEVICEHOUSE = ROOT + "deviceHouse";
+
+
     //主控列表//更新主控
     public static String MAINCONTROL   = ROOT + "mainControl";
     //从控列表

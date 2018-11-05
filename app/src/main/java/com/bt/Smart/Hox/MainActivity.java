@@ -1,5 +1,6 @@
 package com.bt.Smart.Hox;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -22,7 +23,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     // 界面底部的选中菜单按钮资源
     private int[]       select_on  = {R.drawable.zhikong_on, R.drawable.haopin_on, R.drawable.play_on, R.drawable.me_on};
     // 界面底部的菜单按钮id
-    private int[]       bt_menu_id = {R.id.iv_menu_0, R.id.iv_menu_1,R.id.iv_menu_2, R.id.iv_menu_3};
+    private int[]       bt_menu_id = {R.id.iv_menu_0, R.id.iv_menu_1, R.id.iv_menu_2, R.id.iv_menu_3};
     //底部布局按钮的id
     private int[]       linear_id  = {R.id.linear0, R.id.linear1, R.id.linear2, R.id.linear3};
     private LinearLayout   linear_home;//智控条目
@@ -179,5 +180,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
         ft.show(fragment);
         ft.commitAllowingStateLoss();
+    }
+
+    private int REQUEST_CODE_MOVE = 1005;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_MOVE) {
+            home_F.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }

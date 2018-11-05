@@ -8,6 +8,8 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.bt.Smart.Hox.R;
+import com.bt.Smart.Hox.activity.homeActivity.MoveDeviceActivity;
+import com.bt.Smart.Hox.messegeInfo.HouseDetailInfo;
 
 import java.util.List;
 
@@ -21,12 +23,14 @@ import java.util.List;
  */
 
 public class LvChoiceRoomAdapter extends BaseAdapter {
-    private List<String> mList;
-    private Context      mContext;
+    private List<HouseDetailInfo.HouseListBean> mList;
+    private Context                             mContext;
+    private int                                 mItem;
 
-    public LvChoiceRoomAdapter(Context context, List<String> list) {
+    public LvChoiceRoomAdapter(Context context, List<HouseDetailInfo.HouseListBean> list, int item) {
         this.mContext = context;
         this.mList = list;
+        this.mItem = item;
     }
 
     @Override
@@ -45,8 +49,8 @@ public class LvChoiceRoomAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        MyViewholder viewholder;
+    public View getView(final int i, View view, ViewGroup viewGroup) {
+        final MyViewholder viewholder;
         if (null == view) {
             viewholder = new MyViewholder();
             view = View.inflate(mContext, R.layout.item_gridview, null);
@@ -56,7 +60,21 @@ public class LvChoiceRoomAdapter extends BaseAdapter {
         } else {
             viewholder = (MyViewholder) view.getTag();
         }
-        viewholder.tv_room.setText(mList.get(i));
+        viewholder.tv_room.setText(mList.get(i).getHouse_name());
+        if (mItem == i) {
+            viewholder.cb_choice.setChecked(true);
+        } else {
+            viewholder.cb_choice.setChecked(false);
+        }
+        viewholder.cb_choice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mItem = i;
+                ((MoveDeviceActivity)mContext).setItem(i);
+                viewholder.cb_choice.setChecked(true);
+                notifyDataSetChanged();
+            }
+        });
         return view;
     }
 

@@ -8,29 +8,33 @@
     <include layout="@layout/title_view_img"/>
 
     <RelativeLayout
+        android:id="@+id/rlt_choicezk"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:background="@color/white"
-        android:gravity="center_vertical"
         android:minHeight="50dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:text="选择主控"
             android:textColor="@color/vm_black_87"
             android:textSize="16sp"/>
 
         <LinearLayout
+            android:id="@+id/lin_choicezk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/tv_zkname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="HoxONE主控"
@@ -40,6 +44,7 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:padding="2dp"
                 android:layout_marginLeft="3dp"
                 android:src="@drawable/icon_down"/>
         </LinearLayout>
@@ -54,21 +59,20 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/tv_ttname"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_weight="1"
             android:text="主控名称"
             android:textColor="@color/vm_black_87"
             android:textSize="16sp"/>
 
         <EditText
             android:id="@+id/et_name"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="40dp"
-            android:layout_weight="4"
             android:textColor="@color/vm_black_100"
             android:textSize="16sp"/>
     </LinearLayout>
@@ -88,22 +92,22 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_zkm"
-                android:layout_width="0dp"
+                android:id="@+id/tv_ttcode"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="1"
-                android:text="主控码"
+                android:text="主控码    "
                 android:textColor="@color/vm_black_87"
                 android:textSize="16sp"/>
 
             <EditText
                 android:id="@+id/et_kcode"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/tv_zkm"
                 android:layout_weight="4"
+                android:hint="点击右侧图标扫描填入"
                 android:textColor="@color/vm_black_100"
                 android:textSize="16sp"/>
         </LinearLayout>
@@ -119,6 +123,7 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/lin_ycode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -128,21 +133,20 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:text="验证码"
+            android:text="验证码    "
             android:textColor="@color/vm_black_87"
             android:textSize="16sp"/>
 
         <EditText
             android:id="@+id/et_ycode"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="40dp"
-            android:layout_weight="4"
+            android:hint="请输入设备验证码"
             android:textColor="@color/vm_black_100"
             android:textSize="16sp"/>
     </LinearLayout>
@@ -165,8 +169,8 @@
         android:layout_marginTop="40dp"
         android:background="@drawable/bg_round_red"
         android:paddingBottom="5dp"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
         android:paddingTop="5dp"
         android:text="确认添加"
         android:textColor="@color/white"
