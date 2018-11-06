@@ -54,6 +54,14 @@ public class NetConfig {
     //从控列表
     public static String SECONDCONTROL = ROOT + "secondControl";
 
+    //获取家下所有场景
+    public static String SELECTALLSCENARIO   = ROOT + "selectallscenario";
+    //获取家下所有自动化
+    public static String SELECTALLAUTOMATION = ROOT + "selectallautomation";
+
+    //添加场景
+    public static String INSERTSCENARIO = ROOT + "insertscenario";
+
 
     //意见反馈
     public static String COMPLAINTFEEDBACK = ROOT + "complaintFeedback";

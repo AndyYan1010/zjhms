@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.bt.Smart.Hox.fragment.Home_F;
 import com.bt.Smart.Hox.fragment.Intelligence_F;
+import com.bt.Smart.Hox.fragment.Shopp_F;
 import com.bt.Smart.Hox.fragment.User_F;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
@@ -27,12 +28,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     //底部布局按钮的id
     private int[]       linear_id  = {R.id.linear0, R.id.linear1, R.id.linear2, R.id.linear3};
     private LinearLayout   linear_home;//智控条目
-    private LinearLayout   linear_search;//好品条目
+    private LinearLayout   linear_shopp;//好品条目
     private LinearLayout   linear_play;//适玩条目
     private LinearLayout   linear_mine;//个人条目
     private Home_F         home_F;//智能
-    private Intelligence_F intell_F;//好品
-    private Intelligence_F play_F;//适玩
+    private Shopp_F        shopp_F;//好品
+    private Intelligence_F intell_F;//适玩
     private User_F         user_F;//我
 
     @Override
@@ -45,7 +46,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private void setView() {
         linear_home = findViewById(R.id.linear0);
-        linear_search = findViewById(R.id.linear1);
+        linear_shopp = findViewById(R.id.linear1);
         linear_play = findViewById(R.id.linear2);
         linear_mine = findViewById(R.id.linear3);
     }
@@ -56,7 +57,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             bt_menu[i] = (ImageView) findViewById(bt_menu_id[i]);
         }
         linear_home.setOnClickListener(this);
-        linear_search.setOnClickListener(this);
+        linear_shopp.setOnClickListener(this);
         linear_play.setOnClickListener(this);
         linear_mine.setOnClickListener(this);
         // 初始化默认显示的界面
@@ -87,14 +88,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
                 break;
             case R.id.linear1:// 好品界面
-                if (intell_F == null) {
-                    intell_F = new Intelligence_F();
+                if (shopp_F == null) {
+                    shopp_F = new Shopp_F();
                     // 判断当前界面是否隐藏，如果隐藏就进行添加显示，false表示显示，true表示当前界面隐藏
-                    addFragment(intell_F);
-                    showFragment(intell_F);
+                    addFragment(shopp_F);
+                    showFragment(shopp_F);
                 } else {
-                    if (intell_F.isHidden()) {
-                        showFragment(intell_F);
+                    if (shopp_F.isHidden()) {
+                        showFragment(shopp_F);
                     }
                 }
                 break;
@@ -171,6 +172,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         // 判断页面是否已经创建，如果已经创建，那么就隐藏掉
         if (home_F != null) {
             ft.hide(home_F);
+        }
+        if (shopp_F != null) {
+            ft.hide(shopp_F);
         }
         if (intell_F != null) {
             ft.hide(intell_F);

@@ -1,19 +1,17 @@
 package com.bt.Smart.Hox.fragment;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ListView;
 
 import com.bt.Smart.Hox.R;
-import com.bt.Smart.Hox.adapter.LvSceneAdapter;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.bt.Smart.Hox.adapter.MyAddIntellPagerAdapter;
+import com.bt.Smart.Hox.viewmodle.MyFixedViewpager;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @创建者 AndyYan
@@ -24,13 +22,13 @@ import java.util.List;
  * @更新描述 ${TODO}
  */
 
-public class Intelligence_F extends Fragment implements View.OnClickListener {
-    private View               mRootView;
-    private SmartRefreshLayout smt_refresh;
-    private List               mData;
-    private ListView           lv_search;
-    private LvSceneAdapter     orderAdapter;
-    private ImageView          img_no_msg;
+public class Intelligence_F extends Fragment {
+    private View                           mRootView;
+    private TabLayout                      mTablayout;//导航标签
+    private MyFixedViewpager               mView_pager;//自我viewpager可实现禁止滑动
+    private MyAddIntellPagerAdapter        myPagerAdapter;//pager设配器
+    private ArrayList<InformationFragment> fragmentsList;//fragment集合
+    private String[] contsList = {"资讯", "众测"};//tablayout的标题
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,23 +39,45 @@ public class Intelligence_F extends Fragment implements View.OnClickListener {
     }
 
     private void initView() {
-        smt_refresh = mRootView.findViewById(R.id.smt_refresh);
-        lv_search = mRootView.findViewById(R.id.lv_search);
-        img_no_msg = mRootView.findViewById(R.id.img_no_msg);
+        mTablayout = mRootView.findViewById(R.id.tablayout);
+        mView_pager = mRootView.findViewById(R.id.view_pager);
     }
 
     private void initData() {
-        mData = new ArrayList();
-        orderAdapter = new LvSceneAdapter(getContext(), mData);
-        lv_search.setAdapter(orderAdapter);
-        smt_refresh.setEnableLoadMore(false);
-        smt_refresh.setEnableRefresh(false);
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-
+        // 创建一个集合,装填Fragment
+        fragmentsList = new ArrayList<>();
+        for (int i = 0; i < contsList.length; i++) {
+            //设备列表界面
+            InformationFragment informationfrg = new InformationFragment();
+            fragmentsList.add(informationfrg);
         }
+        // 创建ViewPager适配器
+        myPagerAdapter = new MyAddIntellPagerAdapter(getChildFragmentManager());
+        myPagerAdapter.setFragments(fragmentsList);
+        // 给ViewPager设置适配器
+        mView_pager.setAdapter(myPagerAdapter);
+        //设置viewpager不可滑动
+        //        mView_pager.setCanScroll(false);
+        //tablayout关联tablayout和viewpager实现联动
+        mTablayout.setupWithViewPager(mView_pager);
+        for (int i = 0; i < contsList.length; i++) {
+            mTablayout.getTabAt(i).setText(contsList[i]);
+        }
+        mTablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 }

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import com.bt.Smart.Hox.MyApplication;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.activity.meActivity.FeedBackActivity;
 import com.bt.Smart.Hox.activity.meActivity.HomeListActivity;
+import com.bt.Smart.Hox.activity.meActivity.SceneListActivity;
 
 
 /**
@@ -27,11 +29,11 @@ import com.bt.Smart.Hox.activity.meActivity.HomeListActivity;
 
 public class User_F extends Fragment implements View.OnClickListener {
     private View           mRootView;
-    private TextView       tv_title;
-    private RelativeLayout rtv_setName;//设置名称
     private ImageView      img_head;
     private TextView       tv_name;//用户名称
-    private TextView       tv_phone;
+    private LinearLayout   lin_scene;//场景
+    private LinearLayout   lin_auto;//自动化
+    private LinearLayout   lin_shop;//商城
     private RelativeLayout rtv_home;//家庭管理
     private RelativeLayout rtv_feedback;//意见反馈
 
@@ -44,20 +46,19 @@ public class User_F extends Fragment implements View.OnClickListener {
     }
 
     private void initView() {
-        tv_title = mRootView.findViewById(R.id.tv_title);
-        rtv_setName = mRootView.findViewById(R.id.rtv_setName);
         img_head = mRootView.findViewById(R.id.img_head);
         tv_name = mRootView.findViewById(R.id.tv_name);
-        tv_phone = mRootView.findViewById(R.id.tv_phone);
+        lin_scene = mRootView.findViewById(R.id.lin_scene);
+        lin_auto = mRootView.findViewById(R.id.lin_auto);
+        lin_shop = mRootView.findViewById(R.id.lin_shop);
         rtv_home = mRootView.findViewById(R.id.rtv_home);
         rtv_feedback = mRootView.findViewById(R.id.rtv_feedback);
     }
 
     private void initData() {
-        tv_title.setText("我");
         tv_name.setText(MyApplication.userName);
-        tv_phone.setText(MyApplication.userPhone);
-        rtv_setName.setOnClickListener(this);
+        lin_scene.setOnClickListener(this);
+        lin_auto.setOnClickListener(this);
         rtv_home.setOnClickListener(this);
         rtv_feedback.setOnClickListener(this);
     }
@@ -65,7 +66,17 @@ public class User_F extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.rtv_setName://设置姓名
+            case R.id.lin_scene://跳转场景列表
+                Intent intent = new Intent(getContext(), SceneListActivity.class);
+                intent.putExtra("kind","场景");
+                startActivity(intent);
+                break;
+            case R.id.lin_auto://跳转自动化列表
+                Intent autoIntent = new Intent(getContext(), SceneListActivity.class);
+                autoIntent.putExtra("kind","自动化");
+                startActivity(autoIntent);
+                break;
+            case R.id.lin_shop://跳转商城
 
                 break;
             case R.id.rtv_home: //跳转家管理界面

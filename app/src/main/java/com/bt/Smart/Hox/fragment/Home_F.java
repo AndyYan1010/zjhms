@@ -51,15 +51,14 @@ import okhttp3.Request;
  */
 
 public class Home_F extends Fragment implements View.OnClickListener {
-    private View                          mRootView;
-    private TextView                      tv_mine;
-    private ImageView                     img_more;//设置更多
-    private TabLayout                     mTablayout;//导航标签
-    private MyFixedViewpager              mView_pager;//自我viewpager可实现禁止滑动
-    private List<String>                  contsList;//tablayout的标题
-    private ArrayList<DeviceListFragment> fragmentsList;//fragment集合
-    private MyPagerAdapter                myPagerAdapter;//pager设配器
-    private boolean hDefault = false;//是否有默认家
+    private View                            mRootView;
+    private TextView                        tv_mine;
+    private ImageView                       img_more;//设置更多
+    private TabLayout                       mTablayout;//导航标签
+    private MyFixedViewpager                mView_pager;//自我viewpager可实现禁止滑动
+    private List<String>                    contsList;//tablayout的标题
+    private ArrayList<DeviceListFragment>   fragmentsList;//fragment集合
+    private MyPagerAdapter                  myPagerAdapter;//pager设配器
     private String                          hDefID;//记录默认家的id
     private List<UserHomeInfo.HomeListBean> mHomeList;//家列表数据
     private int REQUEST_HOME_F           = 1003;//修改了家后的响应值
@@ -188,24 +187,29 @@ public class Home_F extends Fragment implements View.OnClickListener {
                         } else {
                             mHomeList.clear();
                         }
+                        boolean hDefault = false;
+                        String deName = "";
                         //显示默认家庭，房间信息
                         for (UserHomeInfo.HomeListBean bean : userHomeInfo.getHomeList()) {//添加到家的列表
                             mHomeList.add(bean);
                             if ("1".equals(bean.getIsdefault())) {
                                 hDefault = true;
                                 hDefID = bean.getHome_id();
+                                deName = bean.getHome_name();
                             }
                         }
                         if (!hDefault) {
                             hDefID = userHomeInfo.getHomeList().get(0).getHome_id();
+                            tv_mine.setText("我的  " + userHomeInfo.getHomeList().get(0).getHome_name());
                         }
+                        //显示，显示的是哪个家
+                        tv_mine.setText("我的  " + deName);
                         if (null == hDefID || "".equals(hDefID)) {
                             hDefID = "";
                             ToastUtils.showToast(getContext(), "家信息查询失败");
                             return;
                         }
-                        //显示，显示的是哪个家
-                        tv_mine.setText("我的  " + userHomeInfo.getHomeList().get(0).getHome_name());
+                        MyApplication.slecHomeID = hDefID;
                         showRoomsInfo(hDefID);//展示房间信息
                     }
                 } else {
@@ -334,6 +338,7 @@ public class Home_F extends Fragment implements View.OnClickListener {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //勾选选中的家,更新下面的信息，并消失popupwindow
                 showRoomsInfo(mHomeList.get(i).getHome_id());//展示房间信息
+                MyApplication.slecHomeID = mHomeList.get(i).getHome_id();
                 for (UserHomeInfo.HomeListBean bean : mHomeList) {//修改选中状态
                     bean.setIsdefault("0");
                 }

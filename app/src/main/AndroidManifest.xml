@@ -73,6 +73,7 @@
         <activity android:name=".activity.meActivity.FeedBackActivity"/>
         <activity android:name=".activity.meActivity.AddHomeActivity"/>
         <activity android:name=".activity.meActivity.AddMembersActivity"/>
+        <activity android:name=".activity.meActivity.SceneListActivity"/>
         <activity android:name=".activity.meActivity.ShareRoomActivity"/>
         <activity android:name="com.bt.Smart.Hox.activity.UploadPicActivity"/>
         <activity android:name="com.bt.Smart.Hox.activity.SaomiaoUIActivity"/>

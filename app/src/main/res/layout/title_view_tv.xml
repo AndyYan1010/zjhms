@@ -32,6 +32,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="20dp"
-        android:src="@drawable/add_icon_blue"/>
+        android:src="@drawable/add_icon_blue"
+        android:visibility="invisible"/>
 
 </RelativeLayout>

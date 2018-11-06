@@ -45,6 +45,8 @@
     <color name="vm_blue_38">#612384fe</color>
     <!-- 橙色 -->
     <color name="orange">#FFA500</color>
+    <!--浅黄色-->
+    <color name="yello_20">#F4E1C0</color>
     <color name="red">#FF0000</color>
     <!--褐色-->
     <color name="brown">#660066</color>
