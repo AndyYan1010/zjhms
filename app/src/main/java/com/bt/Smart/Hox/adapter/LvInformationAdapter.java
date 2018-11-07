@@ -4,9 +4,12 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bt.Smart.Hox.R;
+import com.bt.Smart.Hox.messegeInfo.PlayListInfo;
+import com.bt.Smart.Hox.util.GlideLoaderUtil;
 
 import java.util.List;
 
@@ -20,10 +23,10 @@ import java.util.List;
  */
 
 public class LvInformationAdapter extends BaseAdapter {
-    private Context mContext;
-    private List    mList;
+    private Context                         mContext;
+    private List<PlayListInfo.PlayListBean> mList;
 
-    public LvInformationAdapter(Context context, List list) {
+    public LvInformationAdapter(Context context, List<PlayListInfo.PlayListBean> list) {
         this.mContext = context;
         this.mList = list;
     }
@@ -49,16 +52,25 @@ public class LvInformationAdapter extends BaseAdapter {
         if (null == view) {
             viewholder = new MyViewholder();
             view = View.inflate(mContext, R.layout.adpter_all_info, null);
+            viewholder.img_cont = view.findViewById(R.id.img_cont);
             viewholder.tv_title = view.findViewById(R.id.tv_title);
+            viewholder.tv_subtitle = view.findViewById(R.id.tv_subtitle);
+            viewholder.tv_look = view.findViewById(R.id.tv_look);
+            viewholder.tv_praise = view.findViewById(R.id.tv_praise);
             view.setTag(viewholder);
         } else {
             viewholder = (MyViewholder) view.getTag();
         }
-
+        GlideLoaderUtil.showImgWithIcon(mContext, mList.get(i).getPlay_pic(), R.drawable.msg_empty, R.drawable.msg_empty, viewholder.img_cont);
+        viewholder.tv_title.setText(mList.get(i).getPlay_title());
+        viewholder.tv_subtitle.setText(mList.get(i).getPlay_introduce());
+        viewholder.tv_look.setText(mList.get(i).getPlay_label());
+        viewholder.tv_praise.setText(mList.get(i).getPlay_label());
         return view;
     }
 
     private class MyViewholder {
-        TextView tv_title;
+        ImageView img_cont;
+        TextView  tv_title, tv_subtitle, tv_look, tv_praise;
     }
 }

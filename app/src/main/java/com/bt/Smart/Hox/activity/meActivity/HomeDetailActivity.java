@@ -480,6 +480,7 @@ public class HomeDetailActivity extends BaseActivity implements View.OnClickList
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                alertDialog.dismiss();
                 //删除家
                 doDeleteHome();
             }
@@ -515,9 +516,6 @@ public class HomeDetailActivity extends BaseActivity implements View.OnClickList
                 CommonInfo sendSMSInfo = gson.fromJson(resbody, CommonInfo.class);
                 if (1 == sendSMSInfo.getCode()) {
                     ToastUtils.showToast(HomeDetailActivity.this, "删除成功");
-                    if (null != alertDialog) {
-                        alertDialog.dismiss();
-                    }
                     finish();
                 } else {
                     ToastUtils.showToast(HomeDetailActivity.this, "删除失败");

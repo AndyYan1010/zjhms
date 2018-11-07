@@ -1,5 +1,7 @@
 package com.bt.Smart.Hox.activity.meActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -90,6 +92,7 @@ public class ShareRoomActivity extends BaseActivity implements View.OnClickListe
         //获取该房间下所有设备信息
         getAllInfoOfRoom();
         tv_delete.setOnClickListener(this);
+        tv_save.setOnClickListener(this);
     }
 
     @Override
@@ -105,6 +108,60 @@ public class ShareRoomActivity extends BaseActivity implements View.OnClickListe
                 saveChange();
                 break;
         }
+    }
+
+    private void doDeleteMember() {
+        RequestParamsFM params = new RequestParamsFM();
+        params.put("register_id", memberID);
+        params.put("home_id", homeID);
+        HttpOkhUtils.getInstance().doDelete(NetConfig.HOME, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(ShareRoomActivity.this, "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(ShareRoomActivity.this, "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                CommonInfo sendSMSInfo = gson.fromJson(resbody, CommonInfo.class);
+                if (1 == sendSMSInfo.getCode()) {
+                    ToastUtils.showToast(ShareRoomActivity.this, "删除成功");
+                    finish();
+                } else {
+                    ToastUtils.showToast(ShareRoomActivity.this, "删除失败");
+                }
+            }
+        });
+
+    }
+
+    private AlertDialog alertDialog;
+
+    private void deleteMember() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_LIGHT);
+        builder.setTitle("温馨提示");
+        builder.setMessage("您确定删除该成员？");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                alertDialog.dismiss();
+                //删除家
+                doDeleteMember();
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        alertDialog = builder.create();
+        alertDialog.show();
     }
 
     private void saveChange() {
@@ -164,11 +221,6 @@ public class ShareRoomActivity extends BaseActivity implements View.OnClickListe
                 }
             }
         });
-    }
-
-    private void deleteMember() {
-
-
     }
 
     private void getAllInfoOfRoom() {

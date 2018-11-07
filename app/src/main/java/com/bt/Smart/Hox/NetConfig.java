@@ -62,6 +62,8 @@ public class NetConfig {
     //添加场景
     public static String INSERTSCENARIO = ROOT + "insertscenario";
 
+    //适玩列表
+    public static String PLAYLIST = ROOT + "playList";
 
     //意见反馈
     public static String COMPLAINTFEEDBACK = ROOT + "complaintFeedback";

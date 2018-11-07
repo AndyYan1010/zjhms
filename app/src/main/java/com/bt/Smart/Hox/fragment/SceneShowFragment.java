@@ -67,7 +67,6 @@ public class SceneShowFragment extends Fragment implements View.OnClickListener 
     }
 
     private void initData() {
-        mKind = getActivity().getIntent().getStringExtra("kind");
         if ("0".equals(mKind)) {
             tv_delete.setVisibility(View.GONE);
         } else if ("1".equals(mKind)) {

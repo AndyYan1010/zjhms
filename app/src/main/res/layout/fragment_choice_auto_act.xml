@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/gray_ef"
+              android:clickable="true"
+              android:orientation="vertical">
+
+    <include layout="@layout/title_view_img"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/rlt_allSce"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="50dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:text="全部场景"
+                        android:textColor="@color/vm_black_87"
+                        android:textSize="14sp"/>
+
+                    <ImageView
+                        android:id="@+id/img_more_sce"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="15dp"
+                        android:padding="10dp"
+                        android:src="@drawable/icon_down"/>
+                </RelativeLayout>
+
+                <com.bt.Smart.Hox.viewmodle.MyListView
+                    android:id="@+id/lv_scene"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </com.bt.Smart.Hox.viewmodle.MyListView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/rlt_allDev"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="50dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:text="全部设备"
+                        android:textColor="@color/vm_black_87"
+                        android:textSize="14sp"/>
+
+                    <ImageView
+                        android:id="@+id/img_more_dev"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="15dp"
+                        android:padding="10dp"
+                        android:src="@drawable/icon_down"/>
+                </RelativeLayout>
+
+                <com.bt.Smart.Hox.viewmodle.MyListView
+                    android:id="@+id/lv_dev"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </com.bt.Smart.Hox.viewmodle.MyListView>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_sure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/bg_round_red"
+                android:gravity="center"
+                android:paddingBottom="8dp"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:paddingTop="8dp"
+                android:text="确定"
+                android:textColor="@color/white"
+                android:textSize="16sp"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

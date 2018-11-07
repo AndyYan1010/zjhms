@@ -202,7 +202,7 @@
                     android:layout_toRightOf="@+id/img_home"
                     android:text="家庭管理"
                     android:textColor="@color/vm_black_100"
-                    android:textSize="18sp"/>
+                    android:textSize="16sp"/>
 
                 <ImageView
                     android:layout_width="15dp"
@@ -235,7 +235,7 @@
                     android:layout_toRightOf="@+id/img_msg"
                     android:text="消息中心"
                     android:textColor="@color/vm_black_100"
-                    android:textSize="18sp"/>
+                    android:textSize="16sp"/>
 
                 <ImageView
                     android:layout_width="15dp"
@@ -294,7 +294,7 @@
                     android:layout_toRightOf="@+id/img_qusetion"
                     android:text="常见问题"
                     android:textColor="@color/vm_black_100"
-                    android:textSize="18sp"/>
+                    android:textSize="16sp"/>
 
                 <ImageView
                     android:layout_width="15dp"
@@ -353,7 +353,7 @@
                     android:layout_toRightOf="@+id/img_feedback"
                     android:text="意见反馈"
                     android:textColor="@color/vm_black_100"
-                    android:textSize="18sp"/>
+                    android:textSize="16sp"/>
 
                 <ImageView
                     android:layout_width="15dp"

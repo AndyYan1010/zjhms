@@ -82,9 +82,9 @@ public class DeviceListFragment extends Fragment implements View.OnClickListener
             ToastUtils.showToast(getContext(), "未查找到房间信息");
             return;
         }
-        if (null!=lin_nomsg){
+        if (null != lin_nomsg) {
             lin_nomsg.setVisibility(View.VISIBLE);
-            if (null!=img_loading){
+            if (null != img_loading) {
                 img_loading.setVisibility(View.VISIBLE);
             }
         }
@@ -93,7 +93,8 @@ public class DeviceListFragment extends Fragment implements View.OnClickListener
         } else {
             mData.clear();
         }
-        deviceAdapter.notifyDataSetChanged();
+        if (null != deviceAdapter)
+            deviceAdapter.notifyDataSetChanged();
         RequestParamsFM params = new RequestParamsFM();
         params.put("house_id", mRoomID);
         HttpOkhUtils.getInstance().doGetWithParams(NetConfig.DEVICE, params, new HttpOkhUtils.HttpCallBack() {

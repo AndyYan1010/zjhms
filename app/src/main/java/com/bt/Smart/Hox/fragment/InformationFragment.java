@@ -5,13 +5,23 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.adapter.LvInformationAdapter;
+import com.bt.Smart.Hox.messegeInfo.PlayListInfo;
+import com.bt.Smart.Hox.utils.HttpOkhUtils;
+import com.bt.Smart.Hox.utils.ProgressDialogUtil;
+import com.bt.Smart.Hox.utils.ToastUtils;
+import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Request;
 
 /**
  * @创建者 AndyYan
@@ -23,8 +33,11 @@ import java.util.List;
  */
 
 public class InformationFragment extends Fragment {
-    private View     mRootView;
-    private ListView lv_info;
+    private View                            mRootView;
+    private LinearLayout                    lin_nomsg;
+    private List<PlayListInfo.PlayListBean> mData;
+    private LvInformationAdapter            informationAdapter;
+    private ListView                        lv_info;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,17 +48,48 @@ public class InformationFragment extends Fragment {
     }
 
     private void initView() {
+        lin_nomsg = mRootView.findViewById(R.id.lin_nomsg);
         lv_info = mRootView.findViewById(R.id.lv_info);
-
     }
 
     private void initData() {
-        List mData =new ArrayList();
-        mData.add("");
-        mData.add("");
-        mData.add("");
-        LvInformationAdapter informationAdapter = new LvInformationAdapter(getContext(),mData);
+        mData = new ArrayList();
+        informationAdapter = new LvInformationAdapter(getContext(), mData);
         lv_info.setAdapter(informationAdapter);
+        //获取适玩列表
+        getPlayLisy();
+    }
+
+    private void getPlayLisy() {
+        HttpOkhUtils.getInstance().doGet(NetConfig.PLAYLIST, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(getContext(), "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+
+                if (code != 200) {
+                    ToastUtils.showToast(getContext(), "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                PlayListInfo playListInfo = gson.fromJson(resbody, PlayListInfo.class);
+                ToastUtils.showToast(getContext(), playListInfo.getMessage());
+                if (1 == playListInfo.getCode()) {
+                    if (playListInfo.getPlayList().size() > 0) {
+                        lin_nomsg.setVisibility(View.GONE);
+                        mData.addAll(playListInfo.getPlayList());
+                        informationAdapter.notifyDataSetChanged();
+                    }else {
+                        lin_nomsg.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
     }
 
 }
