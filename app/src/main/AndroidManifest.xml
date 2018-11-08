@@ -71,6 +71,7 @@
         <activity android:name="com.bt.Smart.Hox.activity.meActivity.HomeListActivity"/>
         <activity android:name="com.bt.Smart.Hox.activity.meActivity.HomeDetailActivity"/>
         <activity android:name=".activity.meActivity.FeedBackActivity"/>
+        <activity android:name=".activity.playActivity.PlayDetailWebActivity"/>
         <activity android:name=".activity.meActivity.AddHomeActivity"/>
         <activity android:name=".activity.meActivity.AddMembersActivity"/>
         <activity android:name=".activity.meActivity.SceneListActivity"/>

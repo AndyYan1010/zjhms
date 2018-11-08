@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.bt.Smart.Hox.fragment.Home_F;
-import com.bt.Smart.Hox.fragment.Intelligence_F;
+import com.bt.Smart.Hox.fragment.Play_F;
 import com.bt.Smart.Hox.fragment.Shopp_F;
 import com.bt.Smart.Hox.fragment.User_F;
 
@@ -27,14 +27,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private int[]       bt_menu_id = {R.id.iv_menu_0, R.id.iv_menu_1, R.id.iv_menu_2, R.id.iv_menu_3};
     //底部布局按钮的id
     private int[]       linear_id  = {R.id.linear0, R.id.linear1, R.id.linear2, R.id.linear3};
-    private LinearLayout   linear_home;//智控条目
-    private LinearLayout   linear_shopp;//好品条目
-    private LinearLayout   linear_play;//适玩条目
-    private LinearLayout   linear_mine;//个人条目
-    private Home_F         home_F;//智能
-    private Shopp_F        shopp_F;//好品
-    private Intelligence_F intell_F;//适玩
-    private User_F         user_F;//我
+    private LinearLayout linear_home;//智控条目
+    private LinearLayout linear_shopp;//好品条目
+    private LinearLayout linear_play;//适玩条目
+    private LinearLayout linear_mine;//个人条目
+    private Home_F       home_F;//智能
+    private Shopp_F      shopp_F;//好品
+    private Play_F       intell_F;//适玩
+    private User_F       user_F;//我
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +101,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.linear2://适玩界面
                 if (intell_F == null) {
-                    intell_F = new Intelligence_F();
+                    intell_F = new Play_F();
                     // 判断当前界面是否隐藏，如果隐藏就进行添加显示，false表示显示，true表示当前界面隐藏
                     addFragment(intell_F);
                     showFragment(intell_F);

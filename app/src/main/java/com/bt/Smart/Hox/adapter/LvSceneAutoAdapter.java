@@ -62,19 +62,19 @@ public class LvSceneAutoAdapter extends BaseAdapter {
         } else {
             viewholder = (MyViewholder) view.getTag();
         }
-        if ("场景".equals(mKind)){
-            GlideLoaderUtil.showImageView(mContext,((SceneInfo.ScenariolistBean)mList.get(i)).getScenario_img(),viewholder.img_scene);
-            viewholder.tv_name.setText(((SceneInfo.ScenariolistBean)mList.get(i)).getFname());
-            if ("0".equals(((SceneInfo.ScenariolistBean)mList.get(i)).getOn_off_status())){
+        if ("场景".equals(mKind)) {
+            GlideLoaderUtil.showImageView(mContext, ((SceneInfo.ScenariolistBean) mList.get(i)).getScenario_img(), viewholder.img_scene);
+            viewholder.tv_name.setText(((SceneInfo.ScenariolistBean) mList.get(i)).getFname());
+            if ("0".equals(((SceneInfo.ScenariolistBean) mList.get(i)).getOn_off_status())) {
                 viewholder.tv_state.setText("offline");
-            }else {
+            } else {
                 viewholder.tv_state.setText("online");
             }
-        }else {
-            viewholder.tv_name.setText(((AutoListInfo.AutomationlistBean)mList.get(i)).getFname());
-            if ("0".equals(((AutoListInfo.AutomationlistBean)mList.get(i)).getOn_off_status())){
+        } else {
+            viewholder.tv_name.setText(((AutoListInfo.AutomationlistBean) mList.get(i)).getFname());
+            if ("0".equals(((AutoListInfo.AutomationlistBean) mList.get(i)).getOn_off_status())) {
                 viewholder.tv_state.setText("offline");
-            }else {
+            } else {
                 viewholder.tv_state.setText("online");
             }
         }

@@ -25,6 +25,7 @@ public class MyApplication extends Application {
     public static String userName;
     public static String userPhone;
     public static String slecHomeID;
+    public static String slecRoomID;
 
     @Override
     public void onCreate() {

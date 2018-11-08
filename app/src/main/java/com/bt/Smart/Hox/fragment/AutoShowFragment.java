@@ -38,6 +38,7 @@ public class AutoShowFragment extends Fragment implements View.OnClickListener {
     private ImageView      img_back;
     private TextView       tv_title;
     private TextView       et_name;//自动化名称
+    private TextView       tv_warn;//提示
     private ImageView      img_add_term;//添加自动化条件
     private LinearLayout   lin_add_term;//添加自动化条件
     private RelativeLayout rlt_time;//自动化条件
@@ -50,7 +51,7 @@ public class AutoShowFragment extends Fragment implements View.OnClickListener {
     private MyListView     lv_action;
     private TextView       tv_save;
     private TextView       tv_delete;
-    private String mKind;
+    private String         mKind;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,6 +67,7 @@ public class AutoShowFragment extends Fragment implements View.OnClickListener {
         et_name = mRootView.findViewById(R.id.et_name);
         img_add_term = mRootView.findViewById(R.id.img_add_term);
         lin_add_term = mRootView.findViewById(R.id.lin_add_term);
+        tv_warn = mRootView.findViewById(R.id.tv_warn);
         rlt_time = mRootView.findViewById(R.id.rlt_time);
         tv_become = mRootView.findViewById(R.id.tv_become);
         lin_time_slot = mRootView.findViewById(R.id.lin_time_slot);
@@ -82,7 +84,7 @@ public class AutoShowFragment extends Fragment implements View.OnClickListener {
         img_back.setVisibility(View.VISIBLE);
         img_back.setOnClickListener(this);
         tv_title.setText("自动化");
-
+        img_add_term.setOnClickListener(this);
         if ("0".equals(mKind)) {
             tv_delete.setVisibility(View.GONE);
             img_add_term.setVisibility(View.GONE);
@@ -107,13 +109,11 @@ public class AutoShowFragment extends Fragment implements View.OnClickListener {
                 //弹出回退栈最上面的fragment
                 getFragmentManager().popBackStackImmediate(null, 0);
                 break;
-            case R.id.lin_add_term://跳转添加条件
-                FragmentTransaction ftt = getFragmentManager().beginTransaction();
-                ConditionFragment conditionFt = new ConditionFragment();
-                conditionFt.setAutoFrg(this);
-                ftt.add(R.id.frame, conditionFt, "conditionFt");
-                ftt.addToBackStack(null);
-                ftt.commit();
+            case R.id.img_add_term://跳转添加条件界面
+                toAddTermFragment();
+                break;
+            case R.id.lin_add_term://跳转添加条件界面
+                toAddTermFragment();
                 break;
             case R.id.tv_become:
                 //弹出条件状态选择框
@@ -135,6 +135,15 @@ public class AutoShowFragment extends Fragment implements View.OnClickListener {
                 ftt2.commit();
                 break;
         }
+    }
+
+    private void toAddTermFragment() {
+        FragmentTransaction ftt = getFragmentManager().beginTransaction();
+        ConditionFragment conditionFt = new ConditionFragment();
+        conditionFt.setAutoFrg(this);
+        ftt.add(R.id.frame, conditionFt, "conditionFt");
+        ftt.addToBackStack(null);
+        ftt.commit();
     }
 
     private boolean isStartTime;
@@ -179,10 +188,18 @@ public class AutoShowFragment extends Fragment implements View.OnClickListener {
     }
 
     public void showTimeView() {//显示时间条件view
+        //隐藏提示
+        img_add_term.setVisibility(View.VISIBLE);
+        lin_add_term.setVisibility(View.GONE);
+        tv_warn.setVisibility(View.GONE);
         rlt_time.setVisibility(View.VISIBLE);
     }
 
     public void setKind(String kind) {
         mKind = kind;
+    }
+
+    public void showActionView() {
+        lin_add_action.setVisibility(View.GONE);
     }
 }

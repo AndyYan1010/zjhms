@@ -154,6 +154,9 @@ public class DeviceListFragment extends Fragment implements View.OnClickListener
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
 
+    public String getRoomID() {
+        return mRoomID;
     }
 }

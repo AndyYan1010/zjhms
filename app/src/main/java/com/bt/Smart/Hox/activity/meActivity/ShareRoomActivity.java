@@ -196,7 +196,7 @@ public class ShareRoomActivity extends BaseActivity implements View.OnClickListe
             }
         }
         RequestParamsFM params = new RequestParamsFM();
-        params.put("home_info", jsonArray);
+        params.put("home_info", jsonArray.toString());
         params.put("home_id_member", homeID);
         params.put("register_id_member", memberID);
         HttpOkhUtils.getInstance().doPostBeanToString(NetConfig.AUTHORIZATION, params, new HttpOkhUtils.HttpCallBack() {

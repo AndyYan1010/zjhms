@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.messegeInfo.PlayListInfo;
 import com.bt.Smart.Hox.util.GlideLoaderUtil;
@@ -61,7 +62,7 @@ public class LvInformationAdapter extends BaseAdapter {
         } else {
             viewholder = (MyViewholder) view.getTag();
         }
-        GlideLoaderUtil.showImgWithIcon(mContext, mList.get(i).getPlay_pic(), R.drawable.msg_empty, R.drawable.msg_empty, viewholder.img_cont);
+        GlideLoaderUtil.showImgWithIcon(mContext, NetConfig.IMG_HEAD + mList.get(i).getPlay_pic(), R.drawable.msg_empty, R.drawable.msg_empty, viewholder.img_cont);
         viewholder.tv_title.setText(mList.get(i).getPlay_title());
         viewholder.tv_subtitle.setText(mList.get(i).getPlay_introduce());
         viewholder.tv_look.setText(mList.get(i).getPlay_label());

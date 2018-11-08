@@ -11,7 +11,9 @@ package com.bt.Smart.Hox;
 
 public class NetConfig {
     //服务器总地址
-    public static String ROOT = "http://www.smart-hox.com:8081/hoxJK/";
+    public static String ROOT     = "http://www.smart-hox.com:8081/hoxJK/";
+    //图片地址
+    public static String IMG_HEAD = "http://www.smart-hox.com:8083/upFiles/";
 
     //获取验证码
     public static String CHECKMESSAGE  = ROOT + "checkMessage";
@@ -58,12 +60,17 @@ public class NetConfig {
     public static String SELECTALLSCENARIO   = ROOT + "selectallscenario";
     //获取家下所有自动化
     public static String SELECTALLAUTOMATION = ROOT + "selectallautomation";
+    //查看当前家下所有处传感器之外的设备
+    public static String SELECTEQLIST        = ROOT + "selecteqlist";
 
     //添加场景
     public static String INSERTSCENARIO = ROOT + "insertscenario";
 
+
     //适玩列表
     public static String PLAYLIST = ROOT + "playList";
+    //适玩详情
+    public static String PLAYBYID = ROOT + "playById";
 
     //意见反馈
     public static String COMPLAINTFEEDBACK = ROOT + "complaintFeedback";

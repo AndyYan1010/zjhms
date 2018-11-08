@@ -272,6 +272,7 @@ public class Home_F extends Fragment implements View.OnClickListener {
                             @Override
                             public void onTabSelected(TabLayout.Tab tab) {
                                 fragmentsList.get(tab.getPosition()).refreshInfo();
+                                MyApplication.slecRoomID = fragmentsList.get(tab.getPosition()).getRoomID();
                             }
 
                             @Override
@@ -282,6 +283,7 @@ public class Home_F extends Fragment implements View.OnClickListener {
                             @Override
                             public void onTabReselected(TabLayout.Tab tab) {
                                 fragmentsList.get(tab.getPosition()).refreshInfo();
+                                MyApplication.slecRoomID = fragmentsList.get(tab.getPosition()).getRoomID();
                             }
                         });
                         mTablayout.getTabAt(0).select();

@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * @更新描述 ${TODO}
  */
 
-public class Intelligence_F extends Fragment {
+public class Play_F extends Fragment {
     private View                           mRootView;
     private TabLayout                      mTablayout;//导航标签
     private MyFixedViewpager               mView_pager;//自我viewpager可实现禁止滑动
