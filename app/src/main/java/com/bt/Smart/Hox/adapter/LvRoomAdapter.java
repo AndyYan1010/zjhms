@@ -1,9 +1,7 @@
 package com.bt.Smart.Hox.adapter;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -22,6 +20,7 @@ import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.messegeInfo.CommonInfo;
 import com.bt.Smart.Hox.messegeInfo.HouseDetailInfo;
+import com.bt.Smart.Hox.utils.MyAlertDialogHelper;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
 import com.bt.Smart.Hox.utils.ProgressDialogUtil;
 import com.bt.Smart.Hox.utils.RequestParamsFM;
@@ -161,26 +160,23 @@ public class LvRoomAdapter extends BaseAdapter {
         });
     }
 
-    private AlertDialog alertDialog;
+    private MyAlertDialogHelper openHelper;
 
     private void deleteRoom(final int position) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext, AlertDialog.THEME_HOLO_LIGHT);
-        builder.setTitle("温馨提示");
-        builder.setMessage("该操作会将该房间下的所有设备一起删除，确定删除？");
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        openHelper = new MyAlertDialogHelper();
+        openHelper.setDataNoView(mContext, "温馨提示", "该操作会将该房间下的所有设备一起删除，确定删除？");
+        openHelper.setDialogClicker("确定", "取消", new MyAlertDialogHelper.DialogClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onPositive() {
                 //删除房间
                 doDeleteRoom(position);
             }
-        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
+            public void onNegative() {
             }
         });
-        alertDialog = builder.create();
-        alertDialog.show();
+        openHelper.show();
     }
 
     private void doDeleteRoom(final int position) {
@@ -205,10 +201,6 @@ public class LvRoomAdapter extends BaseAdapter {
                 CommonInfo commonInfo = gson.fromJson(resbody, CommonInfo.class);
                 ToastUtils.showToast(mContext, commonInfo.getMessage());
                 if (1 == commonInfo.getCode()) {
-                    //关闭dailog
-                    if (null != alertDialog) {
-                        alertDialog.dismiss();
-                    }
                     //修改界面
                     mList.remove(position);
                     notifyDataSetChanged();

@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -19,10 +20,12 @@ import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.bt.Smart.Hox.R;
+import com.bt.Smart.Hox.adapter.LvAddActionAdapter;
 import com.bt.Smart.Hox.viewmodle.MyListView;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @创建者 AndyYan
@@ -34,24 +37,26 @@ import java.util.Date;
  */
 
 public class AutoShowFragment extends Fragment implements View.OnClickListener {
-    private View           mRootView;
-    private ImageView      img_back;
-    private TextView       tv_title;
-    private TextView       et_name;//自动化名称
-    private TextView       tv_warn;//提示
-    private ImageView      img_add_term;//添加自动化条件
-    private LinearLayout   lin_add_term;//添加自动化条件
-    private RelativeLayout rlt_time;//自动化条件
-    private TextView       tv_become;//变为、立即
-    private LinearLayout   lin_time_slot;//时间段
-    private TextView       tv_start;//起始时间
-    private TextView       tv_end;//结束时间
-    private ImageView      img_add_act;//添加自动化动作
-    private LinearLayout   lin_add_action;//添加自动化动作
-    private MyListView     lv_action;
-    private TextView       tv_save;
-    private TextView       tv_delete;
-    private String         mKind;
+    private View               mRootView;
+    private ImageView          img_back;
+    private TextView           tv_title;
+    private TextView           et_name;//自动化名称
+    private TextView           tv_warn;//提示
+    private ImageView          img_add_term;//添加自动化条件
+    private LinearLayout       lin_add_term;//添加自动化条件
+    private RelativeLayout     rlt_time;//自动化条件
+    private TextView           tv_become;//变为、立即
+    private LinearLayout       lin_time_slot;//时间段
+    private TextView           tv_start;//起始时间
+    private TextView           tv_end;//结束时间
+    private ImageView          img_add_act;//添加自动化动作
+    private LinearLayout       lin_add_action;//添加自动化动作
+    private MyListView         lv_action;
+    private TextView           tv_save;
+    private TextView           tv_delete;
+    private String             mKind;
+    private List               actList;//选择的动作数据
+    private LvAddActionAdapter actionAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -85,6 +90,7 @@ public class AutoShowFragment extends Fragment implements View.OnClickListener {
         img_back.setOnClickListener(this);
         tv_title.setText("自动化");
         img_add_term.setOnClickListener(this);
+        img_add_act.setOnClickListener(this);
         if ("0".equals(mKind)) {
             tv_delete.setVisibility(View.GONE);
             img_add_term.setVisibility(View.GONE);
@@ -100,6 +106,16 @@ public class AutoShowFragment extends Fragment implements View.OnClickListener {
         options1Items.add("此时正好");
         tv_become.setOnClickListener(this);
         lin_time_slot.setOnClickListener(this);
+        actList = new ArrayList();
+        actionAdapter = new LvAddActionAdapter(getContext(), actList);
+        lv_action.setAdapter(actionAdapter);
+        lv_action.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //弹出选择器，选择时间和开关
+                selectTimeAndStatue();
+            }
+        });
     }
 
     @Override
@@ -127,14 +143,26 @@ public class AutoShowFragment extends Fragment implements View.OnClickListener {
                     selectTimer("设置结束时间");
                 }
                 break;
+            case R.id.img_add_act://跳转添加动作界面
+                toAddActFragment();
+                break;
             case R.id.lin_add_action://跳转添加动作界面
-                FragmentTransaction ftt2 = getFragmentManager().beginTransaction();
-                ChoiceAotuActionFragment choiceAotuFt = new ChoiceAotuActionFragment();
-                ftt2.add(R.id.frame, choiceAotuFt, "choiceAotuFt");
-                ftt2.addToBackStack(null);
-                ftt2.commit();
+                toAddActFragment();
                 break;
         }
+    }
+
+    private void toAddActFragment() {
+        FragmentTransaction ftt2 = getFragmentManager().beginTransaction();
+        ChoiceAotuActionFragment choiceAotuFt = new ChoiceAotuActionFragment();
+        choiceAotuFt.setAutoShowFragment(this);
+        ftt2.add(R.id.frame, choiceAotuFt, "choiceAotuFt");
+        ftt2.addToBackStack(null);
+        ftt2.commit();
+    }
+
+    private void selectTimeAndStatue() {
+
     }
 
     private void toAddTermFragment() {
@@ -201,5 +229,10 @@ public class AutoShowFragment extends Fragment implements View.OnClickListener {
 
     public void showActionView() {
         lin_add_action.setVisibility(View.GONE);
+        actList.clear();
+        actList.add("");
+        actList.add("");
+        actionAdapter.notifyDataSetChanged();
+        img_add_act.setVisibility(View.VISIBLE);
     }
 }

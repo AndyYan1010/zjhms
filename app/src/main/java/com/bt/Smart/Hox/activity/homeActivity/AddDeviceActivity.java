@@ -106,32 +106,6 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
         getAllAddDevList();
     }
 
-    private void getAllAddDevList() {
-        HttpOkhUtils.getInstance().doGet(NetConfig.DEVICETYPE, new HttpOkhUtils.HttpCallBack() {
-            @Override
-            public void onError(Request request, IOException e) {
-                ProgressDialogUtil.hideDialog();
-                ToastUtils.showToast(AddDeviceActivity.this, "网络连接错误");
-            }
-
-            @Override
-            public void onSuccess(int code, String resbody) {
-                ProgressDialogUtil.hideDialog();
-                if (code != 200) {
-                    ToastUtils.showToast(AddDeviceActivity.this, "网络错误" + code);
-                    return;
-                }
-                Gson gson = new Gson();
-                DeviceTypeInfo deviceTypeInfo = gson.fromJson(resbody, DeviceTypeInfo.class);
-                ToastUtils.showToast(AddDeviceActivity.this, deviceTypeInfo.getMessage());
-                if (1 == deviceTypeInfo.getCode()) {
-                    mData.addAll(deviceTypeInfo.getDeviceTypeList().getData());
-                    addDevListAdapter.notifyDataSetChanged();
-                }
-            }
-        });
-    }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -205,6 +179,32 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                 }
             }
         }
+    }
+
+    private void getAllAddDevList() {
+        HttpOkhUtils.getInstance().doGet(NetConfig.DEVICETYPE, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(AddDeviceActivity.this, "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(AddDeviceActivity.this, "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                DeviceTypeInfo deviceTypeInfo = gson.fromJson(resbody, DeviceTypeInfo.class);
+                ToastUtils.showToast(AddDeviceActivity.this, deviceTypeInfo.getMessage());
+                if (1 == deviceTypeInfo.getCode()) {
+                    mData.addAll(deviceTypeInfo.getDeviceTypeList().getData());
+                    addDevListAdapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     private void scanningCode() {

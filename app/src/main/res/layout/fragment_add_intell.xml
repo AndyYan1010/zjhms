@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/gray_ef"
+              android:background="@color/white"
               android:orientation="vertical">
 
     <include layout="@layout/title_view_img"/>
@@ -48,7 +48,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             </com.bt.Smart.Hox.viewmodle.MyListView>
-
+            <View
+                android:layout_width="match_parent"
+                android:background="@color/gray_ef"
+                android:layout_marginTop="3dp"
+                android:layout_height="1dp"/>
             <LinearLayout
                 android:id="@+id/lin_add"
                 android:layout_width="wrap_content"

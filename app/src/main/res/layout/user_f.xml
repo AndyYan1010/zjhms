@@ -182,7 +182,7 @@
             <RelativeLayout
                 android:id="@+id/rtv_home"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:layout_marginTop="20dp"
                 android:background="@color/white">
 
@@ -213,10 +213,15 @@
                     android:src="@drawable/me_next2"/>
             </RelativeLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_10"/>
+
             <RelativeLayout
                 android:id="@+id/rtv_msg_center"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:background="@color/white">
 
                 <ImageView
@@ -246,6 +251,10 @@
                     android:src="@drawable/me_next2"/>
             </RelativeLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_10"/>
             <!--<RelativeLayout-->
             <!--android:id="@+id/rtv_saoma"-->
             <!--android:layout_width="match_parent"-->
@@ -274,8 +283,7 @@
             <RelativeLayout
                 android:id="@+id/rtv_norques"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="45dp"
                 android:background="@color/white">
 
                 <ImageView
@@ -305,6 +313,10 @@
                     android:src="@drawable/me_next2"/>
             </RelativeLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_10"/>
             <!--<RelativeLayout-->
             <!--android:id="@+id/rtv_more"-->
             <!--android:layout_width="match_parent"-->
@@ -333,8 +345,7 @@
             <RelativeLayout
                 android:id="@+id/rtv_feedback"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="45dp"
                 android:background="@color/white">
 
                 <ImageView

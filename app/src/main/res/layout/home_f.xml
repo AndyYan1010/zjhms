@@ -26,14 +26,14 @@
                 android:layout_marginLeft="10dp"
                 android:text="我的"
                 android:textColor="@color/black"
-                android:textSize="20sp"/>
+                android:textSize="18sp"/>
 
             <ImageView
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
-                android:src="@drawable/icon_down"/>
+                android:src="@drawable/icon_down_black"/>
         </LinearLayout>
 
         <ImageView
@@ -52,7 +52,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="16dp"
-            android:src="@drawable/add_icon_blue"/>
+            android:src="@drawable/add_icon_blue"
+            android:visibility="gone"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -85,7 +86,7 @@
                     android:layout_marginLeft="15dp"
                     android:text="晴"
                     android:textColor="@color/black"
-                    android:textSize="30sp"/>
+                    android:textSize="28sp"/>
             </LinearLayout>
 
             <LinearLayout

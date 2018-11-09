@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.TextView;
 
 import com.bt.Smart.Hox.BaseActivity;
 import com.bt.Smart.Hox.R;
@@ -21,7 +21,7 @@ import com.uuzuche.lib_zxing.activity.CodeUtils;
  */
 
 public class SaomiaoUIActivity extends BaseActivity implements View.OnClickListener {
-    private Button second_button1;
+    private TextView tv_cancle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +32,11 @@ public class SaomiaoUIActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void initView() {
-        second_button1 = (Button) findViewById(R.id.second_button1);
+        tv_cancle = (TextView) findViewById(R.id.tv_cancle);
     }
 
     private void initData() {
-        second_button1.setOnClickListener(this);
+        tv_cancle.setOnClickListener(this);
         /**
          * 执行扫面Fragment的初始化操作
          */
@@ -81,7 +81,7 @@ public class SaomiaoUIActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.second_button1:
+            case R.id.tv_cancle:
                 finish();
                 break;
         }

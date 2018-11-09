@@ -3,20 +3,25 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/second_button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:text="取消"/>
-
     <FrameLayout
         android:id="@+id/fl_my_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/tv_cancle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_round_white_10"
+        android:paddingBottom="8dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="8dp"
+        android:text="取消"
+        android:textColor="@color/blue_87"
+        android:textSize="16sp"/>
 </FrameLayout>

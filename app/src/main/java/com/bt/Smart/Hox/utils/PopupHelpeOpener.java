@@ -68,10 +68,9 @@ public class PopupHelpeOpener {
         lp.alpha = alpha;
         ((Activity) mContext).getWindow().setAttributes(lp);
     }
-    private ViewClickListener viewClickListener;
 
-    public void setOnPopupViewClick(ViewClickListener onViewClickListener) {
-        viewClickListener.onViewClickListener(popupWindow,inflateView);
+    public void setOnPopupViewClick(ViewClickListener viewClickListener) {
+        viewClickListener.onViewClickListener(popupWindow, inflateView);
     }
 
     public interface ViewClickListener {

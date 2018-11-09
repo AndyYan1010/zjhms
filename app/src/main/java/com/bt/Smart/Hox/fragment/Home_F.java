@@ -3,6 +3,7 @@ package com.bt.Smart.Hox.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -81,7 +82,7 @@ public class Home_F extends Fragment implements View.OnClickListener {
 
     private void initData() {
         img_more.setOnClickListener(this);
-
+        tv_mine.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
         contsList = new ArrayList<>();
         contsList.add("主卧");
         contsList.add("客厅");

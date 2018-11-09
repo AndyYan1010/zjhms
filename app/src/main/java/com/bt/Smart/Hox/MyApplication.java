@@ -23,6 +23,7 @@ public class MyApplication extends Application {
     public static int                 flag         = -1;//判断是否被回收
     public static String userID;
     public static String userName;
+    public static String pasword;
     public static String userPhone;
     public static String slecHomeID;
     public static String slecRoomID;
@@ -33,7 +34,6 @@ public class MyApplication extends Application {
         ZXingLibrary.initDisplayOpinion(this);
         //        JPushInterface.setDebugMode(true);
         //        JPushInterface.init(this);
-
     }
 
     public static void exit() {

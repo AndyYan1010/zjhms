@@ -55,6 +55,7 @@ public class ChoiceAotuActionFragment extends Fragment implements View.OnClickLi
     private TextView           tv_sure;//确定选择
     private boolean            isAllSceCho;
     private boolean            isAllDevCho;
+    private AutoShowFragment   mAutoShowFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,7 +74,7 @@ public class ChoiceAotuActionFragment extends Fragment implements View.OnClickLi
         rlt_allDev = mRootView.findViewById(R.id.rlt_allDev);
         img_more_dev = mRootView.findViewById(R.id.img_more_dev);
         lv_dev = mRootView.findViewById(R.id.lv_dev);
-        tv_sure=mRootView.findViewById(R.id.tv_sure);
+        tv_sure = mRootView.findViewById(R.id.tv_sure);
     }
 
     private void initData() {
@@ -111,7 +112,8 @@ public class ChoiceAotuActionFragment extends Fragment implements View.OnClickLi
     }
 
     private void closeAndChangeUI() {
-
+        MyFragmentManagerUtil.closeTopFragment(this);
+        mAutoShowFragment.showActionView();
     }
 
     private void showMoreDev() {
@@ -198,5 +200,9 @@ public class ChoiceAotuActionFragment extends Fragment implements View.OnClickLi
                 }
             }
         });
+    }
+
+    public void setAutoShowFragment(AutoShowFragment autoShowFragment) {
+        mAutoShowFragment = autoShowFragment;
     }
 }

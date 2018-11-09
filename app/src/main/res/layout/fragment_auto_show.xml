@@ -7,9 +7,9 @@
 
     <include layout="@layout/title_view_img"/>
 
-    <ScrollView
+    <com.bt.Smart.Hox.viewmodle.MyOverScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -265,5 +265,5 @@
                 android:textColor="@color/white"
                 android:textSize="16sp"/>
         </LinearLayout>
-    </ScrollView>
+    </com.bt.Smart.Hox.viewmodle.MyOverScrollView>
 </LinearLayout>
