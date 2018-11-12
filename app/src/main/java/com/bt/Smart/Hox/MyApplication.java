@@ -2,6 +2,9 @@ package com.bt.Smart.Hox;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 
 import com.bt.Smart.Hox.utils.ExceptionUtil;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
@@ -21,12 +24,13 @@ public class MyApplication extends Application {
     public static boolean             isRelease    = false;//判断程序是否异常
     public static ArrayList<Activity> listActivity = new ArrayList<Activity>();//用来装载activity
     public static int                 flag         = -1;//判断是否被回收
-    public static String userID;
-    public static String userName;
-    public static String pasword;
-    public static String userPhone;
-    public static String slecHomeID;
-    public static String slecRoomID;
+    public static String  userID;
+    public static String  userName;
+    public static String  pasword;
+    public static String  userPhone;
+    public static String  slecHomeID;
+    public static String  slecRoomID;
+    public static boolean isLoading;
 
     @Override
     public void onCreate() {
@@ -45,6 +49,17 @@ public class MyApplication extends Application {
             System.exit(0);
         } catch (Exception e) {
             ExceptionUtil.handleException(e);
+        }
+    }
+
+    public static int getNowVersionCode(Context context) {
+        try {
+            PackageInfo packageInfo = (context).getPackageManager().getPackageInfo((context).getPackageName(), 0);
+            int versionCode = packageInfo.versionCode;
+            return versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return 0;
         }
     }
 }

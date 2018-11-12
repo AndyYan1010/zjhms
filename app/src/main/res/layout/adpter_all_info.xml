@@ -8,7 +8,7 @@
     <ImageView
         android:id="@+id/img_cont"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="120dp"
         android:scaleType="centerCrop"
         android:src="@drawable/pic_example"/>
 
@@ -18,11 +18,11 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="2dp"
         android:singleLine="true"
         android:text="一分钟了解自身健康状况，云康宝带你告别亚健康"
         android:textColor="@color/black"
-        android:textSize="18sp"/>
+        android:textSize="14sp"/>
 
     <TextView
         android:id="@+id/tv_subtitle"
@@ -30,17 +30,17 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="2dp"
         android:singleLine="true"
         android:text="双千兆仅需149，11月1日荣耀路由X2首售，1元预订享好礼！"
         android:textColor="@color/vm_black_54"
-        android:textSize="14sp"/>
+        android:textSize="12sp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="2dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -57,7 +57,7 @@
             android:layout_marginLeft="5dp"
             android:text="1270"
             android:textColor="@color/vm_black_54"
-            android:textSize="14sp"/>
+            android:textSize="12sp"/>
 
         <ImageView
             android:layout_width="15dp"
@@ -72,6 +72,6 @@
             android:layout_marginLeft="5dp"
             android:text="26"
             android:textColor="@color/vm_black_54"
-            android:textSize="14sp"/>
+            android:textSize="12sp"/>
     </LinearLayout>
 </LinearLayout>

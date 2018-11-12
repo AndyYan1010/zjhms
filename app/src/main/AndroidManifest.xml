@@ -78,6 +78,12 @@
         <activity android:name=".activity.meActivity.ShareRoomActivity"/>
         <activity android:name="com.bt.Smart.Hox.activity.UploadPicActivity"/>
         <activity android:name="com.bt.Smart.Hox.activity.SaomiaoUIActivity"/>
+        <activity android:name=".activity.meActivity.SettingActivity"/>
+        <activity android:name=".activity.homeActivity.CreateHomeActivity"/>
+
+        <receiver android:name=".broadcastReceiver.MyApkLoadReceive"/>
+        <service android:name=".service.LoadingApkService"/>
+
 
         <!--qq注册activity-->
         <activity

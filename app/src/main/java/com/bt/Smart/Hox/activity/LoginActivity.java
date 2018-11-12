@@ -181,11 +181,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     private void loginToService(String phone, String psd) {
         ProgressDialogUtil.startShow(LoginActivity.this, "正在登录请稍后");
-        String loginUrl = NetConfig.LOGINURL;
         RequestParamsFM params = new RequestParamsFM();
         params.put("mobile", phone);
         params.put("fpassword", psd);
-        HttpOkhUtils.getInstance().doPost(loginUrl, params, new HttpOkhUtils.HttpCallBack() {
+        HttpOkhUtils.getInstance().doPost(NetConfig.LOGINURL, params, new HttpOkhUtils.HttpCallBack() {
             @Override
             public void onError(Request request, IOException e) {
                 ProgressDialogUtil.hideDialog();

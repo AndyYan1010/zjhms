@@ -13,6 +13,7 @@ import com.bt.Smart.Hox.BaseActivity;
 import com.bt.Smart.Hox.MyApplication;
 import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
+import com.bt.Smart.Hox.activity.homeActivity.CreateHomeActivity;
 import com.bt.Smart.Hox.adapter.LvHomeAdapter;
 import com.bt.Smart.Hox.messegeInfo.UserHomeInfo;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
@@ -138,6 +139,8 @@ public class HomeListActivity extends BaseActivity implements View.OnClickListen
                         homeAdapter.notifyDataSetChanged();
                     } else {
                         lin_nomsg.setVisibility(View.VISIBLE);
+                        startActivity(new Intent(HomeListActivity.this, CreateHomeActivity.class));
+                        finish();
                     }
                 } else {
                     lin_nomsg.setVisibility(View.VISIBLE);

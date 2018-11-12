@@ -16,6 +16,7 @@ import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.activity.meActivity.FeedBackActivity;
 import com.bt.Smart.Hox.activity.meActivity.HomeListActivity;
 import com.bt.Smart.Hox.activity.meActivity.SceneListActivity;
+import com.bt.Smart.Hox.activity.meActivity.SettingActivity;
 
 
 /**
@@ -34,7 +35,9 @@ public class User_F extends Fragment implements View.OnClickListener {
     private LinearLayout   lin_scene;//场景
     private LinearLayout   lin_auto;//自动化
     private LinearLayout   lin_shop;//商城
+    private RelativeLayout rtv_person;//个人信息编辑
     private RelativeLayout rtv_home;//家庭管理
+    private RelativeLayout rtv_setting;//通用设置
     private RelativeLayout rtv_feedback;//意见反馈
 
     @Override
@@ -51,7 +54,9 @@ public class User_F extends Fragment implements View.OnClickListener {
         lin_scene = mRootView.findViewById(R.id.lin_scene);
         lin_auto = mRootView.findViewById(R.id.lin_auto);
         lin_shop = mRootView.findViewById(R.id.lin_shop);
+        rtv_person = mRootView.findViewById(R.id.rtv_person);
         rtv_home = mRootView.findViewById(R.id.rtv_home);
+        rtv_setting = mRootView.findViewById(R.id.rtv_setting);
         rtv_feedback = mRootView.findViewById(R.id.rtv_feedback);
     }
 
@@ -60,6 +65,7 @@ public class User_F extends Fragment implements View.OnClickListener {
         lin_scene.setOnClickListener(this);
         lin_auto.setOnClickListener(this);
         rtv_home.setOnClickListener(this);
+        rtv_setting.setOnClickListener(this);
         rtv_feedback.setOnClickListener(this);
     }
 
@@ -81,6 +87,9 @@ public class User_F extends Fragment implements View.OnClickListener {
                 break;
             case R.id.rtv_home: //跳转家管理界面
                 startActivity(new Intent(getContext(), HomeListActivity.class));
+                break;
+            case R.id.rtv_setting://跳转通用设置
+                startActivity(new Intent(getContext(), SettingActivity.class));
                 break;
             case R.id.rtv_feedback://跳转反馈界面
                 startActivity(new Intent(getContext(), FeedBackActivity.class));

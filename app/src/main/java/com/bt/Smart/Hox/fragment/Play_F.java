@@ -28,7 +28,7 @@ public class Play_F extends Fragment {
     private MyFixedViewpager               mView_pager;//自我viewpager可实现禁止滑动
     private MyAddIntellPagerAdapter        myPagerAdapter;//pager设配器
     private ArrayList<InformationFragment> fragmentsList;//fragment集合
-    private String[] contsList = {"资讯", "众测"};//tablayout的标题
+    private String[] contsList = {"资讯"};//tablayout的标题
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

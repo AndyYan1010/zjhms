@@ -8,6 +8,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +24,12 @@ import android.widget.TextView;
 import com.bt.Smart.Hox.MyApplication;
 import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
+import com.bt.Smart.Hox.activity.homeActivity.CreateHomeActivity;
 import com.bt.Smart.Hox.activity.homeActivity.RoomManagerActivity;
 import com.bt.Smart.Hox.activity.meActivity.HomeListActivity;
 import com.bt.Smart.Hox.adapter.LvSetHomeAdapter;
 import com.bt.Smart.Hox.adapter.MyPagerAdapter;
+import com.bt.Smart.Hox.adapter.RecSceneAdapter;
 import com.bt.Smart.Hox.messegeInfo.HouseDetailInfo;
 import com.bt.Smart.Hox.messegeInfo.UserHomeInfo;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
@@ -54,6 +58,8 @@ import okhttp3.Request;
 public class Home_F extends Fragment implements View.OnClickListener {
     private View                            mRootView;
     private TextView                        tv_mine;
+    private List                            mData;//场景数据列表
+    private RecyclerView                    rec_scene;//当前家下场景图标
     private ImageView                       img_more;//设置更多
     private TabLayout                       mTablayout;//导航标签
     private MyFixedViewpager                mView_pager;//自我viewpager可实现禁止滑动
@@ -64,6 +70,7 @@ public class Home_F extends Fragment implements View.OnClickListener {
     private List<UserHomeInfo.HomeListBean> mHomeList;//家列表数据
     private int REQUEST_HOME_F           = 1003;//修改了家后的响应值
     private int REQUESTCODE_ROOM_MANAGER = 1004;//修改了房间后的响应值
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,6 +83,7 @@ public class Home_F extends Fragment implements View.OnClickListener {
     private void initView() {
         img_more = mRootView.findViewById(R.id.img_more);
         tv_mine = mRootView.findViewById(R.id.tv_mine);
+        rec_scene = mRootView.findViewById(R.id.rec_scene);
         mTablayout = mRootView.findViewById(R.id.tablayout);
         mView_pager = mRootView.findViewById(R.id.view_pager);
     }
@@ -83,13 +91,20 @@ public class Home_F extends Fragment implements View.OnClickListener {
     private void initData() {
         img_more.setOnClickListener(this);
         tv_mine.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+        //设置场景图标
+        rec_scene.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        mData = new ArrayList();
+        mData.add("");
+        mData.add("");
+        RecSceneAdapter recSceneAdapter = new RecSceneAdapter(getContext(), mData);
+        rec_scene.setAdapter(recSceneAdapter);
+
         contsList = new ArrayList<>();
         contsList.add("主卧");
         contsList.add("客厅");
         contsList.add("餐厅");
         contsList.add("次卧");
         contsList.add("书房");
-
         // 创建一个集合,装填Fragment
         fragmentsList = new ArrayList<>();
         for (int i = 0; i < contsList.size(); i++) {
@@ -212,6 +227,9 @@ public class Home_F extends Fragment implements View.OnClickListener {
                         }
                         MyApplication.slecHomeID = hDefID;
                         showRoomsInfo(hDefID);//展示房间信息
+                    } else {//账号下没有家庭信息，让创建家庭
+                        Intent intent = new Intent(getContext(), CreateHomeActivity.class);
+                        startActivityForResult(intent, REQUEST_HOME_F);
                     }
                 } else {
                     ToastUtils.showToast(getContext(), "家信息获取失败");

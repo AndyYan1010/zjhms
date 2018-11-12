@@ -125,6 +125,7 @@ public class HomeDetailActivity extends BaseActivity implements View.OnClickList
         getHomeDetailInfo();
         //获取家庭成员信息
         getHomeMembers();
+        //开始解析地址数据
         mHandler.sendEmptyMessage(MSG_LOAD_DATA);
         rtv_name.setOnClickListener(this);
         rtv_address.setOnClickListener(this);
