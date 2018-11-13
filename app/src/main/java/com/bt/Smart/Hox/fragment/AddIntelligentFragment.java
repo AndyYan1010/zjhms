@@ -81,12 +81,18 @@ public class AddIntelligentFragment extends Fragment implements View.OnClickList
                 if ("场景".equals(mKind)) {//跳转场景详情
                     FragmentTransaction ftt = getFragmentManager().beginTransaction();
                     SceneShowFragment sceneShowFt = new SceneShowFragment();
-                    sceneShowFt.setKind("1");
+                    sceneShowFt.setKind("1",((SceneInfo.ScenariolistBean)mData.get(i)).getId());
                     ftt.add(R.id.frame, sceneShowFt, "sceneShowFt");
                     ftt.addToBackStack(null);
                     ftt.commit();
                 } else {//跳转自动化详情
-
+                    FragmentTransaction ftt = getFragmentManager().beginTransaction();
+                    AutoShowFragment autoShowFt = new AutoShowFragment();
+                    //传递数据
+                    autoShowFt.setKind("1",((AutoListInfo.AutomationlistBean)mData.get(i)).getId());
+                    ftt.add(R.id.frame, autoShowFt, "autoShowFt");
+                    ftt.addToBackStack(null);
+                    ftt.commit();
                 }
             }
         });
@@ -105,14 +111,14 @@ public class AddIntelligentFragment extends Fragment implements View.OnClickList
                 if ("场景".equals(mKind)) {
                     FragmentTransaction ftt = getFragmentManager().beginTransaction();
                     SceneShowFragment sceneShowFt = new SceneShowFragment();
-                    sceneShowFt.setKind("0");
+                    sceneShowFt.setKind("0",null);
                     ftt.add(R.id.frame, sceneShowFt, "sceneShowFt");
                     ftt.addToBackStack(null);
                     ftt.commit();
                 } else {
                     FragmentTransaction ftt = getFragmentManager().beginTransaction();
                     AutoShowFragment autoShowFt = new AutoShowFragment();
-                    autoShowFt.setKind("0");
+                    autoShowFt.setKind("0",null);
                     ftt.add(R.id.frame, autoShowFt, "autoShowFt");
                     ftt.addToBackStack(null);
                     ftt.commit();

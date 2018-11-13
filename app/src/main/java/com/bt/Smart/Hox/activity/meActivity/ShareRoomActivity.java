@@ -182,7 +182,7 @@ public class ShareRoomActivity extends BaseActivity implements View.OnClickListe
                             jsonObject1.put("second_control_id", bean.getSecond_control_id());
                             jsonObject1.put("main_control_code", bean.getMain_control_code());
                             jsonObject1.put("register_id", MyApplication.userID);
-                            jsonObject1.put("second_control_device_id", bean.getSecond_control_id());//TODO？？？
+                            jsonObject1.put("second_control_device_id", bean.getId());//TODO？？？
                             jsonObject1.put("home_id", homeID);
                             jsonObject1.put("house_id", mData.get(i).getHouse_id());
                             jsonArray1.put(jsonObject1);
@@ -196,10 +196,13 @@ public class ShareRoomActivity extends BaseActivity implements View.OnClickListe
             }
         }
         RequestParamsFM params = new RequestParamsFM();
-        params.put("home_info", jsonArray.toString());
-        params.put("home_id_member", homeID);
-        params.put("register_id_member", memberID);
-        HttpOkhUtils.getInstance().doPostBeanToString(NetConfig.AUTHORIZATION, params, new HttpOkhUtils.HttpCallBack() {
+        params.put("home", jsonArray);
+        params.setUseJsonStreamer(true);
+        //        params.put("home_info", jsonArray);
+        //        params.put("home_id_member", homeID);
+        //        params.put("register_id_member", memberID);
+        String shareUrl = NetConfig.AUTHORIZATION + "?home_id_member=" + homeID + "&register_id_member=" + memberID;
+        HttpOkhUtils.getInstance().doPostBeanToString(shareUrl, params, new HttpOkhUtils.HttpCallBack() {
             @Override
             public void onError(Request request, IOException e) {
                 ProgressDialogUtil.hideDialog();

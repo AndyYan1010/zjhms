@@ -46,9 +46,11 @@ public class NetConfig {
 
 
     //获取所有可添加设备列表
-    public static String DEVICETYPE  = ROOT + "deviceType";
+    public static String DEVICETYPE   = ROOT + "deviceType";
+    //查看当前家下所有处传感器之外的设备
+    public static String SELECTEQLIST = ROOT + "selecteqlist";
     //更改设备房间
-    public static String DEVICEHOUSE = ROOT + "deviceHouse";
+    public static String DEVICEHOUSE  = ROOT + "deviceHouse";
 
 
     //主控列表//更新主控
@@ -57,14 +59,18 @@ public class NetConfig {
     public static String SECONDCONTROL = ROOT + "secondControl";
 
     //获取家下所有场景
-    public static String SELECTALLSCENARIO   = ROOT + "selectallscenario";
+    public static String SELECTALLSCENARIO = ROOT + "selectallscenario";
+    //添加场景
+    public static String INSERTSCENARIO    = ROOT + "insertscenario";
+    //获取场景详情
+    public static String SELECTNOSCENARIO  = ROOT + "selectnoscenario";
+
     //获取家下所有自动化
     public static String SELECTALLAUTOMATION = ROOT + "selectallautomation";
-    //查看当前家下所有处传感器之外的设备
-    public static String SELECTEQLIST        = ROOT + "selecteqlist";
-
-    //添加场景
-    public static String INSERTSCENARIO = ROOT + "insertscenario";
+    //获得当前家的某个自动化
+    public static String SELECTNOAUTOMATION  = ROOT + "selectnoautomation";
+    //删除自动化
+    public static String DELETEAUTOMATION    = ROOT + "deleteautomation";
 
 
     //适玩列表

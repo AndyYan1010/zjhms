@@ -53,8 +53,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
                     android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
                     android:text="如果"
                     android:textColor="@color/black"
                     android:textSize="20sp"/>
@@ -76,10 +76,10 @@
                 android:gravity="center_vertical"
                 android:minHeight="70dp"
                 android:orientation="vertical"
-                android:paddingBottom="15dp"
+                android:paddingBottom="10dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:paddingTop="15dp">
+                android:paddingTop="10dp">
 
                 <LinearLayout
                     android:id="@+id/lin_add_term"
@@ -112,57 +112,11 @@
                     android:textColor="@color/red"
                     android:textSize="12sp"/>
 
-                <RelativeLayout
-                    android:id="@+id/rlt_time"
+                <com.bt.Smart.Hox.viewmodle.MyListView
+                    android:id="@+id/lv_time"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="时间"
-                        android:textColor="@color/blue_87"
-                        android:textSize="16sp"/>
-
-                    <TextView
-                        android:id="@+id/tv_become"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:text="变为"
-                        android:textColor="@color/blue_87"
-                        android:textSize="16sp"/>
-
-                    <LinearLayout
-                        android:id="@+id/lin_time_slot"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="25dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tv_start"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="00:00"
-                            android:textColor="@color/blue_87"
-                            android:textSize="14sp"/>
-
-                        <TextView
-                            android:id="@+id/tv_end"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="3dp"
-                            android:text="00:00"
-                            android:textColor="@color/blue_87"
-                            android:textSize="14sp"/>
-                    </LinearLayout>
-                </RelativeLayout>
+                    android:layout_height="wrap_content">
+                </com.bt.Smart.Hox.viewmodle.MyListView>
             </LinearLayout>
 
             <RelativeLayout

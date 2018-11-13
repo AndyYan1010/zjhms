@@ -100,6 +100,7 @@ public class Home_F extends Fragment implements View.OnClickListener {
         rec_scene.setAdapter(recSceneAdapter);
 
         contsList = new ArrayList<>();
+        contsList.add("所有设备");
         contsList.add("主卧");
         contsList.add("客厅");
         contsList.add("餐厅");
@@ -270,6 +271,11 @@ public class Home_F extends Fragment implements View.OnClickListener {
                         } else {
                             contsList.clear();
                         }
+                        //添加所有设备界面
+                        DeviceListFragment deviceFragmentAll = new DeviceListFragment();
+                        contsList.add("所有设备");
+                        deviceFragmentAll.setRoomID(hDefID, "all");
+                        fragmentsList.add(deviceFragmentAll);
                         for (int i = 0; i < houseDetailInfo.getHouseList().size(); i++) {
                             //创建设备列表界面
                             DeviceListFragment deviceFragment = new DeviceListFragment();

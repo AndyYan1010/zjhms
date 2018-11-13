@@ -13,6 +13,7 @@ import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.activity.homeActivity.AddDeviceActivity;
 import com.bt.Smart.Hox.adapter.LvDeviceAdapter;
+import com.bt.Smart.Hox.messegeInfo.AllDevListInfo;
 import com.bt.Smart.Hox.messegeInfo.HouseDeviceInfo;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
 import com.bt.Smart.Hox.utils.ProgressDialogUtil;
@@ -38,15 +39,15 @@ import okhttp3.Request;
  */
 
 public class DeviceListFragment extends Fragment implements View.OnClickListener {
-    private View                                      mRootView;
-    private LinearLayout                              lin_nomsg;//没有信息
-    private ImageView                                 img_loading;//加载设备信息
-    private LinearLayout                              lin_add;//添加设备
-    private MyListView                                lv_dev;//设备列表
-    private String                                    mHomeID;//家的ID
-    private String                                    mRoomID;//房间的ID
-    private List<HouseDeviceInfo.DeviceHouseListBean> mData;//设备列表
-    private LvDeviceAdapter                           deviceAdapter;
+    private View            mRootView;
+    private LinearLayout    lin_nomsg;//没有信息
+    private ImageView       img_loading;//加载设备信息
+    private LinearLayout    lin_add;//添加设备
+    private MyListView      lv_dev;//设备列表
+    private String          mHomeID;//家的ID
+    private String          mRoomID;//房间的ID
+    private List            mData;//设备列表
+    private LvDeviceAdapter deviceAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,10 +66,13 @@ public class DeviceListFragment extends Fragment implements View.OnClickListener
 
     private void initData() {
         mData = new ArrayList();
-        deviceAdapter = new LvDeviceAdapter(getContext(), mData);
+        deviceAdapter = new LvDeviceAdapter(getContext(), mData, mRoomID);
         lv_dev.setAdapter(deviceAdapter);
         lin_add.setOnClickListener(this);
         Glide.with(getContext()).load(R.drawable.loadgif).into(img_loading);
+        if ("all".equals(mRoomID)) {//所有设备界面不显示添加按钮
+            lin_add.setVisibility(View.GONE);
+        }
     }
 
     public void refreshInfo() {
@@ -88,6 +92,7 @@ public class DeviceListFragment extends Fragment implements View.OnClickListener
                 img_loading.setVisibility(View.VISIBLE);
             }
         }
+        //清空数据
         if (null == mData) {
             mData = new ArrayList();
         } else {
@@ -95,6 +100,55 @@ public class DeviceListFragment extends Fragment implements View.OnClickListener
         }
         if (null != deviceAdapter)
             deviceAdapter.notifyDataSetChanged();
+        //先判断显示的是所有设备还是某个房间的设备
+        if ("all".equals(mRoomID)) {//获取家下所有设备
+            getAllDevInHome();
+        } else {//获取某个房间所有设备
+            getAllDevInRoom();
+        }
+    }
+
+    private void getAllDevInHome() {
+        RequestParamsFM params = new RequestParamsFM();
+        params.put("home_id", mHomeID);
+        HttpOkhUtils.getInstance().doGetWithParams(NetConfig.SELECTEQLIST, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                img_loading.setVisibility(View.GONE);
+                ToastUtils.showToast(getContext(), "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                img_loading.setVisibility(View.GONE);
+                if (code != 200) {
+                    ToastUtils.showToast(getContext(), "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                AllDevListInfo allDeviceInfo = gson.fromJson(resbody, AllDevListInfo.class);
+                if (1 == allDeviceInfo.getCode()) {
+                    if (null != allDeviceInfo.getDeviceHomeList() && allDeviceInfo.getDeviceHomeList().size() > 0) {
+                        //ps:>0说明房间下有设备
+                        lin_nomsg.setVisibility(View.GONE);
+                        mData.clear();
+                        mData.addAll(allDeviceInfo.getDeviceHomeList());
+                        if (null != deviceAdapter) {
+                            deviceAdapter.notifyDataSetChanged();
+                        }
+                    } else {
+                        lin_nomsg.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    ToastUtils.showToast(getContext(), "设备信息查询失败");
+                }
+            }
+        });
+    }
+
+    private void getAllDevInRoom() {
         RequestParamsFM params = new RequestParamsFM();
         params.put("house_id", mRoomID);
         HttpOkhUtils.getInstance().doGetWithParams(NetConfig.DEVICE, params, new HttpOkhUtils.HttpCallBack() {

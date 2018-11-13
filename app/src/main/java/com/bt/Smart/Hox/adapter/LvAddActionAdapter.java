@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bt.Smart.Hox.R;
+import com.bt.Smart.Hox.messegeInfo.AutoDetailInfo;
+import com.bt.Smart.Hox.util.GlideLoaderUtil;
 
 import java.util.List;
 
@@ -21,10 +23,10 @@ import java.util.List;
  */
 
 public class LvAddActionAdapter extends BaseAdapter {
-    private List mList;
-    private Context              mContext;
+    private List<AutoDetailInfo.AutomationBean.AutomationsBean.ActionListBean> mList;
+    private Context                                                            mContext;
 
-    public LvAddActionAdapter(Context context, List list) {
+    public LvAddActionAdapter(Context context, List<AutoDetailInfo.AutomationBean.AutomationsBean.ActionListBean> list) {
         this.mContext = context;
         this.mList = list;
     }
@@ -58,13 +60,21 @@ public class LvAddActionAdapter extends BaseAdapter {
         } else {
             viewholder = (MyViewholder) view.getTag();
         }
-
-
+        GlideLoaderUtil.showImageView(mContext, mList.get(i).getDevice_img(), viewholder.img_act);
+        viewholder.tv_name.setText(mList.get(i).getFname());
+        if (0 == mList.get(i).getStatus()) {
+            viewholder.tv_time.setText("立即");
+        } else {
+            viewholder.tv_time.setText(mList.get(i).getStatus() + "分钟");
+        }
+        if (0 == mList.get(i).getWhen()) {
+            viewholder.tv_act.setText("执行");
+        }
         return view;
     }
 
     private class MyViewholder {
         ImageView img_act;
-        TextView  tv_name,tv_time,tv_act;
+        TextView  tv_name, tv_time, tv_act;
     }
 }

@@ -25,6 +25,11 @@ public class CommonInfo {
      */
 
     private String home_id;
+    /**
+     * result : 1
+     */
+
+    private int    result;
 
     public String getValidateCode() {
         return validateCode;
@@ -57,5 +62,13 @@ public class CommonInfo {
 
     public void setHome_id(String home_id) {
         this.home_id = home_id;
+    }
+
+    public int getResult() {
+        return result;
+    }
+
+    public void setResult(int result) {
+        this.result = result;
     }
 }

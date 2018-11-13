@@ -9,8 +9,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bt.Smart.Hox.MyApplication;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.activity.homeActivity.MoveDeviceActivity;
+import com.bt.Smart.Hox.messegeInfo.AllDevListInfo;
 import com.bt.Smart.Hox.messegeInfo.HouseDeviceInfo;
 
 import java.util.List;
@@ -25,12 +27,15 @@ import java.util.List;
  */
 
 public class LvDeviceAdapter extends BaseAdapter {
-    private Context                                   mContext;
-    private List<HouseDeviceInfo.DeviceHouseListBean> mList;
+    private Context mContext;
+    //    private List<HouseDeviceInfo.DeviceHouseListBean> mList;
+    private List    mList;
+    private String  mKind;
 
-    public LvDeviceAdapter(Context context, List list) {
+    public LvDeviceAdapter(Context context, List list, String kind) {
         this.mContext = context;
         this.mList = list;
+        this.mKind = kind;
     }
 
     @Override
@@ -63,52 +68,97 @@ public class LvDeviceAdapter extends BaseAdapter {
         } else {
             viewholder = (MyViewholder) view.getTag();
         }
-        viewholder.tv_name.setText(mList.get(i).getDevice_name());
-        if ("HAir(有线)".equals(mList.get(i).getDefault_device_type())) {//空气哨兵
-            viewholder.img_onl.setVisibility(View.VISIBLE);
-            viewholder.tv_onl.setTextColor(mContext.getResources().getColor(R.color.blue_87));
-            viewholder.tv_onl.setTextSize(14f);
-            viewholder.tv_onl.setBackground(null);
-            if (0 == mList.get(i).getType()) {
-                viewholder.tv_onl.setText("offline");
-            } else {
-                viewholder.tv_onl.setText("online");
-            }
-        } else {//灯
-            viewholder.img_onl.setVisibility(View.GONE);
-            viewholder.tv_onl.setTextColor(mContext.getResources().getColor(R.color.white));
-            viewholder.tv_onl.setBackground(mContext.getResources().getDrawable(R.drawable.bg_round_blue_50));
-            viewholder.tv_onl.setTextSize(16f);
-            if ("0".equals(mList.get(i).getDevice_status())) {
-                viewholder.tv_onl.setText("OFF");
-            } else {
-                viewholder.tv_onl.setText("ON");
-            }
-        }
-        viewholder.img_move.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //跳转设备移动界面
-                Intent intent = new Intent(mContext, MoveDeviceActivity.class);
-                intent.putExtra("devName", mList.get(i).getDevice_name());
-                intent.putExtra("devID", mList.get(i).getId());
-                intent.putExtra("roomID", mList.get(i).getHouse_id());
-                intent.putExtra("homeID", mList.get(i).getHome_id());
-                ((Activity) mContext).startActivityForResult(intent, REQUEST_CODE_MOVE);
-            }
-        });
-        viewholder.tv_onl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if ("lamp".equals(mList.get(i).getDefault_device_type())) {//灯的开关事件
-
+        if ("all".equals(mKind)){
+            viewholder.tv_name.setText(((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDevice_name());
+            if ("HAir(有线)".equals(((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDefault_device_type())) {//空气哨兵
+                viewholder.img_onl.setVisibility(View.VISIBLE);
+                viewholder.tv_onl.setTextColor(mContext.getResources().getColor(R.color.blue_87));
+                viewholder.tv_onl.setTextSize(14f);
+                viewholder.tv_onl.setBackground(null);
+                if (0 == ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getType()) {
+                    viewholder.tv_onl.setText("offline");
+                } else {
+                    viewholder.tv_onl.setText("online");
+                }
+            } else {//灯
+                viewholder.img_onl.setVisibility(View.GONE);
+                viewholder.tv_onl.setTextColor(mContext.getResources().getColor(R.color.white));
+                viewholder.tv_onl.setBackground(mContext.getResources().getDrawable(R.drawable.bg_round_blue_50));
+                viewholder.tv_onl.setTextSize(16f);
+                if ("0".equals(((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDevice_status())) {
+                    viewholder.tv_onl.setText("OFF");
+                } else {
+                    viewholder.tv_onl.setText("ON");
                 }
             }
-        });
+            viewholder.img_move.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //跳转设备移动界面
+                    Intent intent = new Intent(mContext, MoveDeviceActivity.class);
+                    intent.putExtra("devName", ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDevice_name());
+                    intent.putExtra("devID", ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getId());
+                    intent.putExtra("roomID", ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getRoomid());
+                    intent.putExtra("homeID", MyApplication.slecHomeID);
+                    ((Activity) mContext).startActivityForResult(intent, REQUEST_CODE_MOVE);
+                }
+            });
+            viewholder.tv_onl.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if ("lamp".equals(((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDefault_device_type())) {//灯的开关事件
+
+                    }
+                }
+            });
+        }else {
+            viewholder.tv_name.setText(((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getDevice_name());
+            if ("HAir(有线)".equals(((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getDefault_device_type())) {//空气哨兵
+                viewholder.img_onl.setVisibility(View.VISIBLE);
+                viewholder.tv_onl.setTextColor(mContext.getResources().getColor(R.color.blue_87));
+                viewholder.tv_onl.setTextSize(14f);
+                viewholder.tv_onl.setBackground(null);
+                if (0 == ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getType()) {
+                    viewholder.tv_onl.setText("offline");
+                } else {
+                    viewholder.tv_onl.setText("online");
+                }
+            } else {//灯
+                viewholder.img_onl.setVisibility(View.GONE);
+                viewholder.tv_onl.setTextColor(mContext.getResources().getColor(R.color.white));
+                viewholder.tv_onl.setBackground(mContext.getResources().getDrawable(R.drawable.bg_round_blue_50));
+                viewholder.tv_onl.setTextSize(16f);
+                if ("0".equals(((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getDevice_status())) {
+                    viewholder.tv_onl.setText("OFF");
+                } else {
+                    viewholder.tv_onl.setText("ON");
+                }
+            }
+            viewholder.img_move.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //跳转设备移动界面
+                    Intent intent = new Intent(mContext, MoveDeviceActivity.class);
+                    intent.putExtra("devName", ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getDevice_name());
+                    intent.putExtra("devID", ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getId());
+                    intent.putExtra("roomID", ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getHouse_id());
+                    intent.putExtra("homeID", ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getHome_id());
+                    ((Activity) mContext).startActivityForResult(intent, REQUEST_CODE_MOVE);
+                }
+            });
+            viewholder.tv_onl.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if ("lamp".equals(((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getDefault_device_type())) {//灯的开关事件
+
+                    }
+                }
+            });
+        }
         return view;
     }
 
-    private int REQUEST_CODE_MOVE=1005;
+    private int REQUEST_CODE_MOVE = 1005;
 
     private class MyViewholder {
         ImageView img_kind, img_onl, img_move;
