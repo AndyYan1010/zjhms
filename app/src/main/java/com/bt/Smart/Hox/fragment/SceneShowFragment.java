@@ -102,16 +102,25 @@ public class SceneShowFragment extends Fragment implements View.OnClickListener 
                 break;
             case R.id.rlt_timing://跳转定时界面
                 SceneTimingFragment sceneTimingfrg = new SceneTimingFragment();
+                sceneTimingfrg.setUpFragment(this);
                 FragmentTransaction ftt = getFragmentManager().beginTransaction();
                 ftt.add(R.id.frame, sceneTimingfrg, "sceneTimingfrg");
                 ftt.addToBackStack(null);
                 ftt.commit();
                 break;
             case R.id.rlt_group://跳转设备组合界面
-
+                DevGroupFragment devGroupfrg = new DevGroupFragment();
+                FragmentTransaction fttGrop = getFragmentManager().beginTransaction();
+                fttGrop.add(R.id.frame, devGroupfrg, "devGroupfrg");
+                fttGrop.addToBackStack(null);
+                fttGrop.commit();
                 break;
             case R.id.rlt_auto://跳转自动化组合界面
-
+                AutoGroupFragment autoGroupfrg = new AutoGroupFragment();
+                FragmentTransaction fttAuto = getFragmentManager().beginTransaction();
+                fttAuto.add(R.id.frame, autoGroupfrg, "autoGroupfrg");
+                fttAuto.addToBackStack(null);
+                fttAuto.commit();
                 break;
             case R.id.tv_save://保存
                 if ("0".equals(mKind)) {//添加
@@ -152,7 +161,7 @@ public class SceneShowFragment extends Fragment implements View.OnClickListener 
                     if (null == time_control.getSingleTime() || "".equals(time_control.getSingleTime())) {
                         tv_timing.setText("");
                     } else if ("1".equals(time_control.getSingleTime())) {
-                        tv_timing.setText("一、三、五、七    " + sceneDetailInfo.getScenario().getScenarios().getScene_timing().getTime_start() + "—" + sceneDetailInfo.getScenario().getScenarios().getScene_timing().getTime_end());
+                        tv_timing.setText("一、三、五、日    " + sceneDetailInfo.getScenario().getScenarios().getScene_timing().getTime_start() + "—" + sceneDetailInfo.getScenario().getScenarios().getScene_timing().getTime_end());
                     } else {
                         String date = "";
                         if ("1".equals(time_control.getMonday())) {
@@ -190,9 +199,9 @@ public class SceneShowFragment extends Fragment implements View.OnClickListener 
                             }
                         } else if ("1".equals(time_control.getSunday())) {
                             if ("".equals(date)) {
-                                date = date + "七";
+                                date = date + "日";
                             } else {
-                                date = date + "、七";
+                                date = date + "、日";
                             }
                         }
                         if ("".equals(date)) {
@@ -235,5 +244,8 @@ public class SceneShowFragment extends Fragment implements View.OnClickListener 
     public void setKind(String kind, String sceneID) {
         mKind = kind;
         mSceneID = sceneID;
+    }
+    public void changeTimingUI(String cont){
+        tv_timing.setText(cont);
     }
 }

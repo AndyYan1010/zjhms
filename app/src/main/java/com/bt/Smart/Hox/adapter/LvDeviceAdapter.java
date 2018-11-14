@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bt.Smart.Hox.MyApplication;
 import com.bt.Smart.Hox.R;
+import com.bt.Smart.Hox.activity.homeActivity.HAirDetailInfoActivity;
 import com.bt.Smart.Hox.activity.homeActivity.MoveDeviceActivity;
 import com.bt.Smart.Hox.messegeInfo.AllDevListInfo;
 import com.bt.Smart.Hox.messegeInfo.HouseDeviceInfo;
@@ -68,7 +69,7 @@ public class LvDeviceAdapter extends BaseAdapter {
         } else {
             viewholder = (MyViewholder) view.getTag();
         }
-        if ("all".equals(mKind)){
+        if ("all".equals(mKind)) {//显示所有设备
             viewholder.tv_name.setText(((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDevice_name());
             if ("HAir(有线)".equals(((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDefault_device_type())) {//空气哨兵
                 viewholder.img_onl.setVisibility(View.VISIBLE);
@@ -80,6 +81,7 @@ public class LvDeviceAdapter extends BaseAdapter {
                 } else {
                     viewholder.tv_onl.setText("online");
                 }
+
             } else {//灯
                 viewholder.img_onl.setVisibility(View.GONE);
                 viewholder.tv_onl.setTextColor(mContext.getResources().getColor(R.color.white));
@@ -103,6 +105,15 @@ public class LvDeviceAdapter extends BaseAdapter {
                     ((Activity) mContext).startActivityForResult(intent, REQUEST_CODE_MOVE);
                 }
             });
+            viewholder.img_onl.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if ("HAir(有线)".equals(((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDefault_device_type())) {
+                        //进入空气哨兵详情页
+                        mContext.startActivity(new Intent(mContext, HAirDetailInfoActivity.class));
+                    }
+                }
+            });
             viewholder.tv_onl.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -111,7 +122,7 @@ public class LvDeviceAdapter extends BaseAdapter {
                     }
                 }
             });
-        }else {
+        } else {
             viewholder.tv_name.setText(((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getDevice_name());
             if ("HAir(有线)".equals(((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getDefault_device_type())) {//空气哨兵
                 viewholder.img_onl.setVisibility(View.VISIBLE);
@@ -144,6 +155,15 @@ public class LvDeviceAdapter extends BaseAdapter {
                     intent.putExtra("roomID", ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getHouse_id());
                     intent.putExtra("homeID", ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getHome_id());
                     ((Activity) mContext).startActivityForResult(intent, REQUEST_CODE_MOVE);
+                }
+            });
+            viewholder.img_onl.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if ("HAir(有线)".equals(((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getDefault_device_type())) {
+                        //进入空气哨兵详情页
+                        mContext.startActivity(new Intent(mContext, HAirDetailInfoActivity.class));
+                    }
                 }
             });
             viewholder.tv_onl.setOnClickListener(new View.OnClickListener() {

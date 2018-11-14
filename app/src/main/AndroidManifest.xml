@@ -80,6 +80,7 @@
         <activity android:name="com.bt.Smart.Hox.activity.SaomiaoUIActivity"/>
         <activity android:name=".activity.meActivity.SettingActivity"/>
         <activity android:name=".activity.homeActivity.CreateHomeActivity"/>
+        <activity android:name=".activity.homeActivity.HAirDetailInfoActivity"/>
 
         <receiver android:name=".broadcastReceiver.MyApkLoadReceive"/>
         <service android:name=".service.LoadingApkService"/>

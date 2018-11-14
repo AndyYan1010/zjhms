@@ -33,7 +33,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:text="22:58"
+            android:text="00:00"
             android:textColor="@color/vm_black_54"
             android:textSize="16sp"/>
     </RelativeLayout>
@@ -52,7 +52,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/img_timing"
-            android:text="开始时间"
+            android:text="结束时间"
             android:textColor="@color/vm_black_100"
             android:textSize="16sp"/>
 
@@ -63,17 +63,31 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:text="22:58"
+            android:text="23:59"
             android:textColor="@color/vm_black_54"
             android:textSize="16sp"/>
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recy_date"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp">
     </android.support.v7.widget.RecyclerView>
+    <TextView
+        android:id="@+id/tv_sure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/bg_round_red"
+        android:gravity="center"
+        android:paddingBottom="5dp"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:paddingTop="5dp"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="16sp"/>
 </LinearLayout>
