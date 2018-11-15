@@ -1,9 +1,7 @@
 package com.bt.Smart.Hox.adapter;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -25,6 +23,7 @@ import com.bt.Smart.Hox.messegeInfo.CongKongListInfo;
 import com.bt.Smart.Hox.messegeInfo.HouseDeviceInfo;
 import com.bt.Smart.Hox.messegeInfo.ZhuKongListInfo;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
+import com.bt.Smart.Hox.utils.MyAlertDialogHelper;
 import com.bt.Smart.Hox.utils.ProgressDialogUtil;
 import com.bt.Smart.Hox.utils.RequestParamsFM;
 import com.bt.Smart.Hox.utils.ToastUtils;
@@ -110,32 +109,71 @@ public class LvDevListAdapter extends BaseAdapter {
         return view;
     }
 
-    private AlertDialog alertDialog;
+    //    private AlertDialog         alertDialog;
+    private MyAlertDialogHelper dialogHelper;
 
     private void deleteWarnning(final int position) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext, AlertDialog.THEME_HOLO_LIGHT);
-        builder.setTitle("温馨提示");
-        builder.setMessage("您确定删除该设备？");
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        dialogHelper = new MyAlertDialogHelper();
+        View view = View.inflate(mContext, R.layout.dialog_input_pass, null);
+        dialogHelper.setDIYView(mContext, view);
+        dialogHelper.show();
+        final EditText et_pass = view.findViewById(R.id.et_pass);
+        TextView tv_cancle = view.findViewById(R.id.tv_cancle);
+        TextView tv_sure = view.findViewById(R.id.tv_sure);
+        tv_cancle.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //删除主控、从控、设备
-                if ("zk".equals(mKind)) {
-                    doDeleteZKDev(position);
-                } else if ("ck".equals(mKind)) {
-                    doDeleteCKDev(position);
-                } else {
-                    doDeleteSBDev(position);
-                }
-            }
-        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
+            public void onClick(View view) {
+                dialogHelper.disMiss();
             }
         });
-        alertDialog = builder.create();
-        alertDialog.show();
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //先比对下账户密码
+                String pass = String.valueOf(et_pass.getText()).trim();
+                if ("".equals(pass) || "请输入账户密码予以删除".equals(pass)) {
+                    ToastUtils.showToast(mContext, "密码不能为空");
+                    return;
+                }
+                if (pass.equals(MyApplication.pasword)) {
+                    //删除主控、从控、设备
+                    if ("zk".equals(mKind)) {
+                        doDeleteZKDev(position);
+                    } else if ("ck".equals(mKind)) {
+                        doDeleteCKDev(position);
+                    } else {
+                        doDeleteSBDev(position);
+                    }
+                } else {
+                    ToastUtils.showToast(mContext, "密码错误");
+                    return;
+                }
+            }
+        });
+
+        //        AlertDialog.Builder builder = new AlertDialog.Builder(mContext, AlertDialog.THEME_HOLO_LIGHT);
+        //        builder.setTitle("温馨提示");
+        //        builder.setMessage("您确定删除该设备？");
+        //        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        //            @Override
+        //            public void onClick(DialogInterface dialog, int which) {
+        //                //删除主控、从控、设备
+        //                if ("zk".equals(mKind)) {
+        //                    doDeleteZKDev(position);
+        //                } else if ("ck".equals(mKind)) {
+        //                    doDeleteCKDev(position);
+        //                } else {
+        //                    doDeleteSBDev(position);
+        //                }
+        //            }
+        //        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+        //            @Override
+        //            public void onClick(DialogInterface dialog, int which) {
+        //                dialog.cancel();
+        //            }
+        //        });
+        //        alertDialog = builder.create();
+        //        alertDialog.show();
     }
 
     private void doDeleteSBDev(final int position) {
@@ -163,7 +201,8 @@ public class LvDevListAdapter extends BaseAdapter {
                 CommonInfo commonInfo = gson.fromJson(resbody, CommonInfo.class);
                 ToastUtils.showToast(mContext, commonInfo.getMessage());
                 if (1 == commonInfo.getCode()) {
-                    alertDialog.dismiss();
+                    //                    alertDialog.dismiss();
+                    dialogHelper.disMiss();
                     mList.remove(position);
                     notifyDataSetChanged();
                 }
@@ -194,7 +233,8 @@ public class LvDevListAdapter extends BaseAdapter {
                 CommonInfo commonInfo = gson.fromJson(resbody, CommonInfo.class);
                 ToastUtils.showToast(mContext, commonInfo.getMessage());
                 if (1 == commonInfo.getCode()) {
-                    alertDialog.dismiss();
+                    //                    alertDialog.dismiss();
+                    dialogHelper.disMiss();
                     mList.remove(position);
                     notifyDataSetChanged();
                 }
@@ -226,7 +266,8 @@ public class LvDevListAdapter extends BaseAdapter {
                 CommonInfo commonInfo = gson.fromJson(resbody, CommonInfo.class);
                 ToastUtils.showToast(mContext, commonInfo.getMessage());
                 if (1 == commonInfo.getCode()) {
-                    alertDialog.dismiss();
+                    //                    alertDialog.dismiss();
+                    dialogHelper.disMiss();
                     mList.remove(position);
                     notifyDataSetChanged();
                 }

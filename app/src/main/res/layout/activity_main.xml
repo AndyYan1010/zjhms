@@ -41,10 +41,11 @@
                 android:src="@drawable/bt_menu_0_select"/>
 
             <TextView
+                android:id="@+id/tv_menu_0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="智控"
-                android:textColor="#1f1724"
+                android:textColor="@color/lin_black"
                 android:textSize="12sp"/>
         </LinearLayout>
 
@@ -63,10 +64,11 @@
                 android:src="@drawable/bt_menu_1_select"/>
 
             <TextView
+                android:id="@+id/tv_menu_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="好品"
-                android:textColor="#1f1724"
+                android:textColor="@color/lin_black"
                 android:textSize="12sp"/>
         </LinearLayout>
 
@@ -85,10 +87,11 @@
                 android:src="@drawable/bt_menu_2_select"/>
 
             <TextView
+                android:id="@+id/tv_menu_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="适玩"
-                android:textColor="#1f1724"
+                android:textColor="@color/lin_black"
                 android:textSize="12sp"/>
         </LinearLayout>
 
@@ -107,10 +110,11 @@
                 android:src="@drawable/bt_menu_3_select"/>
 
             <TextView
+                android:id="@+id/tv_menu_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="我的"
-                android:textColor="#1f1724"
+                android:textColor="@color/lin_black"
                 android:textSize="12sp"/>
         </LinearLayout>
     </LinearLayout>

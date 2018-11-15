@@ -15,6 +15,7 @@ import com.bt.Smart.Hox.MyApplication;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.activity.meActivity.FeedBackActivity;
 import com.bt.Smart.Hox.activity.meActivity.HomeListActivity;
+import com.bt.Smart.Hox.activity.meActivity.PersonalActivity;
 import com.bt.Smart.Hox.activity.meActivity.SceneListActivity;
 import com.bt.Smart.Hox.activity.meActivity.SettingActivity;
 
@@ -65,6 +66,7 @@ public class User_F extends Fragment implements View.OnClickListener {
         lin_scene.setOnClickListener(this);
         lin_auto.setOnClickListener(this);
         rtv_home.setOnClickListener(this);
+        rtv_person.setOnClickListener(this);
         rtv_setting.setOnClickListener(this);
         rtv_feedback.setOnClickListener(this);
     }
@@ -84,6 +86,9 @@ public class User_F extends Fragment implements View.OnClickListener {
                 break;
             case R.id.lin_shop://跳转商城
 
+                break;
+            case R.id.rtv_person://跳转个人中心
+                startActivity(new Intent(getContext(),PersonalActivity.class));
                 break;
             case R.id.rtv_home: //跳转家管理界面
                 startActivity(new Intent(getContext(), HomeListActivity.class));

@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.bt.Smart.Hox.R;
 
@@ -18,8 +19,8 @@ import com.bt.Smart.Hox.R;
  */
 
 public class Shopp_F extends Fragment {
-    private View mRootView;
-
+    private View     mRootView;
+    private TextView tv_title;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mRootView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_intelligence, null);
@@ -29,10 +30,10 @@ public class Shopp_F extends Fragment {
     }
 
     private void initView() {
-
+        tv_title = mRootView.findViewById(R.id.tv_title);
     }
 
     private void initData() {
-
+        tv_title.setText("好品");
     }
 }

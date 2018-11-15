@@ -1,7 +1,5 @@
 package com.bt.Smart.Hox.activity.meActivity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -36,6 +34,7 @@ import com.bt.Smart.Hox.messegeInfo.HomeMembersInfo;
 import com.bt.Smart.Hox.util.GetJsonDataUtil;
 import com.bt.Smart.Hox.util.JsonBean;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
+import com.bt.Smart.Hox.utils.MyAlertDialogHelper;
 import com.bt.Smart.Hox.utils.ProgressDialogUtil;
 import com.bt.Smart.Hox.utils.RequestParamsFM;
 import com.bt.Smart.Hox.utils.ToastUtils;
@@ -264,6 +263,7 @@ public class HomeDetailActivity extends BaseActivity implements View.OnClickList
             }
         })
                 .setTitleText("城市选择")
+                .setBgColor(getResources().getColor(R.color.white))
                 .setDividerColor(Color.BLACK)
                 .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
                 .setContentTextSize(20)
@@ -472,27 +472,62 @@ public class HomeDetailActivity extends BaseActivity implements View.OnClickList
         });
     }
 
-    private AlertDialog alertDialog;
+//    private AlertDialog         alertDialog;
+    private MyAlertDialogHelper openHelper;
 
     private void deleteHome() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_LIGHT);
-        builder.setTitle("温馨提示");
-        builder.setMessage("您确定删除该家？");
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        openHelper = new MyAlertDialogHelper();
+        View view = View.inflate(this, R.layout.dialog_input_pass, null);
+        openHelper.setDIYView(this, view);
+        openHelper.show();
+        final EditText et_pass = view.findViewById(R.id.et_pass);
+        TextView tv_warning = view.findViewById(R.id.tv_warning);
+        TextView tv_cancle = view.findViewById(R.id.tv_cancle);
+        TextView tv_sure = view.findViewById(R.id.tv_sure);
+        tv_warning.setText("该操作会将该家庭下的所有设备一起删除！");
+        tv_cancle.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                alertDialog.dismiss();
-                //删除家
-                doDeleteHome();
-            }
-        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
+            public void onClick(View view) {
+                openHelper.disMiss();
             }
         });
-        alertDialog = builder.create();
-        alertDialog.show();
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //先比对下账户密码
+                String pass = String.valueOf(et_pass.getText()).trim();
+                if ("".equals(pass) || "请输入账户密码予以删除".equals(pass)) {
+                    ToastUtils.showToast(HomeDetailActivity.this, "密码不能为空");
+                    return;
+                }
+                if (pass.equals(MyApplication.pasword)) {
+                    //删除家
+                    doDeleteHome();
+                    openHelper.disMiss();
+                } else {
+                    ToastUtils.showToast(HomeDetailActivity.this, "密码错误");
+                    return;
+                }
+            }
+        });
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_LIGHT);
+//        builder.setTitle("温馨提示");
+//        builder.setMessage("您确定删除该家？");
+//        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                alertDialog.dismiss();
+//                //删除家
+//                doDeleteHome();
+//            }
+//        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.cancel();
+//            }
+//        });
+//        alertDialog = builder.create();
+//        alertDialog.show();
     }
 
     private void doDeleteHome() {

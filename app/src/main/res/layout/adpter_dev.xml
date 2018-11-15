@@ -32,32 +32,39 @@
             android:id="@+id/img_move"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:padding="2dp"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@+id/img_onl"
+            android:layout_toLeftOf="@+id/lin_right"
+            android:padding="2dp"
             android:src="@drawable/move_up"/>
 
-        <ImageView
-            android:id="@+id/img_onl"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:padding="3dp"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/tv_onl"
-            android:src="@drawable/analysis_blue"/>
-
-        <TextView
-            android:id="@+id/tv_onl"
+        <LinearLayout
+            android:id="@+id/lin_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="15dp"
             android:gravity="center"
-            android:text="online"
-            android:textColor="@color/blue_87"
-            android:textSize="14sp"/>
+            android:minWidth="75dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/img_onl"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/analysis_blue"/>
+
+            <TextView
+                android:id="@+id/tv_onl"
+                android:layout_width="wrap_content"
+                android:maxWidth="48dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:gravity="center"
+                android:text="online"
+                android:textColor="@color/blue_87"
+                android:textSize="14sp"/>
+        </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

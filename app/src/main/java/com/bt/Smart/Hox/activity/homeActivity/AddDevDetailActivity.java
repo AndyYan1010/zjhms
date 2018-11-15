@@ -111,11 +111,15 @@ public class AddDevDetailActivity extends BaseActivity implements View.OnClickLi
             tv_ttcode.setText("从控码    ");
             //获取家下面的主控列表
             getZKDevList();
-        } else if ("2".equals(mKind)) {//单品
+        } else {//单品 if ("3".equals(mKind))
+            //            options1Items = new ArrayList<>();
+            //            mZkList = new ArrayList<>();
             rlt_choicezk.setVisibility(View.GONE);
             lin_ycode.setVisibility(View.GONE);
             tv_ttname.setText("单品名称");
             tv_ttcode.setText("单品码");
+            //获取家下面的主控列表
+            //            getZKDevList();
         }
         rlt_choicezk.setOnClickListener(this);
     }
@@ -155,7 +159,7 @@ public class AddDevDetailActivity extends BaseActivity implements View.OnClickLi
                     addZK(name, kcode, ycode, getIntent().getStringExtra("control_type"), getIntent().getStringExtra("device_type_id"));
                 } else if ("1".equals(mKind)) {//添加从控
                     if (mZkList.size() == 0) {
-                        ToastUtils.showToast(this,"您还未添加主控，请先添加主控");
+                        ToastUtils.showToast(this, "您还未添加主控，请先添加主控");
                         return;
                     }
                     if ("".equals(name)) {

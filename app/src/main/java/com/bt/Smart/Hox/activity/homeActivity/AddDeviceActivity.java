@@ -8,6 +8,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -15,13 +16,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bt.Smart.Hox.BaseActivity;
+import com.bt.Smart.Hox.MyApplication;
 import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.activity.SaomiaoUIActivity;
 import com.bt.Smart.Hox.adapter.LvAddDevListAdapter;
 import com.bt.Smart.Hox.messegeInfo.DeviceTypeInfo;
+import com.bt.Smart.Hox.messegeInfo.ZhuKongListInfo;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
+import com.bt.Smart.Hox.utils.MyAlertDialogHelper;
 import com.bt.Smart.Hox.utils.ProgressDialogUtil;
+import com.bt.Smart.Hox.utils.RequestParamsFM;
 import com.bt.Smart.Hox.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
@@ -55,6 +60,7 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
     private String                                           homeID;//家id
     private int MY_PERMISSIONS_REQUEST_CALL_PHONE2 = 1001;//申请照相机权限结果
     private int REQUEST_CODE                       = 1003;//接收扫描结果
+    private int zknum;
 
 
     @Override
@@ -86,12 +92,22 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
         lin_zk.setOnClickListener(this);
         lin_ck.setOnClickListener(this);
         lin_sb.setOnClickListener(this);
+        //获取主控列表
+        getZKDevList();
         mData = new ArrayList();
         addDevListAdapter = new LvAddDevListAdapter(this, mData);
         lv_device.setAdapter(addDevListAdapter);
         lv_device.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //先判断该家下是否有主控
+                if (!"0".equals(mData.get(i).getDevcieType())) {
+                    if (0 == zknum) {
+                        //提示没有主控，先添加主控
+                        showNoZkDialog();
+                        return;
+                    }
+                }
                 Intent intent = new Intent(AddDeviceActivity.this, AddDevDetailActivity.class);
                 intent.putExtra("devType", mData.get(i).getDevcieType());//主控/从控/单品
                 intent.putExtra("homeID", homeID);
@@ -136,22 +152,6 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                 intentDevS.putExtra("roomID", roomID);
                 startActivity(intentDevS);
                 break;
-            //            case R.id.rtv_zk:
-            //                Intent intentZk = new Intent(this, AddDevDetailActivity.class);
-            //                intentZk.putExtra("devKind", "zk");
-            //                intentZk.putExtra("homeID", homeID);
-            //                startActivity(intentZk);
-            //                break;
-            //            case R.id.rtv_sb:
-            //                Intent intentHAir = new Intent(this, AddDevDetailActivity.class);
-            //                intentHAir.putExtra("devKind", "HAir");
-            //                startActivity(intentHAir);
-            //                break;
-            //            case R.id.rtv_light:
-            //                Intent intentLight = new Intent(this, AddDevDetailActivity.class);
-            //                intentLight.putExtra("devKind", "Light");
-            //                startActivity(intentLight);
-            //                break;
         }
     }
 
@@ -179,6 +179,65 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                 }
             }
         }
+    }
+    private MyAlertDialogHelper openHelper;
+    private void showNoZkDialog() {
+        openHelper = new MyAlertDialogHelper();
+        View view = View.inflate(this, R.layout.dialog_input_pass, null);
+        openHelper.setDIYView(this, view);
+        openHelper.show();
+        ImageView img_title = view.findViewById(R.id.img_title);
+        TextView tv_title = view.findViewById(R.id.tv_title);
+        TextView tv_warning = view.findViewById(R.id.tv_warning);
+        EditText et_pass = view.findViewById(R.id.et_pass);
+        TextView tv_cancle = view.findViewById(R.id.tv_cancle);
+        TextView tv_sure = view.findViewById(R.id.tv_sure);
+        img_title.setVisibility(View.GONE);
+        tv_title.setText("无可用Lora主控");
+        tv_warning.setText("添加从控设备需要配置主控，请先添加主控！");
+        et_pass.setVisibility(View.GONE);
+        tv_cancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openHelper.disMiss();
+            }
+        });
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openHelper.disMiss();
+            }
+        });
+    }
+
+    private void getZKDevList() {
+        RequestParamsFM params = new RequestParamsFM();
+        params.put("home_id", MyApplication.slecHomeID);
+        HttpOkhUtils.getInstance().doGetWithParams(NetConfig.MAINCONTROL, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(AddDeviceActivity.this, "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(AddDeviceActivity.this, "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                ZhuKongListInfo zhuKongListInfo = gson.fromJson(resbody, ZhuKongListInfo.class);
+                if (1 == zhuKongListInfo.getCode()) {
+                    ToastUtils.showToast(AddDeviceActivity.this, zhuKongListInfo.getMessage());
+                    zknum = zhuKongListInfo.getHomeList().size();
+
+                } else {
+                    ToastUtils.showToast(AddDeviceActivity.this, "查询失败");
+                }
+            }
+        });
     }
 
     private void getAllAddDevList() {

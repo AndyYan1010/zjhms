@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
@@ -37,6 +38,7 @@ import okhttp3.Request;
 
 public class InformationFragment extends Fragment {
     private View                            mRootView;
+    private TextView                        tv_title;
     private LinearLayout                    lin_nomsg;
     private List<PlayListInfo.PlayListBean> mData;
     private LvInformationAdapter            informationAdapter;
@@ -51,11 +53,13 @@ public class InformationFragment extends Fragment {
     }
 
     private void initView() {
+        tv_title= mRootView.findViewById(R.id.tv_title);
         lin_nomsg = mRootView.findViewById(R.id.lin_nomsg);
         lv_info = mRootView.findViewById(R.id.lv_info);
     }
 
     private void initData() {
+        tv_title.setText("资讯");
         mData = new ArrayList();
         informationAdapter = new LvInformationAdapter(getContext(), mData);
         lv_info.setAdapter(informationAdapter);

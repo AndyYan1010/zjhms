@@ -164,19 +164,52 @@ public class LvRoomAdapter extends BaseAdapter {
 
     private void deleteRoom(final int position) {
         openHelper = new MyAlertDialogHelper();
-        openHelper.setDataNoView(mContext, "温馨提示", "该操作会将该房间下的所有设备一起删除，确定删除？");
-        openHelper.setDialogClicker("确定", "取消", new MyAlertDialogHelper.DialogClickListener() {
+        View view = View.inflate(mContext, R.layout.dialog_input_pass, null);
+        openHelper.setDIYView(mContext, view);
+        openHelper.show();
+        final EditText et_pass = view.findViewById(R.id.et_pass);
+        TextView tv_warning = view.findViewById(R.id.tv_warning);
+        TextView tv_cancle = view.findViewById(R.id.tv_cancle);
+        TextView tv_sure = view.findViewById(R.id.tv_sure);
+        tv_warning.setText("该操作会将该房间下的所有设备一起删除！");
+        tv_cancle.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onPositive() {
-                //删除房间
-                doDeleteRoom(position);
-            }
-
-            @Override
-            public void onNegative() {
+            public void onClick(View view) {
+                openHelper.disMiss();
             }
         });
-        openHelper.show();
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //先比对下账户密码
+                String pass = String.valueOf(et_pass.getText()).trim();
+                if ("".equals(pass) || "请输入账户密码予以删除".equals(pass)) {
+                    ToastUtils.showToast(mContext, "密码不能为空");
+                    return;
+                }
+                if (pass.equals(MyApplication.pasword)) {
+                    //删除房间
+                    doDeleteRoom(position);
+                } else {
+                    ToastUtils.showToast(mContext, "密码错误");
+                    return;
+                }
+            }
+        });
+
+//        openHelper.setDataNoView(mContext, "温馨提示", "该操作会将该房间下的所有设备一起删除，确定删除？");
+//        openHelper.setDialogClicker("确定", "取消", new MyAlertDialogHelper.DialogClickListener() {
+//            @Override
+//            public void onPositive() {
+//                //删除房间
+//                doDeleteRoom(position);
+//            }
+//
+//            @Override
+//            public void onNegative() {
+//            }
+//        });
+//        openHelper.show();
     }
 
     private void doDeleteRoom(final int position) {

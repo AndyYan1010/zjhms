@@ -53,11 +53,11 @@ public class RecHAirInfoAdapter extends RecyclerView.Adapter<RecHAirInfoAdapter.
             holder.tv_cont.setText("62.00μg/m³");
         } else if (2 == position) {
             holder.img_cont.setImageDrawable(mContext.getResources().getDrawable(R.drawable.co2));
-            holder.tv_title.setText("co₂");
+            holder.tv_title.setText("CO₂");
             holder.tv_cont.setText("656.00ppm");
         } else if (3 == position) {
             holder.img_cont.setImageDrawable(mContext.getResources().getDrawable(R.drawable.co));
-            holder.tv_title.setText("co");
+            holder.tv_title.setText("CO");
             holder.tv_cont.setText("656.00ppm");
         } else if (4 == position) {
             holder.img_cont.setImageDrawable(mContext.getResources().getDrawable(R.drawable.hcho));

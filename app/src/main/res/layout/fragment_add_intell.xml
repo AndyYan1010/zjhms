@@ -2,10 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:background="@color/white"
               android:orientation="vertical">
 
-    <include layout="@layout/title_view_img"/>
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="5dp">
+
+        <include layout="@layout/title_view_img"/>
+    </android.support.v7.widget.CardView>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -48,11 +55,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             </com.bt.Smart.Hox.viewmodle.MyListView>
+
             <View
                 android:layout_width="match_parent"
-                android:background="@color/gray_ef"
+                android:layout_height="1dp"
                 android:layout_marginTop="3dp"
-                android:layout_height="1dp"/>
+                android:background="@color/gray_ef"/>
+
             <LinearLayout
                 android:id="@+id/lin_add"
                 android:layout_width="wrap_content"

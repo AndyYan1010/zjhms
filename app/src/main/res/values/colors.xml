@@ -14,13 +14,21 @@
     <color name="vm_black_38">#61212121</color>
     <color name="vm_black_12">#1e212121</color>
     <color name="tr_black">#cc000000</color>
+    <color name="lin_black">#1f1724</color>
+    <!--深黑字体色 2A2A2A-->
+    <color name="word_black">#2A2A2A</color>
+
     <!--白色-->
     <color name="white">#FFFFFF</color>
-    <color name="white_100">#EFEFEF</color>
+    <color name="white_00">#EFEFEF</color>
     <color name="tran_white">#efFFFFFF</color>
+    <color name="white_fb">#FBFBFB</color>
+    <color name="white_tran">#99ffffff</color>
+
     <!-- 灰色 -->
     <color name="bg_Gray">#CCCCCC</color>
     <!--灰色-->
+    <color name="gray_fe">#FEFEFE</color>
     <color name="gray_ef">#EFEFEF</color>
     <color name="gray_f4">#F4F4F4</color>
     <color name="gray_5">#555555</color>
@@ -34,6 +42,8 @@
     <color name="gray_ec">#ECECEC</color>
     <color name="gray_e">#EEEEEE</color>
     <color name="gray_f8">#F8F8F8</color>
+
+
 
     <!--蓝色-->
     <color name="blue_100">#ff2384fe</color>
