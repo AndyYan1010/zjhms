@@ -179,7 +179,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
-    private void loginToService(String phone, String psd) {
+    private void loginToService(String phone, final String psd) {
         ProgressDialogUtil.startShow(LoginActivity.this, "正在登录请稍后");
         RequestParamsFM params = new RequestParamsFM();
         params.put("mobile", phone);
@@ -203,6 +203,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 if (loginInfo.getCode() == 1) {
                     LoginInfo.MemberInfoBean memberInfo = loginInfo.getMemberInfo();
                     MyApplication.userID = memberInfo.getId();
+                    MyApplication.pasword = psd;
                     MyApplication.userName = memberInfo.getWx_name();
                     MyApplication.userPhone = memberInfo.getFtelephone();
                     //跳转主页面

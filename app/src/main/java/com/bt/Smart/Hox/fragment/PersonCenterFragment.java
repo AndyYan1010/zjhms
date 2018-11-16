@@ -1,11 +1,13 @@
 package com.bt.Smart.Hox.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -64,8 +66,8 @@ public class PersonCenterFragment extends Fragment implements View.OnClickListen
                         SpUtils.putString(getContext(), "isOpenGes", "1");
                     } else {
                         ToastUtils.showToast(getContext(), "请设置手势密码");
-                        Intent intent = new Intent(getContext(),GesturePassWordActivity.class);
-                        intent.putExtra("gseture_kind","0");
+                        Intent intent = new Intent(getContext(), GesturePassWordActivity.class);
+                        intent.putExtra("gseture_kind", "0");
                         startActivity(intent);
                     }
                 } else {
@@ -118,15 +120,37 @@ public class PersonCenterFragment extends Fragment implements View.OnClickListen
                     return;
                 }
                 if (pass.equals(MyApplication.pasword)) {
-                    //跳转手势密码界面
-                    Intent intent1 = new Intent(getContext(), GesturePassWordActivity.class);
-                    intent1.putExtra("gseture_kind", "0");
-                    startActivity(intent1);
+                    //先关闭输入法，在跳转。否则有bug
+                    //拿到InputMethodManager
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (et_pass.isFocused()){
+                        et_pass.setFocusable(false);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }else {
+                        dialogHelper.disMiss();
+                        //跳转手势密码界面
+                        Intent intent1 = new Intent(getContext(), GesturePassWordActivity.class);
+                        intent1.putExtra("gseture_kind", "0");
+                        startActivity(intent1);
+                    }
                 } else {
                     ToastUtils.showToast(getContext(), "密码错误");
                     return;
                 }
             }
         });
+    }
+
+    public void hintKeyBoard() {
+        //拿到InputMethodManager
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        //如果window上view获取焦点 && view不为空
+        if (imm.isActive() && getActivity().getCurrentFocus() != null) {
+            //拿到view的token 不为空
+            if (getActivity().getCurrentFocus().getWindowToken() != null) {
+                //表示软键盘窗口总是隐藏，除非开始时以SHOW_FORCED显示。
+                imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
     }
 }

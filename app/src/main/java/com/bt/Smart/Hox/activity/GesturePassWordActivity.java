@@ -109,7 +109,7 @@ public class GesturePassWordActivity extends BaseActivity {
             public void onSuccess() {
                 tv_state.setTextColor(Color.BLUE);
                 String password = mGestureLockViewGroup.getPassword();
-                SpUtils.putString(GesturePassWordActivity.this,"hasGes","1");
+                SpUtils.putString(GesturePassWordActivity.this, "hasGes", "1");
                 Toast.makeText(GesturePassWordActivity.this, "密码设置成功!" + password, Toast.LENGTH_SHORT).show();
                 tv_state.setText("密码设置成功");
                 finish();
