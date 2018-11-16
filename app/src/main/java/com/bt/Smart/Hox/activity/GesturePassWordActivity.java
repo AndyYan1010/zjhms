@@ -61,7 +61,7 @@ public class GesturePassWordActivity extends BaseActivity {
     private void setGesPass() {
         if (mGestureLockViewGroup.isSetPassword()) {
             mGestureLockViewGroup.removePassword();
-            isReset = true;
+            isReset = false;
         }
         gesturePasswordSettingListener();//手势密码设置
     }
