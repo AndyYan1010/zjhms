@@ -18,14 +18,14 @@ import android.widget.RelativeLayout;
  * @更新描述 ${TODO}
  */
 
-public class PopupHelpeOpener {
+public class PopupOpenHelper {
     private PopupWindow popupWindow;
     private Context     mContext;
     private View        mView;
     private int         mLayout;
     private View        inflateView;
 
-    public PopupHelpeOpener(Context context, View v, int layout) {
+    public PopupOpenHelper(Context context, View v, int layout) {
         this.mContext = context;
         this.mView = v;
         this.mLayout = layout;
@@ -63,7 +63,7 @@ public class PopupHelpeOpener {
     }
 
     //设置屏幕背景透明效果
-    public void setBackgroundAlpha(float alpha) {
+    private void setBackgroundAlpha(float alpha) {
         WindowManager.LayoutParams lp = ((Activity) mContext).getWindow().getAttributes();
         lp.alpha = alpha;
         ((Activity) mContext).getWindow().setAttributes(lp);
@@ -71,6 +71,10 @@ public class PopupHelpeOpener {
 
     public void setOnPopupViewClick(ViewClickListener viewClickListener) {
         viewClickListener.onViewClickListener(popupWindow, inflateView);
+    }
+
+    public void dismiss() {
+        popupWindow.dismiss();
     }
 
     public interface ViewClickListener {

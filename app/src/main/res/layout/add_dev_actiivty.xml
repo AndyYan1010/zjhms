@@ -112,6 +112,29 @@
         android:textColor="@color/orange"
         android:textSize="16sp"/>
 
+    <RelativeLayout
+        android:id="@+id/rlt_add_wifi"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="添加WIFI模块"
+            android:textColor="@color/word_black"
+            android:textSize="14sp"/>
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/me_next2"/>
+    </RelativeLayout>
+
     <ListView
         android:id="@+id/lv_device"
         android:layout_width="match_parent"

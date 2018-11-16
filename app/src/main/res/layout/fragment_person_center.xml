@@ -133,6 +133,7 @@
                     android:textSize="14sp"/>
 
                 <Switch
+                    android:id="@+id/swc_gesture"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -147,6 +148,7 @@
                 android:background="@color/gray_ec"/>
 
             <RelativeLayout
+                android:id="@+id/rlt_change_gesture"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@color/white">

@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,6 +63,8 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
     private int REQUEST_CODE                       = 1003;//接收扫描结果
     private int zknum;
 
+    private RelativeLayout rlt_add_wifi;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +77,7 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
     private void getView() {
         img_back = (ImageView) findViewById(R.id.img_back);
         img_more = (ImageView) findViewById(R.id.img_more);
+        rlt_add_wifi = (RelativeLayout) findViewById(R.id.rlt_add_wifi);
         tv_title = (TextView) findViewById(R.id.tv_title);
         lin_zk = (LinearLayout) findViewById(R.id.lin_zk);
         lin_ck = (LinearLayout) findViewById(R.id.lin_ck);
@@ -92,6 +96,8 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
         lin_zk.setOnClickListener(this);
         lin_ck.setOnClickListener(this);
         lin_sb.setOnClickListener(this);
+
+        rlt_add_wifi.setOnClickListener(this);
         //获取主控列表
         getZKDevList();
         mData = new ArrayList();
@@ -152,6 +158,9 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                 intentDevS.putExtra("roomID", roomID);
                 startActivity(intentDevS);
                 break;
+            case R.id.rlt_add_wifi:
+                startActivity(new Intent(this,AddWifiDeviceActivity.class));
+                break;
         }
     }
 
@@ -180,7 +189,9 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
             }
         }
     }
+
     private MyAlertDialogHelper openHelper;
+
     private void showNoZkDialog() {
         openHelper = new MyAlertDialogHelper();
         View view = View.inflate(this, R.layout.dialog_input_pass, null);

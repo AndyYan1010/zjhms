@@ -60,10 +60,12 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".activity.GesturePassWordActivity"/>
         <activity android:name="com.bt.Smart.Hox.activity.LoginActivity"/>
         <activity android:name="com.bt.Smart.Hox.activity.RegisterActivity"/>
         <activity android:name=".activity.homeActivity.AddRoomActivity"/>
         <activity android:name=".activity.homeActivity.AddDeviceActivity"/>
+        <activity android:name=".activity.homeActivity.AddWifiDeviceActivity"/>
         <activity android:name=".activity.homeActivity.DeviceListActivity"/>
         <activity android:name=".activity.homeActivity.AddDevDetailActivity"/>
         <activity android:name="com.bt.Smart.Hox.activity.homeActivity.RoomManagerActivity"/>
