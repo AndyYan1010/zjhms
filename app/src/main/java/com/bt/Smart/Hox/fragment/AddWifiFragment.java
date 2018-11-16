@@ -41,7 +41,6 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
     private ImageView        img_more_wifi;
     private EditText         et_pass;
     private TextView         tv_next;//下一步
-//    private List<ScanResult> mList;
     private List<ScanResult> scanResults;
 
     @Override
