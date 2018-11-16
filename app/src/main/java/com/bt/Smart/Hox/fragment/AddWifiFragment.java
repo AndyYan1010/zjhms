@@ -22,7 +22,6 @@ import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.adapter.LvWifiInfoAdapter;
 import com.bt.Smart.Hox.utils.PopupOpenHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,7 +41,8 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
     private ImageView        img_more_wifi;
     private EditText         et_pass;
     private TextView         tv_next;//下一步
-    private List<ScanResult> mList;
+//    private List<ScanResult> mList;
+    private List<ScanResult> scanResults;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,7 +67,6 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
         tv_title.setText("选择设备工作Wi-Fi");
         tv_next.setOnClickListener(this);
         img_more_wifi.setOnClickListener(this);
-        mList = new ArrayList();
     }
 
     @Override
@@ -94,25 +93,20 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
     private boolean isAdd;
 
     private void searchWifi() {
-        if (null == mList) {
-            mList = new ArrayList();
-        } else {
-            mList.clear();
-        }
         WifiManager wifiManager = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         WifiInfo info = wifiManager.getConnectionInfo();
         wifiManager.startScan();  //开始扫描AP
-        List<ScanResult> scanResults = wifiManager.getScanResults();
-        for (int i = 0; i < scanResults.size(); i++) {
-            isAdd = false;
-            for (ScanResult result : mList) {
-                if (result.SSID.equals(scanResults.get(i))) {
-                    isAdd = true;
-                }
-            }
-            if (!isAdd)
-                mList.add(scanResults.get(i));
-        }
+        scanResults= wifiManager.getScanResults();
+//        for (int i = 0; i < scanResults.size(); i++) {
+//            isAdd = false;
+//            for (ScanResult result : mList) {
+//                if (result.SSID.equals(scanResults.get(i))) {
+//                    isAdd = true;
+//                }
+//            }
+//            if (!isAdd)
+//                mList.add(scanResults.get(i));
+//        }
 
         //弹出popupwindow显示搜索到的wifi
         showMoreWiFi();
@@ -127,12 +121,12 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onViewClickListener(PopupWindow popupWindow, View inflateView) {
                 ListView lv_wifi = inflateView.findViewById(R.id.lv_wifi);
-                LvWifiInfoAdapter wifiInfoAdapter = new LvWifiInfoAdapter(getContext(), mList);
+                LvWifiInfoAdapter wifiInfoAdapter = new LvWifiInfoAdapter(getContext(), scanResults);
                 lv_wifi.setAdapter(wifiInfoAdapter);
                 lv_wifi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        et_name.setText(mList.get(i).SSID);//
+                        et_name.setText(scanResults.get(i).SSID);//
                         openHelper.dismiss();
                     }
                 });
