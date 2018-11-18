@@ -110,16 +110,18 @@ public class AddIntelligentFragment extends Fragment implements View.OnClickList
             case R.id.lin_add://跳转添加界面
                 if ("场景".equals(mKind)) {
                     FragmentTransaction ftt = getFragmentManager().beginTransaction();
-                    SceneShowFragment sceneShowFt = new SceneShowFragment();
-                    sceneShowFt.setKind("0",null);
+//                    SceneShowFragment sceneShowFt = new SceneShowFragment();
+//                    sceneShowFt.setKind("0",null);
+                    AddSceneFragment sceneShowFt = new AddSceneFragment();
                     ftt.add(R.id.frame, sceneShowFt, "sceneShowFt");
                     ftt.addToBackStack(null);
                     ftt.commit();
                 } else {
                     FragmentTransaction ftt = getFragmentManager().beginTransaction();
-                    AutoShowFragment autoShowFt = new AutoShowFragment();
-                    autoShowFt.setKind("0",null);
-                    ftt.add(R.id.frame, autoShowFt, "autoShowFt");
+//                    AutoShowFragment autoShowFt = new AutoShowFragment();
+//                    autoShowFt.setKind("0",null);
+                    AddAutoFragment addAutoFt = new AddAutoFragment();
+                    ftt.add(R.id.frame, addAutoFt, "addAutoFt");
                     ftt.addToBackStack(null);
                     ftt.commit();
                 }

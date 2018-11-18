@@ -53,5 +53,6 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.10.2'//web解析
     implementation 'com.android.support:cardview-v7:26.1.0'//卡片布局效果
     implementation 'com.github.autume:GestureLock:1.0.0'//手势密码
-    compile 'com.github:CircleProgress:1.0.1'//环形进度条
+    implementation 'com.github:CircleProgress:1.0.1'//环形进度条
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'//recyclerview拖动适配器
 }
