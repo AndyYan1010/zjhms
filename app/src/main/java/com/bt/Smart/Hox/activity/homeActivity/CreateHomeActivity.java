@@ -50,7 +50,8 @@ public class CreateHomeActivity extends BaseActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_create://跳转创建家界面
-                startActivity(new Intent(this, AddHomeActivity.class));
+                Intent intent = new Intent(this, AddHomeActivity.class);
+               startActivityForResult(intent,REQUEST_CREATE_HOME);
                 break;
             case R.id.tv_loginout://退出登录
                 loginOut();

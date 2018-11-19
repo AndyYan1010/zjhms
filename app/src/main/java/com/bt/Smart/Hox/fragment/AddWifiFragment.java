@@ -19,10 +19,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +37,6 @@ import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.activity.homeActivity.AddWifiDeviceActivity;
 import com.bt.Smart.Hox.adapter.LvWifiInfoAdapter;
 import com.bt.Smart.Hox.util.EspUtils;
-import com.bt.Smart.Hox.utils.MyAlertDialogHelper;
 import com.bt.Smart.Hox.utils.PopupOpenHelper;
 import com.espressif.iot.esptouch.EsptouchTask;
 import com.espressif.iot.esptouch.IEsptouchListener;
@@ -70,79 +67,17 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
     private EditText         et_pass;
     private TextView         tv_next;//下一步
     private List<ScanResult> scanResults;
-//    private Context mContext;
-    private static final String TAG = "AddWifiFragment";
-
-    private static final int REQUEST_PERMISSION = 0x01;
-
-    private IEsptouchListener myListener = new IEsptouchListener() {
-
-        @Override
-        public void onEsptouchResultAdded(final IEsptouchResult result) {
-            onEsptoucResultAddedPerform(result);
-        }
-    };
-
-    private EsptouchAsyncTask4 mTask;
-
-    private boolean mReceiverRegistered = false;
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action == null) {
-                return;
-            }
-
-            WifiManager wifiManager = (WifiManager) context.getApplicationContext()
-                    .getSystemService(Context.WIFI_SERVICE);
-            assert wifiManager != null;
-
-            switch (action) {
-                case WifiManager.NETWORK_STATE_CHANGED_ACTION:
-                    WifiInfo wifiInfo;
-                    if (intent.hasExtra(WifiManager.EXTRA_WIFI_INFO)) {
-                        wifiInfo = intent.getParcelableExtra(WifiManager.EXTRA_WIFI_INFO);
-                    } else {
-                        wifiInfo = wifiManager.getConnectionInfo();
-                    }
-                    onWifiChanged(wifiInfo);
-                    break;
-                case LocationManager.PROVIDERS_CHANGED_ACTION:
-                    onWifiChanged(wifiManager.getConnectionInfo());
-                    onLocationChanged();
-                    break;
-            }
-        }
-    };
-
-    private boolean mDestroyed = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mRootView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_add_wifi, null);
         initView();
         initData();
-        if (isSDKAtLeastP()) {
-            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED) {
-                String[] permissions = {
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                };
 
-                ActivityCompat.requestPermissions(getActivity(), permissions, REQUEST_PERMISSION);
-            } else {
-                registerBroadcastReceiver();
-            }
-
-        } else {
-            registerBroadcastReceiver();
-        }
         return mRootView;
     }
 
     private void initView() {
-//        mContext = getContext();
         img_back = mRootView.findViewById(R.id.img_back);
         tv_title = mRootView.findViewById(R.id.tv_title);
         et_name = mRootView.findViewById(R.id.et_name);
@@ -151,12 +86,30 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
         tv_next = mRootView.findViewById(R.id.tv_next);
     }
 
+    private static final int REQUEST_PERMISSION = 0x01;
+
     private void initData() {
         img_back.setVisibility(View.VISIBLE);
         img_back.setOnClickListener(this);
         tv_title.setText("选择设备工作Wi-Fi");
         tv_next.setOnClickListener(this);
         img_more_wifi.setOnClickListener(this);
+
+        if (isSDKAtLeastP()) {
+            if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+                String[] permissions = {
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                };
+
+                ActivityCompat.requestPermissions((Activity) getContext(), permissions, REQUEST_PERMISSION);
+            } else {
+                registerBroadcastReceiver();
+            }
+
+        } else {
+            registerBroadcastReceiver();
+        }
     }
 
     @Override
@@ -174,87 +127,31 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
                 byte[] ssid = et_name.getTag() == null ? ByteUtil.getBytesByString(et_name.getText().toString())
                         : (byte[]) et_name.getTag();
                 byte[] password = ByteUtil.getBytesByString(et_pass.getText().toString());
-//                byte [] bssid = EspNetUtil.parseBssid2bytes(mApBssidTV.getText().toString());
-//                byte[] deviceCount = mDeviceCountET.getText().toString().getBytes();
-//                byte[] broadcast = {(byte) (mPackageModeGroup.getCheckedRadioButtonId() == R.id.package_broadcast
-//                        ? 1 : 0)};
+                byte[] bssid = EspNetUtil.parseBssid2bytes(mBssid);
+                byte[] deviceCount = "1".getBytes();
+                byte[] broadcast = {(byte) 1};
 
-                if(mTask != null) {
+                if (mTask != null) {
                     mTask.cancelEsptouch();
                 }
-                mTask = new EsptouchAsyncTask4(this);
-                mTask.execute(ssid, password);
+                mTask = new EsptouchAsyncTask4((AddWifiDeviceActivity) getActivity(), myListener, mTask);
+                mTask.execute(ssid, bssid, password, deviceCount, broadcast);
                 //跳转下个界面
-//                FragmentTransaction ftt = getFragmentManager().beginTransaction();
-//                SureAddDeviceFragment sureAddDevfrg = new SureAddDeviceFragment();
-//                ftt.add(R.id.frame, sureAddDevfrg, "sureAddDevfrg");
-//                ftt.addToBackStack(null);
-//                ftt.commit();
+                //                FragmentTransaction ftt = getFragmentManager().beginTransaction();
+                //                SureAddDeviceFragment sureAddDevfrg = new SureAddDeviceFragment();
+                //                ftt.add(R.id.frame, sureAddDevfrg, "sureAddDevfrg");
+                //                ftt.addToBackStack(null);
+                //                ftt.commit();
                 break;
         }
     }
 
-    private boolean isAdd;
-
-    private void searchWifi() {
-        WifiManager wifiManager = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        WifiInfo info = wifiManager.getConnectionInfo();
-        wifiManager.startScan();  //开始扫描AP
-        scanResults= wifiManager.getScanResults();
-//        for (int i = 0; i < scanResults.size(); i++) {
-//            isAdd = false;
-//            for (ScanResult result : mList) {
-//                if (result.SSID.equals(scanResults.get(i))) {
-//                    isAdd = true;
-//                }
-//            }
-//            if (!isAdd)
-//                mList.add(scanResults.get(i));
-//        }
-
-        //弹出popupwindow显示搜索到的wifi
-        showMoreWiFi();
-    }
-
-    private PopupOpenHelper openHelper;
-
-    private void showMoreWiFi() {
-        openHelper = new PopupOpenHelper(getActivity(), img_more_wifi, R.layout.popup_more_wifi);
-        openHelper.openPopupWindow(true, Gravity.CENTER);
-        openHelper.setOnPopupViewClick(new PopupOpenHelper.ViewClickListener() {
-            @Override
-            public void onViewClickListener(PopupWindow popupWindow, View inflateView) {
-                ListView lv_wifi = inflateView.findViewById(R.id.lv_wifi);
-                LvWifiInfoAdapter wifiInfoAdapter = new LvWifiInfoAdapter(getActivity(), scanResults);
-                lv_wifi.setAdapter(wifiInfoAdapter);
-                lv_wifi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        et_name.setText(scanResults.get(i).SSID);//
-                        openHelper.dismiss();
-                    }
-                });
-            }
-        });
-    }
-
-    private void onEsptoucResultAddedPerform(final IEsptouchResult result) {
-        getActivity().runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-                String text = result.getBssid() + " 已连接到wifi";
-                Toast.makeText(getActivity(), text,
-                        Toast.LENGTH_LONG).show();
-            }
-
-        });
-    }
+    private boolean mReceiverRegistered = false;
+    private boolean mDestroyed          = false;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
         switch (requestCode) {
             case REQUEST_PERMISSION:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -267,83 +164,39 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-
+    public void onDestroy() {
+        super.onDestroy();
         mDestroyed = true;
         if (mReceiverRegistered) {
             getActivity().unregisterReceiver(mReceiver);
         }
     }
 
-    private boolean isSDKAtLeastP() {
-        return Build.VERSION.SDK_INT >= 28;
-    }
+    private EsptouchAsyncTask4 mTask;
+    private IEsptouchListener myListener = new IEsptouchListener() {
 
-    private void registerBroadcastReceiver() {
-        IntentFilter filter = new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION);
-        if (isSDKAtLeastP()) {
-            filter.addAction(LocationManager.PROVIDERS_CHANGED_ACTION);
+        @Override
+        public void onEsptouchResultAdded(final IEsptouchResult result) {
+            onEsptoucResultAddedPerform(result);
         }
-        getActivity().registerReceiver(mReceiver, filter);
-        mReceiverRegistered = true;
-    }
+    };
 
-    private void onWifiChanged(WifiInfo info) {
-        if (info == null) {
-            et_name.setTag(null);
-            tv_next.setEnabled(false);
+    private void onEsptoucResultAddedPerform(final IEsptouchResult result) {
+        getActivity().runOnUiThread(new Runnable() {
 
-            if (mTask != null) {
-                mTask.cancelEsptouch();
-                mTask = null;
-                new AlertDialog.Builder(getActivity())
-                        .setMessage("Wifi断开连接或改变")
-                        .setNegativeButton(android.R.string.cancel, null)
-                        .show();
+            @Override
+            public void run() {
+                String text = result.getBssid() + " is connected to the wifi";
+                Toast.makeText(getContext(), text,
+                        Toast.LENGTH_LONG).show();
             }
-        } else {
-            String ssid = info.getSSID();
-            if (ssid.startsWith("\"") && ssid.endsWith("\"")) {
-                ssid = ssid.substring(1, ssid.length() - 1);
-            }
-            et_name.setText(ssid);
-            et_name.setTag(ByteUtil.getBytesByString(ssid));
-            byte[] ssidOriginalData = EspUtils.getOriginalSsidBytes(info);
-            et_name.setTag(ssidOriginalData);
 
-//            String bssid = info.getBSSID();
-//            mApBssidTV.setText(bssid);
-
-            tv_next.setEnabled(true);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                int frequence = info.getFrequency();
-                if (frequence > 4900 && frequence < 5900) {
-                    // Connected 5G wifi. Device does not support 5G
-                    Toast.makeText(getActivity(), "设备不支持5G网络", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
+        });
     }
 
-    private void onLocationChanged() {
-        boolean enable;
-        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        if (locationManager == null) {
-            enable = false;
-        } else {
-            boolean locationGPS = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-            boolean locationNetwork = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-            enable = locationGPS || locationNetwork;
-        }
+    private static class EsptouchAsyncTask4 extends AsyncTask<byte[], Void, List<IEsptouchResult>> {
+        private WeakReference<AddWifiDeviceActivity> mActivity;
 
-        if (!enable) {
-            Toast.makeText(getActivity(),"GPS不可用",Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private class EsptouchAsyncTask4 extends AsyncTask<byte[], Void, List<IEsptouchResult>> {
-        private AddWifiFragment mFragment;
         // without the lock, if the user tap confirm and cancel quickly enough,
         // the bug will arise. the reason is follows:
         // 0. task is starting created, but not finished
@@ -351,13 +204,16 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
         // 2. task is created
         // 3. Oops, the task should be cancelled, but it is running
         private final Object mLock = new Object();
-//        private MyAlertDialogHelper mProgressDialog;
-        private ProgressDialog mProgressDialog;
-        private AlertDialog mResultDialog;
-        private IEsptouchTask mEsptouchTask;
+        private ProgressDialog     mProgressDialog;
+        private AlertDialog        mResultDialog;
+        private IEsptouchTask      mEsptouchTask;
+        private IEsptouchListener  myListener;
+        private EsptouchAsyncTask4 mTask;
 
-        EsptouchAsyncTask4(AddWifiFragment fragment){
-            this.mFragment = fragment;
+        EsptouchAsyncTask4(AddWifiDeviceActivity activity, IEsptouchListener listener, EsptouchAsyncTask4 task) {
+            mActivity = new WeakReference<>(activity);
+            this.myListener = listener;
+            this.mTask = task;
         }
 
         void cancelEsptouch() {
@@ -375,43 +231,17 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
 
         @Override
         protected void onPreExecute() {
-//             mProgressDialog=new MyAlertDialogHelper();
-//            mProgressDialog.setDataNoView(mContext,"链接","Esptouch is configuring, please wait for a moment...");
-//            mProgressDialog.setDialogClicker("", "", new MyAlertDialogHelper.DialogClickListener() {
-//                @Override
-//                public void onPositive() {
-//                    synchronized (mLock) {
-//                        if (__IEsptouchTask.DEBUG) {
-//                            Log.i(TAG, "progress dialog cancel button canceled");
-//                        }
-//                        if (mEsptouchTask != null) {
-//                            mEsptouchTask.interrupt();
-//                        }
-//                    }
-//                }
-//
-//                @Override
-//                public void onNegative() {
-//                    synchronized (mLock) {
-//                        if (__IEsptouchTask.DEBUG) {
-//                            Log.i(TAG, "progress dialog back pressed canceled");
-//                        }
-//                        if (mEsptouchTask != null) {
-//                            mEsptouchTask.interrupt();
-//                        }
-//                    }
-//                }
-//            });
-//            mProgressDialog.show();
-            mProgressDialog = new ProgressDialog(mFragment.getContext());
-            mProgressDialog.setMessage("Esptouch is configuring, please wait for a moment...");
+            Activity activity = mActivity.get();
+            mProgressDialog = new ProgressDialog(activity);
+            //            mProgressDialog.setMessage("Esptouch is configuring, please wait for a moment...");
+            mProgressDialog.setMessage("正在配置连接...");
             mProgressDialog.setCanceledOnTouchOutside(false);
             mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface dialog) {
                     synchronized (mLock) {
                         if (__IEsptouchTask.DEBUG) {
-                            Log.i(TAG, "progress dialog back pressed canceled");
+                            //                            Log.i(TAG, "progress dialog back pressed canceled");
                         }
                         if (mEsptouchTask != null) {
                             mEsptouchTask.interrupt();
@@ -419,13 +249,13 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
                     }
                 }
             });
-            mProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, mFragment.getContext().getText(android.R.string.cancel),
+            mProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, activity.getText(android.R.string.cancel),
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             synchronized (mLock) {
                                 if (__IEsptouchTask.DEBUG) {
-                                    Log.i(TAG, "progress dialog cancel button canceled");
+                                    //  Log.i(TAG, "progress dialog cancel button canceled");
                                 }
                                 if (mEsptouchTask != null) {
                                     mEsptouchTask.interrupt();
@@ -438,6 +268,7 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
 
         @Override
         protected List<IEsptouchResult> doInBackground(byte[]... params) {
+            AddWifiDeviceActivity activity = mActivity.get();
             int taskResultCount;
             synchronized (mLock) {
                 byte[] apSsid = params[0];
@@ -446,7 +277,7 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
                 byte[] deviceCountData = params[3];
                 byte[] broadcastData = params[4];
                 taskResultCount = deviceCountData.length == 0 ? -1 : Integer.parseInt(new String(deviceCountData));
-                Context context = mFragment.getContext().getApplicationContext();
+                Context context = activity.getApplicationContext();
                 mEsptouchTask = new EsptouchTask(apSsid, apBssid, apPassword, context);
                 mEsptouchTask.setPackageBroadcast(broadcastData[0] == 1);
                 mEsptouchTask.setEsptouchListener(myListener);
@@ -456,8 +287,9 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
 
         @Override
         protected void onPostExecute(List<IEsptouchResult> result) {
+            AddWifiDeviceActivity activity = mActivity.get();
             mProgressDialog.dismiss();
-            mResultDialog = new AlertDialog.Builder(mFragment.getContext())
+            mResultDialog = new AlertDialog.Builder(activity)
                     .setPositiveButton(android.R.string.ok, null)
                     .create();
             mResultDialog.setCanceledOnTouchOutside(false);
@@ -504,5 +336,152 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
 
             mTask = null;
         }
+    }
+
+
+    private void registerBroadcastReceiver() {
+        IntentFilter filter = new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+        if (isSDKAtLeastP()) {
+            filter.addAction(LocationManager.PROVIDERS_CHANGED_ACTION);
+        }
+        getActivity().registerReceiver(mReceiver, filter);
+        mReceiverRegistered = true;
+    }
+
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action == null) {
+                return;
+            }
+
+            WifiManager wifiManager = (WifiManager) context.getApplicationContext()
+                    .getSystemService(getActivity().WIFI_SERVICE);
+            assert wifiManager != null;
+
+            switch (action) {
+                case WifiManager.NETWORK_STATE_CHANGED_ACTION:
+                    WifiInfo wifiInfo;
+                    if (intent.hasExtra(WifiManager.EXTRA_WIFI_INFO)) {
+                        wifiInfo = intent.getParcelableExtra(WifiManager.EXTRA_WIFI_INFO);
+                    } else {
+                        wifiInfo = wifiManager.getConnectionInfo();
+                    }
+                    onWifiChanged(wifiInfo);
+                    break;
+                case LocationManager.PROVIDERS_CHANGED_ACTION:
+                    onWifiChanged(wifiManager.getConnectionInfo());
+                    onLocationChanged();
+                    break;
+            }
+        }
+    };
+
+    private void onLocationChanged() {
+        boolean enable;
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        if (locationManager == null) {
+            enable = false;
+        } else {
+            boolean locationGPS = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            boolean locationNetwork = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+            enable = locationGPS || locationNetwork;
+        }
+
+        if (!enable) {
+            //            mMessageTV.setText(R.string.location_disable_message);
+        }
+    }
+
+    private void onWifiChanged(WifiInfo info) {
+        if (info == null) {
+            //            mApSsidTV.setText("");
+            //            mApSsidTV.setTag(null);
+            //            mApBssidTV.setTag("");
+            //            mMessageTV.setText("");
+            //            mConfirmBtn.setEnabled(false);
+
+            if (mTask != null) {
+                mTask.cancelEsptouch();
+                mTask = null;
+                new AlertDialog.Builder(getContext())
+                        .setMessage("Wifi disconnected or changed")
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .show();
+            }
+        } else {
+            String ssid = info.getSSID();
+            if (ssid.startsWith("\"") && ssid.endsWith("\"")) {
+                ssid = ssid.substring(1, ssid.length() - 1);
+            }
+            //            mApSsidTV.setText(ssid);
+            //            mApSsidTV.setTag(ByteUtil.getBytesByString(ssid));
+            byte[] ssidOriginalData = EspUtils.getOriginalSsidBytes(info);
+            //            mApSsidTV.setTag(ssidOriginalData);
+
+            String bssid = info.getBSSID();
+            //            mApBssidTV.setText(bssid);
+
+            //            mConfirmBtn.setEnabled(true);
+            //            mMessageTV.setText("");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                int frequence = info.getFrequency();
+                if (frequence > 4900 && frequence < 5900) {
+                    // Connected 5G wifi. Device does not support 5G
+                    // mMessageTV.setText(R.string.wifi_5g_message);
+                }
+            }
+        }
+    }
+
+    private boolean isSDKAtLeastP() {
+        return Build.VERSION.SDK_INT >= 28;
+    }
+
+    private boolean isAdd;
+
+    private void searchWifi() {
+        WifiManager wifiManager = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        WifiInfo info = wifiManager.getConnectionInfo();
+        wifiManager.startScan();  //开始扫描AP
+        scanResults = wifiManager.getScanResults();
+        //        for (int i = 0; i < scanResults.size(); i++) {
+        //            isAdd = false;
+        //            for (ScanResult result : mList) {
+        //                if (result.SSID.equals(scanResults.get(i).SSID)) {
+        //                    isAdd = true;
+        //                }
+        //            }
+        //            if (!isAdd)
+        //                mList.add(scanResults.get(i));
+        //        }
+
+        //弹出popupwindow显示搜索到的wifi
+        showMoreWiFi();
+    }
+
+    private PopupOpenHelper openHelper;
+    private String          mBssid;
+
+    private void showMoreWiFi() {
+        openHelper = new PopupOpenHelper(getActivity(), img_more_wifi, R.layout.popup_more_wifi);
+        openHelper.openPopupWindow(true, Gravity.CENTER);
+        openHelper.setOnPopupViewClick(new PopupOpenHelper.ViewClickListener() {
+            @Override
+            public void onViewClickListener(PopupWindow popupWindow, View inflateView) {
+                ListView lv_wifi = inflateView.findViewById(R.id.lv_wifi);
+                LvWifiInfoAdapter wifiInfoAdapter = new LvWifiInfoAdapter(getActivity(), scanResults);
+                lv_wifi.setAdapter(wifiInfoAdapter);
+                lv_wifi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        et_name.setText(scanResults.get(i).SSID);//
+                        mBssid = scanResults.get(i).BSSID;
+                        openHelper.dismiss();
+                    }
+                });
+            }
+        });
     }
 }

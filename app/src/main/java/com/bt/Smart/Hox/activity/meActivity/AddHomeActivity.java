@@ -141,6 +141,7 @@ public class AddHomeActivity extends BaseActivity implements View.OnClickListene
                 break;
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -148,6 +149,7 @@ public class AddHomeActivity extends BaseActivity implements View.OnClickListene
             mHandler.removeCallbacksAndMessages(null);
         }
     }
+
     private void openAddressWindow(TextView tv_choice) {
         //弹出地址选择器
         if (isLoaded) {
@@ -281,6 +283,8 @@ public class AddHomeActivity extends BaseActivity implements View.OnClickListene
             jsonObject1.put("home_name", home_name);
             jsonObject1.put("faddress", address);
             jsonObject1.put("register_id", MyApplication.userID);
+            jsonObject1.put("isdefault", "0");
+            jsonObject1.put("home_pic", "aa.jpg");
             jsonArray1.put(jsonObject1);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -301,7 +305,6 @@ public class AddHomeActivity extends BaseActivity implements View.OnClickListene
         RequestParamsFM params = new RequestParamsFM();
         params.put("home", jsonArray1);
         params.put("house_member", jsonArray2);
-        params.put("home_pic", "");
         params.setUseJsonStreamer(true);
         HttpOkhUtils.getInstance().doPostBeanToString(NetConfig.HOME, params, new HttpOkhUtils.HttpCallBack() {
             @Override
