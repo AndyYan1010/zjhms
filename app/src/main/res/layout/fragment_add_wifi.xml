@@ -43,16 +43,16 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginTop="20dp"
-            android:focusable="false"
             android:background="@drawable/bg_round_blue_10"
+            android:focusable="false"
             android:hint="请选择可用的Wi-Fi网络"
-            android:minHeight="45dp"
+            android:minHeight="40dp"
             android:paddingLeft="10dp"/>
 
         <ImageView
             android:id="@+id/img_more_wifi"
             android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
@@ -74,13 +74,14 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/bg_round_blue_10"
             android:hint="请输入Wi-Fi密码"
-            android:minHeight="45dp"
-            android:paddingLeft="10dp"/>
+            android:minHeight="40dp"
+            android:paddingLeft="10dp"
+            android:password="true"/>
 
         <ImageView
             android:id="@+id/img_show_pass"
             android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
@@ -92,8 +93,8 @@
         android:id="@+id/tv_next"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="15dp"
         android:background="@drawable/bg_round_yello_brown"
         android:gravity="center"

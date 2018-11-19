@@ -19,7 +19,8 @@
         android:id="@+id/rlt_choice_auto"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/img_icon"
@@ -51,7 +52,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_marginTop="10dp"
         android:background="@color/white">
 
         <ImageView
@@ -68,7 +68,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/img_icon02"
-            android:text="触发自动化"
+            android:text="控制智能设备"
             android:textColor="@color/word_black"
             android:textSize="14sp"/>
     </RelativeLayout>

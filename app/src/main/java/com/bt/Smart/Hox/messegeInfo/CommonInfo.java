@@ -30,6 +30,11 @@ public class CommonInfo {
      */
 
     private int    result;
+    /**
+     * fileName : 1542615030260.jpeg
+     */
+
+    private String fileName;
 
     public String getValidateCode() {
         return validateCode;
@@ -70,5 +75,13 @@ public class CommonInfo {
 
     public void setResult(int result) {
         this.result = result;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }

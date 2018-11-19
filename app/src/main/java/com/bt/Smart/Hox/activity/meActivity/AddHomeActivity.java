@@ -1,14 +1,28 @@
 package com.bt.Smart.Hox.activity.meActivity;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.util.Base64;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,18 +38,23 @@ import com.bt.Smart.Hox.adapter.LvAddRoomAdapter;
 import com.bt.Smart.Hox.messegeInfo.CommonInfo;
 import com.bt.Smart.Hox.messegeInfo.RoomChoiceInfo;
 import com.bt.Smart.Hox.util.GetJsonDataUtil;
+import com.bt.Smart.Hox.util.GlideLoaderUtil;
 import com.bt.Smart.Hox.util.JsonBean;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
+import com.bt.Smart.Hox.utils.PopupOpenHelper;
 import com.bt.Smart.Hox.utils.ProgressDialogUtil;
 import com.bt.Smart.Hox.utils.RequestParamsFM;
 import com.bt.Smart.Hox.utils.ToastUtils;
 import com.bt.Smart.Hox.viewmodle.MyListView;
 import com.google.gson.Gson;
+import com.nanchen.compresshelper.CompressHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +73,7 @@ import okhttp3.Request;
 public class AddHomeActivity extends BaseActivity implements View.OnClickListener {
     private ImageView            img_back;
     private TextView             tv_title;
+    private ImageView            img_head;//家庭头像
     private EditText             et_name;//填写家庭名称
     private TextView             tv_choice;//选择
     private LinearLayout         lin_add;//添加其他房间
@@ -61,8 +81,13 @@ public class AddHomeActivity extends BaseActivity implements View.OnClickListene
     private MyListView           lv_room;//房间列表
     private LvAddRoomAdapter     addRoomAdapter;
     private TextView             tv_setup;//确认创建
-    private int REQUEST_CODE        = 1001;//添加房间返回值
-    private int REQUEST_CREATE_HOME = 1008;//创建房间界面返回值
+    private int REQUEST_CODE                       = 1001;//添加房间返回值
+    private int REQUEST_CREATE_HOME                = 1008;//创建房间界面返回值
+    private int MY_PERMISSIONS_REQUEST_CALL_PHONE2 = 10087;//相册权限申请码
+    private int IMAGE                              = 10086;//调用相册requestcode
+    private int SHOT_CODE                          = 20;//调用系统相册-选择图片
+    private String mFilePath;//拍照记录的uri地址
+    private String mImgUrl="aa.jpg";//上传图片后，服务器返回的url
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +100,7 @@ public class AddHomeActivity extends BaseActivity implements View.OnClickListene
     private void setView() {
         img_back = (ImageView) findViewById(R.id.img_back);
         tv_title = (TextView) findViewById(R.id.tv_title);
+        img_head = (ImageView) findViewById(R.id.img_head);
         et_name = (EditText) findViewById(R.id.et_name);
         tv_choice = (TextView) findViewById(R.id.tv_choice);
         lin_add = (LinearLayout) findViewById(R.id.lin_add);
@@ -85,6 +111,7 @@ public class AddHomeActivity extends BaseActivity implements View.OnClickListene
     private void setData() {
         img_back.setVisibility(View.VISIBLE);
         img_back.setOnClickListener(this);
+        img_head.setOnClickListener(this);
         tv_title.setText("添加家庭");
         tv_choice.setOnClickListener(this);
         lin_add.setOnClickListener(this);
@@ -107,6 +134,9 @@ public class AddHomeActivity extends BaseActivity implements View.OnClickListene
         switch (view.getId()) {
             case R.id.img_back:
                 finish();
+                break;
+            case R.id.img_head://添加家庭头像
+                sendHomeHeadImg();
                 break;
             case R.id.tv_choice://选择位置
                 openAddressWindow(tv_choice);
@@ -140,6 +170,62 @@ public class AddHomeActivity extends BaseActivity implements View.OnClickListene
                 creatHome(home_name, address);
                 break;
         }
+    }
+
+    private void sendHomeHeadImg() {
+        //弹出popupwindow选择拍照还是上传图片
+        final PopupOpenHelper openHelper = new PopupOpenHelper(this, img_head, R.layout.popup_choice_pic_photo);
+        openHelper.openPopupWindow(true, Gravity.BOTTOM);
+        openHelper.setOnPopupViewClick(new PopupOpenHelper.ViewClickListener() {
+            @Override
+            public void onViewClickListener(final PopupWindow popupWindow, View inflateView) {
+                TextView tv_xc = inflateView.findViewById(R.id.tv_xc);
+                TextView tv_pz = inflateView.findViewById(R.id.tv_pz);
+                tv_xc.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //第二个参数是需要申请的权限
+                        if (ContextCompat.checkSelfPermission(AddHomeActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            //权限还没有授予，需要在这里写申请权限的代码
+                            ActivityCompat.requestPermissions(AddHomeActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                    MY_PERMISSIONS_REQUEST_CALL_PHONE2);
+                        } else {
+                            //权限已经被授予，在这里直接写要执行的相应方法即可
+                            //调用相册
+                            Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            (AddHomeActivity.this).startActivityForResult(intent, IMAGE);
+                            openHelper.dismiss();
+                        }
+                    }
+                });
+                tv_pz.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //第二个参数是需要申请的权限
+                        if (ContextCompat.checkSelfPermission(AddHomeActivity.this, Manifest.permission.CAMERA)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            //权限还没有授予，需要在这里写申请权限的代码
+                            ActivityCompat.requestPermissions(AddHomeActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
+                                    MY_PERMISSIONS_REQUEST_CALL_PHONE2);
+                        } else {
+                            String mFilePath = Environment.getExternalStorageDirectory().getPath();//获取SD卡路径
+                            long photoTime = System.currentTimeMillis();
+                            mFilePath = mFilePath + "/temp" + photoTime + ".jpg";//指定路径
+                            //权限已经被授予，在这里直接写要执行的相应方法即可
+                            //调用相机
+                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            Uri photoUri = Uri.fromFile(new File(mFilePath)); // 传递路径
+                            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);// 更改系统默认存储路径
+                            //把指定路径传递给需保存的字段
+                            (AddHomeActivity.this).setPtRote(mFilePath);
+                            (AddHomeActivity.this).startActivityForResult(intent, SHOT_CODE);
+                            popupWindow.dismiss();
+                        }
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -284,7 +370,7 @@ public class AddHomeActivity extends BaseActivity implements View.OnClickListene
             jsonObject1.put("faddress", address);
             jsonObject1.put("register_id", MyApplication.userID);
             jsonObject1.put("isdefault", "0");
-            jsonObject1.put("home_pic", "aa.jpg");
+            jsonObject1.put("home_pic", mImgUrl);
             jsonArray1.put(jsonObject1);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -338,5 +424,94 @@ public class AddHomeActivity extends BaseActivity implements View.OnClickListene
             mData.add(new RoomChoiceInfo(data.getStringExtra("roomName"), true));
             addRoomAdapter.notifyDataSetChanged();
         }
+        //相册返回，获取图片路径
+        if (requestCode == IMAGE && resultCode == Activity.RESULT_OK && data != null) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumns = {MediaStore.Images.Media.DATA};
+            Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
+            c.moveToFirst();
+            int columnIndex = c.getColumnIndex(filePathColumns[0]);
+            String imagePath = c.getString(columnIndex);
+            showImage(imagePath);
+            c.close();
+        }
+        if (requestCode == SHOT_CODE && resultCode == Activity.RESULT_OK) {
+            showImage(mFilePath);
+        }
+    }
+
+    //加载图片
+    private void showImage(String imgPath) {
+        GlideLoaderUtil.showImageView(AddHomeActivity.this, imgPath, img_head);
+        //        Bitmap bm = BitmapFactory.decodeFile(imgPath);
+        //添加到bitmap集合中
+        //        mBitmapList.add(bm);
+        //上传图片
+        //压缩图片
+        File file = new File(imgPath);
+        if (null != file) {
+            File newFile = new CompressHelper.Builder(this)
+                    .setMaxWidth(720)  // 默认最大宽度为720
+                    .setMaxHeight(960) // 默认最大高度为960
+                    .setQuality(100)    // 默认压缩质量为80
+                    .setFileName("sendPic") // 设置你需要修改的文件名
+                    .setCompressFormat(Bitmap.CompressFormat.JPEG) // 设置默认压缩为jpg格式
+                    .setDestinationDirectoryPath(Environment.getExternalStoragePublicDirectory(
+                            Environment.DIRECTORY_PICTURES).getAbsolutePath())
+                    .build()
+                    .compressToFile(file);
+            Bitmap bm = BitmapFactory.decodeFile(newFile.getPath());
+            //上传图片
+            sendImgToService(bm);
+        } else {
+            ToastUtils.showToast(this, "未获取到源文件，请查看原图片是否存在");
+        }
+    }
+
+    private void sendImgToService(Bitmap bm) {
+        String strByBase64 = Bitmap2StrByBase64(bm);
+        RequestParamsFM params = new RequestParamsFM();
+        params.put("imgStr", strByBase64);
+        HttpOkhUtils.getInstance().doPost(NetConfig.UPLOADBASE64, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(AddHomeActivity.this, "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(AddHomeActivity.this, "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                CommonInfo commonInfo = gson.fromJson(resbody, CommonInfo.class);
+                if (1 == commonInfo.getResult()) {
+                    ToastUtils.showToast(AddHomeActivity.this, "上传成功");
+                    mImgUrl = commonInfo.getFileName();
+                } else {
+                    ToastUtils.showToast(AddHomeActivity.this, "上传失败");
+                }
+            }
+        });
+    }
+
+    public void setPtRote(String filePath) {
+        mFilePath = filePath;
+    }
+
+    /**
+     * 通过Base32将Bitmap转换成Base64字符串
+     *
+     * @param bit
+     * @return
+     */
+    public String Bitmap2StrByBase64(Bitmap bit) {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        bit.compress(Bitmap.CompressFormat.JPEG, 40, bos);//参数100表示不压缩
+        byte[] bytes = bos.toByteArray();
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
     }
 }

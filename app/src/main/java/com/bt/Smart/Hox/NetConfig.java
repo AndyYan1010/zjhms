@@ -15,6 +15,8 @@ public class NetConfig {
     //图片地址
     public static String IMG_HEAD = "http://www.smart-hox.com:8083/upFiles/";
 
+    //base64上传图片
+    public static String UPLOADBASE64  = ROOT + "uploadBase64";
     //获取验证码
     public static String CHECKMESSAGE  = ROOT + "checkMessage";
     //注册用户

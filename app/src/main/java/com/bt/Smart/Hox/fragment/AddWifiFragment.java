@@ -21,6 +21,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,7 @@ import com.bt.Smart.Hox.activity.homeActivity.AddWifiDeviceActivity;
 import com.bt.Smart.Hox.adapter.LvWifiInfoAdapter;
 import com.bt.Smart.Hox.util.EspUtils;
 import com.bt.Smart.Hox.utils.PopupOpenHelper;
+import com.bt.Smart.Hox.utils.ToastUtils;
 import com.espressif.iot.esptouch.EsptouchTask;
 import com.espressif.iot.esptouch.IEsptouchListener;
 import com.espressif.iot.esptouch.IEsptouchResult;
@@ -64,9 +66,11 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
     private TextView         tv_title;
     private EditText         et_name;
     private ImageView        img_more_wifi;
+    private ImageView        img_show_pass;//显示密码
     private EditText         et_pass;
     private TextView         tv_next;//下一步
     private List<ScanResult> scanResults;
+    private boolean isShowPass = false;//是否明文显示密码
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -82,6 +86,7 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
         tv_title = mRootView.findViewById(R.id.tv_title);
         et_name = mRootView.findViewById(R.id.et_name);
         img_more_wifi = mRootView.findViewById(R.id.img_more_wifi);
+        img_show_pass = mRootView.findViewById(R.id.img_show_pass);
         et_pass = mRootView.findViewById(R.id.et_pass);
         tv_next = mRootView.findViewById(R.id.tv_next);
     }
@@ -94,7 +99,7 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
         tv_title.setText("选择设备工作Wi-Fi");
         tv_next.setOnClickListener(this);
         img_more_wifi.setOnClickListener(this);
-
+        img_show_pass.setOnClickListener(this);
         if (isSDKAtLeastP()) {
             if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED) {
@@ -122,7 +127,21 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
                 //搜索附近wifi
                 searchWifi();
                 break;
+            case R.id.img_show_pass:
+                showPassWord();
+                break;
             case R.id.tv_next:
+                String name = String.valueOf(et_name.getText()).trim();
+                String pass = String.valueOf(et_pass.getText()).trim();
+                if ("".equals(name) || "请选择可用的Wi-Fi网络".equals(name)) {
+                    ToastUtils.showToast(getContext(), "请选择可用的Wi-Fi网络");
+                    return;
+                }
+                if ("".equals(pass) || "请输入Wi-Fi密码".equals(pass)) {
+                    ToastUtils.showToast(getContext(), "请输入Wi-Fi密码");
+                    return;
+                }
+
                 //连接wifi
                 byte[] ssid = et_name.getTag() == null ? ByteUtil.getBytesByString(et_name.getText().toString())
                         : (byte[]) et_name.getTag();
@@ -144,6 +163,16 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
                 //                ftt.commit();
                 break;
         }
+    }
+
+    private void showPassWord() {
+        isShowPass = !isShowPass;
+        if (isShowPass) {
+            et_pass.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        } else {
+            et_pass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        }
+        et_pass.setSelection(et_pass.length());
     }
 
     private boolean mReceiverRegistered = false;
