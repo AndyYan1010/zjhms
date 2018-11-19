@@ -75,6 +75,18 @@ public class DeviceListFragment extends Fragment implements View.OnClickListener
         }
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.lin_add://跳转设备列表界面
+                Intent intent = new Intent(getContext(), AddDeviceActivity.class);
+                intent.putExtra("homeID", mHomeID);
+                intent.putExtra("roomID", mRoomID);
+                startActivity(intent);
+                break;
+        }
+    }
+
     public void refreshInfo() {
         //获取房间设备
         getDeviceOfRoom();
@@ -186,18 +198,6 @@ public class DeviceListFragment extends Fragment implements View.OnClickListener
                 }
             }
         });
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.lin_add://跳转设备列表界面
-                Intent intent = new Intent(getContext(), AddDeviceActivity.class);
-                intent.putExtra("homeID", mHomeID);
-                intent.putExtra("roomID", mRoomID);
-                startActivity(intent);
-                break;
-        }
     }
 
     public void setRoomID(String homeID, String roomID) {

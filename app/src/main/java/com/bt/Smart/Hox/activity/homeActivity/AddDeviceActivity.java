@@ -99,7 +99,7 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
 
         rlt_add_wifi.setOnClickListener(this);
         //获取主控列表
-        getZKDevList();
+        //        getZKDevList();
         mData = new ArrayList();
         addDevListAdapter = new LvAddDevListAdapter(this, mData);
         lv_device.setAdapter(addDevListAdapter);
@@ -126,6 +126,13 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
         });
         //获取可添加设备列表
         getAllAddDevList();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //获取主控列表
+        getZKDevList();
     }
 
     @Override
@@ -159,7 +166,7 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                 startActivity(intentDevS);
                 break;
             case R.id.rlt_add_wifi:
-                startActivity(new Intent(this,AddWifiDeviceActivity.class));
+                startActivity(new Intent(this, AddWifiDeviceActivity.class));
                 break;
         }
     }

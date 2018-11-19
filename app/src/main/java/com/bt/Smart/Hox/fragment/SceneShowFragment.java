@@ -102,7 +102,7 @@ public class SceneShowFragment extends Fragment implements View.OnClickListener 
                 break;
             case R.id.rlt_timing://跳转定时界面
                 SceneTimingFragment sceneTimingfrg = new SceneTimingFragment();
-                sceneTimingfrg.setUpFragment(this);
+//                sceneTimingfrg.setUpFragment(this);
                 FragmentTransaction ftt = getFragmentManager().beginTransaction();
                 ftt.add(R.id.frame, sceneTimingfrg, "sceneTimingfrg");
                 ftt.addToBackStack(null);

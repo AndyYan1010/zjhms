@@ -64,6 +64,8 @@ public class AddAutoFragment extends Fragment implements View.OnClickListener {
         tv_save.setVisibility(View.VISIBLE);
         img_back.setOnClickListener(this);
         tv_save.setOnClickListener(this);
+        img_add_con.setOnClickListener(this);
+        img_add_act.setOnClickListener(this);
 
     }
 
@@ -73,14 +75,17 @@ public class AddAutoFragment extends Fragment implements View.OnClickListener {
             case R.id.img_back:
                 MyFragmentManagerUtil.closeTopFragment(this);
                 break;
-            case R.id.tv_save://添加条件
+            case R.id.tv_save://保存
+
+                break;
+            case R.id.img_add_con://添加条件
                 toAddConFragment();
                 break;
             case R.id.img_edit:
                 //编辑场景名字
                 showEditName();
                 break;
-            case R.id.img_add://跳转添加动作界面
+            case R.id.img_add_act://跳转添加动作界面
                 toAddActFragment();
                 break;
         }
@@ -134,7 +139,8 @@ public class AddAutoFragment extends Fragment implements View.OnClickListener {
             }
         });
     }
-    public void  changeTimingUI(String cont){
+
+    public void changeTimingUI(String cont) {
         //TODO:往条件list中添加数据
 
     }
