@@ -301,6 +301,7 @@ public class AddHomeActivity extends BaseActivity implements View.OnClickListene
         RequestParamsFM params = new RequestParamsFM();
         params.put("home", jsonArray1);
         params.put("house_member", jsonArray2);
+        params.put("home_pic", "");
         params.setUseJsonStreamer(true);
         HttpOkhUtils.getInstance().doPostBeanToString(NetConfig.HOME, params, new HttpOkhUtils.HttpCallBack() {
             @Override

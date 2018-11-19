@@ -2,8 +2,10 @@ package com.bt.Smart.Hox.activity.homeActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bt.Smart.Hox.BaseActivity;
 import com.bt.Smart.Hox.MyApplication;
@@ -68,6 +70,27 @@ public class CreateHomeActivity extends BaseActivity implements View.OnClickList
         if (requestCode == REQUEST_CREATE_HOME) {
             setResult(REQUEST_HOME_F);
             finish();
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exit();
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private long exitTime = 0;//记录点击物理返回键的时间
+
+    public void exit() {
+        if ((System.currentTimeMillis() - exitTime) > 2000) {
+            Toast.makeText(getApplicationContext(), "再按一次退出应用", Toast.LENGTH_SHORT).show();
+            exitTime = System.currentTimeMillis();
+        } else {
+            finish();
+            MyApplication.exit();
         }
     }
 }
