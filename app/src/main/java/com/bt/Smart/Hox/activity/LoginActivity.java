@@ -44,15 +44,15 @@ import okhttp3.Request;
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private ImageView img_back;
     private EditText  edit_num, edit_psd;
-    private CheckBox     ck_remPas;//记住密码
-    private CheckBox     cb_agree;//是否同意协议
-    private Button       bt_login;//登录按钮
-    private LinearLayout lin_qq;
-    private LinearLayout lin_wx;
-    private TextView     tv_fgt;//忘记密码
-    private boolean isRem = false;
+    private CheckBox       ck_remPas;//记住密码
+    private CheckBox       cb_agree;//是否同意协议
+    private Button         bt_login;//登录按钮
+    private LinearLayout   lin_qq;
+    private LinearLayout   lin_wx;
+    private TextView       tv_fgt;//忘记密码
     private Tencent        mTencent;
     private BaseUiListener mIUiListener;
+    private boolean isRem = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +97,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         bt_login.setOnClickListener(this);
         lin_qq.setOnClickListener(this);
         lin_wx.setOnClickListener(this);
+        tv_fgt.setOnClickListener(this);
     }
 
     @Override

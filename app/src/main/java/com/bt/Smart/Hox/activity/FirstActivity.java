@@ -49,7 +49,7 @@ public class FirstActivity extends Activity implements View.OnClickListener {
                 Intent intent1 = new Intent(this, RegisterActivity.class);
                 intent1.putExtra("kind", "rgs");
                 startActivity(intent1);
-                finish();
+//                finish();
                 break;
             case R.id.tv_old:
                 Intent intent = new Intent(this, LoginActivity.class);

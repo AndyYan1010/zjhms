@@ -42,8 +42,14 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="150dp"
-                        android:background="@drawable/buildings">
+                        android:layout_height="150dp">
+
+                        <ImageView
+                            android:id="@+id/img_bg"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/buildings"/>
 
                         <LinearLayout
                             android:id="@+id/lin_name"
@@ -83,6 +89,15 @@
                             android:textColor="@color/word_black"
                             android:textSize="12sp"
                             android:visibility="invisible"/>
+
+                        <ImageView
+                            android:id="@+id/img_chbg"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginTop="15dp"
+                            android:src="@drawable/change_bg"/>
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -116,11 +131,11 @@
                         android:layout_marginRight="15dp"
                         android:background="@color/gray_65"/>
 
-                    <com.bt.Smart.Hox.viewmodle.MyListView
-                        android:id="@+id/lv_scene"
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recy_act"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                    </com.bt.Smart.Hox.viewmodle.MyListView>
+                    </android.support.v7.widget.RecyclerView>
 
                     <RelativeLayout
                         android:layout_width="match_parent"

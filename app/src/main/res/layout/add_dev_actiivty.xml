@@ -144,9 +144,14 @@
             android:layout_height="15dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="10dp"
             android:src="@drawable/me_next2"/>
     </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/vm_black_38"/>
 
     <ListView
         android:id="@+id/lv_device"

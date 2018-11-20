@@ -217,6 +217,44 @@
                 android:background="@color/gray_10"/>
 
             <RelativeLayout
+                android:id="@+id/rtv_dev"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/white">
+
+                <ImageView
+                    android:id="@+id/img_dev"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/dev_manager"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/img_dev"
+                    android:text="设备管理"
+                    android:textColor="@color/vm_black_100"
+                    android:textSize="16sp"/>
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/me_next2"/>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_10"/>
+
+            <RelativeLayout
                 android:id="@+id/rtv_msg_center"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"

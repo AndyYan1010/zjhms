@@ -62,10 +62,15 @@ public class NetConfig {
 
     //获取家下所有场景
     public static String SELECTALLSCENARIO = ROOT + "selectallscenario";
+    //查看场景默认所有图片
+    public static String QUERYDEFAULTPIC   = ROOT + "queryDefaultPic";
     //添加场景
     public static String INSERTSCENARIO    = ROOT + "insertscenario";
     //获取场景详情
     public static String SELECTNOSCENARIO  = ROOT + "selectnoscenario";
+    //查看家下面除传感器之外的设备
+    public static String QUERYNOTHA3LIST  = ROOT + "queryNotHA3List";
+
 
     //获取家下所有自动化
     public static String SELECTALLAUTOMATION = ROOT + "selectallautomation";

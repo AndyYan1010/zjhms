@@ -106,6 +106,7 @@ public class RegisterPhoneFragment extends Fragment implements View.OnClickListe
                 }
                 break;
             case R.id.tv_submit:
+                mPhone = String.valueOf(et_phone.getText()).trim();
                 String wrtcode = String.valueOf(et_code.getText()).trim();
                 String wrtpsd = String.valueOf(et_psd.getText()).trim();
                 if ("".equals(wrtcode) || "请输入验证码".equals(wrtcode)) {
@@ -148,9 +149,9 @@ public class RegisterPhoneFragment extends Fragment implements View.OnClickListe
                 Gson gson = new Gson();
                 CommonInfo sendSMSInfo = gson.fromJson(resbody, CommonInfo.class);
                 if (1 == sendSMSInfo.getCode()) {
+                    isFinish=true;
                     startActivity(new Intent(getContext(), LoginActivity.class));
                     getActivity().finish();
-                    isFinish=true;
                 }
                 ToastUtils.showToast(getContext(), sendSMSInfo.getMessage());
             }
@@ -176,8 +177,9 @@ public class RegisterPhoneFragment extends Fragment implements View.OnClickListe
                 Gson gson = new Gson();
                 CommonInfo sendSMSInfo = gson.fromJson(resbody, CommonInfo.class);
                 if (1 == sendSMSInfo.getCode()) {
-                    getActivity().finish();
+                    startActivity(new Intent(getContext(), LoginActivity.class));
                     isFinish=true;
+                    getActivity().finish();
                 }
                 ToastUtils.showToast(getContext(), sendSMSInfo.getMessage());
             }

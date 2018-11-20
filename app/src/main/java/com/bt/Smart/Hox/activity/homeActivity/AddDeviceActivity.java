@@ -115,12 +115,13 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                     }
                 }
                 Intent intent = new Intent(AddDeviceActivity.this, AddDevDetailActivity.class);
-                intent.putExtra("devType", mData.get(i).getDevcieType());//主控/从控/单品
                 intent.putExtra("homeID", homeID);
+                intent.putExtra("roomID", roomID);
+                intent.putExtra("devType", mData.get(i).getDevcieType());//主控/从控/单品
                 intent.putExtra("name", mData.get(i).getDeviceDescibe());
                 intent.putExtra("control_type", mData.get(i).getDeviceTypeName());
                 intent.putExtra("device_type_id", mData.get(i).getId());
-                intent.putExtra("devcieType", mData.get(i).getDevcieType());
+                intent.putExtra("devcieTypePic", mData.get(i).getDevcieTypePic());
                 startActivity(intent);
             }
         });

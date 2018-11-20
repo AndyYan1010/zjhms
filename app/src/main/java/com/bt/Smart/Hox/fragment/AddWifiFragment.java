@@ -49,6 +49,7 @@ import com.espressif.iot.esptouch.util.ByteUtil;
 import com.espressif.iot.esptouch.util.EspNetUtil;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -70,6 +71,7 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
     private EditText         et_pass;
     private TextView         tv_next;//下一步
     private List<ScanResult> scanResults;
+    private List<ScanResult> mList;
     private boolean isShowPass = false;//是否明文显示密码
 
     @Override
@@ -471,20 +473,25 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
     private boolean isAdd;
 
     private void searchWifi() {
+        if (null == mList) {
+            mList = new ArrayList<>();
+        } else {
+            mList.clear();
+        }
         WifiManager wifiManager = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         WifiInfo info = wifiManager.getConnectionInfo();
         wifiManager.startScan();  //开始扫描AP
         scanResults = wifiManager.getScanResults();
-        //        for (int i = 0; i < scanResults.size(); i++) {
-        //            isAdd = false;
-        //            for (ScanResult result : mList) {
-        //                if (result.SSID.equals(scanResults.get(i).SSID)) {
-        //                    isAdd = true;
-        //                }
-        //            }
-        //            if (!isAdd)
-        //                mList.add(scanResults.get(i));
-        //        }
+        for (int i = 0; i < scanResults.size(); i++) {
+            isAdd = false;
+            for (ScanResult result : mList) {
+                if (result.SSID.equals(scanResults.get(i).SSID) || "".equals(scanResults.get(i).SSID)) {
+                    isAdd = true;
+                }
+            }
+            if (!isAdd)
+                mList.add(scanResults.get(i));
+        }
 
         //弹出popupwindow显示搜索到的wifi
         showMoreWiFi();
@@ -500,13 +507,13 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onViewClickListener(PopupWindow popupWindow, View inflateView) {
                 ListView lv_wifi = inflateView.findViewById(R.id.lv_wifi);
-                LvWifiInfoAdapter wifiInfoAdapter = new LvWifiInfoAdapter(getActivity(), scanResults);
+                LvWifiInfoAdapter wifiInfoAdapter = new LvWifiInfoAdapter(getActivity(), mList);
                 lv_wifi.setAdapter(wifiInfoAdapter);
                 lv_wifi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        et_name.setText(scanResults.get(i).SSID);//
-                        mBssid = scanResults.get(i).BSSID;
+                        et_name.setText(mList.get(i).SSID);//
+                        mBssid = mList.get(i).BSSID;
                         openHelper.dismiss();
                     }
                 });

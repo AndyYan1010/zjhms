@@ -19,6 +19,7 @@ import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bt.Smart.Hox.BaseActivity;
+import com.bt.Smart.Hox.MyApplication;
 import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.activity.SaomiaoUIActivity;
@@ -170,7 +171,7 @@ public class AddDevDetailActivity extends BaseActivity implements View.OnClickLi
                         ToastUtils.showToast(this, "请填写从控码");
                         return;
                     }
-                    addCK(name, kcode, ycode, getIntent().getStringExtra("control_type"), getIntent().getStringExtra("devcieType"), getIntent().getStringExtra("device_type_id"));
+                    addCK(name, kcode, ycode, getIntent().getStringExtra("control_type"), getIntent().getStringExtra("devType"), getIntent().getStringExtra("device_type_id"));
                 } else {//添加单品
                     if ("".equals(name)) {
                         ToastUtils.showToast(this, "请填写单品名称");
@@ -237,18 +238,61 @@ public class AddDevDetailActivity extends BaseActivity implements View.OnClickLi
         pvOptions.show();
     }
 
-    private void addCK(String name, String kcode, String ycode, String second_control_category, String deviceType, String device_type_id) {
+    private void addCK(final String name, final String kcode, String ycode, String second_control_category, String deviceType, String device_type_id) {
         RequestParamsFM params = new RequestParamsFM();
+        params.put("home_id", mHomeID);
         params.put("main_control_code", mZkList.get(choiceItem).getMain_control_code());
         params.put("main_control_id", mZkList.get(choiceItem).getId());
         params.put("second_control_name", name);
         params.put("second_contrl_code", kcode);
-        params.put("home_id", mHomeID);
         params.put("second_control_category", second_control_category);
         params.put("deviceType", deviceType);
         params.put("device_type_id", device_type_id);
         params.put("randomCode", ycode);
         HttpOkhUtils.getInstance().doPost(NetConfig.SECONDCONTROL, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(AddDevDetailActivity.this, "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(AddDevDetailActivity.this, "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                CommonInfo commonInfo = gson.fromJson(resbody, CommonInfo.class);
+                ToastUtils.showToast(AddDevDetailActivity.this, commonInfo.getMessage());
+                if (1 == commonInfo.getCode()) {
+                    //自动添加设备
+                    autoAddDev(mZkList.get(choiceItem).getMain_control_code(), mZkList.get(choiceItem).getId(), kcode, getIntent().getStringExtra("device_type_id"), kcode, name);
+                    // finish();
+                }
+            }
+        });
+    }
+
+    private void autoAddDev(String main_control_code, String main_control_id, String second_contrl_code, String second_control_id, String device_code, String device_name) {
+        RequestParamsFM params = new RequestParamsFM();
+        params.put("register_id", MyApplication.userID);
+        params.put("home_id", mHomeID);
+        params.put("house_id", getIntent().getStringExtra("roomID"));
+        params.put("main_control_code", main_control_code);
+        params.put("main_control_id", main_control_id);
+        params.put("second_contrl_code", second_contrl_code);
+        params.put("second_control_id", second_control_id);
+        params.put("default_device_type", "022");
+        params.put("deviceType", "1");
+        params.put("device_code", device_code);
+        params.put("device_config", 99);
+        params.put("device_img", "");
+        params.put("device_name", device_name);
+        params.put("device_status", 0);
+        params.setUseJsonStreamer(true);
+        HttpOkhUtils.getInstance().doPost(NetConfig.DEVICE, params, new HttpOkhUtils.HttpCallBack() {
             @Override
             public void onError(Request request, IOException e) {
                 ProgressDialogUtil.hideDialog();
