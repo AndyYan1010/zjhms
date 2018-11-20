@@ -288,7 +288,7 @@ public class AddDevDetailActivity extends BaseActivity implements View.OnClickLi
         params.put("deviceType", "1");
         params.put("device_code", device_code);
         params.put("device_config", 99);
-        params.put("device_img", "");
+        params.put("device_img", getIntent().getStringExtra("devcieTypePic"));
         params.put("device_name", device_name);
         params.put("device_status", 0);
         params.setUseJsonStreamer(true);
