@@ -59,11 +59,10 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
     private LvAddDevListAdapter                              addDevListAdapter;
     private String                                           roomID;//房间id
     private String                                           homeID;//家id
+    private int                                              zknum;//主控码
+    private RelativeLayout                                   rlt_add_wifi;
     private int MY_PERMISSIONS_REQUEST_CALL_PHONE2 = 1001;//申请照相机权限结果
     private int REQUEST_CODE                       = 1003;//接收扫描结果
-    private int zknum;
-
-    private RelativeLayout rlt_add_wifi;
 
 
     @Override

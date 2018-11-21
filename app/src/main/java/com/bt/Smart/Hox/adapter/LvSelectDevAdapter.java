@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -62,6 +63,16 @@ public class LvSelectDevAdapter extends BaseAdapter {
         }
         GlideLoaderUtil.showImageView(mContext, mList.get(i).getDevice_img(), viewholder.img_dev);
         viewholder.tv_name.setText(mList.get(i).getDevice_name());
+        viewholder.cb_choice.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    mList.get(i).setIsSelect(true);
+                } else {
+                    mList.get(i).setIsSelect(false);
+                }
+            }
+        });
         return view;
     }
 

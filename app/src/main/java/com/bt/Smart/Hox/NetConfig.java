@@ -11,9 +11,14 @@ package com.bt.Smart.Hox;
 
 public class NetConfig {
     //服务器总地址
-    public static String ROOT     = "http://www.smart-hox.com:8081/hoxJK/";
+    public static String ROOT          = "http://www.smart-hox.com:8081/hoxJK/";
     //图片地址
-    public static String IMG_HEAD = "http://www.smart-hox.com:8083/upFiles/";
+    public static String IMG_HEAD      = "http://www.smart-hox.com:8083/upFiles/";
+    //场景选择图片的链接头
+    public static String IMG_FOR_SCENE = "http://www.smart-hox.com:8081/upFiles/";
+    //设备图片地址头
+    public static String IMG_FOR_DEV   = "http://112.90.178.68:8083/upFiles/";
+
 
     //base64上传图片
     public static String UPLOADBASE64  = ROOT + "uploadBase64";
@@ -69,7 +74,7 @@ public class NetConfig {
     //获取场景详情
     public static String SELECTNOSCENARIO  = ROOT + "selectnoscenario";
     //查看家下面除传感器之外的设备
-    public static String QUERYNOTHA3LIST  = ROOT + "queryNotHA3List";
+    public static String QUERYNOTHA3LIST   = ROOT + "queryNotHA3List";
 
 
     //获取家下所有自动化

@@ -19,7 +19,7 @@ public class RoomsDeviceInfo {
      * code : 1
      */
 
-    private String message;
+    private String              message;
     private int                 code;
     private List<HouseListBean> houseList;
 
@@ -57,7 +57,7 @@ public class RoomsDeviceInfo {
          * register_id : b788b918ddb411e89c91000c2950df04
          */
 
-        private String house_id;
+        private String               house_id;
         private String               house_name;
         private String               home_id;
         private String               id;
@@ -67,7 +67,12 @@ public class RoomsDeviceInfo {
          * mineIschoice : false
          */
 
-        private boolean mineIschoice;
+        private boolean              mineIschoice;
+        /**
+         * ifCheck : 1
+         */
+
+        private int                  ifCheck;
 
         public String getHouse_id() {
             return house_id;
@@ -125,6 +130,14 @@ public class RoomsDeviceInfo {
             this.mineIschoice = mineIschoice;
         }
 
+        public int getIfCheck() {
+            return ifCheck;
+        }
+
+        public void setIfCheck(int ifCheck) {
+            this.ifCheck = ifCheck;
+        }
+
         public static class DeviceListBean {
             /**
              * deviceType : 1
@@ -145,7 +158,8 @@ public class RoomsDeviceInfo {
              * id : 79f97764d31c41e3bafd393097813c19
              */
 
-            private String deviceType;
+
+            private String         deviceType;
             private String         device_config;
             private String         device_status;
             private String         house_id;
@@ -166,6 +180,11 @@ public class RoomsDeviceInfo {
              */
 
             private boolean        meChoice;
+            /**
+             * ifCheck : 1
+             */
+
+            private int            ifCheck;
 
             public String getDeviceType() {
                 return deviceType;
@@ -303,6 +322,14 @@ public class RoomsDeviceInfo {
                 this.meChoice = meChoice;
             }
 
+            public int getIfCheck() {
+                return ifCheck;
+            }
+
+            public void setIfCheck(int ifCheck) {
+                this.ifCheck = ifCheck;
+            }
+
             public static class CreateTimeBean {
                 /**
                  * date : 1
@@ -317,7 +344,7 @@ public class RoomsDeviceInfo {
                  * year : 118
                  */
 
-                private int date;
+                private int  date;
                 private int  day;
                 private int  hours;
                 private int  minutes;

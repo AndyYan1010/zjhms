@@ -59,8 +59,8 @@ public class LvAddDevListAdapter extends BaseAdapter {
         } else {
             viewholder = (MyViewholder) view.getTag();
         }
-        GlideLoaderUtil.showImageView(mContext, NetConfig.IMG_HEAD + mList.get(i).getDevcieTypePic(), viewholder.img_kind);
         viewholder.tv_name.setText(mList.get(i).getDeviceDescibe());
+        GlideLoaderUtil.showImageView(mContext, NetConfig.IMG_FOR_DEV + mList.get(i).getDevcieTypePic(), viewholder.img_kind);
         return view;
     }
 

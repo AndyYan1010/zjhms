@@ -108,7 +108,7 @@ public class ChoiceScenePicFragment extends Fragment implements View.OnClickList
 
     public void selectItem(int item) {
         //选中的图片，关闭页面，把信息带给前一个fragment
-        mAddSceneFragment.changeBgPic(mData.get(item).getFpic(),mData.get(item).getId());
+        mAddSceneFragment.changeBgPic(NetConfig.IMG_FOR_SCENE + mData.get(item).getFpic(), mData.get(item).getId());
         MyFragmentManagerUtil.closeTopFragment(this);
     }
 

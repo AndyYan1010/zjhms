@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.adapter.RecyAddActAdapter;
 import com.bt.Smart.Hox.adapter.RecyItemDragAdapter;
+import com.bt.Smart.Hox.messegeInfo.NotHA3ListInfo;
 import com.bt.Smart.Hox.util.GlideLoaderUtil;
 import com.bt.Smart.Hox.utils.MyAlertDialogHelper;
 import com.bt.Smart.Hox.utils.MyFragmentManagerUtil;
@@ -41,20 +42,21 @@ import static com.chad.library.adapter.base.BaseQuickAdapter.SLIDEIN_RIGHT;
  */
 
 public class AddSceneFragment extends Fragment implements View.OnClickListener {
-    private View         mRootView;
-    private ImageView    img_back;
-    private TextView     tv_title;
-    private TextView     tv_save;//保存
-    private ImageView    img_bg;
-    private TextView     tv_name;
-    private TextView     tv_warn;//提示
-    private ImageView    img_chbg;//更换背景
-    private ImageView    img_edit;//编辑场景名字
-    private ImageView    img_add;//添加动作
-    private RecyclerView recy_act;//动作列表
-    private SwitchCompat swc_show;//是否首页展示
-    private int          mSelectPicID;//记录选择的背景图ID
-    private List         mData;
+    private View                                mRootView;
+    private ImageView                           img_back;
+    private TextView                            tv_title;
+    private TextView                            tv_save;//保存
+    private ImageView                           img_bg;
+    private TextView                            tv_name;
+    private TextView                            tv_warn;//提示
+    private ImageView                           img_chbg;//更换背景
+    private ImageView                           img_edit;//编辑场景名字
+    private ImageView                           img_add;//添加动作
+    private List<NotHA3ListInfo.NotHA3listBean> mData;
+    private RecyAddActAdapter                   addActAdapter;
+    private RecyclerView                        recy_act;//动作列表
+    private SwitchCompat                        swc_show;//是否首页展示
+    private int                                 mSelectPicID;//记录选择的背景图ID
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -89,9 +91,6 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
         img_chbg.setOnClickListener(this);
         img_add.setOnClickListener(this);
         mData = new ArrayList();
-        mData.add("删除");
-        mData.add("删除");
-        mData.add("删除");
         //设置recyclerview
         initRecyView();
     }
@@ -120,7 +119,7 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
 
     private void initRecyView() {
         recy_act.setLayoutManager(new LinearLayoutManager(getContext()));
-        final RecyAddActAdapter addActAdapter = new RecyAddActAdapter(R.layout.adapter_scene_add_dev, mData);
+        addActAdapter = new RecyAddActAdapter(R.layout.adapter_scene_add_dev, mData);
         addActAdapter.openLoadAnimation(SLIDEIN_RIGHT);
         recy_act.setAdapter(addActAdapter);
 
@@ -169,6 +168,7 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
     private void toAddActFragment() {
         FragmentTransaction ftt = getFragmentManager().beginTransaction();
         AddActFragment addActFt = new AddActFragment();
+        addActFt.setUpFragment(this);
         ftt.add(R.id.frame, addActFt, "addActFt");
         ftt.addToBackStack(null);
         ftt.commit();
@@ -212,5 +212,11 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
     public void changeBgPic(String picUrl, int id) {
         GlideLoaderUtil.showImageView(getContext(), picUrl, img_bg);
         mSelectPicID = id;
+    }
+
+    public void addActListInfo(List actList) {
+        if (null != mData && null != actList)
+            mData.addAll(actList);
+        addActAdapter.notifyDataSetChanged();
     }
 }

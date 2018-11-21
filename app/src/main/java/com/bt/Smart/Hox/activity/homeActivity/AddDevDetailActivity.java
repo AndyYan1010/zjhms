@@ -160,7 +160,7 @@ public class AddDevDetailActivity extends BaseActivity implements View.OnClickLi
                     addZK(name, kcode, ycode, getIntent().getStringExtra("control_type"), getIntent().getStringExtra("device_type_id"));
                 } else if ("1".equals(mKind)) {//添加从控
                     if (mZkList.size() == 0) {
-                        ToastUtils.showToast(this, "您还未添加主控，请先添加主控");
+                        ToastUtils.showToast(this, "未查询到主控，请先添加主控");
                         return;
                     }
                     if ("".equals(name)) {
@@ -213,6 +213,8 @@ public class AddDevDetailActivity extends BaseActivity implements View.OnClickLi
                     for (ZhuKongListInfo.HomeListBean bean : mZkList) {
                         options1Items.add(bean.getMain_control_name());
                     }
+                    choiceItem = 0;
+                    tv_zkname.setText(mZkList.get(0).getMain_control_name());
                 } else {
                     ToastUtils.showToast(AddDevDetailActivity.this, "查询失败");
                 }

@@ -41,6 +41,7 @@ import com.bt.Smart.Hox.util.GetJsonDataUtil;
 import com.bt.Smart.Hox.util.GlideLoaderUtil;
 import com.bt.Smart.Hox.util.JsonBean;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
+import com.bt.Smart.Hox.utils.MyCloseKeyBoardUtil;
 import com.bt.Smart.Hox.utils.PopupOpenHelper;
 import com.bt.Smart.Hox.utils.ProgressDialogUtil;
 import com.bt.Smart.Hox.utils.RequestParamsFM;
@@ -87,7 +88,7 @@ public class AddHomeActivity extends BaseActivity implements View.OnClickListene
     private int IMAGE                              = 10086;//调用相册requestcode
     private int SHOT_CODE                          = 20;//调用系统相册-选择图片
     private String mFilePath;//拍照记录的uri地址
-    private String mImgUrl="aa.jpg";//上传图片后，服务器返回的url
+    private String mImgUrl = "aa.jpg";//上传图片后，服务器返回的url
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,9 +137,11 @@ public class AddHomeActivity extends BaseActivity implements View.OnClickListene
                 finish();
                 break;
             case R.id.img_head://添加家庭头像
+                MyCloseKeyBoardUtil.hintKeyBoard(this);
                 sendHomeHeadImg();
                 break;
             case R.id.tv_choice://选择位置
+                MyCloseKeyBoardUtil.hintKeyBoard(AddHomeActivity.this);
                 openAddressWindow(tv_choice);
                 break;
             case R.id.lin_add://添加其他房间
@@ -421,7 +424,8 @@ public class AddHomeActivity extends BaseActivity implements View.OnClickListene
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE) {
-            mData.add(new RoomChoiceInfo(data.getStringExtra("roomName"), true));
+            if (null != data && null != data.getStringExtra("roomName") && !"".equals(data.getStringExtra("roomName")))
+                mData.add(new RoomChoiceInfo(data.getStringExtra("roomName"), true));
             addRoomAdapter.notifyDataSetChanged();
         }
         //相册返回，获取图片路径

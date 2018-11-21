@@ -205,7 +205,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     LoginInfo.MemberInfoBean memberInfo = loginInfo.getMemberInfo();
                     MyApplication.userID = memberInfo.getId();
                     MyApplication.pasword = psd;
-                    MyApplication.userName = memberInfo.getWx_name();
+                    MyApplication.userName = memberInfo.getFname();
+                    MyApplication.userHeadPic = memberInfo.getHead_pic();
                     MyApplication.userPhone = memberInfo.getFtelephone();
                     //跳转主页面
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));

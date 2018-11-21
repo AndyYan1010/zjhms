@@ -1,11 +1,23 @@
 package com.bt.Smart.Hox.activity.meActivity;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.util.Base64;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,16 +44,22 @@ import com.bt.Smart.Hox.messegeInfo.CommonInfo;
 import com.bt.Smart.Hox.messegeInfo.HomeDetailInfo;
 import com.bt.Smart.Hox.messegeInfo.HomeMembersInfo;
 import com.bt.Smart.Hox.util.GetJsonDataUtil;
+import com.bt.Smart.Hox.util.GlideLoaderUtil;
 import com.bt.Smart.Hox.util.JsonBean;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
 import com.bt.Smart.Hox.utils.MyAlertDialogHelper;
+import com.bt.Smart.Hox.utils.MyCloseKeyBoardUtil;
+import com.bt.Smart.Hox.utils.PopupOpenHelper;
 import com.bt.Smart.Hox.utils.ProgressDialogUtil;
 import com.bt.Smart.Hox.utils.RequestParamsFM;
 import com.bt.Smart.Hox.utils.ToastUtils;
 import com.google.gson.Gson;
+import com.nanchen.compresshelper.CompressHelper;
 
 import org.json.JSONArray;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +79,7 @@ import okhttp3.Request;
 public class HomeDetailActivity extends BaseActivity implements View.OnClickListener {
     private ImageView                          img_back;
     private TextView                           tv_title;
+    private ImageView                          img_head;//家庭照片
     private RelativeLayout                     rtv_name;//家庭名称
     private TextView                           tv_name;//名称
     private TextView                           tv_num;//房间数
@@ -73,7 +92,8 @@ public class HomeDetailActivity extends BaseActivity implements View.OnClickList
     private TextView                           tv_delete;//移除家庭
     private String                             homeID;//家庭id
     private String                             isDefault;//是否是默认家庭
-    private int REQUEST_ADD_MEMBER = 1002;//请求返回值
+    private int REQUEST_ADD_MEMBER    = 1002;//请求返回值
+    private int REQUEST_DELETE_MEMBER = 1003;//请求返回值
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +106,7 @@ public class HomeDetailActivity extends BaseActivity implements View.OnClickList
     private void setView() {
         img_back = (ImageView) findViewById(R.id.img_back);
         tv_title = (TextView) findViewById(R.id.tv_title);
+        img_head = (ImageView) findViewById(R.id.img_head);
         rtv_name = (RelativeLayout) findViewById(R.id.rtv_name);
         rtv_address = (RelativeLayout) findViewById(R.id.rtv_address);
         tv_name = (TextView) findViewById(R.id.tv_name);
@@ -112,11 +133,12 @@ public class HomeDetailActivity extends BaseActivity implements View.OnClickList
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (!"1".equals(mData.get(i).getIsmanager())) {//共享房间设置
                     Intent intent = new Intent(HomeDetailActivity.this, ShareRoomActivity.class);
-                    intent.putExtra("memberID", mData.get(i).getId());//成员id//TODO
-                    intent.putExtra("homeID", homeID);//家id//TODO
-                    intent.putExtra("name", mData.get(i).getFtelephone());//
-                    intent.putExtra("phone", mData.get(i).getFtelephone());//
-                    startActivity(intent);
+                    intent.putExtra("memberID", mData.get(i).getId());//成员id
+                    intent.putExtra("homeID", homeID);//家id
+                    intent.putExtra("name", mData.get(i).getFtelephone());//成员名称
+                    intent.putExtra("phone", mData.get(i).getFtelephone());//成员电话
+                    intent.putExtra("headPic", mData.get(i).getWx_pic());//成员头像
+                    startActivityForResult(intent, REQUEST_DELETE_MEMBER);
                 }
             }
         });
@@ -126,6 +148,7 @@ public class HomeDetailActivity extends BaseActivity implements View.OnClickList
         getHomeMembers();
         //开始解析地址数据
         mHandler.sendEmptyMessage(MSG_LOAD_DATA);
+        img_head.setOnClickListener(this);
         rtv_name.setOnClickListener(this);
         rtv_address.setOnClickListener(this);
         lin_add.setOnClickListener(this);
@@ -137,6 +160,10 @@ public class HomeDetailActivity extends BaseActivity implements View.OnClickList
         switch (view.getId()) {
             case R.id.img_back:
                 finish();
+                break;
+            case R.id.img_head://更改家庭照片
+                MyCloseKeyBoardUtil.hintKeyBoard(this);
+                sendHomeHeadImg();
                 break;
             case R.id.rtv_name://更改家庭名称
                 openPopupWindow(rtv_name);
@@ -165,9 +192,159 @@ public class HomeDetailActivity extends BaseActivity implements View.OnClickList
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (REQUEST_ADD_MEMBER == requestCode) {
+            MyCloseKeyBoardUtil.hintKeyBoard(this);
             //获取家庭成员信息
             getHomeMembers();
         }
+        if (REQUEST_DELETE_MEMBER == requestCode) {
+            //获取家庭成员信息
+            getHomeMembers();
+        }
+        //相册返回，获取图片路径
+        if (requestCode == IMAGE && resultCode == Activity.RESULT_OK && data != null) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumns = {MediaStore.Images.Media.DATA};
+            Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
+            c.moveToFirst();
+            int columnIndex = c.getColumnIndex(filePathColumns[0]);
+            String imagePath = c.getString(columnIndex);
+            showImage(imagePath);
+            c.close();
+        }
+        if (requestCode == SHOT_CODE && resultCode == Activity.RESULT_OK) {
+            showImage(mFilePath);
+        }
+    }
+
+    //加载图片
+    private void showImage(String imgPath) {
+        GlideLoaderUtil.showImageView(HomeDetailActivity.this, imgPath, img_head);
+        //        Bitmap bm = BitmapFactory.decodeFile(imgPath);
+        //添加到bitmap集合中
+        //        mBitmapList.add(bm);
+        //上传图片
+        //压缩图片
+        File file = new File(imgPath);
+        if (null != file) {
+            File newFile = new CompressHelper.Builder(this)
+                    .setMaxWidth(720)  // 默认最大宽度为720
+                    .setMaxHeight(960) // 默认最大高度为960
+                    .setQuality(100)    // 默认压缩质量为80
+                    .setFileName("sendPic") // 设置你需要修改的文件名
+                    .setCompressFormat(Bitmap.CompressFormat.JPEG) // 设置默认压缩为jpg格式
+                    .setDestinationDirectoryPath(Environment.getExternalStoragePublicDirectory(
+                            Environment.DIRECTORY_PICTURES).getAbsolutePath())
+                    .build()
+                    .compressToFile(file);
+            Bitmap bm = BitmapFactory.decodeFile(newFile.getPath());
+            //上传图片
+            sendImgToService(bm);
+        } else {
+            ToastUtils.showToast(this, "未获取到源文件，请查看原图片是否存在");
+        }
+    }
+
+    private void sendImgToService(Bitmap bm) {
+        String strByBase64 = Bitmap2StrByBase64(bm);
+        RequestParamsFM params = new RequestParamsFM();
+        params.put("imgStr", strByBase64);
+        HttpOkhUtils.getInstance().doPost(NetConfig.UPLOADBASE64, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(HomeDetailActivity.this, "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(HomeDetailActivity.this, "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                CommonInfo commonInfo = gson.fromJson(resbody, CommonInfo.class);
+                if (1 == commonInfo.getResult()) {
+                    ToastUtils.showToast(HomeDetailActivity.this, "上传成功");
+                    mImgUrl = commonInfo.getFileName();
+                } else {
+                    ToastUtils.showToast(HomeDetailActivity.this, "上传失败");
+                }
+            }
+        });
+    }
+
+    public String Bitmap2StrByBase64(Bitmap bit) {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        bit.compress(Bitmap.CompressFormat.JPEG, 40, bos);//参数100表示不压缩
+        byte[] bytes = bos.toByteArray();
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
+    }
+
+    private int MY_PERMISSIONS_REQUEST_CALL_PHONE2 = 10087;//相册权限申请码
+    private int IMAGE                              = 10086;//调用相册requestcode
+    private int SHOT_CODE                          = 20;//调用系统相册-选择图片
+    private String mFilePath;//拍照记录的uri地址
+    private String mImgUrl = "aa.jpg";//上传图片后，服务器返回的url
+
+    private void sendHomeHeadImg() {
+        //弹出popupwindow选择拍照还是上传图片
+        final PopupOpenHelper openHelper = new PopupOpenHelper(this, img_head, R.layout.popup_choice_pic_photo);
+        openHelper.openPopupWindow(true, Gravity.BOTTOM);
+        openHelper.setOnPopupViewClick(new PopupOpenHelper.ViewClickListener() {
+            @Override
+            public void onViewClickListener(final PopupWindow popupWindow, View inflateView) {
+                TextView tv_xc = inflateView.findViewById(R.id.tv_xc);
+                TextView tv_pz = inflateView.findViewById(R.id.tv_pz);
+                tv_xc.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //第二个参数是需要申请的权限
+                        if (ContextCompat.checkSelfPermission(HomeDetailActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            //权限还没有授予，需要在这里写申请权限的代码
+                            ActivityCompat.requestPermissions(HomeDetailActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                    MY_PERMISSIONS_REQUEST_CALL_PHONE2);
+                        } else {
+                            //权限已经被授予，在这里直接写要执行的相应方法即可
+                            //调用相册
+                            Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            (HomeDetailActivity.this).startActivityForResult(intent, IMAGE);
+                            openHelper.dismiss();
+                        }
+                    }
+                });
+                tv_pz.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //第二个参数是需要申请的权限
+                        if (ContextCompat.checkSelfPermission(HomeDetailActivity.this, Manifest.permission.CAMERA)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            //权限还没有授予，需要在这里写申请权限的代码
+                            ActivityCompat.requestPermissions(HomeDetailActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
+                                    MY_PERMISSIONS_REQUEST_CALL_PHONE2);
+                        } else {
+                            String mFilePath = Environment.getExternalStorageDirectory().getPath();//获取SD卡路径
+                            long photoTime = System.currentTimeMillis();
+                            mFilePath = mFilePath + "/temp" + photoTime + ".jpg";//指定路径
+                            //权限已经被授予，在这里直接写要执行的相应方法即可
+                            //调用相机
+                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            Uri photoUri = Uri.fromFile(new File(mFilePath)); // 传递路径
+                            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);// 更改系统默认存储路径
+                            //把指定路径传递给需保存的字段
+                            (HomeDetailActivity.this).setPtRote(mFilePath);
+                            (HomeDetailActivity.this).startActivityForResult(intent, SHOT_CODE);
+                            popupWindow.dismiss();
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    public void setPtRote(String filePath) {
+        mFilePath = filePath;
     }
 
     private void openAddressPopupWindow(RelativeLayout rtv_address) {
@@ -445,6 +622,7 @@ public class HomeDetailActivity extends BaseActivity implements View.OnClickList
         params.put("faddress", address);
         params.put("isdefault", isDefault);
         params.put("register_id", MyApplication.userID);
+        params.put("home_pic", mImgUrl);
         HttpOkhUtils.getInstance().doPut(NetConfig.HOME, params, new HttpOkhUtils.HttpCallBack() {
             @Override
             public void onError(Request request, IOException e) {
@@ -472,7 +650,6 @@ public class HomeDetailActivity extends BaseActivity implements View.OnClickList
         });
     }
 
-//    private AlertDialog         alertDialog;
     private MyAlertDialogHelper openHelper;
 
     private void deleteHome() {
@@ -510,24 +687,6 @@ public class HomeDetailActivity extends BaseActivity implements View.OnClickList
                 }
             }
         });
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_LIGHT);
-//        builder.setTitle("温馨提示");
-//        builder.setMessage("您确定删除该家？");
-//        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                alertDialog.dismiss();
-//                //删除家
-//                doDeleteHome();
-//            }
-//        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.cancel();
-//            }
-//        });
-//        alertDialog = builder.create();
-//        alertDialog.show();
     }
 
     private void doDeleteHome() {
@@ -622,12 +781,12 @@ public class HomeDetailActivity extends BaseActivity implements View.OnClickList
                     if (0 != homeDetailInfo.getHouseCount()) {
                         tv_name.setText(homeDetailInfo.getHome().getHome_name());
                         tv_address.setText(homeDetailInfo.getHome().getFaddress());
+                        mImgUrl = homeDetailInfo.getHome().getHome_pic();
                     }
                 } else {
                     ToastUtils.showToast(HomeDetailActivity.this, "家庭信息查询失败");
                 }
             }
         });
-
     }
 }

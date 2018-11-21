@@ -18,6 +18,7 @@ import com.bt.Smart.Hox.activity.meActivity.HomeListActivity;
 import com.bt.Smart.Hox.activity.meActivity.PersonalActivity;
 import com.bt.Smart.Hox.activity.meActivity.SceneListActivity;
 import com.bt.Smart.Hox.activity.meActivity.SettingActivity;
+import com.bt.Smart.Hox.util.GlideLoaderUtil;
 
 
 /**
@@ -62,6 +63,7 @@ public class User_F extends Fragment implements View.OnClickListener {
     }
 
     private void initData() {
+        GlideLoaderUtil.showImgWithIcon(getContext(), MyApplication.userHeadPic, R.drawable.iman, R.drawable.iman, img_head);
         tv_name.setText(MyApplication.userName);
         lin_scene.setOnClickListener(this);
         lin_auto.setOnClickListener(this);
@@ -76,19 +78,19 @@ public class User_F extends Fragment implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.lin_scene://跳转场景列表
                 Intent intent = new Intent(getContext(), SceneListActivity.class);
-                intent.putExtra("kind","场景");
+                intent.putExtra("kind", "场景");
                 startActivity(intent);
                 break;
             case R.id.lin_auto://跳转自动化列表
                 Intent autoIntent = new Intent(getContext(), SceneListActivity.class);
-                autoIntent.putExtra("kind","自动化");
+                autoIntent.putExtra("kind", "自动化");
                 startActivity(autoIntent);
                 break;
             case R.id.lin_shop://跳转商城
 
                 break;
             case R.id.rtv_person://跳转个人中心
-                startActivity(new Intent(getContext(),PersonalActivity.class));
+                startActivity(new Intent(getContext(), PersonalActivity.class));
                 break;
             case R.id.rtv_home: //跳转家管理界面
                 startActivity(new Intent(getContext(), HomeListActivity.class));

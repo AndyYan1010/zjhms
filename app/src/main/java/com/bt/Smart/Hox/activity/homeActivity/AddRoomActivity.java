@@ -11,7 +11,6 @@ import com.bt.Smart.Hox.BaseActivity;
 import com.bt.Smart.Hox.MyApplication;
 import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
-import com.bt.Smart.Hox.activity.meActivity.AddHomeActivity;
 import com.bt.Smart.Hox.messegeInfo.CommonInfo;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
 import com.bt.Smart.Hox.utils.ProgressDialogUtil;
@@ -44,6 +43,7 @@ public class AddRoomActivity extends BaseActivity implements View.OnClickListene
     private TextView  tv_recom2;
     private TextView  tv_submit;
     private int ROOM_REQUEST_CODE = 1001;
+    private int REQUEST_CODE      = 1001;//添加房间返回值
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +76,8 @@ public class AddRoomActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
-                Intent intent = new Intent();
-                setResult(ROOM_REQUEST_CODE, intent);
+                //                Intent intent = new Intent();
+                //                setResult(ROOM_REQUEST_CODE, intent);
                 finish();
                 break;
             case R.id.tv_recom1:
@@ -98,7 +98,7 @@ public class AddRoomActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    private void addRoom(String room_name) {
+    private void addRoom(final String room_name) {
         JSONArray jsonArray = new JSONArray();
         for (int i = 0; i < 1; i++) {
             JSONObject jsonObject = new JSONObject();
@@ -132,6 +132,9 @@ public class AddRoomActivity extends BaseActivity implements View.OnClickListene
                 CommonInfo sendSMSInfo = gson.fromJson(resbody, CommonInfo.class);
                 ToastUtils.showToast(AddRoomActivity.this, sendSMSInfo.getMessage());
                 if (1 == sendSMSInfo.getCode()) {
+                    Intent intent = getIntent();
+                    intent.putExtra("roomName", room_name);
+                    setResult(REQUEST_CODE,intent);
                     finish();
                 }
             }

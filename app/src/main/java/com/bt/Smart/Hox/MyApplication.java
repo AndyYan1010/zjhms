@@ -28,6 +28,7 @@ public class MyApplication extends Application {
     public static String  userName;
     public static String  pasword;
     public static String  userPhone;
+    public static String  userHeadPic;
     public static String  slecHomeID;
     public static String  slecRoomID;
     public static boolean isLoading;

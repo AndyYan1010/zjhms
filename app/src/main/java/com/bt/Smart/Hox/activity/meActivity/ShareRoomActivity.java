@@ -14,6 +14,7 @@ import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.adapter.LvShareAdapter;
 import com.bt.Smart.Hox.messegeInfo.CommonInfo;
 import com.bt.Smart.Hox.messegeInfo.RoomsDeviceInfo;
+import com.bt.Smart.Hox.util.GlideLoaderUtil;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
 import com.bt.Smart.Hox.utils.ProgressDialogUtil;
 import com.bt.Smart.Hox.utils.RequestParamsFM;
@@ -50,8 +51,8 @@ public class ShareRoomActivity extends BaseActivity implements View.OnClickListe
     private List<RoomsDeviceInfo.HouseListBean> mData;
     private LvShareAdapter                      shareAdapter;
     private TextView                            tv_delete;//移除成员
-    private TextView                            tv_save;//保存修改
-
+    private TextView                            tv_sure;//保存修改
+    private int REQUEST_DELETE_MEMBER = 1003;//请求返回值
     private String homeID;
     private String memberID;
     private String name;
@@ -73,7 +74,7 @@ public class ShareRoomActivity extends BaseActivity implements View.OnClickListe
         tv_phone = (TextView) findViewById(R.id.tv_phone);
         lv_room_device = (MyListView) findViewById(R.id.lv_room_device);
         tv_delete = (TextView) findViewById(R.id.tv_delete);
-        tv_save = (TextView) findViewById(R.id.tv_save);
+        tv_sure = (TextView) findViewById(R.id.tv_sure);
     }
 
     private void setData() {
@@ -87,12 +88,13 @@ public class ShareRoomActivity extends BaseActivity implements View.OnClickListe
         memberID = getIntent().getStringExtra("memberID");
         name = getIntent().getStringExtra("name");
         phone = getIntent().getStringExtra("phone");
+        GlideLoaderUtil.showImgWithIcon(this, getIntent().getStringExtra("headPic"), R.drawable.iman, R.drawable.iman, img_head);
         tv_name.setText(name);
         tv_phone.setText(phone);
         //获取该房间下所有设备信息
         getAllInfoOfRoom();
         tv_delete.setOnClickListener(this);
-        tv_save.setOnClickListener(this);
+        tv_sure.setOnClickListener(this);
     }
 
     @Override
@@ -104,7 +106,7 @@ public class ShareRoomActivity extends BaseActivity implements View.OnClickListe
             case R.id.tv_delete://移除成员
                 deleteMember();
                 break;
-            case R.id.tv_save://保存修改
+            case R.id.tv_sure://保存修改
                 saveChange();
                 break;
         }
@@ -132,6 +134,7 @@ public class ShareRoomActivity extends BaseActivity implements View.OnClickListe
                 CommonInfo sendSMSInfo = gson.fromJson(resbody, CommonInfo.class);
                 if (1 == sendSMSInfo.getCode()) {
                     ToastUtils.showToast(ShareRoomActivity.this, "删除成功");
+                    setResult(REQUEST_DELETE_MEMBER);
                     finish();
                 } else {
                     ToastUtils.showToast(ShareRoomActivity.this, "删除失败");
@@ -165,11 +168,12 @@ public class ShareRoomActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void saveChange() {
-        ProgressDialogUtil.startShow(ShareRoomActivity.this, "正在提交...");
+        boolean hasSelect = false;
         JSONArray jsonArray = new JSONArray();
         for (int i = 0; i < mData.size(); i++) {
             try {
                 if (mData.get(i).isMineIschoice()) {//该房间有选中
+                    hasSelect = true;
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("home_id", homeID);
                     jsonObject.put("house_id", mData.get(i).getHouse_id());
@@ -182,7 +186,7 @@ public class ShareRoomActivity extends BaseActivity implements View.OnClickListe
                             jsonObject1.put("second_control_id", bean.getSecond_control_id());
                             jsonObject1.put("main_control_code", bean.getMain_control_code());
                             jsonObject1.put("register_id", MyApplication.userID);
-                            jsonObject1.put("second_control_device_id", bean.getId());//TODO？？？
+                            jsonObject1.put("second_control_device_id", bean.getId());
                             jsonObject1.put("home_id", homeID);
                             jsonObject1.put("house_id", mData.get(i).getHouse_id());
                             jsonArray1.put(jsonObject1);
@@ -193,14 +197,18 @@ public class ShareRoomActivity extends BaseActivity implements View.OnClickListe
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                hasSelect = false;
+                ToastUtils.showToast(this, "分享设备解析出错");
             }
         }
+        if (!hasSelect) {
+            ToastUtils.showToast(this, "您未有选中分享设备");
+            return;
+        }
+        ProgressDialogUtil.startShow(ShareRoomActivity.this, "正在提交...");
         RequestParamsFM params = new RequestParamsFM();
         params.put("home", jsonArray);
         params.setUseJsonStreamer(true);
-        //        params.put("home_info", jsonArray);
-        //        params.put("home_id_member", homeID);
-        //        params.put("register_id_member", memberID);
         String shareUrl = NetConfig.AUTHORIZATION + "?home_id_member=" + homeID + "&register_id_member=" + memberID;
         HttpOkhUtils.getInstance().doPostBeanToString(shareUrl, params, new HttpOkhUtils.HttpCallBack() {
             @Override

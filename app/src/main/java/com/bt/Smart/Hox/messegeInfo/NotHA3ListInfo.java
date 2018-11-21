@@ -79,6 +79,11 @@ public class NotHA3ListInfo {
         private String         default_device_type;
         private String         home_id;
         private String         id;
+        /**
+         * isSelect : false
+         */
+
+        private boolean        isSelect;
 
         public String getDeviceType() {
             return deviceType;
@@ -190,6 +195,14 @@ public class NotHA3ListInfo {
 
         public void setId(String id) {
             this.id = id;
+        }
+
+        public boolean isIsSelect() {
+            return isSelect;
+        }
+
+        public void setIsSelect(boolean isSelect) {
+            this.isSelect = isSelect;
         }
 
         public static class CreateTimeBean {

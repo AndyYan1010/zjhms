@@ -6,22 +6,6 @@
               android:background="@color/gray_ef"
               android:orientation="vertical">
 
-    <!--<android.support.design.widget.TabLayout-->
-    <!--android:id="@+id/tablayout"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="50dp"-->
-    <!--app:tabMode="fixed"-->
-    <!--app:tabIndicatorHeight="0dp"-->
-    <!--app:tabSelectedTextColor="@color/vm_blue_38"-->
-    <!--app:tabTextColor="@color/black">-->
-    <!--</android.support.design.widget.TabLayout>-->
-
-    <!--<com.bt.Smart.Hox.viewmodle.MyFixedViewpager-->
-    <!--android:id="@+id/view_pager"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:background="@color/white">-->
-    <!--</com.bt.Smart.Hox.viewmodle.MyFixedViewpager>-->
     <android.support.v7.widget.CardView
         android:id="@+id/title"
         android:layout_width="match_parent"
@@ -31,47 +15,57 @@
         <include layout="@layout/title_view_img"/>
     </android.support.v7.widget.CardView>
 
-    <RelativeLayout
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:layout_width="match_parent"
+        android:layout_marginBottom="50dp"
         android:layout_height="match_parent">
 
-        <ListView
-            android:id="@+id/lv_info"
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp">
-        </ListView>
+            android:layout_height="wrap_content">
+        </com.scwang.smartrefresh.layout.header.ClassicsHeader>
 
-        <LinearLayout
-            android:id="@+id/lin_nomsg"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:background="@color/white"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingBottom="5dp">
+            android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/img_loading"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"/>
+            <ListView
+                android:id="@+id/lv_info"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </ListView>
 
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/msg_empty"/>
+            <LinearLayout
+                android:id="@+id/lin_nomsg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/white"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingBottom="5dp">
 
-            <TextView
-                android:id="@+id/tv_nomsg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="暂无信息"
-                android:textColor="@color/vm_black_54"
-                android:textSize="14sp"/>
-        </LinearLayout>
-    </RelativeLayout>
+                <ImageView
+                    android:id="@+id/img_loading"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"/>
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/msg_empty"/>
+
+                <TextView
+                    android:id="@+id/tv_nomsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="暂无信息"
+                    android:textColor="@color/vm_black_54"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

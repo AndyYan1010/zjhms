@@ -14,7 +14,7 @@ import java.util.List;
 public class HouseDeviceInfo {
 
     /**
-     * deviceHouseList : [{"deviceType":"1","device_config":"1","device_status":"0","house_id":"08e70f9e59df4c7fbb119add8490a63d","create_time":{"date":30,"day":2,"hours":9,"minutes":6,"month":9,"nanos":0,"seconds":32,"time":1540861592000,"timezoneOffset":-480,"year":118},"second_control_id":"da157ea9dbdf11e8813c000c2950df04","main_control_id":"f6235486dbde11e8813c000c2950df04","second_control_name":"HAir空气哨兵(有线)","main_control_code":"00000001","type":1,"device_img":"","main_control_name":"HoxONE主控","device_name":"HAir空气哨兵(有线)","device_code":"00123456","default_device_type":"HAir(有线)","home_id":"c340f6101d844659a7f6fc97493e51bc","id":"1c7d954bb5e044488886fd66052316b5"}]
+     * deviceHouseList : [{"deviceType":"1","device_config":"1","device_status":"0","house_id":"3161cffdb2654e9b805bc81c7280cdd6","create_time":{"date":20,"day":2,"hours":18,"minutes":38,"month":10,"nanos":0,"seconds":10,"time":1542710290000,"timezoneOffset":-480,"year":118},"second_control_id":"f2443a9aec8b11e8b051000c29b0f385","main_control_id":"19f13c82e99111e8b051000c29b0f385","second_control_name":"调光控制（灯控）","main_control_code":"0101800001","type":0,"device_img":"","main_control_name":"中央控制器（POE/Lora）","device_name":"调光控制（灯控）","device_code":"0221800001 ","default_device_type":"022","home_id":"d03949369e494186add23a2211858f5b","id":"00f5350d73b14d87b54e23d58d03e3e0"},{"deviceType":"1","device_config":"1","device_status":"1","house_id":"3161cffdb2654e9b805bc81c7280cdd6","create_time":{"date":20,"day":2,"hours":13,"minutes":13,"month":10,"nanos":0,"seconds":9,"time":1542690789000,"timezoneOffset":-480,"year":118},"second_control_id":"f84fe4afec8211e8b051000c29b0f385","main_control_id":"9753f046ebba11e8b051000c29b0f385","second_control_name":"计量控制（灯控）","main_control_code":"0101800001","type":1,"device_img":"","main_control_name":"中央控制器（POE/Lora）","device_name":"计量控制（灯控）","device_code":"0211800001","default_device_type":"021","home_id":"d03949369e494186add23a2211858f5b","id":"1b1db0203a7f401f9cedbc1d5783c2e4"},{"deviceType":"1","device_config":"99","device_status":"0","house_id":"3161cffdb2654e9b805bc81c7280cdd6","create_time":{"date":21,"day":3,"hours":15,"minutes":9,"month":10,"nanos":0,"seconds":38,"time":1542784178000,"timezoneOffset":-480,"year":118},"second_control_id":"68f9ae6ced5c11e8b051000c29b0f385","main_control_id":"9753f046ebba11e8b051000c29b0f385","second_control_name":"空气哨兵001","main_control_code":"0101800001","type":0,"device_img":"","main_control_name":"中央控制器（POE/Lora）","device_name":"空气哨兵001","device_code":"0311800003","default_device_type":"031","home_id":"d03949369e494186add23a2211858f5b","id":"af71298bddd24516b9fa9cbb6a748eea"}]
      * message : 房间设备列表查询成功
      * code : 1
      */
@@ -52,20 +52,20 @@ public class HouseDeviceInfo {
          * deviceType : 1
          * device_config : 1
          * device_status : 0
-         * house_id : 08e70f9e59df4c7fbb119add8490a63d
-         * create_time : {"date":30,"day":2,"hours":9,"minutes":6,"month":9,"nanos":0,"seconds":32,"time":1540861592000,"timezoneOffset":-480,"year":118}
-         * second_control_id : da157ea9dbdf11e8813c000c2950df04
-         * main_control_id : f6235486dbde11e8813c000c2950df04
-         * second_control_name : HAir空气哨兵(有线)
-         * main_control_code : 00000001
-         * type : 1
+         * house_id : 3161cffdb2654e9b805bc81c7280cdd6
+         * create_time : {"date":20,"day":2,"hours":18,"minutes":38,"month":10,"nanos":0,"seconds":10,"time":1542710290000,"timezoneOffset":-480,"year":118}
+         * second_control_id : f2443a9aec8b11e8b051000c29b0f385
+         * main_control_id : 19f13c82e99111e8b051000c29b0f385
+         * second_control_name : 调光控制（灯控）
+         * main_control_code : 0101800001
+         * type : 0
          * device_img :
-         * main_control_name : HoxONE主控
-         * device_name : HAir空气哨兵(有线)
-         * device_code : 00123456
-         * default_device_type : HAir(有线)
-         * home_id : c340f6101d844659a7f6fc97493e51bc
-         * id : 1c7d954bb5e044488886fd66052316b5
+         * main_control_name : 中央控制器（POE/Lora）
+         * device_name : 调光控制（灯控）
+         * device_code : 0221800001
+         * default_device_type : 022
+         * home_id : d03949369e494186add23a2211858f5b
+         * id : 00f5350d73b14d87b54e23d58d03e3e0
          */
 
         private String deviceType;
@@ -224,14 +224,14 @@ public class HouseDeviceInfo {
 
         public static class CreateTimeBean {
             /**
-             * date : 30
+             * date : 20
              * day : 2
-             * hours : 9
-             * minutes : 6
-             * month : 9
+             * hours : 18
+             * minutes : 38
+             * month : 10
              * nanos : 0
-             * seconds : 32
-             * time : 1540861592000
+             * seconds : 10
+             * time : 1542710290000
              * timezoneOffset : -480
              * year : 118
              */

@@ -62,7 +62,7 @@ public class LvInformationAdapter extends BaseAdapter {
         } else {
             viewholder = (MyViewholder) view.getTag();
         }
-        GlideLoaderUtil.showImgWithIcon(mContext, NetConfig.IMG_HEAD + mList.get(i).getPlay_pic(), R.drawable.msg_empty, R.drawable.msg_empty, viewholder.img_cont);
+        GlideLoaderUtil.showImgWithIcon(mContext, NetConfig.IMG_FOR_SCENE + mList.get(i).getPlay_pic(), R.drawable.msg_empty, R.drawable.msg_empty, viewholder.img_cont);
         viewholder.tv_title.setText(mList.get(i).getPlay_title());
         viewholder.tv_subtitle.setText(mList.get(i).getPlay_introduce());
         viewholder.tv_look.setText(mList.get(i).getPlay_label());

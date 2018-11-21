@@ -62,6 +62,13 @@ public class LvShareAdapter extends BaseAdapter {
             viewholder = (MyViewholder) view.getTag();
         }
         viewholder.cb_room.setText(mList.get(i).getHouse_name());
+        if (1==mList.get(i).getIfCheck()){
+            mList.get(i).setMineIschoice(true);
+            viewholder.cb_room.setChecked(true);
+        }else {
+            mList.get(i).setMineIschoice(false);
+            viewholder.cb_room.setChecked(false);
+        }
         //
         final LvRoomDeviceAdapter roomDeviceAdapter = new LvRoomDeviceAdapter(mContext, mList.get(i).getDeviceList(), mList, this, viewholder.cb_room);
         viewholder.lv_device.setAdapter(roomDeviceAdapter);
@@ -104,10 +111,12 @@ public class LvShareAdapter extends BaseAdapter {
                     if (viewholder.cb_room.isChecked()) {
                         //取消选中/并更改所有子表选中状态
                         for (RoomsDeviceInfo.HouseListBean.DeviceListBean bean : mList.get(i).getDeviceList()) {
+                            bean.setIfCheck(1);
                             bean.setMeChoice(true);
                         }
                     } else {
                         for (RoomsDeviceInfo.HouseListBean.DeviceListBean bean : mList.get(i).getDeviceList()) {
+                            bean.setIfCheck(0);
                             bean.setMeChoice(false);
                         }
                     }

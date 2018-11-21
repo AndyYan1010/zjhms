@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.fragment.ChoiceScenePicFragment;
 import com.bt.Smart.Hox.messegeInfo.ScenePicListInfo;
@@ -47,7 +48,7 @@ public class RecyChoicePicAdapter extends RecyclerView.Adapter<RecyChoicePicAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        GlideLoaderUtil.showImageView(mContext, mData.get(position).getFpic(), holder.img_pic);
+        GlideLoaderUtil.showImageView(mContext, NetConfig.IMG_FOR_SCENE + mData.get(position).getFpic(), holder.img_pic);
         holder.img_pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

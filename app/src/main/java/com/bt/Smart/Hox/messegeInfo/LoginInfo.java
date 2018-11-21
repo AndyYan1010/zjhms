@@ -13,11 +13,11 @@ public class LoginInfo {
 
     /**
      * message : 用户登录成功
-     * memberInfo : {"wx_name":"QW5keSBZYW4=","fstatus":"0","wx_openid":"oGm3u0BHZwOPxMrEs-187NnVIquM","wx_pic":"https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJSoHRiasmEsSO62akEkah2pWGbicFPjeOWlL69alkicTOrvicVciaE8OYqHPMXQUFJNlsTovQu2LtK4rw/132","bpmstatus":"1","id":"74ee5a6bdb5911e8813c000c2950df04","fpassword":"e10adc3949ba59abbe56e057f20f883e","create_date":{"date":29,"day":1,"hours":17,"minutes":4,"month":9,"nanos":0,"seconds":30,"time":1540803870000,"timezoneOffset":-480,"year":118},"ftelephone":"18036215618"}
+     * memberInfo : {"wx_name":"QW5keSBZYW4=","fname":"undefined","fstatus":"0","wx_openid":"oGm3u0BHZwOPxMrEs-187NnVIquM","wx_pic":"https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJSoHRiasmEsSO62akEkah2pWGbicFPjeOWlL69alkicTOrvicVciaE8OYqHPMXQUFJNlsTovQu2LtK4rw/132","head_pic":"http://112.90.178.68:8081/upFiles/1542796099214.jpeg","bpmstatus":"1","id":"74ee5a6bdb5911e8813c000c2950df04","fpassword":"e10adc3949ba59abbe56e057f20f883e","create_date":{"date":29,"day":1,"hours":17,"minutes":4,"month":9,"nanos":0,"seconds":30,"time":1540803870000,"timezoneOffset":-480,"year":118},"ftelephone":"18036215618"}
      * code : 1
      */
 
-    private String message;
+    private String         message;
     private MemberInfoBean memberInfo;
     private int            code;
 
@@ -48,9 +48,11 @@ public class LoginInfo {
     public static class MemberInfoBean {
         /**
          * wx_name : QW5keSBZYW4=
+         * fname : undefined
          * fstatus : 0
          * wx_openid : oGm3u0BHZwOPxMrEs-187NnVIquM
          * wx_pic : https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJSoHRiasmEsSO62akEkah2pWGbicFPjeOWlL69alkicTOrvicVciaE8OYqHPMXQUFJNlsTovQu2LtK4rw/132
+         * head_pic : http://112.90.178.68:8081/upFiles/1542796099214.jpeg
          * bpmstatus : 1
          * id : 74ee5a6bdb5911e8813c000c2950df04
          * fpassword : e10adc3949ba59abbe56e057f20f883e
@@ -58,10 +60,12 @@ public class LoginInfo {
          * ftelephone : 18036215618
          */
 
-        private String wx_name;
+        private String         wx_name;
+        private String         fname;
         private String         fstatus;
         private String         wx_openid;
         private String         wx_pic;
+        private String         head_pic;
         private String         bpmstatus;
         private String         id;
         private String         fpassword;
@@ -74,6 +78,14 @@ public class LoginInfo {
 
         public void setWx_name(String wx_name) {
             this.wx_name = wx_name;
+        }
+
+        public String getFname() {
+            return fname;
+        }
+
+        public void setFname(String fname) {
+            this.fname = fname;
         }
 
         public String getFstatus() {
@@ -98,6 +110,14 @@ public class LoginInfo {
 
         public void setWx_pic(String wx_pic) {
             this.wx_pic = wx_pic;
+        }
+
+        public String getHead_pic() {
+            return head_pic;
+        }
+
+        public void setHead_pic(String head_pic) {
+            this.head_pic = head_pic;
         }
 
         public String getBpmstatus() {
@@ -154,7 +174,7 @@ public class LoginInfo {
              * year : 118
              */
 
-            private int date;
+            private int  date;
             private int  day;
             private int  hours;
             private int  minutes;

@@ -64,6 +64,11 @@ public class LvRoomDeviceAdapter extends BaseAdapter {
             viewholder = (MyViewholder) view.getTag();
         }
         viewholder.tv_name.setText(mList.get(i).getDevice_name());
+        if (1 == mList.get(i).getIfCheck()) {
+            mList.get(i).setMeChoice(true);
+        } else {
+            mList.get(i).setMeChoice(false);
+        }
         if (mList.get(i).isMeChoice()) {
             viewholder.cb_choice.setChecked(true);
         } else {
@@ -73,10 +78,12 @@ public class LvRoomDeviceAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 if (viewholder.cb_choice.isChecked()) {
+                    mList.get(i).setIfCheck(1);
                     mList.get(i).setMeChoice(true);
                     mTopList.get(mTopAdapter.mineSelectItem()).setMineIschoice(true);
                     mTopCheckBox.setChecked(true);
                 } else {
+                    mList.get(i).setIfCheck(0);
                     mList.get(i).setMeChoice(false);
                     boolean hasChoice = false;
                     for (RoomsDeviceInfo.HouseListBean.DeviceListBean bean : mList) {
