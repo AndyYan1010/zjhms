@@ -1,6 +1,7 @@
 package com.bt.Smart.Hox.adapter;
 
-import com.bt.Smart.Hox.messegeInfo.NotHA3ListInfo;
+import com.bt.Smart.Hox.R;
+import com.bt.Smart.Hox.messegeInfo.SceneDevListInfo;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -15,14 +16,29 @@ import java.util.List;
  * @更新描述 ${TODO}
  */
 
-public class RecyAddActAdapter extends BaseQuickAdapter<NotHA3ListInfo.NotHA3listBean, BaseViewHolder> {
+public class RecyAddActAdapter extends BaseQuickAdapter<SceneDevListInfo, BaseViewHolder> {
     public RecyAddActAdapter(int layoutResId, List data) {
         super(layoutResId, data);
     }
 
 
     @Override
-    protected void convert(BaseViewHolder helper, NotHA3ListInfo.NotHA3listBean item) {
-
+    protected void convert(BaseViewHolder helper, SceneDevListInfo item) {
+        helper.setText(R.id.tv_name, item.getDevice_name());
+        if ("0".equals(item.getDevice_status())) {
+            helper.setText(R.id.tv_state, "关闭");
+        } else {
+            helper.setText(R.id.tv_state, "打开");
+        }
+        helper.addOnClickListener(R.id.tv_state);
+        if ("001".equals(item.getDevice_value())) {
+            helper.setText(R.id.tv_ld, "调灯50%亮");
+        } else if ("002".equals(item.getDevice_value())) {
+            helper.setText(R.id.tv_ld, "调灯70%亮");
+        } else {
+            helper.setText(R.id.tv_ld, "调灯100%亮");
+        }
+        helper.addOnClickListener(R.id.tv_ld);
+        helper.addOnClickListener(R.id.img_delet);
     }
 }

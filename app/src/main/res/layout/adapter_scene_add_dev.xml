@@ -4,36 +4,55 @@
               android:layout_height="wrap_content"
               android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:minHeight="50dp">
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tv_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:text="HAir空气哨兵(有线)"
+            android:layout_weight="3"
+            android:maxWidth="100dp"
+            android:singleLine="true"
+            android:text="HAir空气哨兵"
             android:textColor="@color/vm_black_100"
-            android:textSize="16sp"/>
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/tv_state"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="打开"
+            android:textColor="@color/vm_black_100"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/tv_ld"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/tv_state"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="亮度"
+            android:textColor="@color/vm_black_100"
+            android:textSize="14sp"/>
 
         <ImageView
             android:id="@+id/img_delet"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_alignParentRight="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginRight="10dp"
+            android:padding="12dp"
             android:src="@drawable/delete"/>
 
-        <ImageView
-            android:id="@+id/img_edit"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@+id/img_delet"
-            android:src="@drawable/editor_line"/>
-    </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>

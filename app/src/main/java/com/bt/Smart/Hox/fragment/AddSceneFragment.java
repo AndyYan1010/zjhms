@@ -1,6 +1,7 @@
 package com.bt.Smart.Hox.fragment;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -16,14 +17,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.adapter.RecyAddActAdapter;
 import com.bt.Smart.Hox.adapter.RecyItemDragAdapter;
 import com.bt.Smart.Hox.messegeInfo.NotHA3ListInfo;
+import com.bt.Smart.Hox.messegeInfo.SceneDevListInfo;
 import com.bt.Smart.Hox.util.GlideLoaderUtil;
 import com.bt.Smart.Hox.utils.MyAlertDialogHelper;
 import com.bt.Smart.Hox.utils.MyFragmentManagerUtil;
 import com.bt.Smart.Hox.utils.ToastUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
 import com.chad.library.adapter.base.listener.OnItemSwipeListener;
 
@@ -42,21 +48,21 @@ import static com.chad.library.adapter.base.BaseQuickAdapter.SLIDEIN_RIGHT;
  */
 
 public class AddSceneFragment extends Fragment implements View.OnClickListener {
-    private View                                mRootView;
-    private ImageView                           img_back;
-    private TextView                            tv_title;
-    private TextView                            tv_save;//保存
-    private ImageView                           img_bg;
-    private TextView                            tv_name;
-    private TextView                            tv_warn;//提示
-    private ImageView                           img_chbg;//更换背景
-    private ImageView                           img_edit;//编辑场景名字
-    private ImageView                           img_add;//添加动作
-    private List<NotHA3ListInfo.NotHA3listBean> mData;
-    private RecyAddActAdapter                   addActAdapter;
-    private RecyclerView                        recy_act;//动作列表
-    private SwitchCompat                        swc_show;//是否首页展示
-    private int                                 mSelectPicID;//记录选择的背景图ID
+    private View                   mRootView;
+    private ImageView              img_back;
+    private TextView               tv_title;
+    private TextView               tv_save;//保存
+    private ImageView              img_bg;
+    private TextView               tv_name;
+    private TextView               tv_warn;//提示
+    private ImageView              img_chbg;//更换背景
+    private ImageView              img_edit;//编辑场景名字
+    private ImageView              img_add;//添加动作
+    private List<SceneDevListInfo> mData;
+    private RecyAddActAdapter      addActAdapter;
+    private RecyclerView           recy_act;//动作列表
+    private SwitchCompat           swc_show;//是否首页展示
+    private int                    mSelectPicID;//记录选择的背景图ID
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -93,6 +99,8 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
         mData = new ArrayList();
         //设置recyclerview
         initRecyView();
+        //设置选择器数据
+        setSelectItemInfo();
     }
 
     @Override
@@ -117,6 +125,16 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    private void setSelectItemInfo() {
+        stateItems = new ArrayList();
+        stateItems.add("打开");
+        stateItems.add("关闭");
+        valueItems = new ArrayList<>();
+        valueItems.add("调灯50%亮");
+        valueItems.add("调灯70%亮");
+        valueItems.add("调灯100%亮");
+    }
+
     private void initRecyView() {
         recy_act.setLayoutManager(new LinearLayoutManager(getContext()));
         addActAdapter = new RecyAddActAdapter(R.layout.adapter_scene_add_dev, mData);
@@ -128,8 +146,8 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemDragAndSwipeCallback);
         itemTouchHelper.attachToRecyclerView(recy_act);
         // 开启拖拽
-        //         itemDragAdapter.enableDragItem(itemTouchHelper, R.id.textView, true);
-        //         itemDragAdapter.setOnItemDragListener(onItemDragListener);
+        // itemDragAdapter.enableDragItem(itemTouchHelper, R.id.textView, true);
+        // itemDragAdapter.setOnItemDragListener(onItemDragListener);
         // 开启滑动删除
         itemDragAdapter.enableSwipeItem();
         itemDragAdapter.setOnItemSwipeListener(new OnItemSwipeListener() {
@@ -154,6 +172,77 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
 
             }
         });
+        //设置item childview点击事件
+        addActAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, final int position) {
+                view.findViewById(R.id.tv_state).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //打开选择器，选择开关状态
+                        OpenSelectStateView(position);
+                    }
+                });
+                view.findViewById(R.id.tv_ld).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //打开选择器，选择开关状态
+                        OpenSelectValueView(position);
+                    }
+                });
+            }
+        });
+    }
+
+    private List<String> stateItems;
+    private List<String> valueItems;
+
+    private void OpenSelectStateView(final int position) {
+        OptionsPickerView pvOptions = new OptionsPickerBuilder(getContext(), new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                //返回的分别是三个级别的选中位置
+                if (0 == options1) {
+                    mData.get(position).setDevice_status("1");
+                } else {
+                    mData.get(position).setDevice_status("0");
+                }
+                addActAdapter.notifyDataSetChanged();
+            }
+        })
+                .setTitleText("状态")
+                .setBgColor(getResources().getColor(R.color.white))
+                .setDividerColor(Color.BLACK)
+                .setTextColorCenter(Color.BLUE) //设置选中项文字颜色
+                .setContentTextSize(20)
+                .build();
+        pvOptions.setPicker(stateItems);//一级选择器
+        pvOptions.show();
+    }
+
+    private void OpenSelectValueView(final int position) {
+        OptionsPickerView pvOptions = new OptionsPickerBuilder(getContext(), new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                //返回的分别是三个级别的选中位置
+                if (0 == options1) {
+                    mData.get(position).setDevice_value("0001");
+                } else if (1 == options1) {
+                    mData.get(position).setDevice_value("0002");
+                } else {
+                    mData.get(position).setDevice_value("0003");
+                }
+                addActAdapter.notifyDataSetChanged();
+            }
+        })
+                .setTitleText("亮度")
+                .setBgColor(getResources().getColor(R.color.white))
+                .setDividerColor(Color.BLACK)
+                .setTextColorCenter(Color.BLUE) //设置选中项文字颜色
+                .setContentTextSize(20)
+                .build();
+        pvOptions.setPicker(valueItems);//一级选择器
+        pvOptions.show();
     }
 
     private void toChoiceScenePic() {
@@ -214,9 +303,17 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
         mSelectPicID = id;
     }
 
-    public void addActListInfo(List actList) {
-        if (null != mData && null != actList)
-            mData.addAll(actList);
+    public void addActListInfo(List<NotHA3ListInfo.NotHA3listBean> actList) {
+        if (null != mData && null != actList) {
+            for (NotHA3ListInfo.NotHA3listBean bean : actList) {
+                SceneDevListInfo devListInfo = new SceneDevListInfo();
+                devListInfo.setDevice_name(bean.getDevice_name());
+                devListInfo.setDevice_id(bean.getId());
+                devListInfo.setDevice_status("0");
+                devListInfo.setDevice_value("0001");
+                mData.add(devListInfo);
+            }
+        }
         addActAdapter.notifyDataSetChanged();
     }
 }
