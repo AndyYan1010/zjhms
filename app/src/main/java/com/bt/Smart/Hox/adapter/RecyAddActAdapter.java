@@ -30,15 +30,13 @@ public class RecyAddActAdapter extends BaseQuickAdapter<SceneDevListInfo, BaseVi
         } else {
             helper.setText(R.id.tv_state, "打开");
         }
-        helper.addOnClickListener(R.id.tv_state);
-        if ("001".equals(item.getDevice_value())) {
+        if ("0001".equals(item.getDevice_value())) {
             helper.setText(R.id.tv_ld, "调灯50%亮");
-        } else if ("002".equals(item.getDevice_value())) {
+        } else if ("0002".equals(item.getDevice_value())) {
             helper.setText(R.id.tv_ld, "调灯70%亮");
         } else {
             helper.setText(R.id.tv_ld, "调灯100%亮");
         }
-        helper.addOnClickListener(R.id.tv_ld);
-        helper.addOnClickListener(R.id.img_delet);
+        helper.addOnClickListener(R.id.tv_ld).addOnClickListener(R.id.tv_state).addOnClickListener(R.id.img_delet);
     }
 }

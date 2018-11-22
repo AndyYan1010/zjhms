@@ -67,6 +67,7 @@ public class AddActFragment extends Fragment implements View.OnClickListener {
 
     private void initData() {
         tv_title.setText("选择动作");
+        tv_save.setText("确定");
         img_back.setVisibility(View.VISIBLE);
         img_back.setOnClickListener(this);
         tv_save.setVisibility(View.VISIBLE);

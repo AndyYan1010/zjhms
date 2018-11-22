@@ -176,20 +176,20 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
         addActAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, final int position) {
-                view.findViewById(R.id.tv_state).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+                switch (view.getId()) {
+                    case R.id.tv_state:
                         //打开选择器，选择开关状态
                         OpenSelectStateView(position);
-                    }
-                });
-                view.findViewById(R.id.tv_ld).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+                        break;
+                    case R.id.tv_ld:
                         //打开选择器，选择开关状态
                         OpenSelectValueView(position);
-                    }
-                });
+                        break;
+                    case R.id.img_delet:
+                        mData.remove(position);
+                        addActAdapter.notifyDataSetChanged();
+                        break;
+                }
             }
         });
     }
