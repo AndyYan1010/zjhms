@@ -24,9 +24,9 @@ import java.util.List;
 
 public class LvChoiceAutoAdapter extends BaseAdapter {
     private Context                               mContext;
-    private List<AutoListInfo.AutomationlistBean> mList;
+    private List<AutoListInfo.AutolistBean> mList;
 
-    public LvChoiceAutoAdapter(Context context, List<AutoListInfo.AutomationlistBean> list) {
+    public LvChoiceAutoAdapter(Context context, List<AutoListInfo.AutolistBean> list) {
         this.mContext = context;
         this.mList = list;
     }
@@ -60,7 +60,7 @@ public class LvChoiceAutoAdapter extends BaseAdapter {
             viewholder = (MyViewholder) view.getTag();
         }
         viewholder.img_scene.setVisibility(View.INVISIBLE);
-        viewholder.tv_name.setText(mList.get(i).getFname());
+        viewholder.tv_name.setText(mList.get(i).getAuto_name());
         return view;
     }
 

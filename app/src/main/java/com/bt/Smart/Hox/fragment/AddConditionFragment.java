@@ -3,7 +3,6 @@ package com.bt.Smart.Hox.fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +13,22 @@ import android.widget.TextView;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.bt.Smart.Hox.MyApplication;
+import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
+import com.bt.Smart.Hox.messegeInfo.AutoOnlyCGQListInfo;
+import com.bt.Smart.Hox.utils.HttpOkhUtils;
 import com.bt.Smart.Hox.utils.MyFragmentManagerUtil;
+import com.bt.Smart.Hox.utils.ProgressDialogUtil;
+import com.bt.Smart.Hox.utils.RequestParamsFM;
 import com.bt.Smart.Hox.utils.ToastUtils;
+import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Request;
 
 /**
  * @创建者 AndyYan
@@ -35,9 +44,17 @@ public class AddConditionFragment extends Fragment implements View.OnClickListen
     private ImageView      img_back;
     private TextView       tv_title;
     private TextView       tv_save;
-    private RelativeLayout rlt_wd;
-    private RelativeLayout rlt_pm25;
-    private RelativeLayout rlt_ds;
+    private TextView       tv_name;
+    private RelativeLayout rlt_sb;//选择设备
+    private RelativeLayout rlt_wd;//温度
+    private RelativeLayout rlt_sd;//湿度
+    private RelativeLayout rlt_pm2d5;//pm2.5
+    private RelativeLayout rlt_pm10;//pm10
+    private RelativeLayout rlt_jq;//甲醛
+    private RelativeLayout rlt_vocs;//VOCs
+    private RelativeLayout rlt_co2;//CO2
+    private RelativeLayout rlt_co;//CO
+    private List           mQgqData;//存放搜索到的传感器
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,19 +68,36 @@ public class AddConditionFragment extends Fragment implements View.OnClickListen
         img_back = mRootView.findViewById(R.id.img_back);
         tv_title = mRootView.findViewById(R.id.tv_title);
         tv_save = mRootView.findViewById(R.id.tv_save);
+        tv_name = mRootView.findViewById(R.id.tv_name);
+        rlt_sb = mRootView.findViewById(R.id.rlt_sb);
         rlt_wd = mRootView.findViewById(R.id.rlt_wd);
-        rlt_pm25 = mRootView.findViewById(R.id.rlt_pm25);
-        rlt_ds = mRootView.findViewById(R.id.rlt_ds);
-
+        rlt_sd = mRootView.findViewById(R.id.rlt_sd);
+        rlt_pm2d5 = mRootView.findViewById(R.id.rlt_pm2d5);
+        rlt_pm10 = mRootView.findViewById(R.id.rlt_pm10);
+        rlt_jq = mRootView.findViewById(R.id.rlt_jq);
+        rlt_vocs = mRootView.findViewById(R.id.rlt_vocs);
+        rlt_co2 = mRootView.findViewById(R.id.rlt_co2);
+        rlt_co = mRootView.findViewById(R.id.rlt_co);
     }
 
     private void initData() {
         tv_title.setText("选择条件");
         img_back.setVisibility(View.VISIBLE);
         img_back.setOnClickListener(this);
+        tv_save.setOnClickListener(this);
+        rlt_sb.setOnClickListener(this);
         rlt_wd.setOnClickListener(this);
-        rlt_pm25.setOnClickListener(this);
-        rlt_ds.setOnClickListener(this);
+        rlt_sd.setOnClickListener(this);
+        rlt_pm2d5.setOnClickListener(this);
+        rlt_pm10.setOnClickListener(this);
+        rlt_jq.setOnClickListener(this);
+        rlt_vocs.setOnClickListener(this);
+        rlt_co2.setOnClickListener(this);
+        rlt_co.setOnClickListener(this);
+        //获取传感器设备//默认选中第一个
+        qgqItems = new ArrayList();
+        mQgqData = new ArrayList();
+        getQGQDevList();
     }
 
     @Override
@@ -72,25 +106,72 @@ public class AddConditionFragment extends Fragment implements View.OnClickListen
             case R.id.img_back:
                 MyFragmentManagerUtil.closeTopFragment(this);
                 break;
+            case R.id.tv_save://确定
+
+                break;
+            case R.id.rlt_sb://选择设备
+                selectQgQ();
+                break;
             case R.id.rlt_wd://温度选择
                 toSelectWD();
                 break;
-            case R.id.rlt_pm25://温度选择PM2.5选择
+            case R.id.rlt_pm2d5://温度选择PM2.5选择
                 toSelectPM2d5();
-                break;
-            case R.id.rlt_ds://跳转选择时间界面
-                totimerFragment();
                 break;
         }
     }
 
-    private void totimerFragment() {
-        FragmentTransaction ftt = getFragmentManager().beginTransaction();
-        SceneTimingFragment sceneTimingFt = new SceneTimingFragment();
-        sceneTimingFt.setUpFragment((AddAutoFragment)getFragmentManager().findFragmentByTag("addAutoFt"));
-        ftt.add(R.id.frame, sceneTimingFt, "sceneTimingFt");
-        ftt.addToBackStack(null);
-        ftt.commit();
+    private List<String> qgqItems;
+
+    private void selectQgQ() {
+        OptionsPickerView pvOptions = new OptionsPickerBuilder(getContext(), new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                //返回的分别是三个级别的选中位置
+                tv_name.setText(qgqItems.get(options1));
+            }
+        })
+                .setTitleText("设备")
+                .setBgColor(Color.WHITE)
+                .setDividerColor(Color.BLACK)
+                .setTextColorCenter(Color.BLUE) //设置选中项文字颜色
+                .setContentTextSize(20)
+                .build();
+        pvOptions.setPicker(qgqItems);//一级选择器
+        pvOptions.show();
+    }
+
+    private void getQGQDevList() {
+        RequestParamsFM params = new RequestParamsFM();
+        params.put("home_id", MyApplication.slecHomeID);
+        HttpOkhUtils.getInstance().doGetWithParams(NetConfig.QUERYHA3LIST, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(getContext(), "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(getContext(), "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                AutoOnlyCGQListInfo autoOnlyCGQListInfo = gson.fromJson(resbody, AutoOnlyCGQListInfo.class);
+                ToastUtils.showToast(getContext(), autoOnlyCGQListInfo.getMessage());
+                if (1 == autoOnlyCGQListInfo.getCode()) {
+                    mQgqData.addAll(autoOnlyCGQListInfo.getHA3list());
+                    if (null != autoOnlyCGQListInfo.getHA3list() && autoOnlyCGQListInfo.getHA3list().size() > 0) {
+                        tv_name.setText(autoOnlyCGQListInfo.getHA3list().get(0).getDevice_name());
+                    }
+                    for (AutoOnlyCGQListInfo.HA3listBean bean : autoOnlyCGQListInfo.getHA3list()) {
+                        qgqItems.add(bean.getDevice_name());
+                    }
+                }
+            }
+        });
     }
 
     private void toSelectPM2d5() {

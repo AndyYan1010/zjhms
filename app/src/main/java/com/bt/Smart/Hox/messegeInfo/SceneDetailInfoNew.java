@@ -4,24 +4,26 @@ import java.util.List;
 
 /**
  * @创建者 AndyYan
- * @创建时间 2018/11/6 10:20
+ * @创建时间 2018/11/22 13:35
  * @描述 ${TODO}
  * @更新者 $Author$
  * @更新时间 $Date$
  * @更新描述 ${TODO}
  */
 
-public class SceneInfo {
+public class SceneDetailInfoNew {
 
     /**
-     * scenelist : [{"scene_status":"0","home_id":"d03949369e494186add23a2211858f5b","id":"8ea296e5-7501-4f93-86a7-f0e36967d6b9","create_date":{"date":22,"day":4,"hours":10,"minutes":37,"month":10,"nanos":0,"seconds":0,"time":1542854220000,"timezoneOffset":-480,"year":118},"scene_name":"是多少","scene_pic":"http://www.smart-hox.com:8081/upFiles/upload/files/20181108/vmw-hp-hero-vsan-innovations_1541681849443.jpg"},{"scene_status":"0","home_id":"d03949369e494186add23a2211858f5b","id":"9a327794-c2d1-485a-a71d-683d847122bc","create_date":{"date":22,"day":4,"hours":11,"minutes":34,"month":10,"nanos":0,"seconds":49,"time":1542857689000,"timezoneOffset":-480,"year":118},"scene_name":"顾客","scene_pic":"http://www.smart-hox.com:8081/upFiles/upload/files/20181108/vmw-vforum-banner-muti-san-pics_1541681958703.jpg"},{"scene_status":"0","home_id":"d03949369e494186add23a2211858f5b","id":"bdf5a360-ca6d-4940-9fe3-6a71fd8dac7b","create_date":{"date":22,"day":4,"hours":9,"minutes":0,"month":10,"nanos":0,"seconds":29,"time":1542848429000,"timezoneOffset":-480,"year":118},"scene_name":"测试","scene_pic":"http://www.smart-hox.com:8081/upFiles/upload/files/20181108/vmw-hp-hero-vsan-innovations_1541681849443.jpg"},{"scene_status":"0","home_id":"d03949369e494186add23a2211858f5b","id":"d1a7efc5-0c76-4a3b-9b61-7bb047343e72","create_date":{"date":22,"day":4,"hours":11,"minutes":28,"month":10,"nanos":0,"seconds":6,"time":1542857286000,"timezoneOffset":-480,"year":118},"scene_name":"发货快","scene_pic":"http://www.smart-hox.com:8081/upFiles/upload/files/20181108/vmw-vforum-banner-muti-san-pics_1541681958703.jpg"}]
-     * message : 场景查询成功
+     * sceneDetail : [{"scene_status":"0","home_id":"d03949369e494186add23a2211858f5b","id":"8ea296e5-7501-4f93-86a7-f0e36967d6b9","create_date":{"date":22,"day":4,"hours":13,"minutes":18,"month":10,"nanos":0,"seconds":13,"time":1542863893000,"timezoneOffset":-480,"year":118},"scene_name":"是多少","scene_pic":"http://www.smart-hox.com:8081/upFiles/upload/files/20181108/vmw-hp-hero-vsan-innovations_1541681849443.jpg"}]
+     * sceneDeviceDetail : [{"device_status":"1","device_name":"调光控制（灯控）","device_id":"00f5350d73b14d87b54e23d58d03e3e0","device_value":"50","default_device_type":"022","id":"7d464828edff11e8b051000c29b0f385"},{"device_status":"1","device_name":"计量控制（灯控）","device_id":"1b1db0203a7f401f9cedbc1d5783c2e4","device_value":"1","default_device_type":"021","id":"7d48827cedff11e8b051000c29b0f385"},{"device_status":"1","device_name":"空气哨兵","device_id":"b0dd9a6e0f144deaa38939128c3613ae","device_value":"50","default_device_type":"022","id":"7d4aef9cedff11e8b051000c29b0f385"}]
+     * message : 场景详情查询成功
      * code : 1
      */
 
     private String message;
-    private int                 code;
-    private List<ScenelistBean> scenelist;
+    private int                         code;
+    private List<SceneDetailBean>       sceneDetail;
+    private List<SceneDeviceDetailBean> sceneDeviceDetail;
 
     public String getMessage() {
         return message;
@@ -39,20 +41,28 @@ public class SceneInfo {
         this.code = code;
     }
 
-    public List<ScenelistBean> getScenelist() {
-        return scenelist;
+    public List<SceneDetailBean> getSceneDetail() {
+        return sceneDetail;
     }
 
-    public void setScenelist(List<ScenelistBean> scenelist) {
-        this.scenelist = scenelist;
+    public void setSceneDetail(List<SceneDetailBean> sceneDetail) {
+        this.sceneDetail = sceneDetail;
     }
 
-    public static class ScenelistBean {
+    public List<SceneDeviceDetailBean> getSceneDeviceDetail() {
+        return sceneDeviceDetail;
+    }
+
+    public void setSceneDeviceDetail(List<SceneDeviceDetailBean> sceneDeviceDetail) {
+        this.sceneDeviceDetail = sceneDeviceDetail;
+    }
+
+    public static class SceneDetailBean {
         /**
          * scene_status : 0
          * home_id : d03949369e494186add23a2211858f5b
          * id : 8ea296e5-7501-4f93-86a7-f0e36967d6b9
-         * create_date : {"date":22,"day":4,"hours":10,"minutes":37,"month":10,"nanos":0,"seconds":0,"time":1542854220000,"timezoneOffset":-480,"year":118}
+         * create_date : {"date":22,"day":4,"hours":13,"minutes":18,"month":10,"nanos":0,"seconds":13,"time":1542863893000,"timezoneOffset":-480,"year":118}
          * scene_name : 是多少
          * scene_pic : http://www.smart-hox.com:8081/upFiles/upload/files/20181108/vmw-hp-hero-vsan-innovations_1541681849443.jpg
          */
@@ -116,12 +126,12 @@ public class SceneInfo {
             /**
              * date : 22
              * day : 4
-             * hours : 10
-             * minutes : 37
+             * hours : 13
+             * minutes : 18
              * month : 10
              * nanos : 0
-             * seconds : 0
-             * time : 1542854220000
+             * seconds : 13
+             * time : 1542863893000
              * timezoneOffset : -480
              * year : 118
              */
@@ -216,6 +226,72 @@ public class SceneInfo {
             public void setYear(int year) {
                 this.year = year;
             }
+        }
+    }
+
+    public static class SceneDeviceDetailBean {
+        /**
+         * device_status : 1
+         * device_name : 调光控制（灯控）
+         * device_id : 00f5350d73b14d87b54e23d58d03e3e0
+         * device_value : 50
+         * default_device_type : 022
+         * id : 7d464828edff11e8b051000c29b0f385
+         */
+
+        private String device_status;
+        private String device_name;
+        private String device_id;
+        private String device_value;
+        private String default_device_type;
+        private String id;
+
+        public String getDevice_status() {
+            return device_status;
+        }
+
+        public void setDevice_status(String device_status) {
+            this.device_status = device_status;
+        }
+
+        public String getDevice_name() {
+            return device_name;
+        }
+
+        public void setDevice_name(String device_name) {
+            this.device_name = device_name;
+        }
+
+        public String getDevice_id() {
+            return device_id;
+        }
+
+        public void setDevice_id(String device_id) {
+            this.device_id = device_id;
+        }
+
+        public String getDevice_value() {
+            return device_value;
+        }
+
+        public void setDevice_value(String device_value) {
+            this.device_value = device_value;
+        }
+
+        public String getDefault_device_type() {
+            return default_device_type;
+        }
+
+        public void setDefault_device_type(String default_device_type) {
+            this.default_device_type = default_device_type;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
         }
     }
 }

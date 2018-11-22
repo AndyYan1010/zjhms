@@ -56,5 +56,6 @@ dependencies {
     implementation 'com.github:CircleProgress:1.0.1'//环形进度条
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'//recyclerview拖动适配器
     implementation 'com.github.nanchen2251:CompressHelper:1.0.5'//压缩图片
+    implementation 'com.alibaba:fastjson:1.2.51'
     implementation project(':esptouch')
 }

@@ -22,16 +22,16 @@ public class GlideLoaderUtil {
      *
      * @param context  上下文
      * @param url      图片链接
-     * @param imgeview 组件
+     * @param imageview 组件
      */
-    public static void showImageView(Context context, String url, ImageView imgeview) {
+    public static void showImageView(Context context, String url, ImageView imageview) {
         Glide.with(context)
                 .load(url)// 加载图片
                 .placeholder(R.drawable.msg_empty)//图片加载出来前，显示的图片
                 .error(R.drawable.msg_empty)// 设置错误图片
                 .crossFade()// 设置淡入淡出效果，默认300ms，可以传参
 //                .skipMemoryCache(false)
-                .into(imgeview);
+                .into(imageview);
     }
 
     public static void showImgWithIcon(Context context, String url, int beforeID, int errorID, ImageView imgeview) {

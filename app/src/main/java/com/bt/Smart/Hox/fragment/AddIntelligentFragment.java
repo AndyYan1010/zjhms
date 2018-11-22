@@ -80,16 +80,16 @@ public class AddIntelligentFragment extends Fragment implements View.OnClickList
                 //跳转详情页面
                 if ("场景".equals(mKind)) {//跳转场景详情
                     FragmentTransaction ftt = getFragmentManager().beginTransaction();
-                    SceneShowFragment sceneShowFt = new SceneShowFragment();
-                    sceneShowFt.setKind("1",((SceneInfo.ScenariolistBean)mData.get(i)).getId());
+                    AddSceneFragment sceneShowFt = new AddSceneFragment();
+                    sceneShowFt.setKind("1", ((SceneInfo.ScenelistBean) mData.get(i)).getId());
                     ftt.add(R.id.frame, sceneShowFt, "sceneShowFt");
                     ftt.addToBackStack(null);
                     ftt.commit();
                 } else {//跳转自动化详情
                     FragmentTransaction ftt = getFragmentManager().beginTransaction();
-                    AutoShowFragment autoShowFt = new AutoShowFragment();
+                    AddAutoFragment autoShowFt = new AddAutoFragment();
                     //传递数据
-                    autoShowFt.setKind("1",((AutoListInfo.AutomationlistBean)mData.get(i)).getId());
+                    autoShowFt.setKind("1", ((AutoListInfo.AutolistBean) mData.get(i)).getId());
                     ftt.add(R.id.frame, autoShowFt, "autoShowFt");
                     ftt.addToBackStack(null);
                     ftt.commit();
@@ -97,6 +97,12 @@ public class AddIntelligentFragment extends Fragment implements View.OnClickList
             }
         });
         lin_add.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         //获取列表信息
         getSenceAutoList();
     }
@@ -110,17 +116,15 @@ public class AddIntelligentFragment extends Fragment implements View.OnClickList
             case R.id.lin_add://跳转添加界面
                 if ("场景".equals(mKind)) {
                     FragmentTransaction ftt = getFragmentManager().beginTransaction();
-//                    SceneShowFragment sceneShowFt = new SceneShowFragment();
-//                    sceneShowFt.setKind("0",null);
                     AddSceneFragment sceneShowFt = new AddSceneFragment();
+                    sceneShowFt.setKind("0", null);
                     ftt.add(R.id.frame, sceneShowFt, "sceneShowFt");
                     ftt.addToBackStack(null);
                     ftt.commit();
                 } else {
                     FragmentTransaction ftt = getFragmentManager().beginTransaction();
-//                    AutoShowFragment autoShowFt = new AutoShowFragment();
-//                    autoShowFt.setKind("0",null);
                     AddAutoFragment addAutoFt = new AddAutoFragment();
+                    addAutoFt.setKind("0", null);
                     ftt.add(R.id.frame, addAutoFt, "addAutoFt");
                     ftt.addToBackStack(null);
                     ftt.commit();
@@ -139,8 +143,8 @@ public class AddIntelligentFragment extends Fragment implements View.OnClickList
 
     private void getAutoList() {
         RequestParamsFM params = new RequestParamsFM();
-        params.put("id", MyApplication.slecHomeID);
-        HttpOkhUtils.getInstance().doGetWithParams(NetConfig.SELECTALLAUTOMATION, params, new HttpOkhUtils.HttpCallBack() {
+        params.put("home_id", MyApplication.slecHomeID);
+        HttpOkhUtils.getInstance().doGetWithParams(NetConfig.QUERYAUTOLIST, params, new HttpOkhUtils.HttpCallBack() {
             @Override
             public void onError(Request request, IOException e) {
                 ProgressDialogUtil.hideDialog();
@@ -157,14 +161,14 @@ public class AddIntelligentFragment extends Fragment implements View.OnClickList
                 Gson gson = new Gson();
                 AutoListInfo autoInfo = gson.fromJson(resbody, AutoListInfo.class);
                 ToastUtils.showToast(getContext(), autoInfo.getMessage());
-                if (1 == autoInfo.getResult()) {
+                if (1 == autoInfo.getCode()) {
                     mData.clear();
-                    if (autoInfo.getAutomationlist().size() > 0) {
+                    if (autoInfo.getAutolist().size() > 0) {
                         lin_nomsg.setVisibility(View.GONE);
                     } else {
                         lin_nomsg.setVisibility(View.VISIBLE);
                     }
-                    mData.addAll(autoInfo.getAutomationlist());
+                    mData.addAll(autoInfo.getAutolist());
                     sceneAutoAdapter.notifyDataSetChanged();
                 }
             }
@@ -173,8 +177,8 @@ public class AddIntelligentFragment extends Fragment implements View.OnClickList
 
     private void getSenceList() {
         RequestParamsFM params = new RequestParamsFM();
-        params.put("id", MyApplication.slecHomeID);
-        HttpOkhUtils.getInstance().doGetWithParams(NetConfig.SELECTALLSCENARIO, params, new HttpOkhUtils.HttpCallBack() {
+        params.put("home_id", MyApplication.slecHomeID);
+        HttpOkhUtils.getInstance().doGetWithParams(NetConfig.QUERYSCENELIST, params, new HttpOkhUtils.HttpCallBack() {
             @Override
             public void onError(Request request, IOException e) {
                 ProgressDialogUtil.hideDialog();
@@ -191,14 +195,14 @@ public class AddIntelligentFragment extends Fragment implements View.OnClickList
                 Gson gson = new Gson();
                 SceneInfo sceneInfo = gson.fromJson(resbody, SceneInfo.class);
                 ToastUtils.showToast(getContext(), sceneInfo.getMessage());
-                if (1 == sceneInfo.getResult()) {
+                if (1 == sceneInfo.getCode()) {
                     mData.clear();
-                    if (sceneInfo.getScenariolist().size() > 0) {
+                    if (sceneInfo.getScenelist().size() > 0) {
                         lin_nomsg.setVisibility(View.GONE);
                     } else {
                         lin_nomsg.setVisibility(View.VISIBLE);
                     }
-                    mData.addAll(sceneInfo.getScenariolist());
+                    mData.addAll(sceneInfo.getScenelist());
                     sceneAutoAdapter.notifyDataSetChanged();
                 }
             }

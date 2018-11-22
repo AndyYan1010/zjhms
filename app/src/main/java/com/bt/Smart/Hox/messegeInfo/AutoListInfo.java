@@ -14,22 +14,14 @@ import java.util.List;
 public class AutoListInfo {
 
     /**
-     * result : 1
-     * message : 数据查找成功
-     * automationlist : [{"fname":"自动测试1","on_off_status":"0","id":"c59e881941334c959a56eb47e0ef649f","register_id":"c340f6101d844659a7f6fc97493e51bc"}]
+     * autolist : [{"create_time":{"date":22,"day":4,"hours":16,"minutes":55,"month":10,"nanos":0,"seconds":13,"time":1542876913000,"timezoneOffset":-480,"year":118},"auto_status":"0","auto_name":"测试001","home_id":"d03949369e494186add23a2211858f5b","id":"48b2d18e-f7cc-4177-973c-685bb89ada81","auto_type":"0"}]
+     * message : 自动化查询成功
+     * code : 1
      */
 
-    private int result;
-    private String                   message;
-    private List<AutomationlistBean> automationlist;
-
-    public int getResult() {
-        return result;
-    }
-
-    public void setResult(int result) {
-        this.result = result;
-    }
+    private String message;
+    private int                code;
+    private List<AutolistBean> autolist;
 
     public String getMessage() {
         return message;
@@ -39,41 +31,69 @@ public class AutoListInfo {
         this.message = message;
     }
 
-    public List<AutomationlistBean> getAutomationlist() {
-        return automationlist;
+    public int getCode() {
+        return code;
     }
 
-    public void setAutomationlist(List<AutomationlistBean> automationlist) {
-        this.automationlist = automationlist;
+    public void setCode(int code) {
+        this.code = code;
     }
 
-    public static class AutomationlistBean {
+    public List<AutolistBean> getAutolist() {
+        return autolist;
+    }
+
+    public void setAutolist(List<AutolistBean> autolist) {
+        this.autolist = autolist;
+    }
+
+    public static class AutolistBean {
         /**
-         * fname : 自动测试1
-         * on_off_status : 0
-         * id : c59e881941334c959a56eb47e0ef649f
-         * register_id : c340f6101d844659a7f6fc97493e51bc
+         * create_time : {"date":22,"day":4,"hours":16,"minutes":55,"month":10,"nanos":0,"seconds":13,"time":1542876913000,"timezoneOffset":-480,"year":118}
+         * auto_status : 0
+         * auto_name : 测试001
+         * home_id : d03949369e494186add23a2211858f5b
+         * id : 48b2d18e-f7cc-4177-973c-685bb89ada81
+         * auto_type : 0
          */
 
-        private String fname;
-        private String on_off_status;
+        private CreateTimeBean create_time;
+        private String auto_status;
+        private String auto_name;
+        private String home_id;
         private String id;
-        private String register_id;
+        private String auto_type;
 
-        public String getFname() {
-            return fname;
+        public CreateTimeBean getCreate_time() {
+            return create_time;
         }
 
-        public void setFname(String fname) {
-            this.fname = fname;
+        public void setCreate_time(CreateTimeBean create_time) {
+            this.create_time = create_time;
         }
 
-        public String getOn_off_status() {
-            return on_off_status;
+        public String getAuto_status() {
+            return auto_status;
         }
 
-        public void setOn_off_status(String on_off_status) {
-            this.on_off_status = on_off_status;
+        public void setAuto_status(String auto_status) {
+            this.auto_status = auto_status;
+        }
+
+        public String getAuto_name() {
+            return auto_name;
+        }
+
+        public void setAuto_name(String auto_name) {
+            this.auto_name = auto_name;
+        }
+
+        public String getHome_id() {
+            return home_id;
+        }
+
+        public void setHome_id(String home_id) {
+            this.home_id = home_id;
         }
 
         public String getId() {
@@ -84,12 +104,118 @@ public class AutoListInfo {
             this.id = id;
         }
 
-        public String getRegister_id() {
-            return register_id;
+        public String getAuto_type() {
+            return auto_type;
         }
 
-        public void setRegister_id(String register_id) {
-            this.register_id = register_id;
+        public void setAuto_type(String auto_type) {
+            this.auto_type = auto_type;
+        }
+
+        public static class CreateTimeBean {
+            /**
+             * date : 22
+             * day : 4
+             * hours : 16
+             * minutes : 55
+             * month : 10
+             * nanos : 0
+             * seconds : 13
+             * time : 1542876913000
+             * timezoneOffset : -480
+             * year : 118
+             */
+
+            private int date;
+            private int  day;
+            private int  hours;
+            private int  minutes;
+            private int  month;
+            private int  nanos;
+            private int  seconds;
+            private long time;
+            private int  timezoneOffset;
+            private int  year;
+
+            public int getDate() {
+                return date;
+            }
+
+            public void setDate(int date) {
+                this.date = date;
+            }
+
+            public int getDay() {
+                return day;
+            }
+
+            public void setDay(int day) {
+                this.day = day;
+            }
+
+            public int getHours() {
+                return hours;
+            }
+
+            public void setHours(int hours) {
+                this.hours = hours;
+            }
+
+            public int getMinutes() {
+                return minutes;
+            }
+
+            public void setMinutes(int minutes) {
+                this.minutes = minutes;
+            }
+
+            public int getMonth() {
+                return month;
+            }
+
+            public void setMonth(int month) {
+                this.month = month;
+            }
+
+            public int getNanos() {
+                return nanos;
+            }
+
+            public void setNanos(int nanos) {
+                this.nanos = nanos;
+            }
+
+            public int getSeconds() {
+                return seconds;
+            }
+
+            public void setSeconds(int seconds) {
+                this.seconds = seconds;
+            }
+
+            public long getTime() {
+                return time;
+            }
+
+            public void setTime(long time) {
+                this.time = time;
+            }
+
+            public int getTimezoneOffset() {
+                return timezoneOffset;
+            }
+
+            public void setTimezoneOffset(int timezoneOffset) {
+                this.timezoneOffset = timezoneOffset;
+            }
+
+            public int getYear() {
+                return year;
+            }
+
+            public void setYear(int year) {
+                this.year = year;
+            }
         }
     }
 }

@@ -15,15 +15,6 @@
         <include layout="@layout/title_view_img"/>
     </android.support.v7.widget.CardView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:text="选择执行任务的条件"
-        android:textColor="@color/gray_65"
-        android:textSize="12sp"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -32,7 +23,52 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="15dp"
+                android:text="选择启动设备"
+                android:textColor="@color/gray_65"
+                android:textSize="12sp"/>
+
+            <RelativeLayout
+                android:id="@+id/rlt_sb"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="正在加载设备..."
+                    android:textColor="@color/word_black"
+                    android:textSize="14sp"/>
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/icon_down"/>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:text="选择执行任务的条件"
+                android:textColor="@color/gray_65"
+                android:textSize="12sp"/>
 
             <RelativeLayout
                 android:id="@+id/rlt_wd"
@@ -83,31 +119,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/rlt_tq"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:background="@color/white">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:text="天气"
-                    android:textColor="@color/word_black"
-                    android:textSize="14sp"/>
-
-                <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="15dp"
-                    android:src="@drawable/me_next2"/>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlt_pm25"
+                android:id="@+id/rlt_pm2d5"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@color/white">
@@ -131,7 +143,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/rlt_kqzl"
+                android:id="@+id/rlt_pm10"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@color/white">
@@ -141,7 +153,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:text="空气质量"
+                    android:text="PM10"
                     android:textColor="@color/word_black"
                     android:textSize="14sp"/>
 
@@ -155,7 +167,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/rlt_rlrc"
+                android:id="@+id/rlt_jq"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@color/white">
@@ -165,7 +177,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:text="日落日出"
+                    android:text="甲醛"
                     android:textColor="@color/word_black"
                     android:textSize="14sp"/>
 
@@ -179,7 +191,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/rlt_ds"
+                android:id="@+id/rlt_vocs"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@color/white">
@@ -189,7 +201,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:text="定时"
+                    android:text="VOCs"
                     android:textColor="@color/word_black"
                     android:textSize="14sp"/>
 
@@ -203,7 +215,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/rlt_sb"
+                android:id="@+id/rlt_co2"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@color/white">
@@ -213,7 +225,31 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:text="设备"
+                    android:text="CO₂"
+                    android:textColor="@color/word_black"
+                    android:textSize="14sp"/>
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/me_next2"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlt_co"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="CO"
                     android:textColor="@color/word_black"
                     android:textSize="14sp"/>
 

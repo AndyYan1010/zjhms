@@ -4,14 +4,14 @@ import java.util.List;
 
 /**
  * @创建者 AndyYan
- * @创建时间 2018/11/6 10:20
+ * @创建时间 2018/11/22 18:01
  * @描述 ${TODO}
  * @更新者 $Author$
  * @更新时间 $Date$
  * @更新描述 ${TODO}
  */
 
-public class SceneInfo {
+public class SceneListInfo {
 
     /**
      * scenelist : [{"scene_status":"0","home_id":"d03949369e494186add23a2211858f5b","id":"8ea296e5-7501-4f93-86a7-f0e36967d6b9","create_date":{"date":22,"day":4,"hours":10,"minutes":37,"month":10,"nanos":0,"seconds":0,"time":1542854220000,"timezoneOffset":-480,"year":118},"scene_name":"是多少","scene_pic":"http://www.smart-hox.com:8081/upFiles/upload/files/20181108/vmw-hp-hero-vsan-innovations_1541681849443.jpg"},{"scene_status":"0","home_id":"d03949369e494186add23a2211858f5b","id":"9a327794-c2d1-485a-a71d-683d847122bc","create_date":{"date":22,"day":4,"hours":11,"minutes":34,"month":10,"nanos":0,"seconds":49,"time":1542857689000,"timezoneOffset":-480,"year":118},"scene_name":"顾客","scene_pic":"http://www.smart-hox.com:8081/upFiles/upload/files/20181108/vmw-vforum-banner-muti-san-pics_1541681958703.jpg"},{"scene_status":"0","home_id":"d03949369e494186add23a2211858f5b","id":"bdf5a360-ca6d-4940-9fe3-6a71fd8dac7b","create_date":{"date":22,"day":4,"hours":9,"minutes":0,"month":10,"nanos":0,"seconds":29,"time":1542848429000,"timezoneOffset":-480,"year":118},"scene_name":"测试","scene_pic":"http://www.smart-hox.com:8081/upFiles/upload/files/20181108/vmw-hp-hero-vsan-innovations_1541681849443.jpg"},{"scene_status":"0","home_id":"d03949369e494186add23a2211858f5b","id":"d1a7efc5-0c76-4a3b-9b61-7bb047343e72","create_date":{"date":22,"day":4,"hours":11,"minutes":28,"month":10,"nanos":0,"seconds":6,"time":1542857286000,"timezoneOffset":-480,"year":118},"scene_name":"发货快","scene_pic":"http://www.smart-hox.com:8081/upFiles/upload/files/20181108/vmw-vforum-banner-muti-san-pics_1541681958703.jpg"}]

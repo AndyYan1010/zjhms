@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.messegeInfo.AutoListInfo;
 import com.bt.Smart.Hox.messegeInfo.SceneInfo;
@@ -64,16 +63,16 @@ public class LvSceneAutoAdapter extends BaseAdapter {
             viewholder = (MyViewholder) view.getTag();
         }
         if ("场景".equals(mKind)) {
-            GlideLoaderUtil.showImageView(mContext, ((SceneInfo.ScenariolistBean) mList.get(i)).getScenario_img(), viewholder.img_scene);
-            viewholder.tv_name.setText(((SceneInfo.ScenariolistBean) mList.get(i)).getFname());
-            if ("0".equals(((SceneInfo.ScenariolistBean) mList.get(i)).getOn_off_status())) {
+            GlideLoaderUtil.showImageView(mContext, ((SceneInfo.ScenelistBean) mList.get(i)).getScene_pic(), viewholder.img_scene);
+            viewholder.tv_name.setText(((SceneInfo.ScenelistBean) mList.get(i)).getScene_name());
+            if ("0".equals(((SceneInfo.ScenelistBean) mList.get(i)).getScene_status())) {
                 viewholder.swc_scene.setChecked(false);
             } else {
                 viewholder.swc_scene.setChecked(true);
             }
-        } else {
-            viewholder.tv_name.setText(((AutoListInfo.AutomationlistBean) mList.get(i)).getFname());
-            if ("0".equals(((AutoListInfo.AutomationlistBean) mList.get(i)).getOn_off_status())) {
+        } else {//自动化
+            viewholder.tv_name.setText(((AutoListInfo.AutolistBean) mList.get(i)).getAuto_name());
+            if ("0".equals(((AutoListInfo.AutolistBean) mList.get(i)).getAuto_status())) {
                 viewholder.swc_scene.setChecked(false);
             } else {
                 viewholder.swc_scene.setChecked(true);

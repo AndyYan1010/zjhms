@@ -67,18 +67,36 @@ public class NetConfig {
 
     //获取家下所有场景
     public static String SELECTALLSCENARIO = ROOT + "selectallscenario";
+    //查看家下面的场景模式
+    public static String QUERYSCENELIST    = ROOT + "querySceneList";
     //查看场景默认所有图片
     public static String QUERYDEFAULTPIC   = ROOT + "queryDefaultPic";
     //添加场景
     public static String INSERTSCENARIO    = ROOT + "insertscenario";
+    public static String INSERTSCENE       = ROOT + "insertscene";
     //获取场景详情
+    public static String QUERYSCENEDETAIL  = ROOT + "querySceneDetail";
     public static String SELECTNOSCENARIO  = ROOT + "selectnoscenario";
+
+    //场景的开启或关闭
+    public static String UPDATESTATUS      = ROOT + "updateStatus";
+    //更新场景
+    public static String UPDATESCENE       = ROOT + "updatescene";
+    //删除场景
+    public static String DELETESCENE       = ROOT + "deleteScene";
+
+
+    //获取家下传感器
+    public static String QUERYHA3LIST = ROOT + "queryHA3List";
     //查看家下面除传感器之外的设备
     public static String QUERYNOTHA3LIST   = ROOT + "queryNotHA3List";
 
 
     //获取家下所有自动化
+    public static String QUERYAUTOLIST       = ROOT + "queryAutoList";
     public static String SELECTALLAUTOMATION = ROOT + "selectallautomation";
+    //自动化详情
+    public static String QUERYAUTODETIAL     = ROOT + "queryAutoDetial";
     //获得当前家的某个自动化
     public static String SELECTNOAUTOMATION  = ROOT + "selectnoautomation";
     //删除自动化

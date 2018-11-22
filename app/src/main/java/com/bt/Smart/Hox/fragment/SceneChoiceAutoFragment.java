@@ -43,7 +43,7 @@ public class SceneChoiceAutoFragment extends Fragment implements View.OnClickLis
     private TextView                              tv_add;
     private TextView                              tv_sure;
     private ListView                              lv_dev;
-    private List<AutoListInfo.AutomationlistBean> mData;
+    private List<AutoListInfo.AutolistBean> mData;
     private LvChoiceAutoAdapter                   choiceAutoAdapter;
 
     @Override
@@ -106,9 +106,9 @@ public class SceneChoiceAutoFragment extends Fragment implements View.OnClickLis
                 Gson gson = new Gson();
                 AutoListInfo autoInfo = gson.fromJson(resbody, AutoListInfo.class);
                 ToastUtils.showToast(getContext(), autoInfo.getMessage());
-                if (1 == autoInfo.getResult()) {
+                if (1 == autoInfo.getCode()) {
                     mData.clear();
-                    mData.addAll(autoInfo.getAutomationlist());
+                    mData.addAll(autoInfo.getAutolist());
                     choiceAutoAdapter.notifyDataSetChanged();
                 }
             }

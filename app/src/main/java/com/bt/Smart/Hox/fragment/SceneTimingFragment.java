@@ -40,7 +40,7 @@ public class SceneTimingFragment extends Fragment implements View.OnClickListene
     private RecyclerView         recy_date;
     private List<DateStatueInfo> mData;
     private TextView             tv_sure;
-    private AddAutoFragment      mSceneShowFragment;
+    private AddAutoFragment      mAddAutoFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -143,7 +143,7 @@ public class SceneTimingFragment extends Fragment implements View.OnClickListene
 
     private void completeAndClose(String cont) {
         //修改上级界面时间选择
-        mSceneShowFragment.changeTimingUI(cont);
+        mAddAutoFragment.changeTimingUI(cont);
         MyFragmentManagerUtil.closeTopFragment(this);
     }
 
@@ -161,7 +161,7 @@ public class SceneTimingFragment extends Fragment implements View.OnClickListene
         pvTime.show();
     }
 
-    public void setUpFragment(AddAutoFragment sceneShowFragment) {
-        mSceneShowFragment = sceneShowFragment;
+    public void setUpFragment(AddAutoFragment addAutoFragment) {
+        mAddAutoFragment = addAutoFragment;
     }
 }

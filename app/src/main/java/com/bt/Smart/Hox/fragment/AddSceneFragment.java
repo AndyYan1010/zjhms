@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
@@ -12,29 +13,45 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.bt.Smart.Hox.MyApplication;
+import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.adapter.RecyAddActAdapter;
 import com.bt.Smart.Hox.adapter.RecyItemDragAdapter;
+import com.bt.Smart.Hox.messegeInfo.AddSceneResultInfo;
+import com.bt.Smart.Hox.messegeInfo.CommonInfo;
 import com.bt.Smart.Hox.messegeInfo.NotHA3ListInfo;
+import com.bt.Smart.Hox.messegeInfo.ParamSceneInfo;
+import com.bt.Smart.Hox.messegeInfo.ParamSceneInfoWithID;
+import com.bt.Smart.Hox.messegeInfo.SceneDetailInfoNew;
 import com.bt.Smart.Hox.messegeInfo.SceneDevListInfo;
 import com.bt.Smart.Hox.util.GlideLoaderUtil;
+import com.bt.Smart.Hox.utils.HttpOkhUtils;
 import com.bt.Smart.Hox.utils.MyAlertDialogHelper;
 import com.bt.Smart.Hox.utils.MyFragmentManagerUtil;
+import com.bt.Smart.Hox.utils.ProgressDialogUtil;
+import com.bt.Smart.Hox.utils.RequestParamsFM;
 import com.bt.Smart.Hox.utils.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
 import com.chad.library.adapter.base.listener.OnItemSwipeListener;
+import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Request;
 
 import static com.chad.library.adapter.base.BaseQuickAdapter.SLIDEIN_RIGHT;
 
@@ -52,17 +69,20 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
     private ImageView              img_back;
     private TextView               tv_title;
     private TextView               tv_save;//保存
+    private CardView               cv_delt;//删除场景
     private ImageView              img_bg;
     private TextView               tv_name;
     private TextView               tv_warn;//提示
     private ImageView              img_chbg;//更换背景
     private ImageView              img_edit;//编辑场景名字
     private ImageView              img_add;//添加动作
-    private List<SceneDevListInfo> mData;
+    private List<SceneDevListInfo> mData;//选择的设备动作数据
     private RecyAddActAdapter      addActAdapter;
     private RecyclerView           recy_act;//动作列表
     private SwitchCompat           swc_show;//是否首页展示
     private int                    mSelectPicID;//记录选择的背景图ID
+    private String mSelectPicUrl = "http://www.smart-hox.com:8081/upFiles/upload/files/20181108/vmw-hp-hero-vsan-innovations_1541681849443.jpg";//记录选择的背景图url
+    private boolean isOpen;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -84,7 +104,7 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
         img_add = mRootView.findViewById(R.id.img_add);
         recy_act = mRootView.findViewById(R.id.recy_act);
         swc_show = mRootView.findViewById(R.id.swc_show);
-
+        cv_delt = mRootView.findViewById(R.id.cv_delt);
     }
 
     private void initData() {
@@ -96,11 +116,40 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
         img_edit.setOnClickListener(this);
         img_chbg.setOnClickListener(this);
         img_add.setOnClickListener(this);
-        mData = new ArrayList();
+        cv_delt.setOnClickListener(this);
+
         //设置recyclerview
         initRecyView();
         //设置选择器数据
         setSelectItemInfo();
+        if ("1".equals(mKind)) {//显示详情，修改场景
+            cv_delt.setVisibility(View.VISIBLE);
+            //获取详情
+            getSceneDetailInfo();
+        }
+        swc_show.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    isOpen = true;
+                } else {
+                    isOpen = false;
+                }
+            }
+        });
+        swc_show.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if ("1".equals(mKind)) {
+                    if (isOpen) {
+                        //开启或关闭
+                        upDateSceneStatus();
+                    }
+                } else {
+                    swc_show.setChecked(false);
+                }
+            }
+        });
     }
 
     @Override
@@ -110,10 +159,23 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
                 MyFragmentManagerUtil.closeTopFragment(this);
                 break;
             case R.id.tv_save://添加场景
-
+                String name = String.valueOf(tv_name.getText()).trim();
+                if ("".equals(name) || "编辑名字".equals(name)) {
+                    ToastUtils.showToast(getContext(), "场景名称不能为空");
+                    return;
+                }
+                if ("1".equals(mKind)) {//显示详情，修改场景
+                    //修改场景
+                    upDataScene(name);
+                } else {
+                    //新增场景
+                    saveScene(name);
+                }
                 break;
-            case R.id.img_edit:
-                //编辑场景名字
+            case R.id.cv_delt://删除场景
+                deleteScene();
+                break;
+            case R.id.img_edit://编辑场景名字
                 showEditName();
                 break;
             case R.id.img_chbg://更换场景背景图
@@ -123,6 +185,192 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
                 toAddActFragment();
                 break;
         }
+    }
+
+    private void deleteScene() {
+        RequestParamsFM params = new RequestParamsFM();
+        params.put("id", mSceneID);
+        HttpOkhUtils.getInstance().doDelete(NetConfig.DELETESCENE, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(getContext(), "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(getContext(), "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                CommonInfo commonInfo = gson.fromJson(resbody, CommonInfo.class);
+                ToastUtils.showToast(getContext(), commonInfo.getMessage());
+                if (1 == commonInfo.getResult()) {
+                    MyFragmentManagerUtil.closeTopFragment(AddSceneFragment.this);
+                }
+            }
+        });
+    }
+
+    private void upDateSceneStatus() {
+        RequestParamsFM params = new RequestParamsFM();
+        params.put("id", mSceneID);
+        if (isOpen) {
+            params.put("status", "1");
+        } else {
+            params.put("status", "0");
+        }
+        HttpOkhUtils.getInstance().doPut(NetConfig.UPDATESTATUS, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(getContext(), "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(getContext(), "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                CommonInfo commonInfo = gson.fromJson(resbody, CommonInfo.class);
+                ToastUtils.showToast(getContext(), commonInfo.getMessage());
+            }
+        });
+    }
+
+    private void upDataScene(String name) {
+        ParamSceneInfoWithID paramSceneInfo = new ParamSceneInfoWithID();
+        List<ParamSceneInfo.DevicelistBean> mSceList = new ArrayList<>();
+        for (SceneDevListInfo devListInfo : mData) {
+            ParamSceneInfo.DevicelistBean bean = new ParamSceneInfo.DevicelistBean();
+            bean.setDevice_id(devListInfo.getDevice_id());
+            bean.setDevice_status(devListInfo.getDevice_status());
+            bean.setDevice_value(devListInfo.getDevice_value());
+            mSceList.add(bean);
+        }
+        paramSceneInfo.setDevicelist(mSceList);
+        paramSceneInfo.setHome_id(MyApplication.slecHomeID);
+        paramSceneInfo.setScene_name(name);
+        paramSceneInfo.setId(mSceneID);
+        paramSceneInfo.setScene_pic(mSelectPicUrl);
+        String scene = JSON.toJSONString(paramSceneInfo);
+        RequestParamsFM params = new RequestParamsFM();
+        params.put("scene", scene);
+        HttpOkhUtils.getInstance().doPostBeanToString(NetConfig.UPDATESCENE, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(getContext(), "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(getContext(), "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                CommonInfo commonInfo = gson.fromJson(resbody, CommonInfo.class);
+                ToastUtils.showToast(getContext(), commonInfo.getMessage());
+                if (1 == commonInfo.getResult()) {
+                    MyFragmentManagerUtil.closeTopFragment(AddSceneFragment.this);
+                }
+            }
+        });
+    }
+
+    private void getSceneDetailInfo() {
+        RequestParamsFM params = new RequestParamsFM();
+        params.put("id", mSceneID);
+        HttpOkhUtils.getInstance().doGetWithParams(NetConfig.QUERYSCENEDETAIL, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(getContext(), "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(getContext(), "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                SceneDetailInfoNew sceneDetailInfoNew = gson.fromJson(resbody, SceneDetailInfoNew.class);
+                ToastUtils.showToast(getContext(), sceneDetailInfoNew.getMessage());
+                if (1 == sceneDetailInfoNew.getCode()) {
+                    tv_name.setText(sceneDetailInfoNew.getSceneDetail().get(0).getScene_name());
+                    tv_warn.setVisibility(View.VISIBLE);
+                    tv_warn.setText("当点击\"" + sceneDetailInfoNew.getSceneDetail().get(0).getScene_name() + "\"" + "场景");
+                    mSelectPicUrl = sceneDetailInfoNew.getSceneDetail().get(0).getScene_pic();
+                    GlideLoaderUtil.showImageView(getContext(), mSelectPicUrl, img_bg);
+                    if ("0".equals(sceneDetailInfoNew.getSceneDetail().get(0).getScene_status())) {
+                        swc_show.setChecked(false);
+                    } else {
+                        swc_show.setChecked(true);
+                    }
+                    List<SceneDetailInfoNew.SceneDeviceDetailBean> sceneDeviceDetail = sceneDetailInfoNew.getSceneDeviceDetail();
+                    for (SceneDetailInfoNew.SceneDeviceDetailBean bean : sceneDeviceDetail) {
+                        SceneDevListInfo devListInfo = new SceneDevListInfo();
+                        devListInfo.setDevice_id(bean.getId());
+                        devListInfo.setDevice_name(bean.getDevice_name());
+                        devListInfo.setDevice_status(bean.getDevice_status());
+                        devListInfo.setDevice_value(bean.getDevice_value());
+                        mData.add(devListInfo);
+                    }
+                    addActAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+    }
+
+    private void saveScene(String name) {
+        ParamSceneInfo paramSceneInfo = new ParamSceneInfo();
+        paramSceneInfo.setHome_id(MyApplication.slecHomeID);
+        List<ParamSceneInfo.DevicelistBean> mSceList = new ArrayList<>();
+        for (SceneDevListInfo devListInfo : mData) {
+            ParamSceneInfo.DevicelistBean bean = new ParamSceneInfo.DevicelistBean();
+            bean.setDevice_id(devListInfo.getDevice_id());
+            bean.setDevice_status(devListInfo.getDevice_status());
+            bean.setDevice_value(devListInfo.getDevice_value());
+            mSceList.add(bean);
+        }
+        paramSceneInfo.setDevicelist(mSceList);
+        paramSceneInfo.setScene_name(name);
+        paramSceneInfo.setScene_pic(mSelectPicUrl);
+        RequestParamsFM params = new RequestParamsFM();
+        String scene = JSON.toJSONString(paramSceneInfo);
+        params.put("scene", scene);
+        params.setUseJsonStreamer(true);
+        HttpOkhUtils.getInstance().doPostBeanToString(NetConfig.INSERTSCENE, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(getContext(), "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(getContext(), "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                AddSceneResultInfo addSceneResultInfo = gson.fromJson(resbody, AddSceneResultInfo.class);
+                ToastUtils.showToast(getContext(), addSceneResultInfo.getMessage());
+                if (1 == addSceneResultInfo.getResult()) {
+                    MyFragmentManagerUtil.closeTopFragment(AddSceneFragment.this);
+                }
+            }
+        });
     }
 
     private void setSelectItemInfo() {
@@ -136,6 +384,7 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initRecyView() {
+        mData = new ArrayList();
         recy_act.setLayoutManager(new LinearLayoutManager(getContext()));
         addActAdapter = new RecyAddActAdapter(R.layout.adapter_scene_add_dev, mData);
         addActAdapter.openLoadAnimation(SLIDEIN_RIGHT);
@@ -301,6 +550,7 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
     public void changeBgPic(String picUrl, int id) {
         GlideLoaderUtil.showImageView(getContext(), picUrl, img_bg);
         mSelectPicID = id;
+        mSelectPicUrl = picUrl;
     }
 
     public void addActListInfo(List<NotHA3ListInfo.NotHA3listBean> actList) {
@@ -309,11 +559,19 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
                 SceneDevListInfo devListInfo = new SceneDevListInfo();
                 devListInfo.setDevice_name(bean.getDevice_name());
                 devListInfo.setDevice_id(bean.getId());
-                devListInfo.setDevice_status("0");
+                devListInfo.setDevice_status("1");
                 devListInfo.setDevice_value("0001");
                 mData.add(devListInfo);
             }
         }
         addActAdapter.notifyDataSetChanged();
+    }
+
+    private String mKind;//是添加还是详情
+    private String mSceneID;//场景id
+
+    public void setKind(String kind, String sceneID) {
+        mKind = kind;
+        mSceneID = sceneID;
     }
 }
