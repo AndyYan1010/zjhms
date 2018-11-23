@@ -121,6 +121,7 @@
                         android:minHeight="40dp">
 
                         <LinearLayout
+                            android:id="@+id/lin_term"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -132,7 +133,7 @@
                                 android:id="@+id/tv_term"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="当满足任一条件时"
+                                android:text="当满足所有条件时"
                                 android:textColor="@color/word_black"
                                 android:textSize="14sp"/>
 
@@ -222,6 +223,28 @@
                         android:layout_height="wrap_content">
                     </android.support.v7.widget.RecyclerView>
                 </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cv_delt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                app:cardCornerRadius="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bg_round_red"
+                    android:gravity="center"
+                    android:text="删    除"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"/>
+
             </android.support.v7.widget.CardView>
         </LinearLayout>
     </ScrollView>

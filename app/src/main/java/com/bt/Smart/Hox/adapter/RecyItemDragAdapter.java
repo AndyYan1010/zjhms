@@ -1,6 +1,5 @@
 package com.bt.Smart.Hox.adapter;
 
-import com.bt.Smart.Hox.messegeInfo.SceneDevListInfo;
 import com.chad.library.adapter.base.BaseItemDraggableAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -15,14 +14,14 @@ import java.util.List;
  * @更新描述 ${TODO}
  */
 
-public class RecyItemDragAdapter extends BaseItemDraggableAdapter<SceneDevListInfo, BaseViewHolder> {
+public class RecyItemDragAdapter extends BaseItemDraggableAdapter<Object, BaseViewHolder> {
     public RecyItemDragAdapter(List data) {
         super(data);
 
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, SceneDevListInfo item) {
+    protected void convert(BaseViewHolder helper, Object item) {
 
     }
 }

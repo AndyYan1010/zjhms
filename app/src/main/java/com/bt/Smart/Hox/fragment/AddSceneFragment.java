@@ -26,7 +26,7 @@ import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bt.Smart.Hox.MyApplication;
 import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
-import com.bt.Smart.Hox.adapter.RecyAddActAdapter;
+import com.bt.Smart.Hox.adapter.RecyAddSceActAdapter;
 import com.bt.Smart.Hox.adapter.RecyItemDragAdapter;
 import com.bt.Smart.Hox.messegeInfo.AddSceneResultInfo;
 import com.bt.Smart.Hox.messegeInfo.CommonInfo;
@@ -77,12 +77,13 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
     private ImageView              img_edit;//编辑场景名字
     private ImageView              img_add;//添加动作
     private List<SceneDevListInfo> mData;//选择的设备动作数据
-    private RecyAddActAdapter      addActAdapter;
+    private RecyAddSceActAdapter   addActAdapter;
     private RecyclerView           recy_act;//动作列表
     private SwitchCompat           swc_show;//是否首页展示
     private int                    mSelectPicID;//记录选择的背景图ID
     private String mSelectPicUrl = "http://www.smart-hox.com:8081/upFiles/upload/files/20181108/vmw-hp-hero-vsan-innovations_1541681849443.jpg";//记录选择的背景图url
     private boolean isOpen;
+    private String mThisSceHomeID = MyApplication.slecHomeID;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -254,7 +255,7 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
             mSceList.add(bean);
         }
         paramSceneInfo.setDevicelist(mSceList);
-        paramSceneInfo.setHome_id(MyApplication.slecHomeID);
+        paramSceneInfo.setHome_id(mThisSceHomeID);
         paramSceneInfo.setScene_name(name);
         paramSceneInfo.setId(mSceneID);
         paramSceneInfo.setScene_pic(mSelectPicUrl);
@@ -306,6 +307,7 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
                 SceneDetailInfoNew sceneDetailInfoNew = gson.fromJson(resbody, SceneDetailInfoNew.class);
                 ToastUtils.showToast(getContext(), sceneDetailInfoNew.getMessage());
                 if (1 == sceneDetailInfoNew.getCode()) {
+                    mThisSceHomeID = sceneDetailInfoNew.getSceneDetail().get(0).getHome_id();
                     tv_name.setText(sceneDetailInfoNew.getSceneDetail().get(0).getScene_name());
                     tv_warn.setVisibility(View.VISIBLE);
                     tv_warn.setText("当点击\"" + sceneDetailInfoNew.getSceneDetail().get(0).getScene_name() + "\"" + "场景");
@@ -333,7 +335,7 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
 
     private void saveScene(String name) {
         ParamSceneInfo paramSceneInfo = new ParamSceneInfo();
-        paramSceneInfo.setHome_id(MyApplication.slecHomeID);
+        paramSceneInfo.setHome_id(mThisSceHomeID);
         List<ParamSceneInfo.DevicelistBean> mSceList = new ArrayList<>();
         for (SceneDevListInfo devListInfo : mData) {
             ParamSceneInfo.DevicelistBean bean = new ParamSceneInfo.DevicelistBean();
@@ -386,7 +388,7 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
     private void initRecyView() {
         mData = new ArrayList();
         recy_act.setLayoutManager(new LinearLayoutManager(getContext()));
-        addActAdapter = new RecyAddActAdapter(R.layout.adapter_scene_add_dev, mData);
+        addActAdapter = new RecyAddSceActAdapter(R.layout.adapter_scene_add_dev, mData);
         addActAdapter.openLoadAnimation(SLIDEIN_RIGHT);
         recy_act.setAdapter(addActAdapter);
 

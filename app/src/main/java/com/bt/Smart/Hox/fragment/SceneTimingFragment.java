@@ -101,7 +101,7 @@ public class SceneTimingFragment extends Fragment implements View.OnClickListene
                     }
                 }
                 //传递数据，关闭页面
-                completeAndClose(date + "  " + start + "—" + end);
+                completeAndClose(date + "  " + start + "—" + end, mData, start, end);
                 break;
         }
     }
@@ -141,9 +141,9 @@ public class SceneTimingFragment extends Fragment implements View.OnClickListene
         mData.add(info7);
     }
 
-    private void completeAndClose(String cont) {
+    private void completeAndClose(String cont, List<DateStatueInfo> data, String start, String end) {
         //修改上级界面时间选择
-        mAddAutoFragment.changeTimingUI(cont);
+        mAddAutoFragment.changeTimingUI(cont, data, start, end);
         MyFragmentManagerUtil.closeTopFragment(this);
     }
 
@@ -152,10 +152,10 @@ public class SceneTimingFragment extends Fragment implements View.OnClickListene
         TimePickerView pvTime = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-                tv.setText(date.toString().substring(11, 16));
+                tv.setText(date.toString().substring(11, 19));
             }
         })
-                .setType(new boolean[]{false, false, false, true, true, false})
+                .setType(new boolean[]{false, false, false, true, true, true})
                 .setTitleText(title)
                 .build();
         pvTime.show();

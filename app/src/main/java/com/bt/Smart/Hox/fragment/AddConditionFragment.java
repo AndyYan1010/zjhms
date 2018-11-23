@@ -6,7 +6,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -16,7 +18,10 @@ import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bt.Smart.Hox.MyApplication;
 import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
+import com.bt.Smart.Hox.adapter.LvHa3ValueAdapter;
+import com.bt.Smart.Hox.messegeInfo.AutoCondInfo;
 import com.bt.Smart.Hox.messegeInfo.AutoOnlyCGQListInfo;
+import com.bt.Smart.Hox.messegeInfo.Ha3ValueInfo;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
 import com.bt.Smart.Hox.utils.MyFragmentManagerUtil;
 import com.bt.Smart.Hox.utils.ProgressDialogUtil;
@@ -40,21 +45,17 @@ import okhttp3.Request;
  */
 
 public class AddConditionFragment extends Fragment implements View.OnClickListener {
-    private View           mRootView;
-    private ImageView      img_back;
-    private TextView       tv_title;
-    private TextView       tv_save;
-    private TextView       tv_name;
-    private RelativeLayout rlt_sb;//选择设备
-    private RelativeLayout rlt_wd;//温度
-    private RelativeLayout rlt_sd;//湿度
-    private RelativeLayout rlt_pm2d5;//pm2.5
-    private RelativeLayout rlt_pm10;//pm10
-    private RelativeLayout rlt_jq;//甲醛
-    private RelativeLayout rlt_vocs;//VOCs
-    private RelativeLayout rlt_co2;//CO2
-    private RelativeLayout rlt_co;//CO
-    private List           mQgqData;//存放搜索到的传感器
+    private View                                    mRootView;
+    private ImageView                               img_back;
+    private TextView                                tv_title;
+    private TextView                                tv_save;
+    private TextView                                tv_name;
+    private RelativeLayout                          rlt_sb;//选择设备
+    private List<Ha3ValueInfo.Ha3TypeVlaueListBean> mValueData;
+    private LvHa3ValueAdapter                       ha3ValueAdapter;
+    private ListView                                lv_h3value;
+    private List<AutoOnlyCGQListInfo.HA3listBean>   mQgqData;//存放搜索到的传感器
+    private String                                  devID;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,14 +71,7 @@ public class AddConditionFragment extends Fragment implements View.OnClickListen
         tv_save = mRootView.findViewById(R.id.tv_save);
         tv_name = mRootView.findViewById(R.id.tv_name);
         rlt_sb = mRootView.findViewById(R.id.rlt_sb);
-        rlt_wd = mRootView.findViewById(R.id.rlt_wd);
-        rlt_sd = mRootView.findViewById(R.id.rlt_sd);
-        rlt_pm2d5 = mRootView.findViewById(R.id.rlt_pm2d5);
-        rlt_pm10 = mRootView.findViewById(R.id.rlt_pm10);
-        rlt_jq = mRootView.findViewById(R.id.rlt_jq);
-        rlt_vocs = mRootView.findViewById(R.id.rlt_vocs);
-        rlt_co2 = mRootView.findViewById(R.id.rlt_co2);
-        rlt_co = mRootView.findViewById(R.id.rlt_co);
+        lv_h3value = mRootView.findViewById(R.id.lv_h3value);
     }
 
     private void initData() {
@@ -86,39 +80,86 @@ public class AddConditionFragment extends Fragment implements View.OnClickListen
         img_back.setOnClickListener(this);
         tv_save.setOnClickListener(this);
         rlt_sb.setOnClickListener(this);
-        rlt_wd.setOnClickListener(this);
-        rlt_sd.setOnClickListener(this);
-        rlt_pm2d5.setOnClickListener(this);
-        rlt_pm10.setOnClickListener(this);
-        rlt_jq.setOnClickListener(this);
-        rlt_vocs.setOnClickListener(this);
-        rlt_co2.setOnClickListener(this);
-        rlt_co.setOnClickListener(this);
-        //获取传感器设备//默认选中第一个
+        //存储传感器数据
         qgqItems = new ArrayList();
         mQgqData = new ArrayList();
+        //设置空气哨兵的value
+        mValueData = new ArrayList();
+        ha3ValueAdapter = new LvHa3ValueAdapter(getContext(), mValueData);
+        lv_h3value.setAdapter(ha3ValueAdapter);
+        lv_h3value.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String name = String.valueOf(tv_name.getText()).trim();
+                if ("正在加载设备...".equals(name)) {
+                    ToastUtils.showToast(getContext(), "正在加载设备...");
+                    return;
+                }
+                //选择空气哨兵的值
+                //关闭当前界面，给上级界面传入数据
+                changeUpFragmentUI(i);
+            }
+        });
+        //获取传感器设备//默认选中第一个
         getQGQDevList();
+        //获取空气哨兵的值
+        getKQSBValue();
     }
 
     @Override
     public void onClick(View view) {
+        String name = String.valueOf(tv_name.getText()).trim();
+        if ("正在加载设备...".equals(name)) {
+            ToastUtils.showToast(getContext(), "正在加载设备...");
+            return;
+        }
         switch (view.getId()) {
             case R.id.img_back:
                 MyFragmentManagerUtil.closeTopFragment(this);
                 break;
             case R.id.tv_save://确定
-
                 break;
             case R.id.rlt_sb://选择设备
                 selectQgQ();
                 break;
-            case R.id.rlt_wd://温度选择
-                toSelectWD();
-                break;
-            case R.id.rlt_pm2d5://温度选择PM2.5选择
-                toSelectPM2d5();
-                break;
         }
+    }
+
+    private void changeUpFragmentUI(int position) {
+        AutoCondInfo condInfo = new AutoCondInfo();
+        condInfo.setDevice_name(String.valueOf(tv_name.getText()).trim());
+        condInfo.setSelect_type(mValueData.get(position).getFname());
+        condInfo.setSelect_if("等于");
+        condInfo.setValue("0");
+        condInfo.setDevice_id(devID);
+        mAddAutoFragment.changeCondUI(condInfo);
+        MyFragmentManagerUtil.closeTopFragment(this);
+    }
+
+    private void getKQSBValue() {
+        HttpOkhUtils.getInstance().doGet(NetConfig.QUERYHA3TYPEVLAUELIST, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(getContext(), "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(getContext(), "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                Ha3ValueInfo ha3ValueInfo = gson.fromJson(resbody, Ha3ValueInfo.class);
+                ToastUtils.showToast(getContext(), ha3ValueInfo.getMessage());
+                if (1 == ha3ValueInfo.getCode()) {
+                    mValueData.addAll(ha3ValueInfo.getHa3TypeVlaueList());
+                    ha3ValueAdapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     private List<String> qgqItems;
@@ -129,6 +170,7 @@ public class AddConditionFragment extends Fragment implements View.OnClickListen
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 //返回的分别是三个级别的选中位置
                 tv_name.setText(qgqItems.get(options1));
+                devID = mQgqData.get(options1).getId();
             }
         })
                 .setTitleText("设备")
@@ -165,6 +207,7 @@ public class AddConditionFragment extends Fragment implements View.OnClickListen
                     mQgqData.addAll(autoOnlyCGQListInfo.getHA3list());
                     if (null != autoOnlyCGQListInfo.getHA3list() && autoOnlyCGQListInfo.getHA3list().size() > 0) {
                         tv_name.setText(autoOnlyCGQListInfo.getHA3list().get(0).getDevice_name());
+                        devID = autoOnlyCGQListInfo.getHA3list().get(0).getId();
                     }
                     for (AutoOnlyCGQListInfo.HA3listBean bean : autoOnlyCGQListInfo.getHA3list()) {
                         qgqItems.add(bean.getDevice_name());
@@ -226,5 +269,11 @@ public class AddConditionFragment extends Fragment implements View.OnClickListen
         //        pvOptions.setPicker(options1Items);//一级选择器
         pvOptions.setPicker(eqItemList, wdItemsList);//二级选择器
         pvOptions.show();
+    }
+
+    private AddAutoFragment mAddAutoFragment;
+
+    public void setUpFragment(AddAutoFragment addAutoFragment) {
+        mAddAutoFragment = addAutoFragment;
     }
 }

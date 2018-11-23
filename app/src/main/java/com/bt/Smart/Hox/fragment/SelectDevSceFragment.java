@@ -99,16 +99,17 @@ public class SelectDevSceFragment extends Fragment implements View.OnClickListen
     }
 
     private void saveSelectDevAndSce() {
-        List<NotHA3ListInfo.NotHA3listBean> devSceList = new ArrayList();
+        List<NotHA3ListInfo.NotHA3listBean> devList = new ArrayList();
+        List<NotHA3ListInfo.NotHA3listBean> sceList = new ArrayList();
         for (NotHA3ListInfo.NotHA3listBean bean : mDevData) {
             if (bean.isIsSelect())
-                devSceList.add(bean);
+                devList.add(bean);
         }
         for (NotHA3ListInfo.NotHA3listBean bean : mSceData) {
             if (bean.isIsSelect())
-                devSceList.add(bean);
+                sceList.add(bean);
         }
-        mAddAutoFragment.changeActUI(devSceList);
+        mAddAutoFragment.changeActUI(devList,sceList);
         MyFragmentManagerUtil.closeTopFragment(this);
     }
 

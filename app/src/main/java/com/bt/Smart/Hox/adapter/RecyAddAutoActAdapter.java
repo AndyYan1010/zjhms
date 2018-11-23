@@ -1,7 +1,9 @@
 package com.bt.Smart.Hox.adapter;
 
+import android.view.View;
+
 import com.bt.Smart.Hox.R;
-import com.bt.Smart.Hox.messegeInfo.SceneDevListInfo;
+import com.bt.Smart.Hox.messegeInfo.AutoDevListInfo;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -16,14 +18,14 @@ import java.util.List;
  * @更新描述 ${TODO}
  */
 
-public class RecyAddActAdapter extends BaseQuickAdapter<SceneDevListInfo, BaseViewHolder> {
-    public RecyAddActAdapter(int layoutResId, List data) {
+public class RecyAddAutoActAdapter extends BaseQuickAdapter<AutoDevListInfo, BaseViewHolder> {
+    public RecyAddAutoActAdapter(int layoutResId, List data) {
         super(layoutResId, data);
     }
 
 
     @Override
-    protected void convert(BaseViewHolder helper, SceneDevListInfo item) {
+    protected void convert(BaseViewHolder helper, AutoDevListInfo item) {
         helper.setText(R.id.tv_name, item.getDevice_name());
         if ("0".equals(item.getDevice_status())) {
             helper.setText(R.id.tv_state, "关闭");
@@ -36,6 +38,9 @@ public class RecyAddActAdapter extends BaseQuickAdapter<SceneDevListInfo, BaseVi
             helper.setText(R.id.tv_ld, "调灯70%亮");
         } else {
             helper.setText(R.id.tv_ld, "调灯100%亮");
+        }
+        if (null != item.getDeviceType() && "sce".equals(item.getDeviceType())) {
+            helper.getView(R.id.tv_ld).setVisibility(View.GONE);
         }
         helper.addOnClickListener(R.id.tv_ld).addOnClickListener(R.id.tv_state).addOnClickListener(R.id.img_delet);
     }

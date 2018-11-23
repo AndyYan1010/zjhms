@@ -7,12 +7,23 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.messegeInfo.AutoListInfo;
+import com.bt.Smart.Hox.messegeInfo.CommonInfo;
 import com.bt.Smart.Hox.messegeInfo.SceneInfo;
 import com.bt.Smart.Hox.util.GlideLoaderUtil;
+import com.bt.Smart.Hox.utils.HttpOkhUtils;
+import com.bt.Smart.Hox.utils.ProgressDialogUtil;
+import com.bt.Smart.Hox.utils.RequestParamsFM;
+import com.bt.Smart.Hox.utils.ToastUtils;
+import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.List;
+
+import okhttp3.Request;
 
 /**
  * @创建者 AndyYan
@@ -70,6 +81,19 @@ public class LvSceneAutoAdapter extends BaseAdapter {
             } else {
                 viewholder.swc_scene.setChecked(true);
             }
+            viewholder.swc_scene.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String statue;
+                    if (viewholder.swc_scene.isChecked()) {
+                        statue = "0";
+                    } else {
+                        statue = "1";
+                    }
+                    //更新场景
+                    upDataScene(((SceneInfo.ScenelistBean) mList.get(i)).getId(), statue);
+                }
+            });
         } else {//自动化
             viewholder.tv_name.setText(((AutoListInfo.AutolistBean) mList.get(i)).getAuto_name());
             if ("0".equals(((AutoListInfo.AutolistBean) mList.get(i)).getAuto_status())) {
@@ -77,13 +101,82 @@ public class LvSceneAutoAdapter extends BaseAdapter {
             } else {
                 viewholder.swc_scene.setChecked(true);
             }
+            viewholder.swc_scene.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String statue;
+                    if (viewholder.swc_scene.isChecked()) {
+                        statue = "0";
+                    } else {
+                        statue = "1";
+                    }
+                    //更新场景
+                    upDataAuto(((AutoListInfo.AutolistBean) mList.get(i)).getId(), statue);
+                }
+            });
         }
         return view;
     }
 
+    private void upDataAuto(String id, String statue) {
+        RequestParamsFM params = new RequestParamsFM();
+        params.put("id", id);
+        params.put("status", statue);
+        HttpOkhUtils.getInstance().doPut(NetConfig.UPDATEAUTOSTATUS, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(mContext, "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(mContext, "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                CommonInfo commonInfo = gson.fromJson(resbody, CommonInfo.class);
+                ToastUtils.showToast(mContext, commonInfo.getMessage());
+                if (1 == commonInfo.getCode()) {
+
+                }
+            }
+        });
+    }
+
+    private void upDataScene(String id, String statue) {
+        RequestParamsFM params = new RequestParamsFM();
+        params.put("id", id);
+        params.put("status", statue);
+        HttpOkhUtils.getInstance().doPut(NetConfig.UPDATESTATUS, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(mContext, "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(mContext, "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                CommonInfo commonInfo = gson.fromJson(resbody, CommonInfo.class);
+                ToastUtils.showToast(mContext, commonInfo.getMessage());
+                if (1 == commonInfo.getCode()) {
+
+                }
+            }
+        });
+    }
+
     private class MyViewholder {
         SwitchCompat swc_scene;
-        ImageView img_scene;
-        TextView  tv_name;
+        ImageView    img_scene;
+        TextView     tv_name;
     }
 }

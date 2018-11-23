@@ -2,15 +2,14 @@ package com.bt.Smart.Hox.messegeInfo;
 
 /**
  * @创建者 AndyYan
- * @创建时间 2018/11/22 9:17
+ * @创建时间 2018/11/23 13:32
  * @描述 ${TODO}
  * @更新者 $Author$
  * @更新时间 $Date$
  * @更新描述 ${TODO}
  */
 
-public class SceneDevListInfo {
-
+public class AutoDevListInfo {
     /**
      * device_id : q2131332
      * device_status : 0

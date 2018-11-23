@@ -79,28 +79,39 @@ public class NetConfig {
     public static String SELECTNOSCENARIO  = ROOT + "selectnoscenario";
 
     //场景的开启或关闭
-    public static String UPDATESTATUS      = ROOT + "updateStatus";
+    public static String UPDATESTATUS = ROOT + "updateStatus";
     //更新场景
-    public static String UPDATESCENE       = ROOT + "updatescene";
+    public static String UPDATESCENE  = ROOT + "updatescene";
     //删除场景
-    public static String DELETESCENE       = ROOT + "deleteScene";
+    public static String DELETESCENE  = ROOT + "deleteScene";
 
 
     //获取家下传感器
-    public static String QUERYHA3LIST = ROOT + "queryHA3List";
+    public static String QUERYHA3LIST    = ROOT + "queryHA3List";
     //查看家下面除传感器之外的设备
-    public static String QUERYNOTHA3LIST   = ROOT + "queryNotHA3List";
+    public static String QUERYNOTHA3LIST = ROOT + "queryNotHA3List";
 
 
     //获取家下所有自动化
     public static String QUERYAUTOLIST       = ROOT + "queryAutoList";
     public static String SELECTALLAUTOMATION = ROOT + "selectallautomation";
+    //添加自动化
+    public static String INSERTAUTO          = ROOT + "insertauto";
     //自动化详情
     public static String QUERYAUTODETIAL     = ROOT + "queryAutoDetial";
     //获得当前家的某个自动化
     public static String SELECTNOAUTOMATION  = ROOT + "selectnoautomation";
     //删除自动化
     public static String DELETEAUTOMATION    = ROOT + "deleteautomation";
+    public static String DELETEAUTO          = ROOT + "deleteAuto";
+    //更新自动化
+    public static String UPDATEAUTO          = ROOT + "updateAuto";
+    //开启或关闭自动化
+    public static String UPDATEAUTOSTATUS    = ROOT + "updateAutoStatus";
+
+
+    //获取空气哨兵的值
+    public static String QUERYHA3TYPEVLAUELIST = ROOT + "queryHa3TypeVlaueList";
 
 
     //适玩列表
