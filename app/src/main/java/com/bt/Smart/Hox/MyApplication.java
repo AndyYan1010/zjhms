@@ -32,6 +32,8 @@ public class MyApplication extends Application {
     public static String  slecHomeID;
     public static String  slecRoomID;
     public static boolean isLoading;
+    public static int     version_code;
+    public static String  loadUrl;
 
     @Override
     public void onCreate() {

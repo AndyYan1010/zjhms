@@ -7,12 +7,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 import android.widget.Toast;
+
+import com.bt.Smart.Hox.MyApplication;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.utils.DownloadUtil;
+
 import java.io.File;
 
 /**
@@ -53,18 +57,18 @@ public class LoadingApkService extends IntentService {
         updateApk();
     }
 
-    //开始下载apk  网络请求使用的是xutils框架
+    //开始下载apk  网络请求使用的是okhttp框架
     private void updateApk() {
-        url = sharedPreferences.getString("url", "");
-        path = sharedPreferences.getString("path", "");
+        url = MyApplication.loadUrl;
+        path = Environment.getDownloadCacheDirectory() + "smartHox.apk";
         DownloadUtil.get().download(url, path, new DownloadUtil.OnDownloadListener() {
             @Override
             public void onDownloadSuccess() {
                 nm.cancel(R.layout.notification_item);
                 Toast.makeText(LoadingApkService.this, "下载成功...", Toast.LENGTH_SHORT).show();
                 installApk();//下载成功 打开安装界面
-                stopSelf();//结束服务
                 sendBroadcast(new Intent().setAction("android.intent.action.loading_over"));//发送下载结束的广播
+                stopSelf();//结束服务
             }
 
             @Override
