@@ -262,6 +262,7 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
         String scene = JSON.toJSONString(paramSceneInfo);
         RequestParamsFM params = new RequestParamsFM();
         params.put("scene", scene);
+        params.setUseJsonStreamer(true);
         HttpOkhUtils.getInstance().doPostBeanToString(NetConfig.UPDATESCENE, params, new HttpOkhUtils.HttpCallBack() {
             @Override
             public void onError(Request request, IOException e) {
@@ -280,6 +281,7 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
                 CommonInfo commonInfo = gson.fromJson(resbody, CommonInfo.class);
                 ToastUtils.showToast(getContext(), commonInfo.getMessage());
                 if (1 == commonInfo.getResult()) {
+                    mAddIntelligentFragment.refreshDataList();
                     MyFragmentManagerUtil.closeTopFragment(AddSceneFragment.this);
                 }
             }
@@ -321,7 +323,7 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
                     List<SceneDetailInfoNew.SceneDeviceDetailBean> sceneDeviceDetail = sceneDetailInfoNew.getSceneDeviceDetail();
                     for (SceneDetailInfoNew.SceneDeviceDetailBean bean : sceneDeviceDetail) {
                         SceneDevListInfo devListInfo = new SceneDevListInfo();
-                        devListInfo.setDevice_id(bean.getId());
+                        devListInfo.setDevice_id(bean.getDevice_id());
                         devListInfo.setDevice_name(bean.getDevice_name());
                         devListInfo.setDevice_status(bean.getDevice_status());
                         devListInfo.setDevice_value(bean.getDevice_value());
@@ -369,6 +371,7 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
                 AddSceneResultInfo addSceneResultInfo = gson.fromJson(resbody, AddSceneResultInfo.class);
                 ToastUtils.showToast(getContext(), addSceneResultInfo.getMessage());
                 if (1 == addSceneResultInfo.getResult()) {
+                    mAddIntelligentFragment.refreshDataList();
                     MyFragmentManagerUtil.closeTopFragment(AddSceneFragment.this);
                 }
             }
@@ -575,5 +578,11 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
     public void setKind(String kind, String sceneID) {
         mKind = kind;
         mSceneID = sceneID;
+    }
+
+    private AddIntelligentFragment mAddIntelligentFragment;
+
+    public void setUpFragment(AddIntelligentFragment intelligentFragment) {
+        mAddIntelligentFragment = intelligentFragment;
     }
 }

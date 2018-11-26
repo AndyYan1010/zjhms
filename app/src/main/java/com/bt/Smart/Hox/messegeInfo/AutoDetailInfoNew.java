@@ -343,6 +343,11 @@ public class AutoDetailInfoNew {
         private String device_name;
         private String if_select;
         private String if_select_type;
+        /**
+         * device_code : 0311800003
+         */
+
+        private String device_code;
 
         public String getIf_value() {
             return if_value;
@@ -398,6 +403,14 @@ public class AutoDetailInfoNew {
 
         public void setIf_select_type(String if_select_type) {
             this.if_select_type = if_select_type;
+        }
+
+        public String getDevice_code() {
+            return device_code;
+        }
+
+        public void setDevice_code(String device_code) {
+            this.device_code = device_code;
         }
     }
 

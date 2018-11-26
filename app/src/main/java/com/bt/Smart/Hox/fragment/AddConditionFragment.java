@@ -56,6 +56,7 @@ public class AddConditionFragment extends Fragment implements View.OnClickListen
     private ListView                                lv_h3value;
     private List<AutoOnlyCGQListInfo.HA3listBean>   mQgqData;//存放搜索到的传感器
     private String                                  devID;
+    private String                                  devCode;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -129,6 +130,7 @@ public class AddConditionFragment extends Fragment implements View.OnClickListen
         AutoCondInfo condInfo = new AutoCondInfo();
         condInfo.setDevice_name(String.valueOf(tv_name.getText()).trim());
         condInfo.setSelect_type(mValueData.get(position).getFname());
+        condInfo.setHa3_code(devCode);
         condInfo.setSelect_if("等于");
         condInfo.setValue("0");
         condInfo.setDevice_id(devID);
@@ -208,6 +210,7 @@ public class AddConditionFragment extends Fragment implements View.OnClickListen
                     if (null != autoOnlyCGQListInfo.getHA3list() && autoOnlyCGQListInfo.getHA3list().size() > 0) {
                         tv_name.setText(autoOnlyCGQListInfo.getHA3list().get(0).getDevice_name());
                         devID = autoOnlyCGQListInfo.getHA3list().get(0).getId();
+                        devCode = autoOnlyCGQListInfo.getHA3list().get(0).getDevice_code();
                     }
                     for (AutoOnlyCGQListInfo.HA3listBean bean : autoOnlyCGQListInfo.getHA3list()) {
                         qgqItems.add(bean.getDevice_name());

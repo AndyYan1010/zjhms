@@ -19,7 +19,7 @@ public class NetConfig {
     //设备图片地址头
     public static String IMG_FOR_DEV      = "http://112.90.178.68:8083/upFiles/";
     //获取最新版本apk信息
-    public static String GETNEWAPPVERSION = "getNewAppVersion";
+    public static String GETNEWAPPVERSION = ROOT + "getNewAppVersion";
 
     //base64上传图片
     public static String UPLOADBASE64  = ROOT + "uploadBase64";

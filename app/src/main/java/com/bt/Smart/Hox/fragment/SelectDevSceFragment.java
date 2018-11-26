@@ -138,6 +138,9 @@ public class SelectDevSceFragment extends Fragment implements View.OnClickListen
                         NotHA3ListInfo.NotHA3listBean notHA3listBean = new NotHA3ListInfo.NotHA3listBean();
                         notHA3listBean.setIsSelect(false);
                         notHA3listBean.setDevice_name(bean.getDevice_name());
+                        notHA3listBean.setId(bean.getId());
+                        notHA3listBean.setDevice_status(bean.getDevice_status());
+                        notHA3listBean.setDeviceType(bean.getDeviceType());
                         notHA3listBean.setDevice_img(bean.getDevice_img());
                         mDevData.add(notHA3listBean);
                     }
@@ -172,6 +175,8 @@ public class SelectDevSceFragment extends Fragment implements View.OnClickListen
                         NotHA3ListInfo.NotHA3listBean notHA3listBean = new NotHA3ListInfo.NotHA3listBean();
                         notHA3listBean.setIsSelect(false);
                         notHA3listBean.setDevice_name(bean.getScene_name());
+                        notHA3listBean.setId(bean.getId());
+                        notHA3listBean.setDevice_status(bean.getScene_status());
                         notHA3listBean.setDevice_img(bean.getScene_pic());
                         mSceData.add(notHA3listBean);
                     }

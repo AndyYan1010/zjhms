@@ -27,6 +27,11 @@ public class AutoCondInfo {
      */
 
     private String device_id;
+    /**
+     * ha3_code : 226
+     */
+
+    private String ha3_code;
 
     public String getDevice_name() {
         return device_name;
@@ -66,5 +71,13 @@ public class AutoCondInfo {
 
     public void setDevice_id(String device_id) {
         this.device_id = device_id;
+    }
+
+    public String getHa3_code() {
+        return ha3_code;
+    }
+
+    public void setHa3_code(String ha3_code) {
+        this.ha3_code = ha3_code;
     }
 }

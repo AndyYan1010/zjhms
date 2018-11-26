@@ -89,14 +89,19 @@ public class FirstActivity extends Activity implements View.OnClickListener {
                     MyApplication.version_code = newApkInfo.getNewAppVersion().getVersion_code();
                     int appVersionCode = getAppVersionCode(FirstActivity.this);
                     if (appVersionCode < MyApplication.version_code) {
-                        MyApplication.loadUrl = newApkInfo.getNewAppVersion().getApk_file();
-                        //当前版本不是最新版本
-                        //去下载最新版本
-                        downLoadNewApk();
+                        //弹出dailog，提示用户是否下载
+                        showDialogToDown(newApkInfo);
                     }
                 }
             }
         });
+    }
+
+    private void showDialogToDown(NewApkInfo newApkInfo) {
+        MyApplication.loadUrl = newApkInfo.getNewAppVersion().getApk_file();
+        //当前版本不是最新版本
+        //去下载最新版本
+        downLoadNewApk();
     }
 
     private LoadingApkService apkService;

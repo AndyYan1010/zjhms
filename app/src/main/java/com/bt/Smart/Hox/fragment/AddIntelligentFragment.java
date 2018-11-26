@@ -82,6 +82,7 @@ public class AddIntelligentFragment extends Fragment implements View.OnClickList
                     FragmentTransaction ftt = getFragmentManager().beginTransaction();
                     AddSceneFragment sceneShowFt = new AddSceneFragment();
                     sceneShowFt.setKind("1", ((SceneInfo.ScenelistBean) mData.get(i)).getId());
+                    sceneShowFt.setUpFragment(AddIntelligentFragment.this);
                     ftt.add(R.id.frame, sceneShowFt, "sceneShowFt");
                     ftt.addToBackStack(null);
                     ftt.commit();
@@ -90,6 +91,7 @@ public class AddIntelligentFragment extends Fragment implements View.OnClickList
                     AddAutoFragment autoShowFt = new AddAutoFragment();
                     //传递数据
                     autoShowFt.setKind("1", ((AutoListInfo.AutolistBean) mData.get(i)).getId());
+                    autoShowFt.setUpFragment(AddIntelligentFragment.this);
                     ftt.add(R.id.frame, autoShowFt, "autoShowFt");
                     ftt.addToBackStack(null);
                     ftt.commit();
@@ -97,12 +99,6 @@ public class AddIntelligentFragment extends Fragment implements View.OnClickList
             }
         });
         lin_add.setOnClickListener(this);
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         //获取列表信息
         getSenceAutoList();
     }
@@ -118,6 +114,7 @@ public class AddIntelligentFragment extends Fragment implements View.OnClickList
                     FragmentTransaction ftt = getFragmentManager().beginTransaction();
                     AddSceneFragment sceneShowFt = new AddSceneFragment();
                     sceneShowFt.setKind("0", null);
+                    sceneShowFt.setUpFragment(this);
                     ftt.add(R.id.frame, sceneShowFt, "sceneShowFt");
                     ftt.addToBackStack(null);
                     ftt.commit();
@@ -125,12 +122,18 @@ public class AddIntelligentFragment extends Fragment implements View.OnClickList
                     FragmentTransaction ftt = getFragmentManager().beginTransaction();
                     AddAutoFragment addAutoFt = new AddAutoFragment();
                     addAutoFt.setKind("0", null);
+                    addAutoFt.setUpFragment(this);
                     ftt.add(R.id.frame, addAutoFt, "addAutoFt");
                     ftt.addToBackStack(null);
                     ftt.commit();
                 }
                 break;
         }
+    }
+
+    public void refreshDataList() {
+        //获取列表信息
+        getSenceAutoList();
     }
 
     private void getSenceAutoList() {

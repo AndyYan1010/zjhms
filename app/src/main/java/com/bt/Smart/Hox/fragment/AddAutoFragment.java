@@ -239,6 +239,7 @@ public class AddAutoFragment extends Fragment implements View.OnClickListener {
         List<InsertAutoInfo.AutoIfha3ListBean> auto_ifha3_list = new ArrayList<>();
         for (AutoCondInfo autoCondInfo : mConData) {
             InsertAutoInfo.AutoIfha3ListBean ifha3ListBean = new InsertAutoInfo.AutoIfha3ListBean();
+            ifha3ListBean.setIf_ha3_code(autoCondInfo.getHa3_code());
             ifha3ListBean.setIf_ha3_id(autoCondInfo.getDevice_id());
             ifha3ListBean.setIf_select(autoCondInfo.getSelect_if());
             ifha3ListBean.setIf_select_type(autoCondInfo.getSelect_type());
@@ -272,7 +273,7 @@ public class AddAutoFragment extends Fragment implements View.OnClickListener {
         upAutoInfo.setAuto_status(thisAutoStatue);
         String auto = JSON.toJSONString(upAutoInfo);
         RequestParamsFM params = new RequestParamsFM();
-        params.put("aotu", auto);
+        params.put("auto", auto);
         params.setUseJsonStreamer(true);
         HttpOkhUtils.getInstance().doPostBeanToString(NetConfig.UPDATEAUTO, params, new HttpOkhUtils.HttpCallBack() {
             @Override
@@ -292,6 +293,7 @@ public class AddAutoFragment extends Fragment implements View.OnClickListener {
                 CommonInfo commonInfo = gson.fromJson(resbody, CommonInfo.class);
                 ToastUtils.showToast(getContext(), commonInfo.getMessage());
                 if (1 == commonInfo.getResult()) {
+                    mAddIntelligentFragment.refreshDataList();
                     MyFragmentManagerUtil.closeTopFragment(AddAutoFragment.this);
                 }
             }
@@ -328,6 +330,7 @@ public class AddAutoFragment extends Fragment implements View.OnClickListener {
         List<InsertAutoInfo.AutoIfha3ListBean> auto_ifha3_list = new ArrayList<>();
         for (AutoCondInfo autoCondInfo : mConData) {
             InsertAutoInfo.AutoIfha3ListBean ifha3ListBean = new InsertAutoInfo.AutoIfha3ListBean();
+            ifha3ListBean.setIf_ha3_code(autoCondInfo.getHa3_code());
             ifha3ListBean.setIf_ha3_id(autoCondInfo.getDevice_id());
             ifha3ListBean.setIf_select(autoCondInfo.getSelect_if());
             ifha3ListBean.setIf_select_type(autoCondInfo.getSelect_type());
@@ -379,6 +382,7 @@ public class AddAutoFragment extends Fragment implements View.OnClickListener {
                 CommonInfo commonInfo = gson.fromJson(resbody, CommonInfo.class);
                 ToastUtils.showToast(getContext(), commonInfo.getMessage());
                 if (1 == commonInfo.getResult()) {
+                    mAddIntelligentFragment.refreshDataList();
                     MyFragmentManagerUtil.closeTopFragment(AddAutoFragment.this);
                 }
             }
@@ -745,7 +749,7 @@ public class AddAutoFragment extends Fragment implements View.OnClickListener {
                 AutoDetailInfoNew autoDetailInfoNew = gson.fromJson(resbody, AutoDetailInfoNew.class);
                 ToastUtils.showToast(getContext(), autoDetailInfoNew.getMessage());
                 if (1 == autoDetailInfoNew.getCode()) {
-                    //TODO:展示自动化详情
+                    //展示自动化详情
                     tv_name.setText(autoDetailInfoNew.getAutodetail().get(0).getAuto_name());
                     if ("0".equals(autoDetailInfoNew.getAutodetail().get(0).getAuto_type())) {
                         mAutoType = "0";
@@ -765,6 +769,7 @@ public class AddAutoFragment extends Fragment implements View.OnClickListener {
                         autoCondInfo.setSelect_type(ifha3ListBean.getIf_select_type());
                         autoCondInfo.setSelect_if(ifha3ListBean.getIf_select());
                         autoCondInfo.setValue(ifha3ListBean.getIf_value());
+                        autoCondInfo.setHa3_code(ifha3ListBean.getDevice_code());
                         mConData.add(autoCondInfo);
                     }
                     addConAdapter.notifyDataSetChanged();
@@ -784,6 +789,7 @@ public class AddAutoFragment extends Fragment implements View.OnClickListener {
                         devListInfo.setDevice_id(sceneListBean.getId());
                         devListInfo.setDevice_name(sceneListBean.getScene_name());
                         devListInfo.setDevice_status(sceneListBean.getScene_status());
+                        devListInfo.setDevice_id(sceneListBean.getId());
                         devListInfo.setDevice_value("0");
                         devListInfo.setDeviceType("sce");
                         mActData.add(devListInfo);
@@ -953,5 +959,11 @@ public class AddAutoFragment extends Fragment implements View.OnClickListener {
     public void changeCondUI(AutoCondInfo condInfo) {
         mConData.add(condInfo);
         addConAdapter.notifyDataSetChanged();
+    }
+
+    AddIntelligentFragment mAddIntelligentFragment;
+
+    public void setUpFragment(AddIntelligentFragment intelligentFragment) {
+        mAddIntelligentFragment = intelligentFragment;
     }
 }

@@ -24,7 +24,7 @@ public class InsertAutoInfo {
      * home_id : 1298301830
      */
 
-    private String auto_name;
+    private String                      auto_name;
     private String                      auto_type;
     private String                      home_id;
     private List<AutoExecuteDeviceBean> auto_execute_device;
@@ -183,6 +183,11 @@ public class InsertAutoInfo {
         private String if_select_type;
         private String if_type;
         private String if_value;
+        /**
+         * if_ha3_code : 2626
+         */
+
+        private String if_ha3_code;
 
         public String getIf_ha3_id() {
             return if_ha3_id;
@@ -222,6 +227,14 @@ public class InsertAutoInfo {
 
         public void setIf_value(String if_value) {
             this.if_value = if_value;
+        }
+
+        public String getIf_ha3_code() {
+            return if_ha3_code;
+        }
+
+        public void setIf_ha3_code(String if_ha3_code) {
+            this.if_ha3_code = if_ha3_code;
         }
     }
 
