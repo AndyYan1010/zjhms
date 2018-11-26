@@ -140,17 +140,4 @@ public class PersonCenterFragment extends Fragment implements View.OnClickListen
             }
         });
     }
-
-    public void hintKeyBoard() {
-        //拿到InputMethodManager
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        //如果window上view获取焦点 && view不为空
-        if (imm.isActive() && getActivity().getCurrentFocus() != null) {
-            //拿到view的token 不为空
-            if (getActivity().getCurrentFocus().getWindowToken() != null) {
-                //表示软键盘窗口总是隐藏，除非开始时以SHOW_FORCED显示。
-                imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-            }
-        }
-    }
 }
