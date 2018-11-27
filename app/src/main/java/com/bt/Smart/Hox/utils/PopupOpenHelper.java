@@ -31,7 +31,7 @@ public class PopupOpenHelper {
         this.mLayout = layout;
     }
 
-    public void openPopupWindow(boolean isOutsideTouchable, int position) {
+    public void openPopupWindow(boolean isOutsideTouchable, int position) {//true,true,点击旁边消失
         //防止重复按按钮
         if (popupWindow != null && popupWindow.isShowing()) {
             return;

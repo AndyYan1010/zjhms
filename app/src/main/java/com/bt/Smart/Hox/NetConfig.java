@@ -14,6 +14,7 @@ public class NetConfig {
     public static String ROOT             = "http://www.smart-hox.com:8081/hoxJK/";
     //图片地址
     public static String IMG_HEAD         = "http://www.smart-hox.com:8083/upFiles/";
+    public static String IMG_HEAD_IP      = "http://112.90.178.68:8081/upFiles/";
     //场景选择图片的链接头
     public static String IMG_FOR_SCENE    = "http://www.smart-hox.com:8081/upFiles/";
     //设备图片地址头
@@ -22,15 +23,22 @@ public class NetConfig {
     public static String GETNEWAPPVERSION = ROOT + "getNewAppVersion";
 
     //base64上传图片
-    public static String UPLOADBASE64  = ROOT + "uploadBase64";
+    public static String UPLOADBASE64          = ROOT + "uploadBase64";
     //获取验证码
-    public static String CHECKMESSAGE  = ROOT + "checkMessage";
+    public static String CHECKMESSAGE          = ROOT + "checkMessage";
     //注册用户
-    public static String USERINSERTPC  = ROOT + "userInsertPC";
-    //修改密码
-    public static String BACKFPASSWORD = ROOT + "backFpassword";
+    public static String USERINSERTPC          = ROOT + "userInsertPC";
+    //修改密码(记得原密码)
+    public static String BACKFPASSWORD         = ROOT + "backFpassword";
+    //修改密码(忘记原密码)
+    public static String BACKFPASSWORDBYMOBILE = ROOT + "backFpasswordByMobile";
     //用户登录
-    public static String LOGINURL      = ROOT + "userLoginPC";
+    public static String LOGINURL              = ROOT + "userLoginPC";
+    //获取用户信息
+    public static String REGISTERINFO          = ROOT + "registerInfo";
+    //更新用户信息
+    public static String UPDATEPC              = ROOT + "updatePC";
+
 
     //获取用户的家列表
     public static String HOME   = ROOT + "home";

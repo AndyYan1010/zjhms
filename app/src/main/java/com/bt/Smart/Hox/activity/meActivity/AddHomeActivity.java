@@ -476,7 +476,8 @@ public class AddHomeActivity extends BaseActivity implements View.OnClickListene
         String strByBase64 = Bitmap2StrByBase64(bm);
         RequestParamsFM params = new RequestParamsFM();
         params.put("imgStr", strByBase64);
-        HttpOkhUtils.getInstance().doPost(NetConfig.UPLOADBASE64, params, new HttpOkhUtils.HttpCallBack() {
+        params.setUseJsonStreamer(true);
+        HttpOkhUtils.getInstance().doPostBeanToString(NetConfig.UPLOADBASE64, params, new HttpOkhUtils.HttpCallBack() {
             @Override
             public void onError(Request request, IOException e) {
                 ProgressDialogUtil.hideDialog();

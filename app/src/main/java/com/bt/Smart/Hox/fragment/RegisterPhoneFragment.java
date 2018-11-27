@@ -161,8 +161,8 @@ public class RegisterPhoneFragment extends Fragment implements View.OnClickListe
     private void changePsd(String phone, String wrtpsd) {
         RequestParamsFM params = new RequestParamsFM();
         params.put("mobile", phone);
-        params.put("fpassword", wrtpsd);
-        HttpOkhUtils.getInstance().doPost(NetConfig.BACKFPASSWORD, params, new HttpOkhUtils.HttpCallBack() {
+        params.put("fpasswordNew", wrtpsd);
+        HttpOkhUtils.getInstance().doPost(NetConfig.BACKFPASSWORDBYMOBILE, params, new HttpOkhUtils.HttpCallBack() {
             @Override
             public void onError(Request request, IOException e) {
                 ToastUtils.showToast(getContext(), "网络错误");
@@ -176,12 +176,12 @@ public class RegisterPhoneFragment extends Fragment implements View.OnClickListe
                 }
                 Gson gson = new Gson();
                 CommonInfo sendSMSInfo = gson.fromJson(resbody, CommonInfo.class);
+                ToastUtils.showToast(getContext(), sendSMSInfo.getMessage());
                 if (1 == sendSMSInfo.getCode()) {
                     startActivity(new Intent(getContext(), LoginActivity.class));
                     isFinish=true;
                     getActivity().finish();
                 }
-                ToastUtils.showToast(getContext(), sendSMSInfo.getMessage());
             }
         });
     }

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/gray_ef"
+              android:clickable="true"
               android:orientation="vertical">
 
     <include layout="@layout/title_view_img"/>
@@ -31,7 +33,7 @@
                     android:textColor="@color/word_black"
                     android:textSize="14sp"/>
 
-                <ImageView
+                <android.support.v7.widget.CardView
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_alignParentRight="true"
@@ -39,7 +41,15 @@
                     android:layout_marginBottom="8dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginTop="8dp"
-                    android:src="@drawable/iman"/>
+                    app:cardCornerRadius="30dp">
+
+                    <ImageView
+                        android:id="@+id/img_head"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/iman"/>
+                </android.support.v7.widget.CardView>
             </RelativeLayout>
 
             <View
@@ -62,6 +72,7 @@
                     android:textSize="14sp"/>
 
                 <LinearLayout
+                    android:id="@+id/lin_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -71,6 +82,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/tv_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="点此设置昵称"
@@ -103,12 +115,13 @@
                     android:textSize="14sp"/>
 
                 <TextView
+                    android:id="@+id/tv_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
-                    android:text="86-18036552618"
+                    android:text="18036552618"
                     android:textSize="12sp"/>
             </RelativeLayout>
 
@@ -139,7 +152,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
-                    android:checked="true"/>
+                    android:checked="false"/>
             </RelativeLayout>
 
             <View
@@ -163,11 +176,11 @@
                     android:textSize="14sp"/>
 
                 <ImageView
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="15dp"
+                    android:padding="15dp"
                     android:src="@drawable/me_next2"/>
             </RelativeLayout>
 
@@ -191,11 +204,12 @@
                     android:textSize="14sp"/>
 
                 <ImageView
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
+                    android:id="@+id/img_changepsd"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="15dp"
+                    android:padding="15dp"
                     android:src="@drawable/me_next2"/>
             </RelativeLayout>
 
@@ -219,11 +233,11 @@
                     android:textSize="14sp"/>
 
                 <ImageView
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="15dp"
+                    android:padding="15dp"
                     android:src="@drawable/me_next2"/>
             </RelativeLayout>
 
@@ -232,22 +246,16 @@
                 android:layout_height="1px"
                 android:background="@color/gray_ec"/>
 
-            <RelativeLayout
+            <TextView
+                android:id="@+id/tv_exit"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="20dp"
-                android:background="@color/white">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:text="退出登录"
-                    android:textColor="@color/word_black"
-                    android:textSize="14sp"/>
-            </RelativeLayout>
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="退出登录"
+                android:textColor="@color/word_black"
+                android:textSize="14sp"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

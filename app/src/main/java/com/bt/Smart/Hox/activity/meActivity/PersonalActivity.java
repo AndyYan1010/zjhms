@@ -1,5 +1,6 @@
 package com.bt.Smart.Hox.activity.meActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
@@ -17,6 +18,7 @@ import com.bt.Smart.Hox.fragment.PersonCenterFragment;
  */
 
 public class PersonalActivity extends BaseActivity {
+    private PersonCenterFragment personCenterFt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +29,7 @@ public class PersonalActivity extends BaseActivity {
     }
 
     private void setView() {
-        PersonCenterFragment personCenterFt = new PersonCenterFragment();
+        personCenterFt = new PersonCenterFragment();
         FragmentTransaction ftt = getSupportFragmentManager().beginTransaction();
         ftt.add(R.id.frame, personCenterFt, "personCenterFt");
         ftt.commit();
@@ -35,5 +37,11 @@ public class PersonalActivity extends BaseActivity {
 
     private void setData() {
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        personCenterFt.onActivityResult(requestCode,resultCode,data);
     }
 }

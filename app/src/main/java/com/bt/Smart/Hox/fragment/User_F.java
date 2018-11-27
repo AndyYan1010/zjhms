@@ -63,14 +63,19 @@ public class User_F extends Fragment implements View.OnClickListener {
     }
 
     private void initData() {
-        GlideLoaderUtil.showImgWithIcon(getContext(), MyApplication.userHeadPic, R.drawable.iman, R.drawable.iman, img_head);
-        tv_name.setText(MyApplication.userName);
         lin_scene.setOnClickListener(this);
         lin_auto.setOnClickListener(this);
         rtv_home.setOnClickListener(this);
         rtv_person.setOnClickListener(this);
         rtv_setting.setOnClickListener(this);
         rtv_feedback.setOnClickListener(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        GlideLoaderUtil.showImgWithIcon(getContext(), MyApplication.userHeadPic, R.drawable.iman, R.drawable.iman, img_head);
+        tv_name.setText(MyApplication.userName);
     }
 
     @Override
