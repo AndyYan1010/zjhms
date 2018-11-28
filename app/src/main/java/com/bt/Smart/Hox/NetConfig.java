@@ -23,6 +23,7 @@ public class NetConfig {
     public static String GETNEWAPPVERSION = ROOT + "getNewAppVersion";
 
     //base64上传图片
+    public static String UPLOADBASE64ANDROID   = ROOT + "uploadBase64Android";
     public static String UPLOADBASE64          = ROOT + "uploadBase64";
     //获取验证码
     public static String CHECKMESSAGE          = ROOT + "checkMessage";
@@ -70,9 +71,21 @@ public class NetConfig {
 
 
     //主控列表//更新主控
-    public static String MAINCONTROL   = ROOT + "mainControl";
+    public static String MAINCONTROL    = ROOT + "mainControl";
     //从控列表
-    public static String SECONDCONTROL = ROOT + "secondControl";
+    public static String SECONDCONTROL  = ROOT + "secondControl";
+    //获取命令序号
+    public static String DEVICESEQUENCE = ROOT + "deviceSequence";
+
+
+    //设备控制
+    public static String DEVICECONTROL = ROOT + "deviceControl";
+
+    //空气哨兵测量信息
+    public static String HAIRLIST = ROOT + "hairList";
+    //空气哨兵测量信息type
+    public static String HAIR     = ROOT + "hair";
+
 
     //获取家下所有场景
     public static String SELECTALLSCENARIO = ROOT + "selectallscenario";

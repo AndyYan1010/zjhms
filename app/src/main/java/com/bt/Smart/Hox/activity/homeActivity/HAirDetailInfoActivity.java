@@ -8,11 +8,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bt.Smart.Hox.BaseActivity;
+import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.adapter.RecHAirInfoAdapter;
+import com.bt.Smart.Hox.messegeInfo.HairMeasureWithHoursInfo;
+import com.bt.Smart.Hox.utils.HttpOkhUtils;
+import com.bt.Smart.Hox.utils.ProgressDialogUtil;
+import com.bt.Smart.Hox.utils.RequestParamsFM;
+import com.bt.Smart.Hox.utils.ToastUtils;
+import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Request;
 
 /**
  * @创建者 AndyYan
@@ -24,10 +34,11 @@ import java.util.List;
  */
 
 public class HAirDetailInfoActivity extends BaseActivity implements View.OnClickListener {
-    private ImageView    img_back;
-    private TextView     tv_title;
-    private RecyclerView recy_hair_info;
-    private List         mData;
+    private ImageView                                   img_back;
+    private TextView                                    tv_title;
+    private RecyclerView                                recy_hair_info;
+    private RecHAirInfoAdapter                          hAirInfoAdapter;
+    private List<HairMeasureWithHoursInfo.HairListBean> mData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +58,45 @@ public class HAirDetailInfoActivity extends BaseActivity implements View.OnClick
         img_back.setVisibility(View.VISIBLE);
         img_back.setOnClickListener(this);
         tv_title.setText("当前监控数值");
+
+        String dev_id = getIntent().getStringExtra("dev_ID");
         mData = new ArrayList();
-        mData.add("");
         recy_hair_info.setLayoutManager(new GridLayoutManager(this, 2));
-        RecHAirInfoAdapter hAirInfoAdapter = new RecHAirInfoAdapter(this, mData);
+        hAirInfoAdapter = new RecHAirInfoAdapter(this, mData, dev_id);
         recy_hair_info.setAdapter(hAirInfoAdapter);
+
+        //获取空气哨兵的检测值
+        getHairMeasureInfo("0311800001", 1);
+    }
+
+    private void getHairMeasureInfo(String dev_id, int hh) {
+        RequestParamsFM params = new RequestParamsFM();
+        params.put("device_id", dev_id);
+        params.put("hh", hh);
+        HttpOkhUtils.getInstance().doGetWithParams(NetConfig.HAIRLIST, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(HAirDetailInfoActivity.this, "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(HAirDetailInfoActivity.this, "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                HairMeasureWithHoursInfo hairMeasureWithHoursInfo = gson.fromJson(resbody, HairMeasureWithHoursInfo.class);
+                ToastUtils.showToast(HAirDetailInfoActivity.this, hairMeasureWithHoursInfo.getMessage());
+                if (1 == hairMeasureWithHoursInfo.getCode()) {
+                    HairMeasureWithHoursInfo.HairListBean hairListBean = hairMeasureWithHoursInfo.getHairList().get(0);
+                    mData.add(hairListBean);
+                    hAirInfoAdapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     @Override

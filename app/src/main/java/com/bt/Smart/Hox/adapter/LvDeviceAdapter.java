@@ -16,10 +16,20 @@ import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.activity.homeActivity.HAirDetailInfoActivity;
 import com.bt.Smart.Hox.activity.homeActivity.MoveDeviceActivity;
 import com.bt.Smart.Hox.messegeInfo.AllDevListInfo;
+import com.bt.Smart.Hox.messegeInfo.DeviceControlInfo;
+import com.bt.Smart.Hox.messegeInfo.DeviceSequenceInfo;
 import com.bt.Smart.Hox.messegeInfo.HouseDeviceInfo;
 import com.bt.Smart.Hox.util.GlideLoaderUtil;
+import com.bt.Smart.Hox.utils.HttpOkhUtils;
+import com.bt.Smart.Hox.utils.ProgressDialogUtil;
+import com.bt.Smart.Hox.utils.RequestParamsFM;
+import com.bt.Smart.Hox.utils.ToastUtils;
+import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.List;
+
+import okhttp3.Request;
 
 /**
  * @创建者 AndyYan
@@ -77,10 +87,13 @@ public class LvDeviceAdapter extends BaseAdapter {
         final String device_name;
         final String default_device_type;
         int type;
-        String device_status;
+        final String device_status;
         final String id;
         final String house_id;
         final String home_id;
+        final String main_control_code;
+        final String device_code;
+        final String control_type;
 
         if ("all".equals(mKind)) {//显示所有设备
             //设备名称
@@ -92,6 +105,9 @@ public class LvDeviceAdapter extends BaseAdapter {
             id = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getId();
             house_id = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getRoomid();
             home_id = MyApplication.slecHomeID;
+            main_control_code = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getMaster_control();
+            device_code = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDevice_code();
+            control_type = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDeviceType();
         } else {
             dev_pic = ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getDevice_img();
             device_name = ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getDevice_name();
@@ -101,6 +117,9 @@ public class LvDeviceAdapter extends BaseAdapter {
             id = ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getId();
             house_id = ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getHouse_id();
             home_id = ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getHome_id();
+            main_control_code = ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getMain_control_code();
+            device_code = ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getDevice_code();
+            control_type = ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getDeviceType();
         }
         viewholder.tv_name.setText(device_name);
         GlideLoaderUtil.showImageView(mContext, NetConfig.IMG_FOR_DEV + dev_pic, viewholder.img_kind);
@@ -154,14 +173,89 @@ public class LvDeviceAdapter extends BaseAdapter {
             public void onClick(View view) {
                 if ("031".equals(default_device_type) || "032".equals(default_device_type)) {
                     //进入空气哨兵详情页
-                    mContext.startActivity(new Intent(mContext, HAirDetailInfoActivity.class));
+                    Intent intent = new Intent(mContext, HAirDetailInfoActivity.class);
+                    if ("all".equals(mKind)) {
+                        intent.putExtra("dev_ID", ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getId());
+                    } else {
+                        intent.putExtra("dev_ID", ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getId());
+                    }
+                    mContext.startActivity(intent);
                 }
                 if ("022".equals(default_device_type)) {//灯的开关事件
-
+                    //获取命令序列号
+                    getDeviceSequence(device_status, main_control_code, device_code, control_type, i);
                 }
             }
         });
         return view;
+    }
+
+    private void getDeviceSequence(final String main_control_code, final String device_status, final String device_code, final String control_type, final int position) {
+        RequestParamsFM params = new RequestParamsFM();
+        params.put("main_control_code", main_control_code);
+        HttpOkhUtils.getInstance().doGetWithParams(NetConfig.DEVICESEQUENCE, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(mContext, "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(mContext, "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                DeviceSequenceInfo deviceSequenceInfo = gson.fromJson(resbody, DeviceSequenceInfo.class);
+                ToastUtils.showToast(mContext, deviceSequenceInfo.getMessage());
+                if (1 == deviceSequenceInfo.getCode()) {
+                    if ("0".equals(device_status)) {
+                        openOrClose(deviceSequenceInfo.getSequence_number(), main_control_code, device_code, control_type, "01", "00000000", position);
+                    } else {
+                        openOrClose(deviceSequenceInfo.getSequence_number(), main_control_code, device_code, control_type, "01", "447a0000", position);
+                    }
+                }
+            }
+        });
+    }
+
+    private void openOrClose(String sequence_number, String main_control_code, String device_code, String control_type, String control_number, String control_data, final int position) {
+        RequestParamsFM params = new RequestParamsFM();
+        params.put("sequence_number", sequence_number);
+        params.put("main_control_code", main_control_code);
+        params.put("device_code", device_code);
+        params.put("control_type", control_type);
+        params.put("control_number", control_number);
+        params.put("control_data", control_data);
+        HttpOkhUtils.getInstance().doGetWithParams(NetConfig.DEVICECONTROL, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(mContext, "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(mContext, "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                DeviceControlInfo deviceControlInfo = gson.fromJson(resbody, DeviceControlInfo.class);
+                ToastUtils.showToast(mContext, deviceControlInfo.getMessage());
+                if (1 == deviceControlInfo.getCode()) {
+                    if ("all".equals(mKind)) {//显示所有设备
+                        ((AllDevListInfo.DeviceHomeListBean) mList.get(position)).setDevice_status("1");
+                    } else {
+                        ((HouseDeviceInfo.DeviceHouseListBean) mList.get(position)).setDevice_status("1");
+                    }
+                }
+            }
+        });
+
     }
 
     private void setKqsbView(MyViewholder viewholder, int type) {

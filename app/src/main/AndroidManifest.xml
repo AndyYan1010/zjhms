@@ -84,6 +84,7 @@
         <activity android:name=".activity.homeActivity.CreateHomeActivity"/>
         <activity android:name=".activity.homeActivity.HAirDetailInfoActivity"/>
         <activity android:name=".activity.meActivity.PersonalActivity"/>
+        <activity android:name=".activity.homeActivity.HAirMeasureTypeActivity"/>
 
         <receiver android:name=".broadcastReceiver.MyApkLoadReceive"/>
         <service android:name=".service.LoadingApkService"/>

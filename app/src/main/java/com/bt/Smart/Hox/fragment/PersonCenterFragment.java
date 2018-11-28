@@ -293,7 +293,7 @@ public class PersonCenterFragment extends Fragment implements View.OnClickListen
             File newFile = new CompressHelper.Builder(getContext())
                     .setMaxWidth(720)  // 默认最大宽度为720
                     .setMaxHeight(960) // 默认最大高度为960
-                    .setQuality(20)    // 默认压缩质量为80
+                    .setQuality(40)    // 默认压缩质量为80
                     .setFileName("sendPic") // 设置你需要修改的文件名
                     .setCompressFormat(Bitmap.CompressFormat.JPEG) // 设置默认压缩为jpg格式
                     .setDestinationDirectoryPath(Environment.getExternalStoragePublicDirectory(
@@ -312,8 +312,7 @@ public class PersonCenterFragment extends Fragment implements View.OnClickListen
         String strByBase64 = Bitmap2StrByBase64(bm);
         RequestParamsFM params = new RequestParamsFM();
         params.put("imgStr", strByBase64);
-        params.setUseJsonStreamer(true);
-        HttpOkhUtils.getInstance().doPost(NetConfig.UPLOADBASE64, params, new HttpOkhUtils.HttpCallBack() {
+        HttpOkhUtils.getInstance().doGetWithParams(NetConfig.UPLOADBASE64ANDROID, params, new HttpOkhUtils.HttpCallBack() {
             @Override
             public void onError(Request request, IOException e) {
                 ProgressDialogUtil.hideDialog();
@@ -492,9 +491,9 @@ public class PersonCenterFragment extends Fragment implements View.OnClickListen
 
     public String Bitmap2StrByBase64(Bitmap bit) {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bit.compress(Bitmap.CompressFormat.JPEG, 50, bos);//参数100表示不压缩
+        bit.compress(Bitmap.CompressFormat.JPEG, 30, bos);//参数100表示不压缩
         byte[] bytes = bos.toByteArray();
-        return Base64.encodeToString(bytes, Base64.DEFAULT);
-        //        return Base64.encodeToString(bytes, Base64.NO_WRAP);
+        //        return Base64.encodeToString(bytes, Base64.DEFAULT);
+        return Base64.encodeToString(bytes, Base64.NO_WRAP);
     }
 }
