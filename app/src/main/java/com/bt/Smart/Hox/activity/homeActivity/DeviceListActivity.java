@@ -1,7 +1,9 @@
 package com.bt.Smart.Hox.activity.homeActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -12,8 +14,9 @@ import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.adapter.LvDevListAdapter;
 import com.bt.Smart.Hox.messegeInfo.CongKongListInfo;
+import com.bt.Smart.Hox.messegeInfo.DeviceTypeAllInfo;
+import com.bt.Smart.Hox.messegeInfo.DeviceTypeListInfo;
 import com.bt.Smart.Hox.messegeInfo.HouseDeviceInfo;
-import com.bt.Smart.Hox.messegeInfo.ZhuKongListInfo;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
 import com.bt.Smart.Hox.utils.ProgressDialogUtil;
 import com.bt.Smart.Hox.utils.RequestParamsFM;
@@ -75,9 +78,44 @@ public class DeviceListActivity extends BaseActivity implements View.OnClickList
         mRoomID = getIntent().getStringExtra("roomID");
 
         mData = new ArrayList();
-        devListAdapter = new LvDevListAdapter(this, mData, mKind,mRoomID);
+        devListAdapter = new LvDevListAdapter(this, mData, mKind, mRoomID);
         lv_dev.setAdapter(devListAdapter);
-
+        lv_dev.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if ("zk".equals(mKind)) {
+                    Intent intent = new Intent(DeviceListActivity.this, AddDevDetailActivity.class);
+                    intent.putExtra("homeID", mHomeID);
+                    intent.putExtra("roomID", mRoomID);
+                    intent.putExtra("devType", "0");//主控/从控/单品
+                    intent.putExtra("name", ((DeviceTypeListInfo.DeviceTypeListBean)mData.get(i)).getDeviceDescibe());
+                    intent.putExtra("control_type", ((DeviceTypeListInfo.DeviceTypeListBean)mData.get(i)).getDevcieType());
+                    intent.putExtra("device_type_id", ((DeviceTypeListInfo.DeviceTypeListBean)mData.get(i)).getId());
+                    intent.putExtra("devcieTypePic", ((DeviceTypeListInfo.DeviceTypeListBean)mData.get(i)).getDevcieTypePic());
+                    startActivity(intent);
+                } else if ("ck".equals(mKind)){
+                    Intent intent = new Intent(DeviceListActivity.this, AddDevDetailActivity.class);
+                    intent.putExtra("homeID", mHomeID);
+                    intent.putExtra("roomID", mRoomID);
+                    intent.putExtra("devType", "1");//主控/从控/单品
+                    intent.putExtra("name", ((DeviceTypeListInfo.DeviceTypeListBean)mData.get(i)).getDeviceDescibe());
+                    intent.putExtra("control_type", ((DeviceTypeListInfo.DeviceTypeListBean)mData.get(i)).getDevcieType());
+                    intent.putExtra("device_type_id", ((DeviceTypeListInfo.DeviceTypeListBean)mData.get(i)).getId());
+                    intent.putExtra("devcieTypePic", ((DeviceTypeListInfo.DeviceTypeListBean)mData.get(i)).getDevcieTypePic());
+                    startActivity(intent);
+                }else {
+                    Intent intent = new Intent(DeviceListActivity.this, AddDevDetailActivity.class);
+                    intent.putExtra("homeID", mHomeID);
+                    intent.putExtra("roomID", mRoomID);
+                    intent.putExtra("devType", "2");//主控/从控/单品
+                    intent.putExtra("name", ((DeviceTypeAllInfo.DeviceTypeListBean.DataBean)mData.get(i)).getDeviceDescibe());
+                    intent.putExtra("control_type", ((DeviceTypeAllInfo.DeviceTypeListBean.DataBean)mData.get(i)).getDevcieType());
+                    intent.putExtra("device_type_id", ((DeviceTypeAllInfo.DeviceTypeListBean.DataBean)mData.get(i)).getId());
+                    intent.putExtra("devcieTypePic", ((DeviceTypeAllInfo.DeviceTypeListBean.DataBean)mData.get(i)).getDevcieTypePic());
+                    startActivity(intent);
+                }
+            }
+        });
         tv_add.setOnClickListener(this);
 
         if (null == mKind || "".equals(mKind)) {
@@ -86,12 +124,12 @@ public class DeviceListActivity extends BaseActivity implements View.OnClickList
         }
         if ("zk".equals(mKind)) {//显示主控设备列表
             //获取主控
-            getZkList();
-        } else if ("ck".equals(mKind)) {//显示从控设备列表
-            getCkList();
+            getZkOrWiFiList("0");
+        } else if ("ck".equals(mKind)) {//显示WiFi设备列表
+            getZkOrWiFiList("1");
         } else {//设备列表
-            //获取房间下设备列表
-            getDeviceOfRoom();
+            //获取所有设备列表
+            getZkOrWiFiList("2");
         }
     }
 
@@ -105,6 +143,76 @@ public class DeviceListActivity extends BaseActivity implements View.OnClickList
 
                 break;
         }
+    }
+
+    private void getZkOrWiFiList(final String flag) {
+        RequestParamsFM params = new RequestParamsFM();
+        params.put("flag", flag);
+        HttpOkhUtils.getInstance().doGetWithParams(NetConfig.DEVICETYPENEW, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(DeviceListActivity.this, "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(DeviceListActivity.this, "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                if ("0".equals(flag) || "1".equals(flag)) {
+                    DeviceTypeListInfo deviceTypeListInfo = gson.fromJson(resbody, DeviceTypeListInfo.class);
+                    ToastUtils.showToast(DeviceListActivity.this, deviceTypeListInfo.getMessage());
+                    if (1 == deviceTypeListInfo.getCode()) {
+                        mData.addAll(deviceTypeListInfo.getDeviceTypeList());
+                        devListAdapter.notifyDataSetChanged();
+                    }
+                } else {
+                    DeviceTypeAllInfo deviceTypeAllInfo = gson.fromJson(resbody, DeviceTypeAllInfo.class);
+                    ToastUtils.showToast(DeviceListActivity.this, deviceTypeAllInfo.getMessage());
+                    if (1 == deviceTypeAllInfo.getCode()) {
+                        mData.addAll(deviceTypeAllInfo.getDeviceTypeList().getData());
+                        devListAdapter.notifyDataSetChanged();
+                    }
+                }
+
+            }
+        });
+
+
+        //        RequestParamsFM params = new RequestParamsFM();
+        //        params.put("home_id", mHomeID);
+        //        HttpOkhUtils.getInstance().doGetWithParams(NetConfig.MAINCONTROL, params, new HttpOkhUtils.HttpCallBack() {
+        //            @Override
+        //            public void onError(Request request, IOException e) {
+        //                ProgressDialogUtil.hideDialog();
+        //                ToastUtils.showToast(DeviceListActivity.this, "网络连接错误");
+        //            }
+        //
+        //            @Override
+        //            public void onSuccess(int code, String resbody) {
+        //                ProgressDialogUtil.hideDialog();
+        //                if (code != 200) {
+        //                    ToastUtils.showToast(DeviceListActivity.this, "网络错误" + code);
+        //                    return;
+        //                }
+        //                Gson gson = new Gson();
+        //                ZhuKongListInfo zhuKongListInfo = gson.fromJson(resbody, ZhuKongListInfo.class);
+        //                if (1 == zhuKongListInfo.getCode()) {
+        //                    ToastUtils.showToast(DeviceListActivity.this, zhuKongListInfo.getMessage());
+        //                    if (zhuKongListInfo.getHomeList().size() > 0) {
+        //                        lin_nomsg.setVisibility(View.GONE);
+        //                    }
+        //                    mData.addAll(zhuKongListInfo.getHomeList());
+        //                    devListAdapter.notifyDataSetChanged();
+        //                } else {
+        //                    ToastUtils.showToast(DeviceListActivity.this, "查询失败");
+        //                }
+        //            }
+        //        });
     }
 
     private void getDeviceOfRoom() {
@@ -135,7 +243,7 @@ public class DeviceListActivity extends BaseActivity implements View.OnClickList
                 if (1 == houseDeviceInfo.getCode()) {
                     if (null != houseDeviceInfo.getDeviceHouseList() && houseDeviceInfo.getDeviceHouseList().size() > 0) {
                         //ps:>0说明房间下有设备
-                        if (houseDeviceInfo.getDeviceHouseList().size()>0){
+                        if (houseDeviceInfo.getDeviceHouseList().size() > 0) {
                             lin_nomsg.setVisibility(View.GONE);
                             mData.addAll(houseDeviceInfo.getDeviceHouseList());
                             if (null != devListAdapter) {
@@ -173,43 +281,10 @@ public class DeviceListActivity extends BaseActivity implements View.OnClickList
                 CongKongListInfo congKongListInfo = gson.fromJson(resbody, CongKongListInfo.class);
                 if (1 == congKongListInfo.getCode()) {
                     ToastUtils.showToast(DeviceListActivity.this, congKongListInfo.getMessage());
-                    if (congKongListInfo.getSecondControlList().size()>0){
+                    if (congKongListInfo.getSecondControlList().size() > 0) {
                         lin_nomsg.setVisibility(View.GONE);
                     }
                     mData.addAll(congKongListInfo.getSecondControlList());
-                    devListAdapter.notifyDataSetChanged();
-                } else {
-                    ToastUtils.showToast(DeviceListActivity.this, "查询失败");
-                }
-            }
-        });
-    }
-
-    private void getZkList() {
-        RequestParamsFM params = new RequestParamsFM();
-        params.put("home_id", mHomeID);
-        HttpOkhUtils.getInstance().doGetWithParams(NetConfig.MAINCONTROL, params, new HttpOkhUtils.HttpCallBack() {
-            @Override
-            public void onError(Request request, IOException e) {
-                ProgressDialogUtil.hideDialog();
-                ToastUtils.showToast(DeviceListActivity.this, "网络连接错误");
-            }
-
-            @Override
-            public void onSuccess(int code, String resbody) {
-                ProgressDialogUtil.hideDialog();
-                if (code != 200) {
-                    ToastUtils.showToast(DeviceListActivity.this, "网络错误" + code);
-                    return;
-                }
-                Gson gson = new Gson();
-                ZhuKongListInfo zhuKongListInfo = gson.fromJson(resbody, ZhuKongListInfo.class);
-                if (1 == zhuKongListInfo.getCode()) {
-                    ToastUtils.showToast(DeviceListActivity.this, zhuKongListInfo.getMessage());
-                    if (zhuKongListInfo.getHomeList().size()>0){
-                        lin_nomsg.setVisibility(View.GONE);
-                    }
-                    mData.addAll(zhuKongListInfo.getHomeList());
                     devListAdapter.notifyDataSetChanged();
                 } else {
                     ToastUtils.showToast(DeviceListActivity.this, "查询失败");

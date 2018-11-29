@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
-        android:text="已添加设备分类："
+        android:text="设备分类："
         android:textColor="@color/deepskyblue"
         android:textSize="16sp"/>
 
@@ -72,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:text="从控"
+                android:text="无线设备"
                 android:textColor="@color/vm_black_87"
                 android:textSize="16sp"/>
         </LinearLayout>
@@ -97,7 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:text="设备"
+                android:text="所有设备"
                 android:textColor="@color/vm_black_87"
                 android:textSize="16sp"/>
         </LinearLayout>
@@ -108,7 +108,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="20dp"
-        android:text="可添加设备列表："
+        android:text="设备列表："
         android:textColor="@color/orange"
         android:textSize="16sp"/>
 
@@ -135,7 +135,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@+id/img_kind"
-            android:text="添加WIFI模块"
+            android:text="配置WIFI模块"
             android:textColor="@color/word_black"
             android:textSize="18sp"/>
 

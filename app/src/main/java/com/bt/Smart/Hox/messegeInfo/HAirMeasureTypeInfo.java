@@ -70,6 +70,11 @@ public class HAirMeasureTypeInfo {
         private String formaldehyde;
         private String voc;
         private String co;
+        /**
+         * co2 :
+         */
+
+        private String co2;
 
         public String getTemperature() {
             return temperature;
@@ -133,6 +138,14 @@ public class HAirMeasureTypeInfo {
 
         public void setCo(String co) {
             this.co = co;
+        }
+
+        public String getCo2() {
+            return co2;
+        }
+
+        public void setCo2(String co2) {
+            this.co2 = co2;
         }
     }
 }

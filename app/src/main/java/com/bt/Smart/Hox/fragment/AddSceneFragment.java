@@ -70,6 +70,7 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
     private TextView               tv_title;
     private TextView               tv_save;//保存
     private CardView               cv_delt;//删除场景
+    private CardView               cv_showhome;//出现在首页
     private ImageView              img_bg;
     private TextView               tv_name;
     private TextView               tv_warn;//提示
@@ -79,10 +80,12 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
     private List<SceneDevListInfo> mData;//选择的设备动作数据
     private RecyAddSceActAdapter   addActAdapter;
     private RecyclerView           recy_act;//动作列表
-    private SwitchCompat           swc_show;//是否首页展示
+    private SwitchCompat           swc_show;//是否开启
+    private SwitchCompat           swc_showhome;//是否首页展示
     private int                    mSelectPicID;//记录选择的背景图ID
     private String mSelectPicUrl = "http://www.smart-hox.com:8081/upFiles/upload/files/20181108/vmw-hp-hero-vsan-innovations_1541681849443.jpg";//记录选择的背景图url
     private boolean isOpen;
+    private boolean isShow;
     private String mThisSceHomeID = MyApplication.slecHomeID;
 
     @Override
@@ -105,6 +108,8 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
         img_add = mRootView.findViewById(R.id.img_add);
         recy_act = mRootView.findViewById(R.id.recy_act);
         swc_show = mRootView.findViewById(R.id.swc_show);
+        cv_showhome = mRootView.findViewById(R.id.cv_showhome);
+        swc_showhome = mRootView.findViewById(R.id.swc_showhome);
         cv_delt = mRootView.findViewById(R.id.cv_delt);
     }
 
@@ -124,6 +129,8 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
         //设置选择器数据
         setSelectItemInfo();
         if ("1".equals(mKind)) {//显示详情，修改场景
+            cv_showhome.setVisibility(View.VISIBLE);
+            swc_showhome.setOnClickListener(this);
             cv_delt.setVisibility(View.VISIBLE);
             //获取详情
             getSceneDetailInfo();
@@ -173,6 +180,14 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
                     saveScene(name);
                 }
                 break;
+            case R.id.swc_showhome://首页展示场景
+                if (isShow) {
+                    showOnHomePage("0");
+                } else {
+                    showOnHomePage("1");
+                }
+                MyApplication.sceneRefresh = true;
+                break;
             case R.id.cv_delt://删除场景
                 deleteScene();
                 break;
@@ -186,6 +201,35 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
                 toAddActFragment();
                 break;
         }
+    }
+
+    private void showOnHomePage(String nShow) {
+        RequestParamsFM params = new RequestParamsFM();
+        params.put("id", mSceneID);
+        params.put("show_status", nShow);
+        HttpOkhUtils.getInstance().doPut(NetConfig.UPDATESHOWSTATUS, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(getContext(), "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(getContext(), "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                CommonInfo commonInfo = gson.fromJson(resbody, CommonInfo.class);
+                ToastUtils.showToast(getContext(), commonInfo.getMessage());
+                if (1 == commonInfo.getCode()) {
+                    isShow = !isShow;
+                    swc_showhome.setChecked(isShow);
+                }
+            }
+        });
     }
 
     private void deleteScene() {
@@ -317,8 +361,17 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
                     GlideLoaderUtil.showImageView(getContext(), mSelectPicUrl, img_bg);
                     if ("0".equals(sceneDetailInfoNew.getSceneDetail().get(0).getScene_status())) {
                         swc_show.setChecked(false);
+                        isOpen = false;
                     } else {
                         swc_show.setChecked(true);
+                        isOpen = true;
+                    }
+                    if ("0".equals(sceneDetailInfoNew.getSceneDetail().get(0).getShow_status())) {
+                        swc_showhome.setChecked(false);
+                        isShow = false;
+                    } else {
+                        swc_showhome.setChecked(true);
+                        isShow = true;
                     }
                     List<SceneDetailInfoNew.SceneDeviceDetailBean> sceneDeviceDetail = sceneDetailInfoNew.getSceneDeviceDetail();
                     for (SceneDetailInfoNew.SceneDeviceDetailBean bean : sceneDeviceDetail) {

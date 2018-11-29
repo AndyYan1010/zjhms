@@ -122,7 +122,7 @@ public class LvDeviceAdapter extends BaseAdapter {
             control_type = ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getDeviceType();
         }
         viewholder.tv_name.setText(device_name);
-        GlideLoaderUtil.showImageView(mContext, NetConfig.IMG_FOR_DEV + dev_pic, viewholder.img_kind);
+        GlideLoaderUtil.showImageView(mContext, NetConfig.IMG_FOR_DEV + dev_pic.replaceAll("\\\\","/"), viewholder.img_kind);
         if ("010".equals(default_device_type)) {
 
         } else if ("021".equals(default_device_type)) {//计量控制（灯控）

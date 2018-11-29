@@ -7,48 +7,230 @@
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/lineChart"
         android:layout_width="match_parent"
-        android:layout_height="220dp"
+        android:layout_height="350dp"
         android:layout_centerInParent="true"
         android:layout_marginBottom="@dimen/activity_horizontal_margin"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"/>
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="10dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="30dp">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-        <CheckBox
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="6"
-            android:textColor="@color/word_black"
-            android:textSize="14sp"/>
+            android:layout_marginLeft="20dp"
+            android:gravity="right"
+            android:orientation="vertical">
 
-        <CheckBox
+            <LinearLayout
+                android:id="@+id/lin01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="3dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_cont01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=">250"
+                    android:textColor="@color/word_black"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/tv_color01"
+                    android:layout_width="30dp"
+                    android:layout_height="15dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="@color/brown_30"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lin02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="3dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_cont02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="150-250"
+                    android:textColor="@color/word_black"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/tv_color02"
+                    android:layout_width="30dp"
+                    android:layout_height="15dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="@color/purple_30"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lin03"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="3dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_cont03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="115-150"
+                    android:textColor="@color/word_black"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/tv_color03"
+                    android:layout_width="30dp"
+                    android:layout_height="15dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="@color/red_30"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lin04"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="3dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_cont04"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="75-115"
+                    android:textColor="@color/word_black"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/tv_color04"
+                    android:layout_width="30dp"
+                    android:layout_height="15dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="@color/orange_10"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lin05"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="3dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_cont05"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="35-75"
+                    android:textColor="@color/word_black"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/tv_color05"
+                    android:layout_width="30dp"
+                    android:layout_height="15dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="@color/yellow"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lin06"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="3dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_cont06"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0-35"
+                    android:textColor="@color/word_black"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/tv_color06"
+                    android:layout_width="30dp"
+                    android:layout_height="15dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="@color/green_100"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:text="12"
-            android:textColor="@color/word_black"
-            android:textSize="14sp"/>
+            android:layout_marginLeft="50dp"
+            android:orientation="vertical">
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:text="24"
-            android:textColor="@color/word_black"
-            android:textSize="14sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="时间间隔(H)"
+                android:textColor="@color/word_black"
+                android:textSize="14sp"/>
+
+            <CheckBox
+                android:id="@+id/cb_six"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:text="6"
+                android:textColor="@color/word_black"
+                android:textSize="14sp"/>
+
+            <CheckBox
+                android:id="@+id/cb_twelve"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:text="12"
+                android:textColor="@color/word_black"
+                android:textSize="14sp"/>
+
+            <CheckBox
+                android:id="@+id/cb_twentyfour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:text="24"
+                android:textColor="@color/word_black"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recy_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp">
-    </android.support.v7.widget.RecyclerView>
+    <!--<android.support.v7.widget.RecyclerView-->
+    <!--android:id="@+id/recy_type"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="20dp"-->
+    <!--android:layout_marginRight="20dp"-->
+    <!--android:layout_marginTop="20dp">-->
+    <!--</android.support.v7.widget.RecyclerView>-->
 </LinearLayout>

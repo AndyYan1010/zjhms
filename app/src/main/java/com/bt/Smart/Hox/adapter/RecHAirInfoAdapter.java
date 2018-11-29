@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.activity.homeActivity.HAirMeasureTypeActivity;
-import com.bt.Smart.Hox.messegeInfo.HairMeasureWithHoursInfo;
+import com.bt.Smart.Hox.messegeInfo.HairCurrentInfo;
 
 import java.util.List;
 
@@ -26,11 +26,11 @@ import java.util.List;
  */
 
 public class RecHAirInfoAdapter extends RecyclerView.Adapter<RecHAirInfoAdapter.ViewHolder> {
-    private Context                                     mContext;
-    private List<HairMeasureWithHoursInfo.HairListBean> mData;
-    private String                                      mDevID;
+    private Context                        mContext;
+    private List<HairCurrentInfo.HairBean> mData;
+    private String                         mDevID;
 
-    public RecHAirInfoAdapter(Context context, List<HairMeasureWithHoursInfo.HairListBean> maindata, String dev_id) {
+    public RecHAirInfoAdapter(Context context, List<HairCurrentInfo.HairBean> maindata, String dev_id) {
         this.mContext = context;
         this.mData = maindata;
         this.mDevID = dev_id;

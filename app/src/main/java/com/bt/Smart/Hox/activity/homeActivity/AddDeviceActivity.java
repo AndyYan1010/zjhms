@@ -95,7 +95,6 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
         lin_zk.setOnClickListener(this);
         lin_ck.setOnClickListener(this);
         lin_sb.setOnClickListener(this);
-
         rlt_add_wifi.setOnClickListener(this);
         //获取主控列表
         //        getZKDevList();
@@ -153,12 +152,22 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                 startActivity(intentDevZ);
                 break;
             case R.id.lin_ck://跳转从控列表
+                if (0 == zknum) {
+                    //提示没有主控，先添加主控
+                    showNoZkDialog();
+                    return;
+                }
                 Intent intentDevC = new Intent(this, DeviceListActivity.class);
                 intentDevC.putExtra("devKind", "ck");
                 intentDevC.putExtra("homeID", homeID);
                 startActivity(intentDevC);
                 break;
             case R.id.lin_sb://跳转设备列表
+                if (0 == zknum) {
+                    //提示没有主控，先添加主控
+                    showNoZkDialog();
+                    return;
+                }
                 Intent intentDevS = new Intent(this, DeviceListActivity.class);
                 intentDevS.putExtra("devKind", "sb");
                 intentDevS.putExtra("homeID", homeID);
@@ -211,7 +220,7 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
         TextView tv_cancle = view.findViewById(R.id.tv_cancle);
         TextView tv_sure = view.findViewById(R.id.tv_sure);
         img_title.setVisibility(View.GONE);
-        tv_title.setText("无可用Lora主控");
+        tv_title.setText("无可用主控");
         tv_warning.setText("添加从控设备需要配置主控，请先添加主控！");
         et_pass.setVisibility(View.GONE);
         tv_cancle.setOnClickListener(new View.OnClickListener() {

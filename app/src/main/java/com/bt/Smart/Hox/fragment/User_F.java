@@ -13,8 +13,10 @@ import android.widget.TextView;
 
 import com.bt.Smart.Hox.MyApplication;
 import com.bt.Smart.Hox.R;
+import com.bt.Smart.Hox.activity.meActivity.DeviceManagerActivity;
 import com.bt.Smart.Hox.activity.meActivity.FeedBackActivity;
 import com.bt.Smart.Hox.activity.meActivity.HomeListActivity;
+import com.bt.Smart.Hox.activity.meActivity.MineMsgCenterActivity;
 import com.bt.Smart.Hox.activity.meActivity.PersonalActivity;
 import com.bt.Smart.Hox.activity.meActivity.SceneListActivity;
 import com.bt.Smart.Hox.activity.meActivity.SettingActivity;
@@ -39,6 +41,8 @@ public class User_F extends Fragment implements View.OnClickListener {
     private LinearLayout   lin_shop;//商城
     private RelativeLayout rtv_person;//个人信息编辑
     private RelativeLayout rtv_home;//家庭管理
+    private RelativeLayout rtv_dev;//设备管理
+    private RelativeLayout rtv_msg_center;//消息中心
     private RelativeLayout rtv_setting;//通用设置
     private RelativeLayout rtv_feedback;//意见反馈
 
@@ -58,6 +62,8 @@ public class User_F extends Fragment implements View.OnClickListener {
         lin_shop = mRootView.findViewById(R.id.lin_shop);
         rtv_person = mRootView.findViewById(R.id.rtv_person);
         rtv_home = mRootView.findViewById(R.id.rtv_home);
+        rtv_dev = mRootView.findViewById(R.id.rtv_dev);
+        rtv_msg_center = mRootView.findViewById(R.id.rtv_msg_center);
         rtv_setting = mRootView.findViewById(R.id.rtv_setting);
         rtv_feedback = mRootView.findViewById(R.id.rtv_feedback);
     }
@@ -68,6 +74,8 @@ public class User_F extends Fragment implements View.OnClickListener {
         rtv_home.setOnClickListener(this);
         rtv_person.setOnClickListener(this);
         rtv_setting.setOnClickListener(this);
+        rtv_dev.setOnClickListener(this);
+        rtv_msg_center.setOnClickListener(this);
         rtv_feedback.setOnClickListener(this);
     }
 
@@ -99,6 +107,12 @@ public class User_F extends Fragment implements View.OnClickListener {
                 break;
             case R.id.rtv_home: //跳转家管理界面
                 startActivity(new Intent(getContext(), HomeListActivity.class));
+                break;
+            case R.id.rtv_dev://跳转设备管理
+                startActivity(new Intent(getContext(), DeviceManagerActivity.class));
+                break;
+            case R.id.rtv_msg_center://跳转消息中心
+                startActivity(new Intent(getContext(), MineMsgCenterActivity.class));
                 break;
             case R.id.rtv_setting://跳转通用设置
                 startActivity(new Intent(getContext(), SettingActivity.class));

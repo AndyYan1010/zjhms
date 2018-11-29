@@ -73,6 +73,11 @@ public class SceneDetailInfoNew {
         private CreateDateBean create_date;
         private String         scene_name;
         private String         scene_pic;
+        /**
+         * show_status : 1
+         */
+
+        private String show_status;
 
         public String getScene_status() {
             return scene_status;
@@ -120,6 +125,14 @@ public class SceneDetailInfoNew {
 
         public void setScene_pic(String scene_pic) {
             this.scene_pic = scene_pic;
+        }
+
+        public String getShow_status() {
+            return show_status;
+        }
+
+        public void setShow_status(String show_status) {
+            this.show_status = show_status;
         }
 
         public static class CreateDateBean {

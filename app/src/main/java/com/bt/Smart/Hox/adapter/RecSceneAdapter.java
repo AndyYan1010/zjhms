@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bt.Smart.Hox.R;
+import com.bt.Smart.Hox.messegeInfo.SceneInfo;
+import com.bt.Smart.Hox.util.GlideLoaderUtil;
 
 import java.util.List;
 
@@ -22,10 +24,10 @@ import java.util.List;
  */
 
 public class RecSceneAdapter extends RecyclerView.Adapter<RecSceneAdapter.ViewHolder> {
-    private Context mContext;
-    private List    mData;
+    private Context                       mContext;
+    private List<SceneInfo.ScenelistBean> mData;
 
-    public RecSceneAdapter(Context context, List maindata) {
+    public RecSceneAdapter(Context context, List<SceneInfo.ScenelistBean> maindata) {
         this.mContext = context;
         this.mData = maindata;
     }
@@ -34,7 +36,7 @@ public class RecSceneAdapter extends RecyclerView.Adapter<RecSceneAdapter.ViewHo
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // 实例化展示的view
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adpter_scene_item, parent, false);
-        RecyclerView.LayoutParams params = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        RecyclerView.LayoutParams params = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         v.setLayoutParams(params);
         // 实例化viewholder
         ViewHolder viewHolder = new ViewHolder(v);
@@ -43,7 +45,8 @@ public class RecSceneAdapter extends RecyclerView.Adapter<RecSceneAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
+        holder.tv_name.setText(mData.get(position).getScene_name());
+        GlideLoaderUtil.showImageView(mContext, mData.get(position).getScene_pic(), holder.img_icon);
     }
 
     @Override
@@ -57,8 +60,8 @@ public class RecSceneAdapter extends RecyclerView.Adapter<RecSceneAdapter.ViewHo
 
         public ViewHolder(View itemView) {
             super(itemView);
-            img_icon = (ImageView) itemView.findViewById(R.id.img_icon01);
-            tv_name = (TextView) itemView.findViewById(R.id.tv_name01);
+            img_icon = (ImageView) itemView.findViewById(R.id.img_icon);
+            tv_name = (TextView) itemView.findViewById(R.id.tv_name);
         }
     }
 }

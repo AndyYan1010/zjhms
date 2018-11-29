@@ -294,7 +294,7 @@ public class PersonCenterFragment extends Fragment implements View.OnClickListen
                     .setMaxWidth(720)  // 默认最大宽度为720
                     .setMaxHeight(960) // 默认最大高度为960
                     .setQuality(40)    // 默认压缩质量为80
-                    .setFileName("sendPic") // 设置你需要修改的文件名
+                    .setFileName("sendPic.jpg") // 设置你需要修改的文件名
                     .setCompressFormat(Bitmap.CompressFormat.JPEG) // 设置默认压缩为jpg格式
                     .setDestinationDirectoryPath(Environment.getExternalStoragePublicDirectory(
                             Environment.DIRECTORY_PICTURES).getAbsolutePath())
@@ -309,10 +309,12 @@ public class PersonCenterFragment extends Fragment implements View.OnClickListen
     }
 
     private void sendImgToService(Bitmap bm) {
-        String strByBase64 = Bitmap2StrByBase64(bm);
+        String strByBase64 = Bitmap2StrByBase64(bm).replace("/", "%2F").replace("+", "%2B");
         RequestParamsFM params = new RequestParamsFM();
         params.put("imgStr", strByBase64);
+        //        String url = NetConfig.UPLOADBASE64ANDROID + "?imgStr=" + strByBase64;
         HttpOkhUtils.getInstance().doGetWithParams(NetConfig.UPLOADBASE64ANDROID, params, new HttpOkhUtils.HttpCallBack() {
+            //        HttpOkhUtils.getInstance().doGet(url, new HttpOkhUtils.HttpCallBack() {
             @Override
             public void onError(Request request, IOException e) {
                 ProgressDialogUtil.hideDialog();
@@ -491,9 +493,9 @@ public class PersonCenterFragment extends Fragment implements View.OnClickListen
 
     public String Bitmap2StrByBase64(Bitmap bit) {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bit.compress(Bitmap.CompressFormat.JPEG, 30, bos);//参数100表示不压缩
+        bit.compress(Bitmap.CompressFormat.JPEG, 80, bos);//参数100表示不压缩
         byte[] bytes = bos.toByteArray();
         //        return Base64.encodeToString(bytes, Base64.DEFAULT);
-        return Base64.encodeToString(bytes, Base64.NO_WRAP);
+        return new String(Base64.encodeToString(bytes, Base64.NO_WRAP));
     }
 }

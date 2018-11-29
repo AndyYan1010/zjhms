@@ -11,7 +11,7 @@ import com.bt.Smart.Hox.BaseActivity;
 import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.adapter.RecHAirInfoAdapter;
-import com.bt.Smart.Hox.messegeInfo.HairMeasureWithHoursInfo;
+import com.bt.Smart.Hox.messegeInfo.HairCurrentInfo;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
 import com.bt.Smart.Hox.utils.ProgressDialogUtil;
 import com.bt.Smart.Hox.utils.RequestParamsFM;
@@ -34,11 +34,11 @@ import okhttp3.Request;
  */
 
 public class HAirDetailInfoActivity extends BaseActivity implements View.OnClickListener {
-    private ImageView                                   img_back;
-    private TextView                                    tv_title;
-    private RecyclerView                                recy_hair_info;
-    private RecHAirInfoAdapter                          hAirInfoAdapter;
-    private List<HairMeasureWithHoursInfo.HairListBean> mData;
+    private ImageView                      img_back;
+    private TextView                       tv_title;
+    private RecyclerView                   recy_hair_info;
+    private RecHAirInfoAdapter             hAirInfoAdapter;
+    private List<HairCurrentInfo.HairBean> mData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,18 +62,18 @@ public class HAirDetailInfoActivity extends BaseActivity implements View.OnClick
         String dev_id = getIntent().getStringExtra("dev_ID");
         mData = new ArrayList();
         recy_hair_info.setLayoutManager(new GridLayoutManager(this, 2));
-        hAirInfoAdapter = new RecHAirInfoAdapter(this, mData, dev_id);
+        hAirInfoAdapter = new RecHAirInfoAdapter(this, mData, "0311800001");
         recy_hair_info.setAdapter(hAirInfoAdapter);
 
         //获取空气哨兵的检测值
-        getHairMeasureInfo("0311800001", 1);
+        getHairMeasureInfo("0311800001", 24);
     }
 
     private void getHairMeasureInfo(String dev_id, int hh) {
+        ProgressDialogUtil.startShow(this, "正在加载");
         RequestParamsFM params = new RequestParamsFM();
         params.put("device_id", dev_id);
-        params.put("hh", hh);
-        HttpOkhUtils.getInstance().doGetWithParams(NetConfig.HAIRLIST, params, new HttpOkhUtils.HttpCallBack() {
+        HttpOkhUtils.getInstance().doGetWithParams(NetConfig.HAIR_CURRENT, params, new HttpOkhUtils.HttpCallBack() {
             @Override
             public void onError(Request request, IOException e) {
                 ProgressDialogUtil.hideDialog();
@@ -88,11 +88,10 @@ public class HAirDetailInfoActivity extends BaseActivity implements View.OnClick
                     return;
                 }
                 Gson gson = new Gson();
-                HairMeasureWithHoursInfo hairMeasureWithHoursInfo = gson.fromJson(resbody, HairMeasureWithHoursInfo.class);
-                ToastUtils.showToast(HAirDetailInfoActivity.this, hairMeasureWithHoursInfo.getMessage());
-                if (1 == hairMeasureWithHoursInfo.getCode()) {
-                    HairMeasureWithHoursInfo.HairListBean hairListBean = hairMeasureWithHoursInfo.getHairList().get(0);
-                    mData.add(hairListBean);
+                HairCurrentInfo hairCurrentInfo = gson.fromJson(resbody, HairCurrentInfo.class);
+                ToastUtils.showToast(HAirDetailInfoActivity.this, hairCurrentInfo.getMessage());
+                if (1 == hairCurrentInfo.getCode()) {
+                    mData.add(hairCurrentInfo.getHair());
                     hAirInfoAdapter.notifyDataSetChanged();
                 }
             }

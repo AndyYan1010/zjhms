@@ -61,13 +61,14 @@ public class NetConfig {
     //共享设备
     public static String AUTHORIZATION     = ROOT + "authorization";
 
-
     //获取所有可添加设备列表
-    public static String DEVICETYPE   = ROOT + "deviceType";
+    public static String DEVICETYPE    = ROOT + "deviceType";
     //查看当前家下所有处传感器之外的设备
-    public static String SELECTEQLIST = ROOT + "selecteqlist";
+    public static String SELECTEQLIST  = ROOT + "selecteqlist";
     //更改设备房间
-    public static String DEVICEHOUSE  = ROOT + "deviceHouse";
+    public static String DEVICEHOUSE   = ROOT + "deviceHouse";
+    //获取可添加主控设备列表
+    public static String DEVICETYPENEW = ROOT + "deviceTypeNew";
 
 
     //主控列表//更新主控
@@ -82,9 +83,11 @@ public class NetConfig {
     public static String DEVICECONTROL = ROOT + "deviceControl";
 
     //空气哨兵测量信息
-    public static String HAIRLIST = ROOT + "hairList";
+    public static String HAIRLIST     = ROOT + "hairList";
+    //空气哨兵测量信息当前值
+    public static String HAIR_CURRENT = ROOT + "hair_current";
     //空气哨兵测量信息type
-    public static String HAIR     = ROOT + "hair";
+    public static String HAIR         = ROOT + "hair";
 
 
     //获取家下所有场景
@@ -101,11 +104,13 @@ public class NetConfig {
     public static String SELECTNOSCENARIO  = ROOT + "selectnoscenario";
 
     //场景的开启或关闭
-    public static String UPDATESTATUS = ROOT + "updateStatus";
+    public static String UPDATESTATUS     = ROOT + "updateStatus";
+    //场景首页展示
+    public static String UPDATESHOWSTATUS = ROOT + "updateShowStatus";
     //更新场景
-    public static String UPDATESCENE  = ROOT + "updatescene";
+    public static String UPDATESCENE      = ROOT + "updatescene";
     //删除场景
-    public static String DELETESCENE  = ROOT + "deleteScene";
+    public static String DELETESCENE      = ROOT + "deleteScene";
 
 
     //获取家下传感器
@@ -143,5 +148,7 @@ public class NetConfig {
 
     //意见反馈
     public static String COMPLAINTFEEDBACK = ROOT + "complaintFeedback";
+    //我的消息
+    public static String MYMESSAGE         = ROOT + "myMessage";
 
 }

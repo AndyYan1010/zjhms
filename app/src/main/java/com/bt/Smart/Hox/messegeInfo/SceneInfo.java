@@ -19,7 +19,7 @@ public class SceneInfo {
      * code : 1
      */
 
-    private String message;
+    private String              message;
     private int                 code;
     private List<ScenelistBean> scenelist;
 
@@ -57,12 +57,17 @@ public class SceneInfo {
          * scene_pic : http://www.smart-hox.com:8081/upFiles/upload/files/20181108/vmw-hp-hero-vsan-innovations_1541681849443.jpg
          */
 
-        private String scene_status;
+        private String         scene_status;
         private String         home_id;
         private String         id;
         private CreateDateBean create_date;
         private String         scene_name;
         private String         scene_pic;
+        /**
+         * show_status : 1
+         */
+
+        private String         show_status;
 
         public String getScene_status() {
             return scene_status;
@@ -112,6 +117,14 @@ public class SceneInfo {
             this.scene_pic = scene_pic;
         }
 
+        public String getShow_status() {
+            return show_status;
+        }
+
+        public void setShow_status(String show_status) {
+            this.show_status = show_status;
+        }
+
         public static class CreateDateBean {
             /**
              * date : 22
@@ -126,7 +139,7 @@ public class SceneInfo {
              * year : 118
              */
 
-            private int date;
+            private int  date;
             private int  day;
             private int  hours;
             private int  minutes;

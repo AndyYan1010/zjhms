@@ -31,6 +31,7 @@ import com.bt.Smart.Hox.adapter.LvSetHomeAdapter;
 import com.bt.Smart.Hox.adapter.MyPagerAdapter;
 import com.bt.Smart.Hox.adapter.RecSceneAdapter;
 import com.bt.Smart.Hox.messegeInfo.HouseDetailInfo;
+import com.bt.Smart.Hox.messegeInfo.SceneInfo;
 import com.bt.Smart.Hox.messegeInfo.UserHomeInfo;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
 import com.bt.Smart.Hox.utils.ProgressDialogUtil;
@@ -58,7 +59,8 @@ import okhttp3.Request;
 public class Home_F extends Fragment implements View.OnClickListener {
     private View                            mRootView;
     private TextView                        tv_mine;
-    private List                            mData;//场景数据列表
+    private List<SceneInfo.ScenelistBean>   mData;//场景数据列表
+    private RecSceneAdapter                 recSceneAdapter;
     private RecyclerView                    rec_scene;//当前家下场景图标
     private ImageView                       img_more;//设置更多
     private TabLayout                       mTablayout;//导航标签
@@ -94,9 +96,7 @@ public class Home_F extends Fragment implements View.OnClickListener {
         //设置场景图标
         rec_scene.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         mData = new ArrayList();
-        mData.add("");
-        mData.add("");
-        RecSceneAdapter recSceneAdapter = new RecSceneAdapter(getContext(), mData);
+        recSceneAdapter = new RecSceneAdapter(getContext(), mData);
         rec_scene.setAdapter(recSceneAdapter);
 
         contsList = new ArrayList<>();
@@ -157,6 +157,9 @@ public class Home_F extends Fragment implements View.OnClickListener {
         if (null != popupWindow) {
             popupWindow.dismiss();
         }
+        if (MyApplication.sceneRefresh) {
+            getHomeScene(hDefID);
+        }
     }
 
     private int REQUEST_CODE_MOVE = 1005;
@@ -176,6 +179,40 @@ public class Home_F extends Fragment implements View.OnClickListener {
             //刷新房间信息
             showRoomsInfo(hDefID);
         }
+    }
+
+    //获取当前家下的，首页展示场景
+    private void getHomeScene(String homeID) {
+        RequestParamsFM params = new RequestParamsFM();
+        params.put("show_status", "1");
+        params.put("home_id", homeID);
+        HttpOkhUtils.getInstance().doGetWithParams(NetConfig.QUERYSCENELIST, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(getContext(), "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(getContext(), "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                SceneInfo sceneInfo = gson.fromJson(resbody, SceneInfo.class);
+                ToastUtils.showToast(getContext(), sceneInfo.getMessage());
+                if (1 == sceneInfo.getCode()) {
+                    MyApplication.sceneRefresh = false;
+                    mData.clear();
+                    if (sceneInfo.getScenelist().size() > 0) {
+                        mData.addAll(sceneInfo.getScenelist());
+                        recSceneAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
     }
 
     private void getHomes() {
@@ -227,6 +264,7 @@ public class Home_F extends Fragment implements View.OnClickListener {
                             return;
                         }
                         MyApplication.slecHomeID = hDefID;
+                        getHomeScene(hDefID);
                         showRoomsInfo(hDefID);//展示房间信息
                     } else {//账号下没有家庭信息，让创建家庭
                         Intent intent = new Intent(getContext(), CreateHomeActivity.class);

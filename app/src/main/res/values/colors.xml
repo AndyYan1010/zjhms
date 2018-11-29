@@ -60,6 +60,11 @@
     <color name="vm_blue_38">#612384fe</color>
     <!-- 橙色 -->
     <color name="orange">#FFA500</color>
+    <color name="orange_10">#FF9933</color>
+    <color name="yellow">#FFDE33</color>
+    <color name="red_30">#CC0033</color>
+    <color name="purple_30">#660099</color>
+    <color name="brown_30">#7E0023</color>
     <!--浅黄色-->
     <color name="yello_20">#F4E1C0</color>
     <color name="red">#FF0000</color>
