@@ -46,6 +46,7 @@ public class DeviceListFragment extends Fragment implements View.OnClickListener
     private MyListView      lv_dev;//设备列表
     private String          mHomeID;//家的ID
     private String          mRoomID;//房间的ID
+    private String          mRoomName;//房间的名称
     private List            mData;//设备列表
     private LvDeviceAdapter deviceAdapter;
 
@@ -66,7 +67,7 @@ public class DeviceListFragment extends Fragment implements View.OnClickListener
 
     private void initData() {
         mData = new ArrayList();
-        deviceAdapter = new LvDeviceAdapter(getContext(), mData, mRoomID);
+        deviceAdapter = new LvDeviceAdapter(getContext(), mData, mRoomID,mRoomName);
         lv_dev.setAdapter(deviceAdapter);
         lin_add.setOnClickListener(this);
         Glide.with(getContext()).load(R.drawable.loadgif).into(img_loading);
@@ -200,9 +201,10 @@ public class DeviceListFragment extends Fragment implements View.OnClickListener
         });
     }
 
-    public void setRoomID(String homeID, String roomID) {
+    public void setRoomID(String homeID, String roomID, String roomName) {
         mHomeID = homeID;
         mRoomID = roomID;
+        mRoomName = roomName;
     }
 
     @Override

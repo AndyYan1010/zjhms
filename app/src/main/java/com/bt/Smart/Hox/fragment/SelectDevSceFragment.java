@@ -75,9 +75,9 @@ public class SelectDevSceFragment extends Fragment implements View.OnClickListen
         tv_save.setOnClickListener(this);
         mDevData = new ArrayList();
         mSceData = new ArrayList();
-        selectDevAdapter = new LvSelectDevAdapter(getContext(), mDevData);
+        selectDevAdapter = new LvSelectDevAdapter(getContext(), mDevData,"dev");
         lv_dev.setAdapter(selectDevAdapter);
-        selectSceAdapter = new LvSelectDevAdapter(getContext(), mSceData);
+        selectSceAdapter = new LvSelectDevAdapter(getContext(), mSceData,"sce");
         lv_sce.setAdapter(selectSceAdapter);
         //获取家下传感设备
         getHomeDevList();

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -47,7 +48,8 @@ public class AddIntelligentFragment extends Fragment implements View.OnClickList
     private LvSceneAutoAdapter sceneAutoAdapter;
     private ListView           lv_scene;
     private LinearLayout       lin_nomsg;//没有场景
-    private LinearLayout       lin_add;//添加
+//    private LinearLayout       lin_add;//添加
+    private Button             bt_add;//添加
     private String             mKind;
 
     @Override
@@ -63,7 +65,8 @@ public class AddIntelligentFragment extends Fragment implements View.OnClickList
         tv_title = mRootView.findViewById(R.id.tv_title);
         lin_nomsg = mRootView.findViewById(R.id.lin_nomsg);
         lv_scene = mRootView.findViewById(R.id.lv_scene);
-        lin_add = mRootView.findViewById(R.id.lin_add);
+//        lin_add = mRootView.findViewById(R.id.lin_add);
+        bt_add = mRootView.findViewById(R.id.bt_add);
     }
 
     private void initData() {
@@ -98,7 +101,7 @@ public class AddIntelligentFragment extends Fragment implements View.OnClickList
                 }
             }
         });
-        lin_add.setOnClickListener(this);
+        bt_add.setOnClickListener(this);
         //获取列表信息
         getSenceAutoList();
     }
@@ -109,7 +112,7 @@ public class AddIntelligentFragment extends Fragment implements View.OnClickList
             case R.id.img_back:
                 getActivity().finish();
                 break;
-            case R.id.lin_add://跳转添加界面
+            case R.id.bt_add://跳转添加界面
                 if ("场景".equals(mKind)) {
                     FragmentTransaction ftt = getFragmentManager().beginTransaction();
                     AddSceneFragment sceneShowFt = new AddSceneFragment();

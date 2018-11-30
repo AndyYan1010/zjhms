@@ -49,7 +49,6 @@
     <color name="gray_f8">#F8F8F8</color>
 
 
-
     <!--蓝色-->
     <color name="blue_100">#ff2384fe</color>
     <color name="blue_87">#dd2384fe</color>
@@ -58,10 +57,17 @@
     <color name="blue_12">#1e2384fe</color>
     <color name="deepskyblue">#00BFFF</color>
     <color name="vm_blue_38">#612384fe</color>
+    <color name="blue">#0000FF</color>
+    <color name="blue_10">#87CEFA</color>
     <!-- 橙色 -->
     <color name="orange">#FFA500</color>
     <color name="orange_10">#FF9933</color>
     <color name="yellow">#FFDE33</color>
+    <color name="yellow_40">#F6EFA6</color>
+    <color name="yellow_80">#E7B98D</color>
+    <color name="red_80">#D88273</color>
+    <color name="red_120">#CC6360</color>
+    <color name="red_160">#BF444C</color>
     <color name="red_30">#CC0033</color>
     <color name="purple_30">#660099</color>
     <color name="brown_30">#7E0023</color>
@@ -73,6 +79,7 @@
     <color name="pink">#ee5e7b</color>
     <!--绿色-->
     <color name="green_100">#ff039e00</color>
+    <color name="green_25">#009966</color>
 
     <!--时间选择器-->
     <color name="text1">#59B29C</color>

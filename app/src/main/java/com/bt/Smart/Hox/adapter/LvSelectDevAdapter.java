@@ -9,6 +9,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.messegeInfo.NotHA3ListInfo;
 import com.bt.Smart.Hox.util.GlideLoaderUtil;
@@ -27,10 +28,12 @@ import java.util.List;
 public class LvSelectDevAdapter extends BaseAdapter {
     private List<NotHA3ListInfo.NotHA3listBean> mList;
     private Context                             mContext;
+    private String                              mType;
 
-    public LvSelectDevAdapter(Context context, List<NotHA3ListInfo.NotHA3listBean> list) {
+    public LvSelectDevAdapter(Context context, List<NotHA3ListInfo.NotHA3listBean> list, String type) {
         this.mContext = context;
         this.mList = list;
+        this.mType = type;
     }
 
     @Override
@@ -61,7 +64,11 @@ public class LvSelectDevAdapter extends BaseAdapter {
         } else {
             viewholder = (MyViewholder) view.getTag();
         }
-        GlideLoaderUtil.showImageView(mContext, mList.get(i).getDevice_img(), viewholder.img_dev);
+        if ("dev".equals(mType)){
+            GlideLoaderUtil.showImgWithIcon(mContext, NetConfig.IMG_FOR_DEV + mList.get(i).getDevice_img().replaceAll("\\\\", "/"), R.drawable.single_production, R.drawable.single_production, viewholder.img_dev);
+        }else {
+            GlideLoaderUtil.showImgWithIcon(mContext, mList.get(i).getDevice_img(), R.drawable.single_production, R.drawable.single_production, viewholder.img_dev);
+        }
         viewholder.tv_name.setText(mList.get(i).getDevice_name());
         viewholder.cb_choice.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

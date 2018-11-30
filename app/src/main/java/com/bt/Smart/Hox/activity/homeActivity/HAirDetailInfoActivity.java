@@ -36,6 +36,7 @@ import okhttp3.Request;
 public class HAirDetailInfoActivity extends BaseActivity implements View.OnClickListener {
     private ImageView                      img_back;
     private TextView                       tv_title;
+    private TextView                       tv_cont;
     private RecyclerView                   recy_hair_info;
     private RecHAirInfoAdapter             hAirInfoAdapter;
     private List<HairCurrentInfo.HairBean> mData;
@@ -51,13 +52,15 @@ public class HAirDetailInfoActivity extends BaseActivity implements View.OnClick
     private void getView() {
         img_back = (ImageView) findViewById(R.id.img_back);
         tv_title = (TextView) findViewById(R.id.tv_title);
+        tv_cont = (TextView) findViewById(R.id.tv_cont);
         recy_hair_info = (RecyclerView) findViewById(R.id.recy_hair_info);
     }
 
     private void setData() {
         img_back.setVisibility(View.VISIBLE);
         img_back.setOnClickListener(this);
-        tv_title.setText("当前监控数值");
+        tv_title.setText("HAir空气哨兵");
+        tv_cont.setText("当前监控数值");
 
         String dev_id = getIntent().getStringExtra("dev_ID");
         mData = new ArrayList();
@@ -66,10 +69,10 @@ public class HAirDetailInfoActivity extends BaseActivity implements View.OnClick
         recy_hair_info.setAdapter(hAirInfoAdapter);
 
         //获取空气哨兵的检测值
-        getHairMeasureInfo("0311800001", 24);
+        getHairMeasureInfo("0311800001");
     }
 
-    private void getHairMeasureInfo(String dev_id, int hh) {
+    private void getHairMeasureInfo(String dev_id) {
         ProgressDialogUtil.startShow(this, "正在加载");
         RequestParamsFM params = new RequestParamsFM();
         params.put("device_id", dev_id);

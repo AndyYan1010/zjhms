@@ -14,6 +14,7 @@ import com.bt.Smart.Hox.MyApplication;
 import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.activity.homeActivity.HAirDetailInfoActivity;
+import com.bt.Smart.Hox.activity.homeActivity.LightMeasureInfoActivity;
 import com.bt.Smart.Hox.activity.homeActivity.MoveDeviceActivity;
 import com.bt.Smart.Hox.messegeInfo.AllDevListInfo;
 import com.bt.Smart.Hox.messegeInfo.DeviceControlInfo;
@@ -44,11 +45,13 @@ public class LvDeviceAdapter extends BaseAdapter {
     private Context mContext;
     private List    mList;
     private String  mKind;
+    private String  mRoomName;
 
-    public LvDeviceAdapter(Context context, List list, String kind) {
+    public LvDeviceAdapter(Context context, List list, String kind, String roomName) {
         this.mContext = context;
         this.mList = list;
         this.mKind = kind;
+        this.mRoomName = roomName;
     }
 
     @Override
@@ -78,6 +81,10 @@ public class LvDeviceAdapter extends BaseAdapter {
             viewholder.lin_right = view.findViewById(R.id.lin_right);
             viewholder.img_onl = view.findViewById(R.id.img_onl);
             viewholder.tv_onl = view.findViewById(R.id.tv_onl);
+            viewholder.tv_room = view.findViewById(R.id.tv_room);
+            viewholder.tv_code = view.findViewById(R.id.tv_code);
+            viewholder.tv_main = view.findViewById(R.id.tv_main);
+            viewholder.tv_second = view.findViewById(R.id.tv_second);
             view.setTag(viewholder);
         } else {
             viewholder = (MyViewholder) view.getTag();
@@ -90,7 +97,10 @@ public class LvDeviceAdapter extends BaseAdapter {
         final String device_status;
         final String id;
         final String house_id;
+        final String room_name;
         final String home_id;
+        final String main_control_name;
+        final String second_control_name;
         final String main_control_code;
         final String device_code;
         final String control_type;
@@ -99,30 +109,41 @@ public class LvDeviceAdapter extends BaseAdapter {
             //设备名称
             dev_pic = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDevice_img();
             device_name = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDevice_name();
+            room_name = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getHouse_name();
             default_device_type = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDefault_device_type();
             type = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getType();
             device_status = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDevice_status();
             id = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getId();
-            house_id = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getRoomid();
             home_id = MyApplication.slecHomeID;
+            house_id = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getRoomid();
+            main_control_name = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getMain_control_name();
+            second_control_name = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getSecond_control_name();
             main_control_code = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getMaster_control();
             device_code = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDevice_code();
             control_type = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDeviceType();
         } else {
             dev_pic = ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getDevice_img();
             device_name = ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getDevice_name();
+            room_name = mRoomName;
             default_device_type = ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getDefault_device_type();
             type = ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getType();
             device_status = ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getDevice_status();
             id = ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getId();
             house_id = ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getHouse_id();
             home_id = ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getHome_id();
+            main_control_name = ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getMain_control_name();
+            second_control_name = ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getSecond_control_name();
             main_control_code = ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getMain_control_code();
             device_code = ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getDevice_code();
             control_type = ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getDeviceType();
         }
         viewholder.tv_name.setText(device_name);
-        GlideLoaderUtil.showImageView(mContext, NetConfig.IMG_FOR_DEV + dev_pic.replaceAll("\\\\","/"), viewholder.img_kind);
+        viewholder.tv_room.setText(room_name);
+        viewholder.tv_code.setText(device_code);
+        viewholder.tv_main.setText(main_control_name);
+        viewholder.tv_second.setText(second_control_name);
+
+        GlideLoaderUtil.showImgWithIcon(mContext, NetConfig.IMG_FOR_DEV + dev_pic.replaceAll("\\\\", "/"), R.drawable.single_production, R.drawable.single_production, viewholder.img_kind);
         if ("010".equals(default_device_type)) {
 
         } else if ("021".equals(default_device_type)) {//计量控制（灯控）
@@ -175,13 +196,28 @@ public class LvDeviceAdapter extends BaseAdapter {
                     //进入空气哨兵详情页
                     Intent intent = new Intent(mContext, HAirDetailInfoActivity.class);
                     if ("all".equals(mKind)) {
-                        intent.putExtra("dev_ID", ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getId());
+                        intent.putExtra("dev_ID", ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDevice_code());
                     } else {
-                        intent.putExtra("dev_ID", ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getId());
+                        intent.putExtra("dev_ID", ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getDevice_code());
                     }
                     mContext.startActivity(intent);
                 }
-                if ("022".equals(default_device_type)) {//灯的开关事件
+                if ("022".equals(default_device_type) || "021".equals(default_device_type)) {
+                    //进入灯控详情页
+                    Intent intent = new Intent(mContext, LightMeasureInfoActivity.class);
+                    if ("all".equals(mKind)) {
+                        intent.putExtra("dev_ID", ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDevice_code());
+                    } else {
+                        intent.putExtra("dev_ID", ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getDevice_code());
+                    }
+                    mContext.startActivity(intent);
+                }
+            }
+        });
+        viewholder.tv_onl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if ("022".equals(default_device_type) || "021".equals(default_device_type)) {//灯的开关事件
                     //获取命令序列号
                     getDeviceSequence(device_status, main_control_code, device_code, control_type, i);
                 }
@@ -221,7 +257,8 @@ public class LvDeviceAdapter extends BaseAdapter {
         });
     }
 
-    private void openOrClose(String sequence_number, String main_control_code, String device_code, String control_type, String control_number, String control_data, final int position) {
+    private void openOrClose(String sequence_number, String main_control_code, String device_code, String control_type, String control_number, final String control_data, final int position) {
+        ProgressDialogUtil.startShow(mContext, "正在加载开关灯...");
         RequestParamsFM params = new RequestParamsFM();
         params.put("sequence_number", sequence_number);
         params.put("main_control_code", main_control_code);
@@ -248,10 +285,20 @@ public class LvDeviceAdapter extends BaseAdapter {
                 ToastUtils.showToast(mContext, deviceControlInfo.getMessage());
                 if (1 == deviceControlInfo.getCode()) {
                     if ("all".equals(mKind)) {//显示所有设备
-                        ((AllDevListInfo.DeviceHomeListBean) mList.get(position)).setDevice_status("1");
+                        if ("00000000".equals(control_data)) {//打开
+                            ((AllDevListInfo.DeviceHomeListBean) mList.get(position)).setDevice_status("1");
+                        } else {
+                            ((AllDevListInfo.DeviceHomeListBean) mList.get(position)).setDevice_status("0");
+                        }
+
                     } else {
-                        ((HouseDeviceInfo.DeviceHouseListBean) mList.get(position)).setDevice_status("1");
+                        if ("00000000".equals(control_data)) {
+                            ((HouseDeviceInfo.DeviceHouseListBean) mList.get(position)).setDevice_status("1");
+                        } else {
+                            ((HouseDeviceInfo.DeviceHouseListBean) mList.get(position)).setDevice_status("0");
+                        }
                     }
+                    notifyDataSetChanged();
                 }
             }
         });
@@ -271,7 +318,7 @@ public class LvDeviceAdapter extends BaseAdapter {
     }
 
     private void setLightView(MyViewholder viewholder, String device_status) {
-        viewholder.img_onl.setVisibility(View.GONE);
+        //        viewholder.img_onl.setVisibility(View.GONE);
         viewholder.tv_onl.setTextColor(mContext.getResources().getColor(R.color.white));
         viewholder.tv_onl.setBackground(mContext.getResources().getDrawable(R.drawable.bg_round_blue_50));
         viewholder.tv_onl.setTextSize(16f);
@@ -287,6 +334,6 @@ public class LvDeviceAdapter extends BaseAdapter {
     private class MyViewholder {
         LinearLayout lin_right;
         ImageView    img_kind, img_onl, img_move;
-        TextView tv_name, tv_onl;
+        TextView tv_name, tv_onl, tv_room, tv_code, tv_main, tv_second;
     }
 }

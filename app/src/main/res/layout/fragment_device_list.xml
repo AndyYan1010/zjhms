@@ -50,7 +50,9 @@
                 android:id="@+id/lv_dev"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:divider="@color/white"
+                android:dividerHeight="0dp">
             </com.bt.Smart.Hox.viewmodle.MyListView>
 
             <LinearLayout

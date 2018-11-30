@@ -57,7 +57,7 @@ public class MineMsgCenterActivity extends BaseActivity implements View.OnClickL
     private void setData() {
         img_back.setVisibility(View.VISIBLE);
         img_back.setOnClickListener(this);
-        tv_title.setText("设备列表");
+        tv_title.setText("消息中心");
         mData = new ArrayList();
         msgAdapter = new LvMsgCenterAdapter(this, mData);
         lv_dev.setAdapter(msgAdapter);

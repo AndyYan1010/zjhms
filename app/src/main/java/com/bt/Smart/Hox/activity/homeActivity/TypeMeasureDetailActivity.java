@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -52,9 +53,10 @@ import okhttp3.Request;
  * @更新描述 ${TODO}
  */
 
-public class HAirMeasureTypeActivity extends BaseActivity {
+public class TypeMeasureDetailActivity extends BaseActivity implements View.OnClickListener {
+    private ImageView    img_back;
+    private TextView     tv_title;
     private LineChart    lineChart;
-    //    private RecyclerView recy_type;
     private List<Float>  mData;//Y轴数据
     private List<String> mSList;//X轴数据
     private CheckBox     cb_six;
@@ -66,8 +68,8 @@ public class HAirMeasureTypeActivity extends BaseActivity {
     private LinearLayout lin04;
     private LinearLayout lin05;
     private LinearLayout lin06;
-    private TextView     tv_cont01, tv_cont02, tv_cont03, tv_cont04, tv_cont05,tv_cont06;
-    private TextView tv_color01, tv_color02, tv_color03, tv_color04, tv_color05,tv_color06;
+    private TextView     tv_cont01, tv_cont02, tv_cont03, tv_cont04, tv_cont05, tv_cont06;
+    private TextView tv_color01, tv_color02, tv_color03, tv_color04, tv_color05, tv_color06;
     private String dev_id;
     private String type;
     private int hNum = 6;
@@ -81,6 +83,8 @@ public class HAirMeasureTypeActivity extends BaseActivity {
     }
 
     private void setView() {
+        img_back = (ImageView) findViewById(R.id.img_back);
+        tv_title = (TextView) findViewById(R.id.tv_title);
         lineChart = (LineChart) findViewById(R.id.lineChart);
         lin01 = (LinearLayout) findViewById(R.id.lin01);
         lin02 = (LinearLayout) findViewById(R.id.lin02);
@@ -104,16 +108,19 @@ public class HAirMeasureTypeActivity extends BaseActivity {
         cb_six = (CheckBox) findViewById(R.id.cb_six);
         cb_twelve = (CheckBox) findViewById(R.id.cb_twelve);
         cb_twentyfour = (CheckBox) findViewById(R.id.cb_twentyfour);
-        //        recy_type = (RecyclerView) findViewById(R.id.recy_type);
     }
 
     private void setData() {
-        mData = new ArrayList<>();
-        mSList = new ArrayList<>();
+        tv_title.setText("数据详情");
+        img_back.setVisibility(View.VISIBLE);
+        img_back.setOnClickListener(this);
         //获取测量类型的数据
         dev_id = getIntent().getStringExtra("dev_ID");
         type = getIntent().getStringExtra("type");
-        //        getMeasureTypeInfo();
+        setInitColorView();
+
+        mData = new ArrayList<>();
+        mSList = new ArrayList<>();
         cb_six.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -153,6 +160,106 @@ public class HAirMeasureTypeActivity extends BaseActivity {
         cb_six.setChecked(true);
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.img_back:
+                finish();
+                break;
+        }
+    }
+
+    private void setInitColorView() {
+        if ("pm25".equals(type)) {
+            tv_title.setText("PM2.5数据详情");
+        }
+        if ("pm100".equals(type)) {
+            tv_title.setText("PM100数据详情");
+        }
+        if ("co2".equals(type)) {
+            tv_title.setText("CO₂数据详情");
+            lin01.setVisibility(View.GONE);
+            tv_cont02.setText(">5000");
+            tv_cont03.setText("2000-5000");
+            tv_cont04.setText("1000-2000");
+            tv_cont05.setText("450-1000");
+            tv_cont06.setText("350-450");
+            tv_color02.setBackgroundColor(getResources().getColor(R.color.purple_30));
+            tv_color03.setBackgroundColor(getResources().getColor(R.color.red_30));
+            tv_color04.setBackgroundColor(getResources().getColor(R.color.orange_10));
+            tv_color05.setBackgroundColor(getResources().getColor(R.color.yellow));
+            tv_color06.setBackgroundColor(getResources().getColor(R.color.green_100));
+        }
+        if ("co".equals(type)) {
+            tv_title.setText("CO数据详情");
+            tv_cont01.setText(">200");
+            tv_cont02.setText("100-200");
+            tv_cont03.setText("15-100");
+            tv_cont04.setText("5-15");
+            tv_cont05.setText("1-5");
+            tv_cont06.setText("0-1");
+            tv_color01.setBackgroundColor(getResources().getColor(R.color.brown_30));
+            tv_color02.setBackgroundColor(getResources().getColor(R.color.purple_30));
+            tv_color03.setBackgroundColor(getResources().getColor(R.color.red_30));
+            tv_color04.setBackgroundColor(getResources().getColor(R.color.orange_10));
+            tv_color05.setBackgroundColor(getResources().getColor(R.color.yellow));
+            tv_color06.setBackgroundColor(getResources().getColor(R.color.green_100));
+        }
+        if ("formaldehyde".equals(type)) {
+            tv_title.setText("甲醛数据详情");
+            lin01.setVisibility(View.GONE);
+            lin02.setVisibility(View.GONE);
+            tv_cont03.setText(">1");
+            tv_cont04.setText("1-1");
+            tv_cont05.setText("0-1");
+            tv_cont06.setText("0-0");
+            tv_color03.setBackgroundColor(getResources().getColor(R.color.brown_30));
+            tv_color04.setBackgroundColor(getResources().getColor(R.color.orange_10));
+            tv_color05.setBackgroundColor(getResources().getColor(R.color.yellow));
+            tv_color06.setBackgroundColor(getResources().getColor(R.color.green_100));
+        }
+        if ("temperature".equals(type)) {
+            tv_title.setText("温度数据详情");
+            lin01.setVisibility(View.GONE);
+            tv_cont02.setText(">28");
+            tv_cont03.setText("25-28");
+            tv_cont04.setText("16-25");
+            tv_cont05.setText("10-16");
+            tv_cont06.setText("0-10");
+            tv_color02.setBackgroundColor(getResources().getColor(R.color.red_30));
+            tv_color03.setBackgroundColor(getResources().getColor(R.color.yellow));
+            tv_color04.setBackgroundColor(getResources().getColor(R.color.green_25));
+            tv_color05.setBackgroundColor(getResources().getColor(R.color.blue_10));
+            tv_color06.setBackgroundColor(getResources().getColor(R.color.blue));
+        }
+        if ("humidity".equals(type)) {
+            tv_title.setText("湿度数据详情");
+            lin01.setVisibility(View.GONE);
+            lin02.setVisibility(View.GONE);
+            lin03.setVisibility(View.GONE);
+            tv_cont04.setText(">60");
+            tv_cont05.setText("40-60");
+            tv_cont06.setText("0-40");
+            tv_color04.setBackgroundColor(getResources().getColor(R.color.blue));
+            tv_color05.setBackgroundColor(getResources().getColor(R.color.blue_10));
+            tv_color06.setBackgroundColor(getResources().getColor(R.color.red_30));
+        }
+        if ("voc".equals(type)) {
+            tv_title.setText("VOCs数据详情");
+            lin01.setVisibility(View.GONE);
+            tv_cont02.setText("160-200");
+            tv_cont03.setText("120-160");
+            tv_cont04.setText("80-120");
+            tv_cont05.setText("40-80");
+            tv_cont06.setText("0-40");
+            tv_color02.setBackgroundColor(getResources().getColor(R.color.red_160));
+            tv_color03.setBackgroundColor(getResources().getColor(R.color.red_120));
+            tv_color04.setBackgroundColor(getResources().getColor(R.color.red_80));
+            tv_color05.setBackgroundColor(getResources().getColor(R.color.yellow_80));
+            tv_color06.setBackgroundColor(getResources().getColor(R.color.yellow_40));
+        }
+    }
+
     private void getMeasureTypeInfo() {
         ProgressDialogUtil.startShow(this, "正在加载");
         RequestParamsFM params = new RequestParamsFM();
@@ -163,19 +270,19 @@ public class HAirMeasureTypeActivity extends BaseActivity {
             @Override
             public void onError(Request request, IOException e) {
                 ProgressDialogUtil.hideDialog();
-                ToastUtils.showToast(HAirMeasureTypeActivity.this, "网络连接错误");
+                ToastUtils.showToast(TypeMeasureDetailActivity.this, "网络连接错误");
             }
 
             @Override
             public void onSuccess(int code, String resbody) {
                 ProgressDialogUtil.hideDialog();
                 if (code != 200) {
-                    ToastUtils.showToast(HAirMeasureTypeActivity.this, "网络错误" + code);
+                    ToastUtils.showToast(TypeMeasureDetailActivity.this, "网络错误" + code);
                     return;
                 }
                 Gson gson = new Gson();
                 HAirMeasureTypeInfo hAirMeasureTypeInfo = gson.fromJson(resbody, HAirMeasureTypeInfo.class);
-                ToastUtils.showToast(HAirMeasureTypeActivity.this, hAirMeasureTypeInfo.getMessage());
+                ToastUtils.showToast(TypeMeasureDetailActivity.this, hAirMeasureTypeInfo.getMessage());
                 if (1 == hAirMeasureTypeInfo.getCode()) {
                     final List<HAirMeasureTypeInfo.HairListBean> hairList = hAirMeasureTypeInfo.getHairList();
                     if (hairList.size() > 0) {
@@ -187,42 +294,42 @@ public class HAirMeasureTypeActivity extends BaseActivity {
                                     mSList.clear();
                                 }
                                 //放入数值初始化图表
-                                if ("pm25".equals(getIntent().getStringExtra("type"))) {
+                                if ("pm25".equals(type)) {
                                     for (HAirMeasureTypeInfo.HairListBean bean : hairList) {
                                         mData.add(Float.valueOf(bean.getPm25().replace(",", "")));
                                         mSList.add(bean.getFaddtime());
                                     }
-                                } else if ("pm100".equals(getIntent().getStringExtra("type"))) {
+                                } else if ("pm100".equals(type)) {
                                     for (HAirMeasureTypeInfo.HairListBean bean : hairList) {
                                         mData.add(Float.valueOf(bean.getPm100().replace(",", "")));
                                         mSList.add(bean.getFaddtime());
                                     }
-                                } else if ("co2".equals(getIntent().getStringExtra("type"))) {
+                                } else if ("co2".equals(type)) {
                                     for (HAirMeasureTypeInfo.HairListBean bean : hairList) {
                                         mData.add(Float.valueOf(bean.getCo2().replace(",", "")));
                                         mSList.add(bean.getFaddtime());
                                     }
-                                } else if ("co".equals(getIntent().getStringExtra("type"))) {
+                                } else if ("co".equals(type)) {
                                     for (HAirMeasureTypeInfo.HairListBean bean : hairList) {
                                         mData.add(Float.valueOf(bean.getCo().replace(",", "")));
                                         mSList.add(bean.getFaddtime());
                                     }
-                                } else if ("formaldehyde".equals(getIntent().getStringExtra("type"))) {
+                                } else if ("formaldehyde".equals(type)) {
                                     for (HAirMeasureTypeInfo.HairListBean bean : hairList) {
                                         mData.add(Float.valueOf(bean.getFormaldehyde().replace(",", "")));
                                         mSList.add(bean.getFaddtime());
                                     }
-                                } else if ("temperature".equals(getIntent().getStringExtra("type"))) {
+                                } else if ("temperature".equals(type)) {
                                     for (HAirMeasureTypeInfo.HairListBean bean : hairList) {
                                         mData.add(Float.valueOf(bean.getTemperature().replace(",", "")));
                                         mSList.add(bean.getFaddtime());
                                     }
-                                } else if ("humidity".equals(getIntent().getStringExtra("type"))) {
+                                } else if ("humidity".equals(type)) {
                                     for (HAirMeasureTypeInfo.HairListBean bean : hairList) {
                                         mData.add(Float.valueOf(bean.getHumidity().replace(",", "")));
                                         mSList.add(bean.getFaddtime());
                                     }
-                                } else if ("voc".equals(getIntent().getStringExtra("type"))) {
+                                } else if ("voc".equals(type)) {
                                     for (HAirMeasureTypeInfo.HairListBean bean : hairList) {
                                         mData.add(Float.valueOf(bean.getVoc().replace(",", "")));
                                         mSList.add(bean.getFaddtime());
@@ -232,7 +339,7 @@ public class HAirMeasureTypeActivity extends BaseActivity {
                                 Collections.reverse(mSList);
                                 //存放颜色
                                 final int[] colorInt = new int[mData.size()];
-                                if ("pm25".equals(getIntent().getStringExtra("type")) || "pm100".equals(getIntent().getStringExtra("type"))) {
+                                if ("pm25".equals(type) || "pm100".equals(type)) {
                                     for (int n = 0; n < mData.size(); n++) {
                                         if (mData.get(n) < 35) {
                                             colorInt[n] = (R.color.green_100);
@@ -248,8 +355,7 @@ public class HAirMeasureTypeActivity extends BaseActivity {
                                             colorInt[n] = (R.color.brown_30);
                                         }
                                     }
-                                }
-                                if ("co2".equals(getIntent().getStringExtra("type"))) {
+                                } else if ("co2".equals(type)) {
                                     for (int n = 0; n < mData.size(); n++) {
                                         if (mData.get(n) < 450) {
                                             colorInt[n] = (R.color.green_100);
@@ -263,9 +369,7 @@ public class HAirMeasureTypeActivity extends BaseActivity {
                                             colorInt[n] = (R.color.purple_30);
                                         }
                                     }
-                                    lin01.setVisibility(View.INVISIBLE);
-                                }
-                                if ("co".equals(getIntent().getStringExtra("type"))) {
+                                } else if ("co".equals(type)) {
                                     for (int n = 0; n < mData.size(); n++) {
                                         if (mData.get(n) < 1) {
                                             colorInt[n] = (R.color.green_100);
@@ -281,45 +385,56 @@ public class HAirMeasureTypeActivity extends BaseActivity {
                                             colorInt[n] = (R.color.brown_30);
                                         }
                                     }
-                                    tv_cont01.setText(">200");
-                                    tv_cont02.setText("100-200");
-                                    tv_cont03.setText("15-100");
-                                    tv_cont04.setText("5-15");
-                                    tv_cont05.setText("1-5");
-                                    tv_cont06.setText("0-1");
-                                }
-                                if ("formaldehyde".equals(getIntent().getStringExtra("type"))) {
+                                } else if ("formaldehyde".equals(type)) {
                                     for (int n = 0; n < mData.size(); n++) {
-                                        if (mData.get(n) < 1) {
+                                        if (mData.get(n) <= 0) {
                                             colorInt[n] = (R.color.green_100);
-                                        } else if (mData.get(n) >= 1 && mData.get(n) < 5) {
+                                        } else if (mData.get(n) > 0 && mData.get(n) < 1) {
                                             colorInt[n] = (R.color.yellow);
-                                        } else if (mData.get(n) >= 5 && mData.get(n) < 15) {
+                                        } else if (mData.get(n) == 1) {
                                             colorInt[n] = (R.color.orange_10);
-                                        } else if (mData.get(n) >= 15 && mData.get(n) < 100) {
-                                            colorInt[n] = (R.color.red_30);
-                                        } else if (mData.get(n) >= 100 && mData.get(n) < 200) {
-                                            colorInt[n] = (R.color.purple_30);
                                         } else {
                                             colorInt[n] = (R.color.brown_30);
                                         }
                                     }
-                                    lin01.setVisibility(View.GONE);
-                                    lin02.setVisibility(View.GONE);
-                                    tv_cont03.setText(">1");
-                                    tv_cont04.setText("1-1");
-                                    tv_cont05.setText("0-1");
-                                    tv_cont06.setText("0-0");
-                                }
-                                if ("temperature".equals(getIntent().getStringExtra("type"))) {
-                                    lin01.setVisibility(View.GONE);
-
-                                }
-                                if ("humidity".equals(getIntent().getStringExtra("type"))) {
-
-                                }
-                                if ("voc".equals(getIntent().getStringExtra("type"))) {
-
+                                } else if ("temperature".equals(type)) {
+                                    for (int n = 0; n < mData.size(); n++) {
+                                        if (mData.get(n) < 10) {
+                                            colorInt[n] = (R.color.blue);
+                                        } else if (mData.get(n) >= 10 && mData.get(n) < 16) {
+                                            colorInt[n] = (R.color.blue_10);
+                                        } else if (mData.get(n) >= 16 && mData.get(n) < 25) {
+                                            colorInt[n] = (R.color.green_25);
+                                        } else if (mData.get(n) >= 25 && mData.get(n) < 28) {
+                                            colorInt[n] = (R.color.yellow);
+                                        } else {
+                                            colorInt[n] = (R.color.red_30);
+                                        }
+                                    }
+                                } else if ("humidity".equals(type)) {
+                                    for (int n = 0; n < mData.size(); n++) {
+                                        if (mData.get(n) < 10) {
+                                            colorInt[n] = (R.color.red_30);
+                                        } else if (mData.get(n) >= 10 && mData.get(n) < 16) {
+                                            colorInt[n] = (R.color.blue_10);
+                                        } else {
+                                            colorInt[n] = (R.color.blue);
+                                        }
+                                    }
+                                } else if ("voc".equals(type)) {
+                                    for (int n = 0; n < mData.size(); n++) {
+                                        if (mData.get(n) < 10) {
+                                            colorInt[n] = (R.color.yellow_40);
+                                        } else if (mData.get(n) >= 10 && mData.get(n) < 16) {
+                                            colorInt[n] = (R.color.yellow_80);
+                                        } else if (mData.get(n) >= 16 && mData.get(n) < 25) {
+                                            colorInt[n] = (R.color.red_80);
+                                        } else if (mData.get(n) >= 25 && mData.get(n) < 28) {
+                                            colorInt[n] = (R.color.red_120);
+                                        } else {
+                                            colorInt[n] = (R.color.red_160);
+                                        }
+                                    }
                                 }
                                 ThreadUtils.runOnMainThread(new Runnable() {
                                     @Override
@@ -336,7 +451,7 @@ public class HAirMeasureTypeActivity extends BaseActivity {
                     }
                 } else {
                     //查询数据失败
-
+                    ToastUtils.showToast(TypeMeasureDetailActivity.this, "数据查询失败");
                 }
             }
         });
@@ -362,7 +477,7 @@ public class HAirMeasureTypeActivity extends BaseActivity {
         ArrayList<ILineDataSet> allLinesList = new ArrayList<ILineDataSet>();
         //LineDataSet可以看做是一条线
         LineDataSet dataSet1 = new LineDataSet(entries, "dataLine1");
-        dataSet1.setColors(colorInt, HAirMeasureTypeActivity.this);
+        dataSet1.setColors(colorInt, TypeMeasureDetailActivity.this);
         dataSet1.setDrawCircles(false);
         allLinesList.add(dataSet1);
         LineData data = new LineData(allLinesList);
@@ -408,7 +523,7 @@ public class HAirMeasureTypeActivity extends BaseActivity {
         //+2：最大值n就有n+1个刻度，在加上y轴多一个单位长度，为了好看，so+5
         yAxis.setLabelCount((int) (Collections.max(list) + 5), false);
         //设置从Y轴值
-        yAxis.setAxisMinimum(Collections.min(list) - 10);
+        yAxis.setAxisMinimum(Collections.min(list) - 5);
         //+1:y轴多一个单位长度，为了好看
         yAxis.setAxisMaximum(Collections.max(list) + 10);
 
@@ -436,7 +551,7 @@ public class HAirMeasureTypeActivity extends BaseActivity {
         //设置数据
         lineChart.setData(data);
         //在动态添加移除数据时使用
-        //        lineChart.notifyDataSetChanged();
+        //lineChart.notifyDataSetChanged();
         //图标刷新
         lineChart.invalidate();
     }
@@ -454,8 +569,24 @@ public class HAirMeasureTypeActivity extends BaseActivity {
         //显示的内容
         @Override
         public void refreshContent(Entry e, Highlight highlight) {
-            //            tvContent.setText(format(e.getX()) + "\n" + "PM2.5数值：" + format.format(e.getY()));
-            tvContent.setText("PM2.5数值：" + format.format(e.getY()));
+            //tvContent.setText(format(e.getX()) + "\n" + "PM2.5数值：" + format.format(e.getY()));
+            if ("pm25".equals(type)) {
+                tvContent.setText("PM2.5" + "数值：" + format.format(e.getY()));
+            } else if ("pm100".equals(type)) {
+                tvContent.setText("PM100" + "数值：" + format.format(e.getY()));
+            } else if ("co2".equals(type)) {
+                tvContent.setText("CO₂" + "数值：" + format.format(e.getY()));
+            } else if ("co".equals(type)) {
+                tvContent.setText("CO" + "数值：" + format.format(e.getY()));
+            } else if ("formaldehyde".equals(type)) {
+                tvContent.setText("甲醛" + "数值：" + format.format(e.getY()));
+            } else if ("temperature".equals(type)) {
+                tvContent.setText("温度" + "数值：" + format.format(e.getY()));
+            } else if ("humidity".equals(type)) {
+                tvContent.setText("湿度" + "数值：" + format.format(e.getY()));
+            } else {
+                tvContent.setText("VOCs" + "数值：" + format.format(e.getY()));
+            }
             super.refreshContent(e, highlight);
         }
 

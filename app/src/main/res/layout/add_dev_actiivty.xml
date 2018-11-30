@@ -42,7 +42,7 @@
             <ImageView
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:src="@drawable/master_control"/>
+                android:src="@drawable/icon_zk"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -66,7 +66,7 @@
             <ImageView
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:src="@drawable/second_control"/>
+                android:src="@drawable/icon_wifi"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -91,7 +91,7 @@
             <ImageView
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:src="@drawable/eq"/>
+                android:src="@drawable/second_control"/>
 
             <TextView
                 android:layout_width="wrap_content"

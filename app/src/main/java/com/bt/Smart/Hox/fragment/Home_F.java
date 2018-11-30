@@ -312,12 +312,12 @@ public class Home_F extends Fragment implements View.OnClickListener {
                         //添加所有设备界面
                         DeviceListFragment deviceFragmentAll = new DeviceListFragment();
                         contsList.add("所有设备");
-                        deviceFragmentAll.setRoomID(hDefID, "all");
+                        deviceFragmentAll.setRoomID(hDefID, "all","all");
                         fragmentsList.add(deviceFragmentAll);
                         for (int i = 0; i < houseDetailInfo.getHouseList().size(); i++) {
                             //创建设备列表界面
                             DeviceListFragment deviceFragment = new DeviceListFragment();
-                            deviceFragment.setRoomID(hDefID, houseDetailInfo.getHouseList().get(i).getId());
+                            deviceFragment.setRoomID(hDefID, houseDetailInfo.getHouseList().get(i).getId(),houseDetailInfo.getHouseList().get(i).getHouse_name());
                             contsList.add(houseDetailInfo.getHouseList().get(i).getHouse_name());
                             fragmentsList.add(deviceFragment);
                         }

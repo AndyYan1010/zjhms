@@ -8,11 +8,12 @@
     <include layout="@layout/title_view_img"/>
 
     <TextView
+        android:id="@+id/tv_cont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:text="HAir空气哨兵"
+        android:text="当前监控数值"
         android:textColor="@color/black"
         android:textSize="16sp"/>
 

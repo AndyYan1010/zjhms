@@ -1,14 +1,17 @@
 package com.bt.Smart.Hox.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bt.Smart.Hox.R;
+import com.bt.Smart.Hox.activity.meActivity.SceneDetailActivity;
 import com.bt.Smart.Hox.messegeInfo.SceneInfo;
 import com.bt.Smart.Hox.util.GlideLoaderUtil;
 
@@ -44,9 +47,18 @@ public class RecSceneAdapter extends RecyclerView.Adapter<RecSceneAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.tv_name.setText(mData.get(position).getScene_name());
         GlideLoaderUtil.showImageView(mContext, mData.get(position).getScene_pic(), holder.img_icon);
+        holder.lin_sce.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, SceneDetailActivity.class);
+                intent.putExtra("from","recy");
+                intent.putExtra("sceneID", mData.get(position).getId());
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -55,11 +67,13 @@ public class RecSceneAdapter extends RecyclerView.Adapter<RecSceneAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView img_icon;
-        TextView tv_name;
+        LinearLayout lin_sce;
+        ImageView    img_icon;
+        TextView     tv_name;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            lin_sce = itemView.findViewById(R.id.lin_sce);
             img_icon = (ImageView) itemView.findViewById(R.id.img_icon);
             tv_name = (TextView) itemView.findViewById(R.id.tv_name);
         }

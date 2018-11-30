@@ -65,6 +65,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -90,7 +91,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_gravity="bottom"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:gravity="center"
@@ -164,24 +165,23 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
+            android:layout_height="wrap_content">
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/tablayout"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="40dp"
                 android:layout_marginRight="35dp"
                 app:tabMode="scrollable"
-                app:tabSelectedTextColor="@color/vm_blue_38"
+                app:tabSelectedTextColor="@color/deepskyblue"
                 app:tabTextColor="@color/black">
             </android.support.design.widget.TabLayout>
 
             <View
                 android:layout_width="35dp"
                 android:layout_height="45dp"
-                android:layout_toLeftOf="@+id/img_more"
                 android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/img_more"
                 android:background="@drawable/shadow_line_toleft"/>
 
             <ImageView

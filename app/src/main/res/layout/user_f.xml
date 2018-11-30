@@ -32,8 +32,8 @@
                     android:orientation="vertical">
 
                     <android.support.v7.widget.CardView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="10dp"
                         app:cardCornerRadius="35dp">
@@ -159,7 +159,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="15dp"
                     android:src="@drawable/icon_person"/>
 
                 <TextView
@@ -177,7 +177,7 @@
                     android:layout_height="15dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="15dp"
                     android:src="@drawable/me_next2"/>
             </RelativeLayout>
 
@@ -197,7 +197,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="15dp"
                     android:src="@drawable/icon_home"/>
 
                 <TextView
@@ -215,7 +215,7 @@
                     android:layout_height="15dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="15dp"
                     android:src="@drawable/me_next2"/>
             </RelativeLayout>
 
@@ -235,7 +235,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="15dp"
                     android:src="@drawable/dev_manager"/>
 
                 <TextView
@@ -253,7 +253,7 @@
                     android:layout_height="15dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="15dp"
                     android:src="@drawable/me_next2"/>
             </RelativeLayout>
 
@@ -273,7 +273,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="15dp"
                     android:src="@drawable/icon_msg"/>
 
                 <TextView
@@ -291,7 +291,7 @@
                     android:layout_height="15dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="15dp"
                     android:src="@drawable/me_next2"/>
             </RelativeLayout>
 
@@ -311,7 +311,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="15dp"
                     android:src="@drawable/setting"/>
 
                 <TextView
@@ -329,7 +329,7 @@
                     android:layout_height="15dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="15dp"
                     android:src="@drawable/me_next2"/>
             </RelativeLayout>
 
@@ -349,7 +349,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="15dp"
                     android:src="@drawable/icon_question"/>
 
                 <TextView
@@ -367,7 +367,7 @@
                     android:layout_height="15dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="15dp"
                     android:src="@drawable/me_next2"/>
             </RelativeLayout>
 
@@ -387,7 +387,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="15dp"
                     android:src="@drawable/icon_feedback"/>
 
                 <TextView
@@ -405,7 +405,7 @@
                     android:layout_height="15dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="15dp"
                     android:src="@drawable/me_next2"/>
             </RelativeLayout>
 

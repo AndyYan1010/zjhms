@@ -84,9 +84,10 @@
         <activity android:name=".activity.homeActivity.CreateHomeActivity"/>
         <activity android:name=".activity.homeActivity.HAirDetailInfoActivity"/>
         <activity android:name=".activity.meActivity.PersonalActivity"/>
-        <activity android:name=".activity.homeActivity.HAirMeasureTypeActivity"/>
+        <activity android:name=".activity.homeActivity.TypeMeasureDetailActivity"/>
         <activity android:name=".activity.meActivity.DeviceManagerActivity"/>
         <activity android:name=".activity.meActivity.MineMsgCenterActivity"/>
+        <activity android:name=".activity.meActivity.SceneDetailActivity"/>
 
         <receiver android:name=".broadcastReceiver.MyApkLoadReceive"/>
         <service android:name=".service.LoadingApkService"/>

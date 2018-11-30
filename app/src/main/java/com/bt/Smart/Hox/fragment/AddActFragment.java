@@ -74,7 +74,7 @@ public class AddActFragment extends Fragment implements View.OnClickListener {
         tv_save.setOnClickListener(this);
         rlt_choice_auto.setOnClickListener(this);
         mData = new ArrayList();
-        selectDevAdapter = new LvSelectDevAdapter(getContext(), mData);
+        selectDevAdapter = new LvSelectDevAdapter(getContext(), mData,"dev");
         lv_dev.setAdapter(selectDevAdapter);
         //获取家下设备
         getHomeDeviceList();

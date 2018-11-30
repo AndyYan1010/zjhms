@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bt.Smart.Hox.R;
-import com.bt.Smart.Hox.activity.homeActivity.HAirMeasureTypeActivity;
+import com.bt.Smart.Hox.activity.homeActivity.TypeMeasureDetailActivity;
 import com.bt.Smart.Hox.messegeInfo.HairCurrentInfo;
 
 import java.util.List;
@@ -85,7 +85,7 @@ public class RecHAirInfoAdapter extends RecyclerView.Adapter<RecHAirInfoAdapter.
         holder.card_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, HAirMeasureTypeActivity.class);
+                Intent intent = new Intent(mContext, TypeMeasureDetailActivity.class);
                 intent.putExtra("dev_ID", mDevID);
                 if (0 == position) {//跳转PM2.5数据界面
                     intent.putExtra("type", "pm25");

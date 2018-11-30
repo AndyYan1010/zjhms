@@ -43,11 +43,6 @@ public class Play_F extends Fragment {
     private ListView                        lv_info;
     private List<PlayListInfo.PlayListBean> mData;
     private LvInformationAdapter            informationAdapter;
-    //    private TabLayout                      mTablayout;//导航标签
-    //    private MyFixedViewpager               mView_pager;//自我viewpager可实现禁止滑动
-    //    private MyAddIntellPagerAdapter        myPagerAdapter;//pager设配器
-    //    private ArrayList<InformationFragment> fragmentsList;//fragment集合
-    //    private String[] contsList = {"资讯"};//tablayout的标题
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,8 +56,6 @@ public class Play_F extends Fragment {
         tv_title = mRootView.findViewById(R.id.tv_title);
         lin_nomsg = mRootView.findViewById(R.id.lin_nomsg);
         lv_info = mRootView.findViewById(R.id.lv_info);
-        //        mTablayout = mRootView.findViewById(R.id.tablayout);
-        //        mView_pager = mRootView.findViewById(R.id.view_pager);
     }
 
     private void initData() {

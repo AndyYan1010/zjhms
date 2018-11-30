@@ -164,7 +164,11 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
-                MyFragmentManagerUtil.closeTopFragment(this);
+                if (null != mFrom && "recy".equals(mFrom)) {
+                    getActivity().finish();
+                } else {
+                    MyFragmentManagerUtil.closeTopFragment(this);
+                }
                 break;
             case R.id.tv_save://添加场景
                 String name = String.valueOf(tv_name.getText()).trim();
@@ -190,6 +194,7 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.cv_delt://删除场景
                 deleteScene();
+                MyApplication.sceneRefresh = true;
                 break;
             case R.id.img_edit://编辑场景名字
                 showEditName();
@@ -325,7 +330,9 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
                 CommonInfo commonInfo = gson.fromJson(resbody, CommonInfo.class);
                 ToastUtils.showToast(getContext(), commonInfo.getMessage());
                 if (1 == commonInfo.getResult()) {
-                    mAddIntelligentFragment.refreshDataList();
+                    if (null != mAddIntelligentFragment) {
+                        mAddIntelligentFragment.refreshDataList();
+                    }
                     MyFragmentManagerUtil.closeTopFragment(AddSceneFragment.this);
                 }
             }
@@ -424,7 +431,9 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
                 AddSceneResultInfo addSceneResultInfo = gson.fromJson(resbody, AddSceneResultInfo.class);
                 ToastUtils.showToast(getContext(), addSceneResultInfo.getMessage());
                 if (1 == addSceneResultInfo.getResult()) {
-                    mAddIntelligentFragment.refreshDataList();
+                    if (null != mAddIntelligentFragment) {
+                        mAddIntelligentFragment.refreshDataList();
+                    }
                     MyFragmentManagerUtil.closeTopFragment(AddSceneFragment.this);
                 }
             }
@@ -637,5 +646,11 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
 
     public void setUpFragment(AddIntelligentFragment intelligentFragment) {
         mAddIntelligentFragment = intelligentFragment;
+    }
+
+    private String mFrom;
+
+    public void setFrom(String from) {
+        mFrom = from;
     }
 }
