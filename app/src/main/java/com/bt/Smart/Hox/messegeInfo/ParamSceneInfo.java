@@ -66,6 +66,13 @@ public class ParamSceneInfo {
         private String device_id;
         private String device_status;
         private String device_value;
+        /**
+         * deviceType :
+         * main_control_code :
+         */
+
+        private String deviceType;
+        private String main_control_code;
 
         public String getDevice_id() {
             return device_id;
@@ -89,6 +96,22 @@ public class ParamSceneInfo {
 
         public void setDevice_value(String device_value) {
             this.device_value = device_value;
+        }
+
+        public String getDeviceType() {
+            return deviceType;
+        }
+
+        public void setDeviceType(String deviceType) {
+            this.deviceType = deviceType;
+        }
+
+        public String getMain_control_code() {
+            return main_control_code;
+        }
+
+        public void setMain_control_code(String main_control_code) {
+            this.main_control_code = main_control_code;
         }
     }
 }

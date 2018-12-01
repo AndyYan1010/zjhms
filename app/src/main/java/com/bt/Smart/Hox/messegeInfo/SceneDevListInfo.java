@@ -30,6 +30,11 @@ public class SceneDevListInfo {
      */
 
     private String deviceType;
+    /**
+     * main_control_code : 0101800001
+     */
+
+    private String main_control_code;
 
     public String getDevice_id() {
         return device_id;
@@ -69,5 +74,13 @@ public class SceneDevListInfo {
 
     public void setDeviceType(String deviceType) {
         this.deviceType = deviceType;
+    }
+
+    public String getMain_control_code() {
+        return main_control_code;
+    }
+
+    public void setMain_control_code(String main_control_code) {
+        this.main_control_code = main_control_code;
     }
 }

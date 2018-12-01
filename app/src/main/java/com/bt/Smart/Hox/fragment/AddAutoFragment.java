@@ -219,7 +219,8 @@ public class AddAutoFragment extends Fragment implements View.OnClickListener {
                 atExtDevBean.setDevice_id(devListInfo.getDevice_id());
                 atExtDevBean.setDevice_status(devListInfo.getDevice_status());
                 atExtDevBean.setDevice_value(devListInfo.getDevice_value());
-                atExtDevBean.setDeviceType(devListInfo.getDeviceType());
+//                atExtDevBean.setDeviceType(devListInfo.getDeviceType());
+                atExtDevBean.setMain_control_code(devListInfo.getMain_control_code());
                 auto_execute_device.add(atExtDevBean);
             }
         }
@@ -245,6 +246,7 @@ public class AddAutoFragment extends Fragment implements View.OnClickListener {
             ifha3ListBean.setIf_select_type(autoCondInfo.getSelect_type());
             ifha3ListBean.setIf_type("1");
             ifha3ListBean.setIf_value(autoCondInfo.getValue());
+            ifha3ListBean.setMain_control_code(autoCondInfo.getMain_control_code());
             auto_ifha3_list.add(ifha3ListBean);
         }
         upAutoInfo.setAuto_ifha3_list(auto_ifha3_list);
@@ -311,6 +313,7 @@ public class AddAutoFragment extends Fragment implements View.OnClickListener {
                 atExtDevBean.setDevice_status(devListInfo.getDevice_status());
                 atExtDevBean.setDevice_value(devListInfo.getDevice_value());
                 atExtDevBean.setDeviceType(devListInfo.getDeviceType());
+                atExtDevBean.setMain_control_code(devListInfo.getMain_control_code());
                 auto_execute_device.add(atExtDevBean);
             }
         }
@@ -770,6 +773,7 @@ public class AddAutoFragment extends Fragment implements View.OnClickListener {
                         autoCondInfo.setSelect_if(ifha3ListBean.getIf_select());
                         autoCondInfo.setValue(ifha3ListBean.getIf_value());
                         autoCondInfo.setHa3_code(ifha3ListBean.getDevice_code());
+                        autoCondInfo.setMain_control_code(ifha3ListBean.getMain_control_code());
                         mConData.add(autoCondInfo);
                     }
                     addConAdapter.notifyDataSetChanged();
@@ -781,6 +785,7 @@ public class AddAutoFragment extends Fragment implements View.OnClickListener {
                         devListInfo.setDevice_value(deviceListBean.getDevice_value());
                         devListInfo.setDevice_status(deviceListBean.getDevice_status());
                         devListInfo.setDeviceType(deviceListBean.getDeviceType());
+                        devListInfo.setMain_control_code(deviceListBean.getMain_control_code());
                         mActData.add(devListInfo);
                     }
                     //执行场景信息
@@ -932,6 +937,7 @@ public class AddAutoFragment extends Fragment implements View.OnClickListener {
                 devListInfo.setDevice_status(bean.getDevice_status());
                 devListInfo.setDevice_value("10");
                 devListInfo.setDeviceType(bean.getDeviceType());
+                devListInfo.setMain_control_code(bean.getMain_control_code());
                 mActData.add(devListInfo);
             }
         }

@@ -118,7 +118,7 @@ public class LvDeviceAdapter extends BaseAdapter {
             house_id = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getRoomid();
             main_control_name = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getMain_control_name();
             second_control_name = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getSecond_control_name();
-            main_control_code = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getMaster_control().replace("--","");
+            main_control_code = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getMaster_control();
             device_code = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDevice_code();
             control_type = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDeviceType();
         } else {

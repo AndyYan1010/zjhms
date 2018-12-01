@@ -109,6 +109,11 @@ public class InsertAutoInfo {
         private String device_id;
         private String device_status;
         private String device_value;
+        /**
+         * main_control_code : 主控码
+         */
+
+        private String main_control_code;
 
         public String getDeviceType() {
             return deviceType;
@@ -140,6 +145,14 @@ public class InsertAutoInfo {
 
         public void setDevice_value(String device_value) {
             this.device_value = device_value;
+        }
+
+        public String getMain_control_code() {
+            return main_control_code;
+        }
+
+        public void setMain_control_code(String main_control_code) {
+            this.main_control_code = main_control_code;
         }
     }
 
@@ -188,6 +201,11 @@ public class InsertAutoInfo {
          */
 
         private String if_ha3_code;
+        /**
+         * main_control_code : 主控编号
+         */
+
+        private String main_control_code;
 
         public String getIf_ha3_id() {
             return if_ha3_id;
@@ -235,6 +253,14 @@ public class InsertAutoInfo {
 
         public void setIf_ha3_code(String if_ha3_code) {
             this.if_ha3_code = if_ha3_code;
+        }
+
+        public String getMain_control_code() {
+            return main_control_code;
+        }
+
+        public void setMain_control_code(String main_control_code) {
+            this.main_control_code = main_control_code;
         }
     }
 

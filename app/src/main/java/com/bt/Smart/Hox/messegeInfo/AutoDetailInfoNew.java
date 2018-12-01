@@ -348,6 +348,11 @@ public class AutoDetailInfoNew {
          */
 
         private String device_code;
+        /**
+         * main_control_code : 主控编号
+         */
+
+        private String main_control_code;
 
         public String getIf_value() {
             return if_value;
@@ -412,6 +417,14 @@ public class AutoDetailInfoNew {
         public void setDevice_code(String device_code) {
             this.device_code = device_code;
         }
+
+        public String getMain_control_code() {
+            return main_control_code;
+        }
+
+        public void setMain_control_code(String main_control_code) {
+            this.main_control_code = main_control_code;
+        }
     }
 
     public static class AutoTimeListBean {
@@ -468,6 +481,11 @@ public class AutoDetailInfoNew {
         private String device_id;
         private String device_value;
         private String id;
+        /**
+         * main_control_code : 0101800001
+         */
+
+        private String main_control_code;
 
         public String getDeviceType() {
             return deviceType;
@@ -523,6 +541,14 @@ public class AutoDetailInfoNew {
 
         public void setId(String id) {
             this.id = id;
+        }
+
+        public String getMain_control_code() {
+            return main_control_code;
+        }
+
+        public void setMain_control_code(String main_control_code) {
+            this.main_control_code = main_control_code;
         }
     }
 

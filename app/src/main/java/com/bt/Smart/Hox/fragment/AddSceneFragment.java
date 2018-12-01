@@ -301,6 +301,8 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
             bean.setDevice_id(devListInfo.getDevice_id());
             bean.setDevice_status(devListInfo.getDevice_status());
             bean.setDevice_value(devListInfo.getDevice_value());
+            bean.setMain_control_code(devListInfo.getMain_control_code());
+//            bean.setDeviceType(devListInfo.getDeviceType());
             mSceList.add(bean);
         }
         paramSceneInfo.setDevicelist(mSceList);
@@ -387,6 +389,8 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
                         devListInfo.setDevice_name(bean.getDevice_name());
                         devListInfo.setDevice_status(bean.getDevice_status());
                         devListInfo.setDevice_value(bean.getDevice_value());
+//                        devListInfo.setDeviceType(bean.getDefault_device_type());
+                        devListInfo.setMain_control_code(bean.getMain_control_code());
                         mData.add(devListInfo);
                     }
                     addActAdapter.notifyDataSetChanged();
@@ -404,6 +408,8 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
             bean.setDevice_id(devListInfo.getDevice_id());
             bean.setDevice_status(devListInfo.getDevice_status());
             bean.setDevice_value(devListInfo.getDevice_value());
+//            bean.setDeviceType(devListInfo.getDeviceType());
+            bean.setMain_control_code(devListInfo.getMain_control_code());
             mSceList.add(bean);
         }
         paramSceneInfo.setDevicelist(mSceList);
@@ -628,6 +634,8 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
                 devListInfo.setDevice_id(bean.getId());
                 devListInfo.setDevice_status("1");
                 devListInfo.setDevice_value("0001");
+                devListInfo.setMain_control_code(bean.getMain_control_code());
+//                devListInfo.setDeviceType(bean.getDefault_device_type());
                 mData.add(devListInfo);
             }
         }

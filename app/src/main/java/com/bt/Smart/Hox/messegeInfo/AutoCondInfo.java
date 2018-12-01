@@ -32,6 +32,11 @@ public class AutoCondInfo {
      */
 
     private String ha3_code;
+    /**
+     * main_control_code : 主控编号
+     */
+
+    private String main_control_code;
 
     public String getDevice_name() {
         return device_name;
@@ -79,5 +84,13 @@ public class AutoCondInfo {
 
     public void setHa3_code(String ha3_code) {
         this.ha3_code = ha3_code;
+    }
+
+    public String getMain_control_code() {
+        return main_control_code;
+    }
+
+    public void setMain_control_code(String main_control_code) {
+        this.main_control_code = main_control_code;
     }
 }

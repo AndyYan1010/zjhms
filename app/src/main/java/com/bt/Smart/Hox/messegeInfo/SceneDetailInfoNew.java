@@ -258,6 +258,11 @@ public class SceneDetailInfoNew {
         private String device_value;
         private String default_device_type;
         private String id;
+        /**
+         * main_control_code : 0101800001
+         */
+
+        private String main_control_code;
 
         public String getDevice_status() {
             return device_status;
@@ -305,6 +310,14 @@ public class SceneDetailInfoNew {
 
         public void setId(String id) {
             this.id = id;
+        }
+
+        public String getMain_control_code() {
+            return main_control_code;
+        }
+
+        public void setMain_control_code(String main_control_code) {
+            this.main_control_code = main_control_code;
         }
     }
 }

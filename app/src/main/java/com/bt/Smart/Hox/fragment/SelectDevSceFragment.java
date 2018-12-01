@@ -75,9 +75,9 @@ public class SelectDevSceFragment extends Fragment implements View.OnClickListen
         tv_save.setOnClickListener(this);
         mDevData = new ArrayList();
         mSceData = new ArrayList();
-        selectDevAdapter = new LvSelectDevAdapter(getContext(), mDevData,"dev");
+        selectDevAdapter = new LvSelectDevAdapter(getContext(), mDevData, "dev");
         lv_dev.setAdapter(selectDevAdapter);
-        selectSceAdapter = new LvSelectDevAdapter(getContext(), mSceData,"sce");
+        selectSceAdapter = new LvSelectDevAdapter(getContext(), mSceData, "sce");
         lv_sce.setAdapter(selectSceAdapter);
         //获取家下传感设备
         getHomeDevList();
@@ -109,7 +109,7 @@ public class SelectDevSceFragment extends Fragment implements View.OnClickListen
             if (bean.isIsSelect())
                 sceList.add(bean);
         }
-        mAddAutoFragment.changeActUI(devList,sceList);
+        mAddAutoFragment.changeActUI(devList, sceList);
         MyFragmentManagerUtil.closeTopFragment(this);
     }
 
@@ -139,6 +139,7 @@ public class SelectDevSceFragment extends Fragment implements View.OnClickListen
                         notHA3listBean.setIsSelect(false);
                         notHA3listBean.setDevice_name(bean.getDevice_name());
                         notHA3listBean.setId(bean.getId());
+                        notHA3listBean.setMain_control_code(bean.getMain_control_code());
                         notHA3listBean.setDevice_status(bean.getDevice_status());
                         notHA3listBean.setDeviceType(bean.getDeviceType());
                         notHA3listBean.setDevice_img(bean.getDevice_img());
