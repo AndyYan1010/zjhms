@@ -11,7 +11,7 @@ import com.bt.Smart.Hox.MyApplication;
 import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.adapter.LvDevListManagerAdapter;
-import com.bt.Smart.Hox.messegeInfo.NotHA3ListInfo;
+import com.bt.Smart.Hox.messegeInfo.AllDevListInfo;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
 import com.bt.Smart.Hox.utils.ProgressDialogUtil;
 import com.bt.Smart.Hox.utils.RequestParamsFM;
@@ -34,12 +34,12 @@ import okhttp3.Request;
  */
 
 public class DeviceManagerActivity extends BaseActivity implements View.OnClickListener {
-    private ImageView               img_back;
-    private ImageView               img_more;//扫描
-    private TextView                tv_title;//标题
-    private List                    mData;//设备列表数据
-    private LvDevListManagerAdapter devListAdapter;
-    private ListView                lv_dev;//设备列表
+    private ImageView                               img_back;
+    private ImageView                               img_more;//扫描
+    private TextView                                tv_title;//标题
+    private List<AllDevListInfo.DeviceHomeListBean> mData;//设备列表数据
+    private LvDevListManagerAdapter                 devListAdapter;
+    private ListView                                lv_dev;//设备列表
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +79,7 @@ public class DeviceManagerActivity extends BaseActivity implements View.OnClickL
         ProgressDialogUtil.startShow(this, "正在查询...");
         RequestParamsFM params = new RequestParamsFM();
         params.put("home_id", MyApplication.slecHomeID);
-        HttpOkhUtils.getInstance().doGetWithParams(NetConfig.QUERYNOTHA3LIST, params, new HttpOkhUtils.HttpCallBack() {
+        HttpOkhUtils.getInstance().doGetWithParams(NetConfig.SELECTEQLIST, params, new HttpOkhUtils.HttpCallBack() {//QUERYNOTHA3LIST
             @Override
             public void onError(Request request, IOException e) {
                 ProgressDialogUtil.hideDialog();
@@ -94,10 +94,10 @@ public class DeviceManagerActivity extends BaseActivity implements View.OnClickL
                     return;
                 }
                 Gson gson = new Gson();
-                NotHA3ListInfo notHA3ListInfo = gson.fromJson(resbody, NotHA3ListInfo.class);
-                ToastUtils.showToast(DeviceManagerActivity.this, notHA3ListInfo.getMessage());
-                if (1 == notHA3ListInfo.getCode()) {
-                    mData.addAll(notHA3ListInfo.getNotHA3list());
+                AllDevListInfo allDeviceInfo = gson.fromJson(resbody, AllDevListInfo.class);
+                ToastUtils.showToast(DeviceManagerActivity.this, allDeviceInfo.getMessage());
+                if (1 == allDeviceInfo.getCode()) {
+                    mData.addAll(allDeviceInfo.getDeviceHomeList());
                     devListAdapter.notifyDataSetChanged();
                 }
             }

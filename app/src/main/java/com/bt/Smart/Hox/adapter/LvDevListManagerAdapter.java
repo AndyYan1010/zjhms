@@ -18,8 +18,8 @@ import android.widget.TextView;
 import com.bt.Smart.Hox.MyApplication;
 import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
+import com.bt.Smart.Hox.messegeInfo.AllDevListInfo;
 import com.bt.Smart.Hox.messegeInfo.CommonInfo;
-import com.bt.Smart.Hox.messegeInfo.NotHA3ListInfo;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
 import com.bt.Smart.Hox.utils.MyAlertDialogHelper;
 import com.bt.Smart.Hox.utils.ProgressDialogUtil;
@@ -42,10 +42,10 @@ import okhttp3.Request;
  */
 
 public class LvDevListManagerAdapter extends BaseAdapter {
-    private Context                             mContext;
-    private List<NotHA3ListInfo.NotHA3listBean> mList;
+    private Context                                 mContext;
+    private List<AllDevListInfo.DeviceHomeListBean> mList;
 
-    public LvDevListManagerAdapter(Context context, List list) {
+    public LvDevListManagerAdapter(Context context, List<AllDevListInfo.DeviceHomeListBean> list) {
         this.mContext = context;
         this.mList = list;
     }
@@ -70,8 +70,12 @@ public class LvDevListManagerAdapter extends BaseAdapter {
         final MyViewholder viewholder;
         if (null == view) {
             viewholder = new MyViewholder();
-            view = View.inflate(mContext, R.layout.adpter_dev_list, null);
+            view = View.inflate(mContext, R.layout.adapter_dev_manager_list, null);
             viewholder.tv_name = view.findViewById(R.id.tv_name);
+            viewholder.tv_room = view.findViewById(R.id.tv_room);
+            viewholder.tv_code = view.findViewById(R.id.tv_code);
+            viewholder.tv_main = view.findViewById(R.id.tv_main);
+            viewholder.tv_second = view.findViewById(R.id.tv_second);
             viewholder.img_edit = view.findViewById(R.id.img_edit);
             viewholder.img_delet = view.findViewById(R.id.img_delet);
             view.setTag(viewholder);
@@ -79,7 +83,11 @@ public class LvDevListManagerAdapter extends BaseAdapter {
             viewholder = (MyViewholder) view.getTag();
         }
 
-        viewholder.tv_name.setText((mList.get(i)).getDevice_name());//
+        viewholder.tv_name.setText(mList.get(i).getDevice_name());//
+        viewholder.tv_room.setText(mList.get(i).getHouse_name());
+        viewholder.tv_code.setText(mList.get(i).getDevice_code());
+        viewholder.tv_main.setText(mList.get(i).getMain_control_name());
+        viewholder.tv_second.setText(mList.get(i).getSecond_control_name());
 
         viewholder.img_edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,7 +145,7 @@ public class LvDevListManagerAdapter extends BaseAdapter {
         RequestParamsFM params = new RequestParamsFM();
         params.put("id", (mList.get(position)).getId());
         params.put("register_id", MyApplication.userID);
-        params.put("home_id", (mList.get(position)).getHome_id());
+        params.put("home_id", MyApplication.slecHomeID);
         params.put("device_type", (mList.get(position)).getDeviceType());
         params.put("second_control_id", (mList.get(position)).getSecond_control_id());
         HttpOkhUtils.getInstance().doDelete(NetConfig.DEVICE, params, new HttpOkhUtils.HttpCallBack() {
@@ -158,7 +166,6 @@ public class LvDevListManagerAdapter extends BaseAdapter {
                 CommonInfo commonInfo = gson.fromJson(resbody, CommonInfo.class);
                 ToastUtils.showToast(mContext, commonInfo.getMessage());
                 if (1 == commonInfo.getCode()) {
-                    //                    alertDialog.dismiss();
                     dialogHelper.disMiss();
                     mList.remove(position);
                     notifyDataSetChanged();
@@ -171,7 +178,7 @@ public class LvDevListManagerAdapter extends BaseAdapter {
         RequestParamsFM params = new RequestParamsFM();
         params.put("id", (mList.get(position)).getId());
         params.put("register_id", MyApplication.userID);
-        params.put("home_id", (mList.get(position)).getHome_id());
+        params.put("home_id", MyApplication.slecHomeID);
         HttpOkhUtils.getInstance().doDelete(NetConfig.SECONDCONTROL, params, new HttpOkhUtils.HttpCallBack() {
             @Override
             public void onError(Request request, IOException e) {
@@ -202,9 +209,9 @@ public class LvDevListManagerAdapter extends BaseAdapter {
     private void doDeleteZKDev(final int position) {
         RequestParamsFM params = new RequestParamsFM();
         params.put("id", (mList.get(position)).getId());
-        params.put("main_control_code", (mList.get(position)).getMain_control_code());
+        params.put("main_control_code", (mList.get(position)).getMaster_control().replace("--", ""));
         params.put("register_id", MyApplication.userID);
-        params.put("home_id", (mList.get(position)).getHome_id());
+        params.put("home_id", MyApplication.slecHomeID);
         HttpOkhUtils.getInstance().doDelete(NetConfig.MAINCONTROL, params, new HttpOkhUtils.HttpCallBack() {
             @Override
             public void onError(Request request, IOException e) {
@@ -308,7 +315,7 @@ public class LvDevListManagerAdapter extends BaseAdapter {
         RequestParamsFM params = new RequestParamsFM();
         params.put("id", (mList.get(position)).getId());
         params.put("device_name", newName);
-        params.put("house_id", (mList.get(position)).getHouse_id());
+        params.put("house_id", mList.get(position).getRoomid());
         HttpOkhUtils.getInstance().doPut(NetConfig.DEVICE, params, new HttpOkhUtils.HttpCallBack() {
             @Override
             public void onError(Request request, IOException e) {
@@ -396,7 +403,7 @@ public class LvDevListManagerAdapter extends BaseAdapter {
     }
 
     private class MyViewholder {
-        TextView  tv_name;
         ImageView img_delet, img_edit;
+        TextView tv_name, tv_room, tv_code, tv_main, tv_second;
     }
 }
