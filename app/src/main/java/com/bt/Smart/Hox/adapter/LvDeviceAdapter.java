@@ -118,7 +118,7 @@ public class LvDeviceAdapter extends BaseAdapter {
             house_id = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getRoomid();
             main_control_name = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getMain_control_name();
             second_control_name = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getSecond_control_name();
-            main_control_code = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getMaster_control();
+            main_control_code = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getMaster_control().replace("--","");
             device_code = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDevice_code();
             control_type = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDeviceType();
         } else {
@@ -219,7 +219,7 @@ public class LvDeviceAdapter extends BaseAdapter {
             public void onClick(View view) {
                 if ("022".equals(default_device_type) || "021".equals(default_device_type)) {//灯的开关事件
                     //获取命令序列号
-                    getDeviceSequence(device_status, main_control_code, device_code, control_type, i);
+                    getDeviceSequence(main_control_code, device_status, device_code, control_type, i);
                 }
             }
         });
@@ -290,7 +290,6 @@ public class LvDeviceAdapter extends BaseAdapter {
                         } else {
                             ((AllDevListInfo.DeviceHomeListBean) mList.get(position)).setDevice_status("0");
                         }
-
                     } else {
                         if ("00000000".equals(control_data)) {
                             ((HouseDeviceInfo.DeviceHouseListBean) mList.get(position)).setDevice_status("1");

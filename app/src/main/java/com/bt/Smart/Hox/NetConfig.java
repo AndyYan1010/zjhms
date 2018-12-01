@@ -90,6 +90,12 @@ public class NetConfig {
     public static String HAIR         = ROOT + "hair";
 
 
+    //计量灯控测量信息当前值
+    public static String ENERGY_CURRENT = ROOT + "energy_current";
+    //计量灯控测量信息type
+    public static String ENERGY         = ROOT + "energy";
+
+
     //获取家下所有场景
     public static String SELECTALLSCENARIO = ROOT + "selectallscenario";
     //查看家下面的场景模式

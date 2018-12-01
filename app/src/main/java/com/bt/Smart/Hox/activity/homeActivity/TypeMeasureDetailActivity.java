@@ -281,14 +281,14 @@ public class TypeMeasureDetailActivity extends BaseActivity implements View.OnCl
                     return;
                 }
                 Gson gson = new Gson();
-                HAirMeasureTypeInfo hAirMeasureTypeInfo = gson.fromJson(resbody, HAirMeasureTypeInfo.class);
+                final HAirMeasureTypeInfo hAirMeasureTypeInfo = gson.fromJson(resbody, HAirMeasureTypeInfo.class);
                 ToastUtils.showToast(TypeMeasureDetailActivity.this, hAirMeasureTypeInfo.getMessage());
                 if (1 == hAirMeasureTypeInfo.getCode()) {
-                    final List<HAirMeasureTypeInfo.HairListBean> hairList = hAirMeasureTypeInfo.getHairList();
-                    if (hairList.size() > 0) {
-                        ThreadUtils.runOnSubThread(new Runnable() {
-                            @Override
-                            public void run() {
+                    ThreadUtils.runOnSubThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            final List<HAirMeasureTypeInfo.HairListBean> hairList = hAirMeasureTypeInfo.getHairList();
+                            if (hairList.size() > 0) {
                                 if (mSList.size() != 0) {
                                     mData.clear();
                                     mSList.clear();
@@ -447,8 +447,8 @@ public class TypeMeasureDetailActivity extends BaseActivity implements View.OnCl
                                     }
                                 });
                             }
-                        });
-                    }
+                        }
+                    });
                 } else {
                     //查询数据失败
                     ToastUtils.showToast(TypeMeasureDetailActivity.this, "数据查询失败");

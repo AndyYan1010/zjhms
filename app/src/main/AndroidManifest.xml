@@ -84,10 +84,16 @@
         <activity android:name=".activity.homeActivity.CreateHomeActivity"/>
         <activity android:name=".activity.homeActivity.HAirDetailInfoActivity"/>
         <activity android:name=".activity.meActivity.PersonalActivity"/>
-        <activity android:name=".activity.homeActivity.TypeMeasureDetailActivity"/>
         <activity android:name=".activity.meActivity.DeviceManagerActivity"/>
         <activity android:name=".activity.meActivity.MineMsgCenterActivity"/>
         <activity android:name=".activity.meActivity.SceneDetailActivity"/>
+        <activity android:name=".activity.homeActivity.LightMeasureInfoActivity"/>
+        <activity
+            android:name=".activity.homeActivity.TypeMeasureDetailActivity"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:name=".activity.homeActivity.TypeMeasureLightDetailActivity"
+            android:hardwareAccelerated="true"/>
 
         <receiver android:name=".broadcastReceiver.MyApkLoadReceive"/>
         <service android:name=".service.LoadingApkService"/>

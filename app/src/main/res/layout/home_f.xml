@@ -163,6 +163,7 @@
             android:layout_marginTop="5dp">
         </android.support.v7.widget.RecyclerView>
 
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -170,7 +171,7 @@
             <android.support.design.widget.TabLayout
                 android:id="@+id/tablayout"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_marginRight="35dp"
                 app:tabMode="scrollable"
                 app:tabSelectedTextColor="@color/deepskyblue"
@@ -193,6 +194,11 @@
                 android:layout_marginRight="8dp"
                 android:src="@drawable/setting"/>
         </RelativeLayout>
+
+        <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="4dp"-->
+        <!--android:background="@drawable/shadow_line"/>-->
 
         <com.bt.Smart.Hox.viewmodle.MyFixedViewpager
             android:id="@+id/view_pager"
