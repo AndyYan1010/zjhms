@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -59,10 +60,12 @@ import okhttp3.Request;
 public class Home_F extends Fragment implements View.OnClickListener {
     private View                            mRootView;
     private TextView                        tv_mine;
+    private LinearLayout                    lin_mine;
     private List<SceneInfo.ScenelistBean>   mData;//场景数据列表
     private RecSceneAdapter                 recSceneAdapter;
     private RecyclerView                    rec_scene;//当前家下场景图标
     private ImageView                       img_more;//设置更多
+    private ImageView                       img_add;//添加设备
     private TabLayout                       mTablayout;//导航标签
     private MyFixedViewpager                mView_pager;//自我viewpager可实现禁止滑动
     private List<String>                    contsList;//tablayout的标题
@@ -84,7 +87,9 @@ public class Home_F extends Fragment implements View.OnClickListener {
 
     private void initView() {
         img_more = mRootView.findViewById(R.id.img_more);
+        img_add = mRootView.findViewById(R.id.img_add);
         tv_mine = mRootView.findViewById(R.id.tv_mine);
+        lin_mine = mRootView.findViewById(R.id.lin_mine);
         rec_scene = mRootView.findViewById(R.id.rec_scene);
         mTablayout = mRootView.findViewById(R.id.tablayout);
         mView_pager = mRootView.findViewById(R.id.view_pager);
@@ -92,6 +97,7 @@ public class Home_F extends Fragment implements View.OnClickListener {
 
     private void initData() {
         img_more.setOnClickListener(this);
+        img_add.setOnClickListener(this);
         tv_mine.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
         //设置场景图标
         rec_scene.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -126,7 +132,7 @@ public class Home_F extends Fragment implements View.OnClickListener {
         for (int i = 0; i < contsList.size(); i++) {
             mTablayout.getTabAt(i).setText(contsList.get(i));
         }
-        tv_mine.setOnClickListener(this);
+        lin_mine.setOnClickListener(this);
         //获取账户下所有家数目
         getHomes();
     }
@@ -134,9 +140,12 @@ public class Home_F extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.tv_mine:
+            case R.id.lin_mine:
                 //弹出popupwindow展示家列表
                 openPopupWindow(tv_mine, mHomeList);
+                break;
+            case R.id.img_add://添加设备
+
                 break;
             case R.id.img_more:
                 if (null == hDefID || "".equals(hDefID)) {
@@ -254,10 +263,10 @@ public class Home_F extends Fragment implements View.OnClickListener {
                         }
                         if (!hDefault) {
                             hDefID = userHomeInfo.getHomeList().get(0).getHome_id();
-                            tv_mine.setText("我的  " + userHomeInfo.getHomeList().get(0).getHome_name());
+                            tv_mine.setText(userHomeInfo.getHomeList().get(0).getHome_name());
                         }
                         //显示，显示的是哪个家
-                        tv_mine.setText("我的  " + deName);
+                        tv_mine.setText(deName);
                         if (null == hDefID || "".equals(hDefID)) {
                             hDefID = "";
                             ToastUtils.showToast(getContext(), "家信息查询失败");
@@ -312,12 +321,12 @@ public class Home_F extends Fragment implements View.OnClickListener {
                         //添加所有设备界面
                         DeviceListFragment deviceFragmentAll = new DeviceListFragment();
                         contsList.add("所有设备");
-                        deviceFragmentAll.setRoomID(hDefID, "all","all");
+                        deviceFragmentAll.setRoomID(hDefID, "all", "all");
                         fragmentsList.add(deviceFragmentAll);
                         for (int i = 0; i < houseDetailInfo.getHouseList().size(); i++) {
                             //创建设备列表界面
                             DeviceListFragment deviceFragment = new DeviceListFragment();
-                            deviceFragment.setRoomID(hDefID, houseDetailInfo.getHouseList().get(i).getId(),houseDetailInfo.getHouseList().get(i).getHouse_name());
+                            deviceFragment.setRoomID(hDefID, houseDetailInfo.getHouseList().get(i).getId(), houseDetailInfo.getHouseList().get(i).getHouse_name());
                             contsList.add(houseDetailInfo.getHouseList().get(i).getHouse_name());
                             fragmentsList.add(deviceFragment);
                         }

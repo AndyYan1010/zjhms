@@ -3,6 +3,7 @@ package com.bt.Smart.Hox.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ import com.bt.Smart.Hox.util.GlideLoaderUtil;
 public class User_F extends Fragment implements View.OnClickListener {
     private View           mRootView;
     private ImageView      img_head;
+    private CardView       card;
     private TextView       tv_name;//用户名称
     private LinearLayout   lin_scene;//场景
     private LinearLayout   lin_auto;//自动化
@@ -57,6 +59,7 @@ public class User_F extends Fragment implements View.OnClickListener {
     private void initView() {
         img_head = mRootView.findViewById(R.id.img_head);
         tv_name = mRootView.findViewById(R.id.tv_name);
+        card = mRootView.findViewById(R.id.card);
         lin_scene = mRootView.findViewById(R.id.lin_scene);
         lin_auto = mRootView.findViewById(R.id.lin_auto);
         lin_shop = mRootView.findViewById(R.id.lin_shop);
@@ -72,7 +75,7 @@ public class User_F extends Fragment implements View.OnClickListener {
         lin_scene.setOnClickListener(this);
         lin_auto.setOnClickListener(this);
         rtv_home.setOnClickListener(this);
-        rtv_person.setOnClickListener(this);
+        card.setOnClickListener(this);
         rtv_setting.setOnClickListener(this);
         rtv_dev.setOnClickListener(this);
         rtv_msg_center.setOnClickListener(this);
@@ -102,7 +105,7 @@ public class User_F extends Fragment implements View.OnClickListener {
             case R.id.lin_shop://跳转商城
 
                 break;
-            case R.id.rtv_person://跳转个人中心
+            case R.id.card://跳转个人中心
                 startActivity(new Intent(getContext(), PersonalActivity.class));
                 break;
             case R.id.rtv_home: //跳转家管理界面

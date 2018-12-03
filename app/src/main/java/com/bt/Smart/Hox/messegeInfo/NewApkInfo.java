@@ -12,7 +12,7 @@ package com.bt.Smart.Hox.messegeInfo;
 public class NewApkInfo {
 
     /**
-     * newAppVersion : {"apk_file":"upload/files/20181122/SmartHox主控权限管理及通信协议_1542864184731.docx","change_message":"32424234sfwfewf","show_code":"1.0.2"}
+     * newAppVersion : {"apk_file":"upload/files/20181203/smartHox_1543816262559.apk","change_message":"上传测试。","show_code":"1","id":4}
      * message : 最新app版本查询成功
      * code : 1
      */
@@ -47,19 +47,16 @@ public class NewApkInfo {
 
     public static class NewAppVersionBean {
         /**
-         * apk_file : upload/files/20181122/SmartHox主控权限管理及通信协议_1542864184731.docx
-         * change_message : 32424234sfwfewf
-         * show_code : 1.0.2
+         * apk_file : upload/files/20181203/smartHox_1543816262559.apk
+         * change_message : 上传测试。
+         * show_code : 1
+         * id : 4
          */
 
         private String apk_file;
         private String change_message;
         private String show_code;
-        /**
-         * version_code : 1
-         */
-
-        private int    version_code;
+        private int    id;
 
         public String getApk_file() {
             return apk_file;
@@ -85,12 +82,12 @@ public class NewApkInfo {
             this.show_code = show_code;
         }
 
-        public int getVersion_code() {
-            return version_code;
+        public int getId() {
+            return id;
         }
 
-        public void setVersion_code(int version_code) {
-            this.version_code = version_code;
+        public void setId(int id) {
+            this.id = id;
         }
     }
 }

@@ -30,11 +30,18 @@ public class BaseActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//保持竖屏
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);//取消键盘自动弹出
     }
+
     protected void protectApp() {
         Intent intent = new Intent(this, FirstActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//清空栈里firstActivity之上的所有activty
         startActivity(intent);
         finish();
         MyApplication.flag = 0;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MyApplication.listActivity.remove(this);
     }
 }

@@ -6,21 +6,23 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.bt.Smart.Hox.MyApplication;
 import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.messegeInfo.NewApkInfo;
-import com.bt.Smart.Hox.service.LoadingApkService;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
 import com.google.gson.Gson;
 
 import java.io.IOException;
 
 import okhttp3.Request;
+import util.UpdateAppUtils;
 
 /**
  * @创建者 AndyYan
@@ -38,10 +40,14 @@ public class FirstActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //设置全屏
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.first_actiivty);
         MyApplication.flag = 0;
         getView();
         setData();
+        verifyStoragePermissions(this);
         //获取最新的版本
         getNewApkInfo();
     }
@@ -64,7 +70,7 @@ public class FirstActivity extends Activity implements View.OnClickListener {
                 Intent intent1 = new Intent(this, RegisterActivity.class);
                 intent1.putExtra("kind", "rgs");
                 startActivity(intent1);
-                //                finish();
+                //finish();
                 break;
             case R.id.tv_old:
                 Intent intent = new Intent(this, LoginActivity.class);
@@ -86,9 +92,8 @@ public class FirstActivity extends Activity implements View.OnClickListener {
                 Gson gson = new Gson();
                 NewApkInfo newApkInfo = gson.fromJson(resbody, NewApkInfo.class);
                 if (1 == newApkInfo.getCode()) {
-                    MyApplication.version_code = newApkInfo.getNewAppVersion().getVersion_code();
                     int appVersionCode = getAppVersionCode(FirstActivity.this);
-                    if (appVersionCode < MyApplication.version_code) {
+                    if (appVersionCode < newApkInfo.getNewAppVersion().getId()) {
                         //弹出dailog，提示用户是否下载
                         showDialogToDown(newApkInfo);
                     }
@@ -98,18 +103,12 @@ public class FirstActivity extends Activity implements View.OnClickListener {
     }
 
     private void showDialogToDown(NewApkInfo newApkInfo) {
-        MyApplication.loadUrl = newApkInfo.getNewAppVersion().getApk_file();
-        //当前版本不是最新版本
-        //去下载最新版本
-        downLoadNewApk();
-    }
-
-    private LoadingApkService apkService;
-
-    private void downLoadNewApk() {
-        Intent intent = new Intent(this, LoadingApkService.class);
-        intent.putExtra("info", "downLoad");
-        startService(intent);
+        MyApplication.loadUrl = NetConfig.IMG_HEAD_IP + newApkInfo.getNewAppVersion().getApk_file();
+        UpdateAppUtils.from(this)
+                .serverVersionCode(newApkInfo.getNewAppVersion().getId())  //服务器versionCode
+                .serverVersionName(newApkInfo.getNewAppVersion().getShow_code()) //服务器versionName
+                .apkPath(MyApplication.loadUrl) //最新apk下载地址
+                .update();
     }
 
     //获取当前版本号
@@ -125,19 +124,23 @@ public class FirstActivity extends Activity implements View.OnClickListener {
         return versionCode;
     }
 
-    //获取当前版本名
-    private String getAppVersionName(Context context) {
-        String versionName = "";
+    private static final int      REQUEST_EXTERNAL_STORAGE = 1;
+    private static       String[] PERMISSIONS_STORAGE      = {
+            "android.permission.READ_EXTERNAL_STORAGE",
+            "android.permission.WRITE_EXTERNAL_STORAGE"};
+
+
+    public void verifyStoragePermissions(Activity activity) {
         try {
-            PackageManager packageManager = context.getPackageManager();
-            PackageInfo packageInfo = packageManager.getPackageInfo("com.bt.Smart.Hox", 0);
-            versionName = packageInfo.versionName;
-            if (TextUtils.isEmpty(versionName)) {
-                return "";
+            //检测是否有写的权限
+            int permission = ActivityCompat.checkSelfPermission(activity,
+                    "android.permission.WRITE_EXTERNAL_STORAGE");
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+                // 没有写的权限，去申请写的权限，会弹出对话框
+                ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return versionName;
     }
 }

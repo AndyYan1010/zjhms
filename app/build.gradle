@@ -5,7 +5,7 @@ android {
     defaultConfig {
         applicationId "com.bt.Smart.Hox"
         minSdkVersion 19
-        targetSdkVersion 19
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -57,6 +57,7 @@ dependencies {
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'//recyclerview拖动适配器
     implementation 'com.github.nanchen2251:CompressHelper:1.0.5'//压缩图片
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.1'//折线曲线图
+    implementation 'com.teprinciple:updateapputils:1.5.1'
     implementation 'com.alibaba:fastjson:1.2.51'
     implementation project(':esptouch')
 }

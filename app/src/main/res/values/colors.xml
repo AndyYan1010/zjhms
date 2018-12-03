@@ -40,11 +40,13 @@
     <color name="gray_6">#666666</color>
     <color name="gray_8">#888888</color>
     <color name="gray_65">#656565</color>
-    <color name="gray_9">#999999</color>
+    <color name="gray_66">#666666</color>
+    <color name="gray_99">#999999</color>
     <color name="gray_10">#aaaaaa</color>
     <color name="gray_11">#bbbbbb</color>
     <color name="gray_12">#cccccc</color>
     <color name="gray_ec">#ECECEC</color>
+    <color name="gray_aa">#AAAAAA</color>
     <color name="gray_e">#EEEEEE</color>
     <color name="gray_f8">#F8F8F8</color>
 

@@ -59,7 +59,7 @@ public class Play_F extends Fragment {
     }
 
     private void initData() {
-        tv_title.setText("资讯");
+        tv_title.setText("适玩");
         mData = new ArrayList();
         informationAdapter = new LvInformationAdapter(getContext(), mData);
         lv_info.setAdapter(informationAdapter);

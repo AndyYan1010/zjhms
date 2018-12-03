@@ -127,6 +127,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
+            android:scaleType="centerCrop"
             android:src="@drawable/master_control"/>
 
         <TextView
@@ -137,7 +138,7 @@
             android:layout_toRightOf="@+id/img_kind"
             android:text="配置WIFI模块"
             android:textColor="@color/word_black"
-            android:textSize="18sp"/>
+            android:textSize="14sp"/>
 
         <ImageView
             android:layout_width="15dp"

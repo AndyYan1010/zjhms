@@ -87,7 +87,7 @@ public class DeviceListFragment extends Fragment implements View.OnClickListener
 
     public void refreshInfo() {
         if ("all".equals(mRoomID)) {//所有设备界面不显示添加按钮
-            lin_add.setVisibility(View.GONE);
+//            lin_add.setVisibility(View.GONE);
         }
         //获取房间设备
         getDeviceOfRoom();
