@@ -108,6 +108,7 @@ public class FirstActivity extends Activity implements View.OnClickListener {
                 .serverVersionCode(newApkInfo.getNewAppVersion().getId())  //服务器versionCode
                 .serverVersionName(newApkInfo.getNewAppVersion().getShow_code()) //服务器versionName
                 .apkPath(MyApplication.loadUrl) //最新apk下载地址
+                .updateInfo(newApkInfo.getNewAppVersion().getChange_message())
                 .update();
     }
 

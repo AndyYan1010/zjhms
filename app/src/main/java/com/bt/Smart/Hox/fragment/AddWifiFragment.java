@@ -113,10 +113,11 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
             } else {
                 registerBroadcastReceiver();
             }
-
         } else {
             registerBroadcastReceiver();
         }
+        //动态申请权限
+
     }
 
     @Override
@@ -126,8 +127,7 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
                 getActivity().finish();
                 break;
             case R.id.img_more_wifi:
-                //搜索附近wifi
-                searchWifi();
+                isHashRight();
                 break;
             case R.id.img_show_pass:
                 showPassWord();
@@ -472,7 +472,7 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
 
     private boolean isAdd;
 
-    private void searchWifi() {
+    public void searchWifi() {
         if (null == mList) {
             mList = new ArrayList<>();
         } else {
@@ -520,4 +520,18 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
             }
         });
     }
+
+    private void isHashRight() {
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {//未开启定位权限
+            //开启定位权限,200是标识码
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
+        } else {
+            ToastUtils.showToast(getContext(), "已开启定位权限");
+            //搜索附近wifi
+            searchWifi();
+        }
+    }
+
+
 }
