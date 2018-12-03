@@ -93,9 +93,11 @@ public class FirstActivity extends Activity implements View.OnClickListener {
                 NewApkInfo newApkInfo = gson.fromJson(resbody, NewApkInfo.class);
                 if (1 == newApkInfo.getCode()) {
                     int appVersionCode = getAppVersionCode(FirstActivity.this);
-                    if (appVersionCode < newApkInfo.getNewAppVersion().getId()) {
-                        //弹出dailog，提示用户是否下载
-                        showDialogToDown(newApkInfo);
+                    if (null != newApkInfo.getNewAppVersion()) {
+                        if (appVersionCode < newApkInfo.getNewAppVersion().getId()) {
+                            //弹出dailog，提示用户是否下载
+                            showDialogToDown(newApkInfo);
+                        }
                     }
                 }
             }
