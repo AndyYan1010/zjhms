@@ -124,6 +124,7 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
+                //连接成功
                 getActivity().finish();
                 break;
             case R.id.img_more_wifi:
@@ -240,6 +241,7 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
         private IEsptouchTask      mEsptouchTask;
         private IEsptouchListener  myListener;
         private EsptouchAsyncTask4 mTask;
+        private int REQUEST_SET_SEC = 20002;
 
         EsptouchAsyncTask4(AddWifiDeviceActivity activity, IEsptouchListener listener, EsptouchAsyncTask4 task) {
             mActivity = new WeakReference<>(activity);
@@ -358,6 +360,7 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
                                 .append(" more result(s) without showing\n");
                     }
                     mResultDialog.setMessage(sb.toString());
+                    activity.setResult(20002);
                 } else {
                     mResultDialog.setMessage("Esptouch fail");
                 }
@@ -368,7 +371,6 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
             mTask = null;
         }
     }
-
 
     private void registerBroadcastReceiver() {
         IntentFilter filter = new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION);

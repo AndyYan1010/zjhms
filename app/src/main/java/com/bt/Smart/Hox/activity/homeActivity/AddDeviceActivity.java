@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,7 +59,7 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
     private String                                           roomID;//房间id
     private String                                           homeID;//家id
     private int                                              zknum;//主控码
-    private RelativeLayout                                   rlt_add_wifi;
+    //    private RelativeLayout                                   rlt_add_wifi;
     private int MY_PERMISSIONS_REQUEST_CALL_PHONE2 = 1001;//申请照相机权限结果
     private int REQUEST_CODE                       = 1003;//接收扫描结果
 
@@ -76,7 +75,7 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
     private void getView() {
         img_back = (ImageView) findViewById(R.id.img_back);
         img_more = (ImageView) findViewById(R.id.img_more);
-        rlt_add_wifi = (RelativeLayout) findViewById(R.id.rlt_add_wifi);
+        //        rlt_add_wifi = (RelativeLayout) findViewById(R.id.rlt_add_wifi);
         tv_title = (TextView) findViewById(R.id.tv_title);
         lin_zk = (LinearLayout) findViewById(R.id.lin_zk);
         lin_ck = (LinearLayout) findViewById(R.id.lin_ck);
@@ -95,9 +94,8 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
         lin_zk.setOnClickListener(this);
         lin_ck.setOnClickListener(this);
         lin_sb.setOnClickListener(this);
-        rlt_add_wifi.setOnClickListener(this);
+//        rlt_add_wifi.setOnClickListener(this);
         //获取主控列表
-        //        getZKDevList();
         mData = new ArrayList();
         addDevListAdapter = new LvAddDevListAdapter(this, mData);
         lv_device.setAdapter(addDevListAdapter);
@@ -115,6 +113,7 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                 Intent intent = new Intent(AddDeviceActivity.this, AddDevDetailActivity.class);
                 intent.putExtra("homeID", homeID);
                 intent.putExtra("roomID", roomID);
+                intent.putExtra("allRoomInfo", getIntent().getStringExtra("roomInfo"));
                 intent.putExtra("devType", mData.get(i).getDevcieType());//主控/从控/单品
                 intent.putExtra("name", mData.get(i).getDeviceDescibe());
                 intent.putExtra("control_type", mData.get(i).getDeviceTypeName());
@@ -149,6 +148,7 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                 Intent intentDevZ = new Intent(this, DeviceListActivity.class);
                 intentDevZ.putExtra("devKind", "zk");
                 intentDevZ.putExtra("homeID", homeID);
+                intentDevZ.putExtra("allRoomInfo", getIntent().getStringExtra("roomInfo"));
                 startActivity(intentDevZ);
                 break;
             case R.id.lin_ck://跳转从控列表
@@ -160,6 +160,7 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                 Intent intentDevC = new Intent(this, DeviceListActivity.class);
                 intentDevC.putExtra("devKind", "ck");
                 intentDevC.putExtra("homeID", homeID);
+                intentDevC.putExtra("allRoomInfo", getIntent().getStringExtra("roomInfo"));
                 startActivity(intentDevC);
                 break;
             case R.id.lin_sb://跳转设备列表
@@ -171,6 +172,7 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                 Intent intentDevS = new Intent(this, DeviceListActivity.class);
                 intentDevS.putExtra("devKind", "sb");
                 intentDevS.putExtra("homeID", homeID);
+                intentDevS.putExtra("allRoomInfo", getIntent().getStringExtra("roomInfo"));
                 intentDevS.putExtra("roomID", roomID);
                 startActivity(intentDevS);
                 break;
@@ -257,11 +259,10 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                 Gson gson = new Gson();
                 ZhuKongListInfo zhuKongListInfo = gson.fromJson(resbody, ZhuKongListInfo.class);
                 if (1 == zhuKongListInfo.getCode()) {
-                    ToastUtils.showToast(AddDeviceActivity.this, zhuKongListInfo.getMessage());
+                    //                    ToastUtils.showToast(AddDeviceActivity.this, zhuKongListInfo.getMessage());
                     zknum = zhuKongListInfo.getHomeList().size();
-
                 } else {
-                    ToastUtils.showToast(AddDeviceActivity.this, "查询失败");
+                    //                    ToastUtils.showToast(AddDeviceActivity.this, "查询失败");
                 }
             }
         });

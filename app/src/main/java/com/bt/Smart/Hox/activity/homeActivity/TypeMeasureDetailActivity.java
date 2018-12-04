@@ -296,42 +296,42 @@ public class TypeMeasureDetailActivity extends BaseActivity implements View.OnCl
                                 //放入数值初始化图表
                                 if ("pm25".equals(type)) {
                                     for (HAirMeasureTypeInfo.HairListBean bean : hairList) {
-                                        mData.add(Float.valueOf(bean.getPm25().replace(",", "")));
+                                        mData.add(bean.getPm25());
                                         mSList.add(bean.getFaddtime());
                                     }
                                 } else if ("pm100".equals(type)) {
                                     for (HAirMeasureTypeInfo.HairListBean bean : hairList) {
-                                        mData.add(Float.valueOf(bean.getPm100().replace(",", "")));
+                                        mData.add(bean.getPm100());
                                         mSList.add(bean.getFaddtime());
                                     }
                                 } else if ("co2".equals(type)) {
                                     for (HAirMeasureTypeInfo.HairListBean bean : hairList) {
-                                        mData.add(Float.valueOf(bean.getCo2().replace(",", "")));
+                                        mData.add(bean.getCo2());
                                         mSList.add(bean.getFaddtime());
                                     }
                                 } else if ("co".equals(type)) {
                                     for (HAirMeasureTypeInfo.HairListBean bean : hairList) {
-                                        mData.add(Float.valueOf(bean.getCo().replace(",", "")));
+                                        mData.add(bean.getCo());
                                         mSList.add(bean.getFaddtime());
                                     }
                                 } else if ("formaldehyde".equals(type)) {
                                     for (HAirMeasureTypeInfo.HairListBean bean : hairList) {
-                                        mData.add(Float.valueOf(bean.getFormaldehyde().replace(",", "")));
+                                        mData.add(bean.getFormaldehyde());
                                         mSList.add(bean.getFaddtime());
                                     }
                                 } else if ("temperature".equals(type)) {
                                     for (HAirMeasureTypeInfo.HairListBean bean : hairList) {
-                                        mData.add(Float.valueOf(bean.getTemperature().replace(",", "")));
+                                        mData.add(bean.getTemperature());
                                         mSList.add(bean.getFaddtime());
                                     }
                                 } else if ("humidity".equals(type)) {
                                     for (HAirMeasureTypeInfo.HairListBean bean : hairList) {
-                                        mData.add(Float.valueOf(bean.getHumidity().replace(",", "")));
+                                        mData.add(bean.getHumidity());
                                         mSList.add(bean.getFaddtime());
                                     }
                                 } else if ("voc".equals(type)) {
                                     for (HAirMeasureTypeInfo.HairListBean bean : hairList) {
-                                        mData.add(Float.valueOf(bean.getVoc().replace(",", "")));
+                                        mData.add(bean.getVoc());
                                         mSList.add(bean.getFaddtime());
                                     }
                                 }

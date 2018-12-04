@@ -12,14 +12,14 @@ package com.bt.Smart.Hox.messegeInfo;
 public class HairCurrentInfo {
 
     /**
-     * hair : {"vocType":0,"temperatureType":2,"formaldehyde":"0.00","humidityType":0,"co2":"552.00","pm100":"178.00","pm25Type":3,"voc":"0.00","co":"0.00","formaldehydeType":0,"pm25":"161.00","coType":0,"faddtime":"2018-11-29 13:16:50","temperature":"22.09","humidity":"51.80","co2Type":0,"status":false}
+     * hair : {"vocType":0,"temperatureType":2,"formaldehyde":0,"humidityType":0,"co2":522,"pm100":31,"pm25Type":0,"voc":0,"co":0,"formaldehydeType":0,"pm25":29,"coType":0,"faddtime":"2018-12-04 15:11:30","temperature":22.24,"humidity":57.63,"co2Type":0,"status":true}
      * message : 空气检测查询成功
      * code : 1
      */
 
     private HairBean hair;
-    private String message;
-    private int    code;
+    private String   message;
+    private int      code;
 
     public HairBean getHair() {
         return hair;
@@ -49,134 +49,134 @@ public class HairCurrentInfo {
         /**
          * vocType : 0
          * temperatureType : 2
-         * formaldehyde : 0.00
+         * formaldehyde : 0
          * humidityType : 0
-         * co2 : 552.00
-         * pm100 : 178.00
-         * pm25Type : 3
-         * voc : 0.00
-         * co : 0.00
+         * co2 : 522
+         * pm100 : 31
+         * pm25Type : 0
+         * voc : 0
+         * co : 0
          * formaldehydeType : 0
-         * pm25 : 161.00
+         * pm25 : 29
          * coType : 0
-         * faddtime : 2018-11-29 13:16:50
-         * temperature : 22.09
-         * humidity : 51.80
+         * faddtime : 2018-12-04 15:11:30
+         * temperature : 22.24
+         * humidity : 57.63
          * co2Type : 0
-         * status : false
+         * status : true
          */
 
-        private int vocType;
-        private int     temperatureType;
-        private String  formaldehyde;
-        private int     humidityType;
-        private String  co2;
-        private String  pm100;
-        private int     pm25Type;
-        private String  voc;
-        private String  co;
-        private int     formaldehydeType;
-        private String  pm25;
-        private int     coType;
+        private float   vocType;
+        private float   temperatureType;
+        private float   formaldehyde;
+        private float   humidityType;
+        private float   co2;
+        private float   pm100;
+        private float   pm25Type;
+        private float   voc;
+        private float   co;
+        private float   formaldehydeType;
+        private float   pm25;
+        private float   coType;
         private String  faddtime;
-        private String  temperature;
-        private String  humidity;
-        private int     co2Type;
+        private float   temperature;
+        private float   humidity;
+        private float   co2Type;
         private boolean status;
 
-        public int getVocType() {
+        public float getVocType() {
             return vocType;
         }
 
-        public void setVocType(int vocType) {
+        public void setVocType(float vocType) {
             this.vocType = vocType;
         }
 
-        public int getTemperatureType() {
+        public float getTemperatureType() {
             return temperatureType;
         }
 
-        public void setTemperatureType(int temperatureType) {
+        public void setTemperatureType(float temperatureType) {
             this.temperatureType = temperatureType;
         }
 
-        public String getFormaldehyde() {
+        public float getFormaldehyde() {
             return formaldehyde;
         }
 
-        public void setFormaldehyde(String formaldehyde) {
+        public void setFormaldehyde(float formaldehyde) {
             this.formaldehyde = formaldehyde;
         }
 
-        public int getHumidityType() {
+        public float getHumidityType() {
             return humidityType;
         }
 
-        public void setHumidityType(int humidityType) {
+        public void setHumidityType(float humidityType) {
             this.humidityType = humidityType;
         }
 
-        public String getCo2() {
+        public float getCo2() {
             return co2;
         }
 
-        public void setCo2(String co2) {
+        public void setCo2(float co2) {
             this.co2 = co2;
         }
 
-        public String getPm100() {
+        public float getPm100() {
             return pm100;
         }
 
-        public void setPm100(String pm100) {
+        public void setPm100(float pm100) {
             this.pm100 = pm100;
         }
 
-        public int getPm25Type() {
+        public float getPm25Type() {
             return pm25Type;
         }
 
-        public void setPm25Type(int pm25Type) {
+        public void setPm25Type(float pm25Type) {
             this.pm25Type = pm25Type;
         }
 
-        public String getVoc() {
+        public float getVoc() {
             return voc;
         }
 
-        public void setVoc(String voc) {
+        public void setVoc(float voc) {
             this.voc = voc;
         }
 
-        public String getCo() {
+        public float getCo() {
             return co;
         }
 
-        public void setCo(String co) {
+        public void setCo(float co) {
             this.co = co;
         }
 
-        public int getFormaldehydeType() {
+        public float getFormaldehydeType() {
             return formaldehydeType;
         }
 
-        public void setFormaldehydeType(int formaldehydeType) {
+        public void setFormaldehydeType(float formaldehydeType) {
             this.formaldehydeType = formaldehydeType;
         }
 
-        public String getPm25() {
+        public float getPm25() {
             return pm25;
         }
 
-        public void setPm25(String pm25) {
+        public void setPm25(float pm25) {
             this.pm25 = pm25;
         }
 
-        public int getCoType() {
+        public float getCoType() {
             return coType;
         }
 
-        public void setCoType(int coType) {
+        public void setCoType(float coType) {
             this.coType = coType;
         }
 
@@ -188,27 +188,27 @@ public class HairCurrentInfo {
             this.faddtime = faddtime;
         }
 
-        public String getTemperature() {
+        public float getTemperature() {
             return temperature;
         }
 
-        public void setTemperature(String temperature) {
+        public void setTemperature(float temperature) {
             this.temperature = temperature;
         }
 
-        public String getHumidity() {
+        public float getHumidity() {
             return humidity;
         }
 
-        public void setHumidity(String humidity) {
+        public void setHumidity(float humidity) {
             this.humidity = humidity;
         }
 
-        public int getCo2Type() {
+        public float getCo2Type() {
             return co2Type;
         }
 
-        public void setCo2Type(int co2Type) {
+        public void setCo2Type(float co2Type) {
             this.co2Type = co2Type;
         }
 

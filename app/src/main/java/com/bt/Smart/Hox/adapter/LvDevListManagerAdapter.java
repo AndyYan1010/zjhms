@@ -20,6 +20,8 @@ import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.messegeInfo.AllDevListInfo;
 import com.bt.Smart.Hox.messegeInfo.CommonInfo;
+import com.bt.Smart.Hox.messegeInfo.CongKongListInfo;
+import com.bt.Smart.Hox.messegeInfo.ZhuKongListInfo;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
 import com.bt.Smart.Hox.utils.MyAlertDialogHelper;
 import com.bt.Smart.Hox.utils.ProgressDialogUtil;
@@ -42,12 +44,14 @@ import okhttp3.Request;
  */
 
 public class LvDevListManagerAdapter extends BaseAdapter {
-    private Context                                 mContext;
-    private List<AllDevListInfo.DeviceHomeListBean> mList;
+    private Context mContext;
+    private List    mList;
+    private int     mSearchKind;//0主控、1从控、2设备
 
-    public LvDevListManagerAdapter(Context context, List<AllDevListInfo.DeviceHomeListBean> list) {
+    public LvDevListManagerAdapter(Context context, List list, int searchKind) {
         this.mContext = context;
         this.mList = list;
+        this.mSearchKind = searchKind;
     }
 
     @Override
@@ -70,39 +74,81 @@ public class LvDevListManagerAdapter extends BaseAdapter {
         final MyViewholder viewholder;
         if (null == view) {
             viewholder = new MyViewholder();
-            view = View.inflate(mContext, R.layout.adapter_dev_manager_list, null);
-            viewholder.tv_name = view.findViewById(R.id.tv_name);
-            viewholder.tv_room = view.findViewById(R.id.tv_room);
-            viewholder.tv_code = view.findViewById(R.id.tv_code);
-            viewholder.tv_main = view.findViewById(R.id.tv_main);
-            viewholder.tv_second = view.findViewById(R.id.tv_second);
-            viewholder.img_edit = view.findViewById(R.id.img_edit);
-            viewholder.img_delet = view.findViewById(R.id.img_delet);
+            if (0 == mSearchKind || 1 == mSearchKind) {
+                view = View.inflate(mContext, R.layout.adapter_devzk_manager_list, null);
+                viewholder.tv_name = view.findViewById(R.id.tv_name);
+                viewholder.img_kind = view.findViewById(R.id.img_kind);
+                viewholder.tv_code = view.findViewById(R.id.tv_code);
+                viewholder.img_edit = view.findViewById(R.id.img_edit);
+                viewholder.img_delet = view.findViewById(R.id.img_delet);
+            } else if (2 == mSearchKind) {
+                view = View.inflate(mContext, R.layout.adapter_dev_manager_list, null);
+                viewholder.tv_name = view.findViewById(R.id.tv_name);
+                viewholder.img_kind = view.findViewById(R.id.img_kind);
+                viewholder.tv_room = view.findViewById(R.id.tv_room);
+                viewholder.tv_code = view.findViewById(R.id.tv_code);
+                viewholder.tv_main = view.findViewById(R.id.tv_main);
+                viewholder.tv_second = view.findViewById(R.id.tv_second);
+                viewholder.img_edit = view.findViewById(R.id.img_edit);
+                viewholder.img_delet = view.findViewById(R.id.img_delet);
+            }
             view.setTag(viewholder);
         } else {
             viewholder = (MyViewholder) view.getTag();
         }
-
-        viewholder.tv_name.setText(mList.get(i).getDevice_name());//
-        viewholder.tv_room.setText(mList.get(i).getHouse_name());
-        viewholder.tv_code.setText(mList.get(i).getDevice_code());
-        viewholder.tv_main.setText(mList.get(i).getMain_control_name());
-        viewholder.tv_second.setText(mList.get(i).getSecond_control_name());
-
-        viewholder.img_edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {//修改设备名称
-                //弹出popupwindow
-                openPopupWindow(viewholder.img_edit, i);
-            }
-        });
-        viewholder.img_delet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {//删除设备
-                //弹出dailog提示
-                deleteWarnning(i);
-            }
-        });
+        if (0 == mSearchKind) {
+            viewholder.tv_name.setText(((ZhuKongListInfo.HomeListBean) mList.get(i)).getMain_control_name());
+            viewholder.tv_code.setText(((ZhuKongListInfo.HomeListBean) mList.get(i)).getMain_control_code());
+            viewholder.img_edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {//编辑主控
+                    //弹出popupwindow
+                    openPopupWindow(viewholder.img_edit, i);
+                }
+            });
+            viewholder.img_delet.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {//删除主控
+                    doDeleteZKDev(i);
+                }
+            });
+        } else if (1 == mSearchKind) {
+            viewholder.tv_name.setText(((CongKongListInfo.SecondControlListBean) mList.get(i)).getSecond_control_name());
+            viewholder.tv_code.setText(((CongKongListInfo.SecondControlListBean) mList.get(i)).getSecond_contrl_code());
+            viewholder.img_edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {//编辑从控
+                    //弹出popupwindow
+                    openPopupWindow(viewholder.img_edit, i);
+                }
+            });
+            viewholder.img_delet.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {//删除从控
+                    doDeleteCKDev(i);
+                }
+            });
+        } else if (2 == mSearchKind) {
+            viewholder.tv_name.setText(((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDevice_name());//
+            viewholder.tv_room.setText(((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getHouse_name());
+            viewholder.tv_code.setText(((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDevice_code());
+            viewholder.tv_main.setText(((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getMain_control_name());
+            viewholder.tv_second.setText(((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getSecond_control_name());
+            viewholder.img_edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {//修改设备名称
+                    //弹出popupwindow
+                    openPopupWindow(viewholder.img_edit, i);
+                }
+            });
+            viewholder.img_delet.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {//删除设备
+                    //弹出dailog提示
+                    deleteWarnning(i);
+                }
+            });
+        }
         return view;
     }
 
@@ -143,11 +189,11 @@ public class LvDevListManagerAdapter extends BaseAdapter {
 
     private void doDeleteSBDev(final int position) {
         RequestParamsFM params = new RequestParamsFM();
-        params.put("id", (mList.get(position)).getId());
+        params.put("id", ((AllDevListInfo.DeviceHomeListBean) mList.get(position)).getId());
         params.put("register_id", MyApplication.userID);
         params.put("home_id", MyApplication.slecHomeID);
-        params.put("device_type", (mList.get(position)).getDeviceType());
-        params.put("second_control_id", (mList.get(position)).getSecond_control_id());
+        params.put("device_type", ((AllDevListInfo.DeviceHomeListBean) mList.get(position)).getDeviceType());
+        params.put("second_control_id", ((AllDevListInfo.DeviceHomeListBean) mList.get(position)).getSecond_control_id());
         HttpOkhUtils.getInstance().doDelete(NetConfig.DEVICE, params, new HttpOkhUtils.HttpCallBack() {
             @Override
             public void onError(Request request, IOException e) {
@@ -174,12 +220,13 @@ public class LvDevListManagerAdapter extends BaseAdapter {
         });
     }
 
-    private void doDeleteCKDev(final int position) {
+    private void doDeleteZKDev(final int position) {
         RequestParamsFM params = new RequestParamsFM();
-        params.put("id", (mList.get(position)).getId());
+        params.put("id", ((ZhuKongListInfo.HomeListBean) mList.get(position)).getId());
+        params.put("main_control_code", ((ZhuKongListInfo.HomeListBean) mList.get(position)).getMain_control_code());
         params.put("register_id", MyApplication.userID);
         params.put("home_id", MyApplication.slecHomeID);
-        HttpOkhUtils.getInstance().doDelete(NetConfig.SECONDCONTROL, params, new HttpOkhUtils.HttpCallBack() {
+        HttpOkhUtils.getInstance().doDelete(NetConfig.MAINCONTROL, params, new HttpOkhUtils.HttpCallBack() {
             @Override
             public void onError(Request request, IOException e) {
                 ProgressDialogUtil.hideDialog();
@@ -206,13 +253,12 @@ public class LvDevListManagerAdapter extends BaseAdapter {
         });
     }
 
-    private void doDeleteZKDev(final int position) {
+    private void doDeleteCKDev(final int position) {
         RequestParamsFM params = new RequestParamsFM();
-        params.put("id", (mList.get(position)).getId());
-        params.put("main_control_code", (mList.get(position)).getMaster_control().replace("--", ""));
+        params.put("id", ((CongKongListInfo.SecondControlListBean) mList.get(position)).getId());
         params.put("register_id", MyApplication.userID);
         params.put("home_id", MyApplication.slecHomeID);
-        HttpOkhUtils.getInstance().doDelete(NetConfig.MAINCONTROL, params, new HttpOkhUtils.HttpCallBack() {
+        HttpOkhUtils.getInstance().doDelete(NetConfig.SECONDCONTROL, params, new HttpOkhUtils.HttpCallBack() {
             @Override
             public void onError(Request request, IOException e) {
                 ProgressDialogUtil.hideDialog();
@@ -283,8 +329,16 @@ public class LvDevListManagerAdapter extends BaseAdapter {
         tv_title.setText("修改名称");
         tv_name.setText("名称:");
         et_name.setHint("请输入名称");
-        et_name.setText((mList.get(position)).getDevice_name());
-        et_name.setSelection((mList.get(position)).getDevice_name().length());
+        if (0 == mSearchKind) {
+            et_name.setText(((ZhuKongListInfo.HomeListBean) mList.get(position)).getMain_control_name());
+            et_name.setSelection(((ZhuKongListInfo.HomeListBean) mList.get(position)).getMain_control_name().length());
+        } else if (1 == mSearchKind) {
+            et_name.setText(((AllDevListInfo.DeviceHomeListBean) mList.get(position)).getDevice_name());
+            et_name.setSelection(((AllDevListInfo.DeviceHomeListBean) mList.get(position)).getDevice_name().length());
+        } else {
+            et_name.setText(((CongKongListInfo.SecondControlListBean) mList.get(position)).getSecond_control_name());
+            et_name.setSelection(((CongKongListInfo.SecondControlListBean) mList.get(position)).getSecond_control_name().length());
+        }
         tv_cancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -299,7 +353,13 @@ public class LvDevListManagerAdapter extends BaseAdapter {
                     ToastUtils.showToast(mContext, "请输入名称");
                     return;
                 }
-                editSB(position, newName);
+                if (0 == mSearchKind) {
+                    editZK(position, newName);
+                } else if (1 == mSearchKind) {
+                    editCK(position, newName);
+                } else {
+                    editSB(position, newName);
+                }
             }
         });
     }
@@ -313,9 +373,9 @@ public class LvDevListManagerAdapter extends BaseAdapter {
 
     private void editSB(final int position, final String newName) {
         RequestParamsFM params = new RequestParamsFM();
-        params.put("id", (mList.get(position)).getId());
+        params.put("id", ((AllDevListInfo.DeviceHomeListBean) mList.get(position)).getId());
         params.put("device_name", newName);
-        params.put("house_id", mList.get(position).getRoomid());
+        params.put("house_id", ((AllDevListInfo.DeviceHomeListBean) mList.get(position)).getRoomid());
         HttpOkhUtils.getInstance().doPut(NetConfig.DEVICE, params, new HttpOkhUtils.HttpCallBack() {
             @Override
             public void onError(Request request, IOException e) {
@@ -335,7 +395,7 @@ public class LvDevListManagerAdapter extends BaseAdapter {
                 ToastUtils.showToast(mContext, commonInfo.getMessage());
                 if (1 == commonInfo.getCode()) {
                     popupWindow.dismiss();
-                    (mList.get(position)).setDevice_name(newName);
+                    ((AllDevListInfo.DeviceHomeListBean) mList.get(position)).setDevice_name(newName);
                     notifyDataSetChanged();
                 }
             }
@@ -344,7 +404,7 @@ public class LvDevListManagerAdapter extends BaseAdapter {
 
     private void editCK(final int position, final String newName) {
         RequestParamsFM params = new RequestParamsFM();
-        params.put("id", (mList.get(position)).getId());
+        params.put("id", ((CongKongListInfo.SecondControlListBean) mList.get(position)).getId());
         params.put("second_control_name", newName);
         HttpOkhUtils.getInstance().doPut(NetConfig.SECONDCONTROL, params, new HttpOkhUtils.HttpCallBack() {
             @Override
@@ -365,7 +425,7 @@ public class LvDevListManagerAdapter extends BaseAdapter {
                 ToastUtils.showToast(mContext, commonInfo.getMessage());
                 if (1 == commonInfo.getCode()) {
                     popupWindow.dismiss();
-                    (mList.get(position)).setDevice_name(newName);
+                    ((CongKongListInfo.SecondControlListBean) mList.get(position)).setSecond_control_name(newName);
                     notifyDataSetChanged();
                 }
             }
@@ -374,7 +434,7 @@ public class LvDevListManagerAdapter extends BaseAdapter {
 
     private void editZK(final int position, final String newName) {
         RequestParamsFM params = new RequestParamsFM();
-        params.put("id", (mList.get(position)).getId());
+        params.put("id", ((ZhuKongListInfo.HomeListBean) mList.get(position)).getId());
         params.put("main_control_name", newName);
         HttpOkhUtils.getInstance().doPut(NetConfig.MAINCONTROL, params, new HttpOkhUtils.HttpCallBack() {
             @Override
@@ -395,7 +455,7 @@ public class LvDevListManagerAdapter extends BaseAdapter {
                 ToastUtils.showToast(mContext, commonInfo.getMessage());
                 if (1 == commonInfo.getCode()) {
                     popupWindow.dismiss();
-                    (mList.get(position)).setDevice_name(newName);
+                    ((ZhuKongListInfo.HomeListBean) mList.get(position)).setMain_control_name(newName);
                     notifyDataSetChanged();
                 }
             }
@@ -403,7 +463,7 @@ public class LvDevListManagerAdapter extends BaseAdapter {
     }
 
     private class MyViewholder {
-        ImageView img_delet, img_edit;
+        ImageView img_kind, img_delet, img_edit;
         TextView tv_name, tv_room, tv_code, tv_main, tv_second;
     }
 }

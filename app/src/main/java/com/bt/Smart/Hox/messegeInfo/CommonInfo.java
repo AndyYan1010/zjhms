@@ -35,6 +35,11 @@ public class CommonInfo {
      */
 
     private String fileName;
+    /**
+     * id : 6262626262
+     */
+
+    private String id;
 
     public String getValidateCode() {
         return validateCode;
@@ -83,5 +88,13 @@ public class CommonInfo {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

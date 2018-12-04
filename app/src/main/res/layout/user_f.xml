@@ -70,7 +70,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="设备数量：10个"
+                            android:text="设备数量：0个"
                             android:textColor="@color/word_black"
                             android:textSize="14sp"/>
 
@@ -85,7 +85,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="异常信息：5条"
+                            android:text="异常信息：0条"
                             android:textColor="@color/word_black"
                             android:textSize="14sp"/>
                     </LinearLayout>
@@ -233,7 +233,7 @@
                     android:layout_toRightOf="@+id/img_home"
                     android:text="家庭管理"
                     android:textColor="@color/vm_black_100"
-                    android:textSize="16sp"/>
+                    android:textSize="14sp"/>
 
                 <ImageView
                     android:layout_width="15dp"
@@ -271,7 +271,7 @@
                     android:layout_toRightOf="@+id/img_dev"
                     android:text="设备管理"
                     android:textColor="@color/vm_black_100"
-                    android:textSize="16sp"/>
+                    android:textSize="14sp"/>
 
                 <ImageView
                     android:layout_width="15dp"
@@ -309,7 +309,7 @@
                     android:layout_toRightOf="@+id/img_msg"
                     android:text="消息中心"
                     android:textColor="@color/vm_black_100"
-                    android:textSize="16sp"/>
+                    android:textSize="14sp"/>
 
                 <ImageView
                     android:layout_width="15dp"
@@ -347,7 +347,7 @@
                     android:layout_toRightOf="@+id/img_set"
                     android:text="通用设置"
                     android:textColor="@color/vm_black_100"
-                    android:textSize="16sp"/>
+                    android:textSize="14sp"/>
 
                 <ImageView
                     android:layout_width="15dp"
@@ -385,7 +385,7 @@
                     android:layout_toRightOf="@+id/img_qusetion"
                     android:text="常见问题"
                     android:textColor="@color/vm_black_100"
-                    android:textSize="16sp"/>
+                    android:textSize="14sp"/>
 
                 <ImageView
                     android:layout_width="15dp"
@@ -423,7 +423,7 @@
                     android:layout_toRightOf="@+id/img_feedback"
                     android:text="意见反馈"
                     android:textColor="@color/vm_black_100"
-                    android:textSize="16sp"/>
+                    android:textSize="14sp"/>
 
                 <ImageView
                     android:layout_width="15dp"

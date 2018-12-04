@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.bt.Smart.Hox.MyApplication;
 import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
+import com.bt.Smart.Hox.activity.homeActivity.AddDeviceActivity;
 import com.bt.Smart.Hox.activity.homeActivity.CreateHomeActivity;
 import com.bt.Smart.Hox.activity.homeActivity.RoomManagerActivity;
 import com.bt.Smart.Hox.activity.meActivity.HomeListActivity;
@@ -72,6 +73,7 @@ public class Home_F extends Fragment implements View.OnClickListener {
     private ArrayList<DeviceListFragment>   fragmentsList;//fragment集合
     private MyPagerAdapter                  myPagerAdapter;//pager设配器
     private String                          hDefID;//记录默认家的id
+    private String                          mHouseInfo;//家的信息
     private List<UserHomeInfo.HomeListBean> mHomeList;//家列表数据
     private int REQUEST_HOME_F           = 1003;//修改了家后的响应值
     private int REQUESTCODE_ROOM_MANAGER = 1004;//修改了房间后的响应值
@@ -145,7 +147,11 @@ public class Home_F extends Fragment implements View.OnClickListener {
                 openPopupWindow(tv_mine, mHomeList);
                 break;
             case R.id.img_add://添加设备
-
+                Intent intentAdd = new Intent(getContext(), AddDeviceActivity.class);
+                intentAdd.putExtra("homeID", hDefID);
+                intentAdd.putExtra("roomID", "all");
+                intentAdd.putExtra("roomInfo", mHouseInfo);
+                startActivity(intentAdd);
                 break;
             case R.id.img_more:
                 if (null == hDefID || "".equals(hDefID)) {
@@ -303,6 +309,7 @@ public class Home_F extends Fragment implements View.OnClickListener {
                     ToastUtils.showToast(getContext(), "网络错误" + code);
                     return;
                 }
+                mHouseInfo = resbody;
                 Gson gson = new Gson();
                 HouseDetailInfo houseDetailInfo = gson.fromJson(resbody, HouseDetailInfo.class);
                 if (1 == houseDetailInfo.getCode()) {
@@ -327,9 +334,11 @@ public class Home_F extends Fragment implements View.OnClickListener {
                             //创建设备列表界面
                             DeviceListFragment deviceFragment = new DeviceListFragment();
                             deviceFragment.setRoomID(hDefID, houseDetailInfo.getHouseList().get(i).getId(), houseDetailInfo.getHouseList().get(i).getHouse_name());
+                            deviceFragment.setHouseInfo(resbody);
                             contsList.add(houseDetailInfo.getHouseList().get(i).getHouse_name());
                             fragmentsList.add(deviceFragment);
                         }
+                        fragmentsList.get(0).setHouseInfo(resbody);
                         //刷新界面
                         // 创建ViewPager适配器
                         myPagerAdapter = new MyPagerAdapter(getChildFragmentManager());

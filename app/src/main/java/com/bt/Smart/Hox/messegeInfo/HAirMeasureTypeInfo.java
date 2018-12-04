@@ -19,7 +19,7 @@ public class HAirMeasureTypeInfo {
      * code : 1
      */
 
-    private String message;
+    private String             message;
     private int                code;
     private List<HairListBean> hairList;
 
@@ -53,7 +53,7 @@ public class HAirMeasureTypeInfo {
          * faddtime : 2018-11-28 14:45:50
          */
 
-        private String temperature;
+        private float  temperature;
         private String faddtime;
         /**
          * humidity :
@@ -64,23 +64,23 @@ public class HAirMeasureTypeInfo {
          * co :
          */
 
-        private String humidity;
-        private String pm25;
-        private String pm100;
-        private String formaldehyde;
-        private String voc;
-        private String co;
+        private float  humidity;
+        private float  pm25;
+        private float  pm100;
+        private float  formaldehyde;
+        private float  voc;
+        private float  co;
         /**
          * co2 :
          */
 
-        private String co2;
+        private float co2;
 
-        public String getTemperature() {
+        public float getTemperature() {
             return temperature;
         }
 
-        public void setTemperature(String temperature) {
+        public void setTemperature(float temperature) {
             this.temperature = temperature;
         }
 
@@ -92,59 +92,59 @@ public class HAirMeasureTypeInfo {
             this.faddtime = faddtime;
         }
 
-        public String getHumidity() {
+        public float getHumidity() {
             return humidity;
         }
 
-        public void setHumidity(String humidity) {
+        public void setHumidity(float humidity) {
             this.humidity = humidity;
         }
 
-        public String getPm25() {
+        public float getPm25() {
             return pm25;
         }
 
-        public void setPm25(String pm25) {
+        public void setPm25(float pm25) {
             this.pm25 = pm25;
         }
 
-        public String getPm100() {
+        public float getPm100() {
             return pm100;
         }
 
-        public void setPm100(String pm100) {
+        public void setPm100(float pm100) {
             this.pm100 = pm100;
         }
 
-        public String getFormaldehyde() {
+        public float getFormaldehyde() {
             return formaldehyde;
         }
 
-        public void setFormaldehyde(String formaldehyde) {
+        public void setFormaldehyde(float formaldehyde) {
             this.formaldehyde = formaldehyde;
         }
 
-        public String getVoc() {
+        public float getVoc() {
             return voc;
         }
 
-        public void setVoc(String voc) {
+        public void setVoc(float voc) {
             this.voc = voc;
         }
 
-        public String getCo() {
+        public float getCo() {
             return co;
         }
 
-        public void setCo(String co) {
+        public void setCo(float co) {
             this.co = co;
         }
 
-        public String getCo2() {
+        public float getCo2() {
             return co2;
         }
 
-        public void setCo2(String co2) {
+        public void setCo2(float co2) {
             this.co2 = co2;
         }
     }

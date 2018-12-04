@@ -108,7 +108,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="20dp"
-        android:text="设备列表："
+        android:text="常用添加设备："
         android:textColor="@color/orange"
         android:textSize="16sp"/>
 
@@ -117,6 +117,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:visibility="gone"
         android:minHeight="45dp">
 
         <ImageView
@@ -134,7 +135,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="8dp"
             android:layout_toRightOf="@+id/img_kind"
             android:text="配置WIFI模块"
             android:textColor="@color/word_black"

@@ -49,6 +49,7 @@ public class DeviceListFragment extends Fragment implements View.OnClickListener
     private String          mRoomName;//房间的名称
     private List            mData;//设备列表
     private LvDeviceAdapter deviceAdapter;
+    private String          mHouseInfo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,7 +68,7 @@ public class DeviceListFragment extends Fragment implements View.OnClickListener
 
     private void initData() {
         mData = new ArrayList();
-        deviceAdapter = new LvDeviceAdapter(getContext(), mData, mRoomID,mRoomName);
+        deviceAdapter = new LvDeviceAdapter(getContext(), mData, mRoomID, mRoomName);
         lv_dev.setAdapter(deviceAdapter);
         lin_add.setOnClickListener(this);
         Glide.with(getContext()).load(R.drawable.loadgif).into(img_loading);
@@ -80,6 +81,7 @@ public class DeviceListFragment extends Fragment implements View.OnClickListener
                 Intent intent = new Intent(getContext(), AddDeviceActivity.class);
                 intent.putExtra("homeID", mHomeID);
                 intent.putExtra("roomID", mRoomID);
+                intent.putExtra("roomInfo", mHouseInfo);
                 startActivity(intent);
                 break;
         }
@@ -87,7 +89,7 @@ public class DeviceListFragment extends Fragment implements View.OnClickListener
 
     public void refreshInfo() {
         if ("all".equals(mRoomID)) {//所有设备界面不显示添加按钮
-//            lin_add.setVisibility(View.GONE);
+            //lin_add.setVisibility(View.GONE);
         }
         //获取房间设备
         getDeviceOfRoom();
@@ -214,5 +216,9 @@ public class DeviceListFragment extends Fragment implements View.OnClickListener
 
     public String getRoomID() {
         return mRoomID;
+    }
+
+    public void setHouseInfo(String houseInfo) {
+        mHouseInfo = houseInfo;
     }
 }

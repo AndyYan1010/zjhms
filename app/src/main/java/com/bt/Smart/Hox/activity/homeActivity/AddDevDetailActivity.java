@@ -24,6 +24,7 @@ import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.activity.SaomiaoUIActivity;
 import com.bt.Smart.Hox.messegeInfo.CommonInfo;
+import com.bt.Smart.Hox.messegeInfo.HouseDetailInfo;
 import com.bt.Smart.Hox.messegeInfo.ZhuKongListInfo;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
 import com.bt.Smart.Hox.utils.ProgressDialogUtil;
@@ -34,6 +35,7 @@ import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Request;
 
@@ -49,7 +51,11 @@ import okhttp3.Request;
 public class AddDevDetailActivity extends BaseActivity implements View.OnClickListener {
     private ImageView      img_back;
     private TextView       tv_title;
+    private RelativeLayout rlt_choiceroom;
+    private LinearLayout   lin_choiceroom;
+    private TextView       tv_roomname;
     private RelativeLayout rlt_choicezk;
+    private LinearLayout   lin_choicezk;
     private TextView       tv_ttname;
     private TextView       tv_zkname;
     private TextView       tv_ttcode;
@@ -63,10 +69,15 @@ public class AddDevDetailActivity extends BaseActivity implements View.OnClickLi
     private int MY_PERMISSIONS_REQUEST_CALL_PHONE2 = 1001;//申请照相机权限结果
     private int REQUEST_CODE                       = 1003;//接收扫描结果
     private String                                  mHomeID;
+    private String                                  mRoomID;
     private String                                  mKind;
     private ArrayList<ZhuKongListInfo.HomeListBean> mZkList;//记录家下面的已有主控
     private ArrayList<String>                       options1Items;
+    private ArrayList<String>                       roomItems;
     private int                                     choiceItem;
+    private String                                  mHouseInfo;
+    private List<HouseDetailInfo.HouseListBean>     roomList;
+    private int REQUEST_NO_SET = 20001;//跳转wifi配置界面请求值
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +90,11 @@ public class AddDevDetailActivity extends BaseActivity implements View.OnClickLi
     private void initView() {
         img_back = (ImageView) findViewById(R.id.img_back);
         tv_title = (TextView) findViewById(R.id.tv_title);
+        rlt_choiceroom = (RelativeLayout) findViewById(R.id.rlt_choiceroom);
+        lin_choiceroom = (LinearLayout) findViewById(R.id.lin_choiceroom);
+        tv_roomname = (TextView) findViewById(R.id.tv_roomname);
         rlt_choicezk = (RelativeLayout) findViewById(R.id.rlt_choicezk);
+        lin_choicezk = (LinearLayout) findViewById(R.id.lin_choicezk);
         tv_ttname = (TextView) findViewById(R.id.tv_ttname);
         tv_zkname = (TextView) findViewById(R.id.tv_zkname);
         tv_ttcode = (TextView) findViewById(R.id.tv_ttcode);
@@ -100,16 +115,35 @@ public class AddDevDetailActivity extends BaseActivity implements View.OnClickLi
         tv_add.setOnClickListener(this);
         //数据
         mHomeID = getIntent().getStringExtra("homeID");
+        mRoomID = getIntent().getStringExtra("roomID");
+        mHouseInfo = getIntent().getStringExtra("allRoomInfo");
         mKind = getIntent().getStringExtra("devType");
         et_name.setText(getIntent().getStringExtra("name"));
+        //填充房间信息
+        roomList = new ArrayList<>();
+        roomItems = new ArrayList<>();
+        Gson gson = new Gson();
+        HouseDetailInfo houseDetailInfo = gson.fromJson(mHouseInfo, HouseDetailInfo.class);
+        roomList.addAll(houseDetailInfo.getHouseList());
+        for (HouseDetailInfo.HouseListBean bean : roomList) {
+            roomItems.add(bean.getHouse_name());
+        }
+        //初始房间id
+        tv_roomname.setText(roomList.get(0).getHouse_name());
+        mRoomID = roomList.get(0).getId();
+        //页面分类显示
         if ("0".equals(mKind)) {//主控
             rlt_choicezk.setVisibility(View.GONE);
             tv_warn.setVisibility(View.GONE);
-        } else if ("1".equals(mKind)) {//从控
+        } else if ("1".equals(mKind)) {//无线设备
             options1Items = new ArrayList<>();
             mZkList = new ArrayList<>();
             tv_ttname.setText("从控名称");
             tv_ttcode.setText("从控码    ");
+            if (null != getIntent().getStringExtra("fromLin") && "1".equals(getIntent().getStringExtra("fromLin"))) {
+                Intent intent = new Intent(AddDevDetailActivity.this, AddWifiDeviceActivity.class);
+                startActivityForResult(intent, REQUEST_NO_SET);
+            }
             //获取家下面的主控列表
             getZKDevList();
         } else {//单品 if ("3".equals(mKind))
@@ -122,7 +156,8 @@ public class AddDevDetailActivity extends BaseActivity implements View.OnClickLi
             //获取家下面的主控列表
             //            getZKDevList();
         }
-        rlt_choicezk.setOnClickListener(this);
+        lin_choicezk.setOnClickListener(this);
+        lin_choiceroom.setOnClickListener(this);
     }
 
     @Override
@@ -131,7 +166,10 @@ public class AddDevDetailActivity extends BaseActivity implements View.OnClickLi
             case R.id.img_back:
                 finish();
                 break;
-            case R.id.rlt_choicezk:
+            case R.id.lin_choiceroom:
+                showRoomPickerView();
+                break;
+            case R.id.lin_choicezk:
                 showPickerView();
                 break;
             case R.id.img_scan:
@@ -171,7 +209,7 @@ public class AddDevDetailActivity extends BaseActivity implements View.OnClickLi
                         ToastUtils.showToast(this, "请填写从控码");
                         return;
                     }
-                    addCK(name, kcode, ycode, getIntent().getStringExtra("control_type"), getIntent().getStringExtra("devType"), getIntent().getStringExtra("device_type_id"));
+                    addCK(name, kcode, ycode, getIntent().getStringExtra("control_type"), mKind, getIntent().getStringExtra("device_type_id"));
                 } else {//添加单品
                     if ("".equals(name)) {
                         ToastUtils.showToast(this, "请填写单品名称");
@@ -222,6 +260,24 @@ public class AddDevDetailActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
+    private void showRoomPickerView() {
+        OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                tv_roomname.setText(roomList.get(options1).getHouse_name());
+                mRoomID = roomList.get(options1).getId();
+            }
+        })
+                .setTitleText("房间选择")
+                .setBgColor(Color.WHITE)
+                .setDividerColor(Color.BLACK)
+                .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
+                .setContentTextSize(20)
+                .build();
+        pvOptions.setPicker(roomItems);//一级选择器
+        pvOptions.show();
+    }
+
     private void showPickerView() {
         OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
             @Override
@@ -232,6 +288,7 @@ public class AddDevDetailActivity extends BaseActivity implements View.OnClickLi
             }
         })
                 .setTitleText("主控选择")
+                .setBgColor(Color.WHITE)
                 .setDividerColor(Color.BLACK)
                 .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
                 .setContentTextSize(20)
@@ -240,7 +297,7 @@ public class AddDevDetailActivity extends BaseActivity implements View.OnClickLi
         pvOptions.show();
     }
 
-    private void addCK(final String name, final String kcode, String ycode, String second_control_category, String deviceType, String device_type_id) {
+    private void addCK(final String name, final String kcode, String ycode, final String second_control_category, final String deviceType, String device_type_id) {
         RequestParamsFM params = new RequestParamsFM();
         params.put("home_id", mHomeID);
         params.put("main_control_code", mZkList.get(choiceItem).getMain_control_code());
@@ -270,24 +327,23 @@ public class AddDevDetailActivity extends BaseActivity implements View.OnClickLi
                 ToastUtils.showToast(AddDevDetailActivity.this, commonInfo.getMessage());
                 if (1 == commonInfo.getCode()) {
                     //自动添加设备
-                    autoAddDev(mZkList.get(choiceItem).getMain_control_code(), mZkList.get(choiceItem).getId(), kcode, getIntent().getStringExtra("device_type_id"), kcode, name);
-                    // finish();
+                    autoAddDev(mZkList.get(choiceItem).getMain_control_code(), mZkList.get(choiceItem).getId(), kcode,commonInfo.getId() , second_control_category, deviceType, kcode, name);
                 }
             }
         });
     }
 
-    private void autoAddDev(String main_control_code, String main_control_id, String second_contrl_code, String second_control_id, String device_code, String device_name) {
+    private void autoAddDev(String main_control_code, String main_control_id, String second_contrl_code, String second_control_id, String default_device_type, String deviceType, String device_code, String device_name) {
         RequestParamsFM params = new RequestParamsFM();
         params.put("register_id", MyApplication.userID);
         params.put("home_id", mHomeID);
-        params.put("house_id", getIntent().getStringExtra("roomID"));
+        params.put("house_id", mRoomID);
         params.put("main_control_code", main_control_code);
         params.put("main_control_id", main_control_id);
         params.put("second_contrl_code", second_contrl_code);
         params.put("second_control_id", second_control_id);
-        params.put("default_device_type", "022");
-        params.put("deviceType", "1");
+        params.put("default_device_type", default_device_type);
+        params.put("deviceType", deviceType);
         params.put("device_code", device_code);
         params.put("device_config", 99);
         params.put("device_img", getIntent().getStringExtra("devcieTypePic"));
@@ -386,6 +442,11 @@ public class AddDevDetailActivity extends BaseActivity implements View.OnClickLi
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
                     Toast.makeText(this, "解析二维码失败", Toast.LENGTH_LONG).show();
                 }
+            }
+        }
+        if (requestCode == REQUEST_NO_SET) {
+            if (resultCode != 20002) {
+                finish();
             }
         }
     }
