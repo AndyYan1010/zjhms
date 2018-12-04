@@ -35,6 +35,7 @@ public class MyApplication extends Application {
     public static boolean isLoading;
     public static String  loadUrl;
     public static boolean sceneRefresh;
+    public static int     devNum;
 
     @Override
     public void onCreate() {

@@ -6,7 +6,7 @@ android {
         applicationId "com.bt.Smart.Hox"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 5
+        versionCode 7
         versionName "1.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {

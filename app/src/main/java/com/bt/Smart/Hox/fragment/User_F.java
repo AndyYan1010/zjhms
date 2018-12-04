@@ -38,6 +38,7 @@ public class User_F extends Fragment implements View.OnClickListener {
     private ImageView      img_head;
     private CardView       card;
     private TextView       tv_name;//用户名称
+    private TextView       tv_note1;//用户设备数
     private LinearLayout   lin_scene;//场景
     private LinearLayout   lin_auto;//自动化
     private LinearLayout   lin_shop;//商城
@@ -59,6 +60,7 @@ public class User_F extends Fragment implements View.OnClickListener {
     private void initView() {
         img_head = mRootView.findViewById(R.id.img_head);
         tv_name = mRootView.findViewById(R.id.tv_name);
+        tv_note1 = mRootView.findViewById(R.id.tv_note1);
         card = mRootView.findViewById(R.id.card);
         lin_scene = mRootView.findViewById(R.id.lin_scene);
         lin_auto = mRootView.findViewById(R.id.lin_auto);
@@ -87,6 +89,7 @@ public class User_F extends Fragment implements View.OnClickListener {
         super.onResume();
         GlideLoaderUtil.showImgWithIcon(getContext(), MyApplication.userHeadPic, R.drawable.iman, R.drawable.iman, img_head);
         tv_name.setText(MyApplication.userName);
+        tv_note1.setText("设备数量：" + MyApplication.devNum + "个");
     }
 
     @Override

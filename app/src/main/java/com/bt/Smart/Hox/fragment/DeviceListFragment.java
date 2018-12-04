@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.bt.Smart.Hox.MyApplication;
 import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.activity.homeActivity.AddDeviceActivity;
@@ -149,10 +150,12 @@ public class DeviceListFragment extends Fragment implements View.OnClickListener
                         //ps:>0说明房间下有设备
                         lin_nomsg.setVisibility(View.GONE);
                         mData.clear();
+                        int num = allDeviceInfo.getDeviceHomeList().size();
                         mData.addAll(allDeviceInfo.getDeviceHomeList());
                         if (null != deviceAdapter) {
                             deviceAdapter.notifyDataSetChanged();
                         }
+                        MyApplication.devNum = num;
                     } else {
                         lin_nomsg.setVisibility(View.VISIBLE);
                     }
