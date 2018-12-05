@@ -88,6 +88,15 @@ public class DeviceListFragment extends Fragment implements View.OnClickListener
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (MyApplication.isLoading) {
+            MyApplication.isLoading = false;
+            refreshInfo();
+        }
+    }
+
     public void refreshInfo() {
         if ("all".equals(mRoomID)) {//所有设备界面不显示添加按钮
             //lin_add.setVisibility(View.GONE);

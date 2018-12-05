@@ -115,6 +115,7 @@ public class User_F extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(getContext(), HomeListActivity.class));
                 break;
             case R.id.rtv_dev://跳转设备管理
+                MyApplication.isLoading = true;
                 startActivity(new Intent(getContext(), DeviceManagerActivity.class));
                 break;
             case R.id.rtv_msg_center://跳转消息中心

@@ -96,7 +96,6 @@
             android:name=".activity.homeActivity.TypeMeasureLightDetailActivity"
             android:hardwareAccelerated="true"/>
 
-        <receiver android:name=".broadcastReceiver.MyApkLoadReceive"/>
 
         <!--qq注册activity-->
         <activity

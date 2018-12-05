@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -79,8 +80,11 @@ public class LvDevListManagerAdapter extends BaseAdapter {
                 viewholder.tv_name = view.findViewById(R.id.tv_name);
                 viewholder.img_kind = view.findViewById(R.id.img_kind);
                 viewholder.tv_code = view.findViewById(R.id.tv_code);
-                viewholder.img_edit = view.findViewById(R.id.img_edit);
-                viewholder.img_delet = view.findViewById(R.id.img_delet);
+                viewholder.lin_statue = view.findViewById(R.id.lin_statue);
+                viewholder.lin_change = view.findViewById(R.id.lin_change);
+                viewholder.lin_logout = view.findViewById(R.id.lin_logout);
+                viewholder.lin_edit = view.findViewById(R.id.lin_edit);
+                viewholder.lin_delet = view.findViewById(R.id.lin_delet);
             } else if (2 == mSearchKind) {
                 view = View.inflate(mContext, R.layout.adapter_dev_manager_list, null);
                 viewholder.tv_name = view.findViewById(R.id.tv_name);
@@ -89,8 +93,11 @@ public class LvDevListManagerAdapter extends BaseAdapter {
                 viewholder.tv_code = view.findViewById(R.id.tv_code);
                 viewholder.tv_main = view.findViewById(R.id.tv_main);
                 viewholder.tv_second = view.findViewById(R.id.tv_second);
-                viewholder.img_edit = view.findViewById(R.id.img_edit);
-                viewholder.img_delet = view.findViewById(R.id.img_delet);
+                viewholder.lin_statue = view.findViewById(R.id.lin_statue);
+                viewholder.lin_change = view.findViewById(R.id.lin_change);
+                viewholder.lin_logout = view.findViewById(R.id.lin_logout);
+                viewholder.lin_edit = view.findViewById(R.id.lin_edit);
+                viewholder.lin_delet = view.findViewById(R.id.lin_delet);
             }
             view.setTag(viewholder);
         } else {
@@ -99,52 +106,78 @@ public class LvDevListManagerAdapter extends BaseAdapter {
         if (0 == mSearchKind) {
             viewholder.tv_name.setText(((ZhuKongListInfo.HomeListBean) mList.get(i)).getMain_control_name());
             viewholder.tv_code.setText(((ZhuKongListInfo.HomeListBean) mList.get(i)).getMain_control_code());
-            viewholder.img_edit.setOnClickListener(new View.OnClickListener() {
+            viewholder.lin_change.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //更换设备码
+                    changeDevCode(i);
+                }
+            });
+            viewholder.lin_logout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    deleteWarnning(i);
+                }
+            });
+            viewholder.lin_edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {//编辑主控
                     //弹出popupwindow
-                    openPopupWindow(viewholder.img_edit, i);
+                    openPopupWindow(viewholder.lin_edit, i);
                 }
             });
-            viewholder.img_delet.setOnClickListener(new View.OnClickListener() {
+            viewholder.lin_edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {//删除主控
-                    doDeleteZKDev(i);
+                    deleteWarnning(i);
                 }
             });
         } else if (1 == mSearchKind) {
             viewholder.tv_name.setText(((CongKongListInfo.SecondControlListBean) mList.get(i)).getSecond_control_name());
             viewholder.tv_code.setText(((CongKongListInfo.SecondControlListBean) mList.get(i)).getSecond_contrl_code());
-            viewholder.img_edit.setVisibility(View.GONE);
-            viewholder.img_delet.setVisibility(View.GONE);
-//            viewholder.img_edit.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {//编辑从控
-//                    //弹出popupwindow
-//                    openPopupWindow(viewholder.img_edit, i);
-//                }
-//            });
-//            viewholder.img_delet.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {//删除从控
-//                    //弹出dailog提示
-//                    deleteWarnning(i);
-//                }
-//            });
+            viewholder.lin_statue.setVisibility(View.GONE);
+            //            viewholder.img_edit.setOnClickListener(new View.OnClickListener() {
+            //                @Override
+            //                public void onClick(View view) {//编辑从控
+            //                    //弹出popupwindow
+            //                    openPopupWindow(viewholder.img_edit, i);
+            //                }
+            //            });
+            //            viewholder.img_delet.setOnClickListener(new View.OnClickListener() {
+            //                @Override
+            //                public void onClick(View view) {//删除从控
+            //                    //弹出dailog提示
+            //                    deleteWarnning(i);
+            //                }
+            //            });
         } else if (2 == mSearchKind) {
             viewholder.tv_name.setText(((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDevice_name());//
             viewholder.tv_room.setText(((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getHouse_name());
             viewholder.tv_code.setText(((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDevice_code());
             viewholder.tv_main.setText(((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getMain_control_name());
             viewholder.tv_second.setText(((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getSecond_control_name());
-            viewholder.img_edit.setOnClickListener(new View.OnClickListener() {
+
+            viewholder.lin_change.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //更换设备码
+                    changeDevCode(i);
+                }
+            });
+            viewholder.lin_logout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    deleteWarnning(i);
+                }
+            });
+            viewholder.lin_edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {//修改设备名称
                     //弹出popupwindow
-                    openPopupWindow(viewholder.img_edit, i);
+                    openPopupWindow(viewholder.lin_edit, i);
                 }
             });
-            viewholder.img_delet.setOnClickListener(new View.OnClickListener() {
+            viewholder.lin_delet.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {//删除设备
                     //弹出dailog提示
@@ -153,6 +186,112 @@ public class LvDevListManagerAdapter extends BaseAdapter {
             });
         }
         return view;
+    }
+
+    private void changeDevCode(final int position) {
+        dialogHelper = new MyAlertDialogHelper();
+        View view = View.inflate(mContext, R.layout.dialog_input_pass, null);
+        dialogHelper.setDIYView(mContext, view);
+        dialogHelper.show();
+        TextView tv_warning = view.findViewById(R.id.tv_warning);
+        final EditText et_pass = view.findViewById(R.id.et_pass);
+        TextView tv_cancle = view.findViewById(R.id.tv_cancle);
+        TextView tv_sure = view.findViewById(R.id.tv_sure);
+        tv_warning.setText("请输入新的设备码");
+        et_pass.setHint("请输入设备码");
+        if (0 == mSearchKind) {
+            et_pass.setText(((ZhuKongListInfo.HomeListBean) mList.get(position)).getMain_control_code());
+        } else if (2 == mSearchKind) {
+            et_pass.setText(((AllDevListInfo.DeviceHomeListBean) mList.get(position)).getDevice_code());
+        }
+        tv_cancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogHelper.disMiss();
+            }
+        });
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //先比对下账户密码
+                String code = String.valueOf(et_pass.getText()).trim();
+                if ("".equals(code) || "请输入设备码".equals(code)) {
+                    ToastUtils.showToast(mContext, "设备码不能为空");
+                    return;
+                }
+                if (0 == mSearchKind) {
+                    changeZKDev(position, code);
+                } else if (1 == mSearchKind) {
+
+                } else if (2 == mSearchKind) {
+                    changeSBDev(position, code);
+                }
+            }
+        });
+    }
+
+    private void changeZKDev(final int position, final String devcode) {
+        RequestParamsFM params = new RequestParamsFM();
+        params.put("id", ((ZhuKongListInfo.HomeListBean) mList.get(position)).getId());
+        params.put("main_control_code", devcode);
+        params.put("main_control_code_old", ((ZhuKongListInfo.HomeListBean) mList.get(position)).getMain_control_code());
+        HttpOkhUtils.getInstance().doPut(NetConfig.MAINCONTROLCODE, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(mContext, "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(mContext, "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                CommonInfo commonInfo = gson.fromJson(resbody, CommonInfo.class);
+                ToastUtils.showToast(mContext, commonInfo.getMessage());
+                if (1 == commonInfo.getCode()) {
+                    dialogHelper.disMiss();
+                    ((ZhuKongListInfo.HomeListBean) mList.get(position)).setMain_control_code(devcode);
+                    notifyDataSetChanged();
+                }
+            }
+        });
+    }
+
+    private void changeSBDev(final int position, final String devcode) {
+        RequestParamsFM params = new RequestParamsFM();
+        params.put("id", ((AllDevListInfo.DeviceHomeListBean) mList.get(position)).getId());
+        params.put("second_control_id", ((AllDevListInfo.DeviceHomeListBean) mList.get(position)).getSecond_control_id());
+        params.put("device_name", ((AllDevListInfo.DeviceHomeListBean) mList.get(position)).getDevice_name());
+        params.put("house_id", MyApplication.slecHomeID);
+        params.put("device_code", devcode);
+        HttpOkhUtils.getInstance().doPut(NetConfig.DEVICE, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(mContext, "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(mContext, "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                CommonInfo commonInfo = gson.fromJson(resbody, CommonInfo.class);
+                ToastUtils.showToast(mContext, commonInfo.getMessage());
+                if (1 == commonInfo.getCode()) {
+                    dialogHelper.disMiss();
+                    ((AllDevListInfo.DeviceHomeListBean) mList.get(position)).setDevice_code(devcode);
+                    notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     private MyAlertDialogHelper dialogHelper;
@@ -475,7 +614,8 @@ public class LvDevListManagerAdapter extends BaseAdapter {
     }
 
     private class MyViewholder {
-        ImageView img_kind, img_delet, img_edit;
-        TextView tv_name, tv_room, tv_code, tv_main, tv_second;
+        LinearLayout lin_change, lin_logout, lin_edit, lin_delet, lin_statue;
+        ImageView img_kind;
+        TextView  tv_name, tv_room, tv_code, tv_main, tv_second;
     }
 }

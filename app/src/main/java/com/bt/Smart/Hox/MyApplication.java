@@ -32,7 +32,7 @@ public class MyApplication extends Application {
     public static String  userHeadPic;
     public static String  slecHomeID;
     public static String  slecRoomID;
-    public static boolean isLoading;
+    public static boolean isLoading;//房间设备是否刷新
     public static String  loadUrl;
     public static boolean sceneRefresh;
     public static int     devNum;

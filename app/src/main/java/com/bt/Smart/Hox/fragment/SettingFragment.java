@@ -17,6 +17,7 @@ import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.messegeInfo.NewApkInfo;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
+import com.bt.Smart.Hox.utils.ToastUtils;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -85,12 +86,15 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
             public void onSuccess(int code, String resbody) {
                 Gson gson = new Gson();
                 NewApkInfo newApkInfo = gson.fromJson(resbody, NewApkInfo.class);
+                ToastUtils.showToast(getContext(), newApkInfo.getMessage());
                 if (1 == newApkInfo.getCode()) {
                     int appVersionCode = getAppVersionCode(getContext());
                     if (null != newApkInfo.getNewAppVersion()) {
                         if (appVersionCode < newApkInfo.getNewAppVersion().getId()) {
                             //弹出dailog，提示用户是否下载
                             showDialogToDown(newApkInfo);
+                        } else {
+                            ToastUtils.showToast(getContext(), "您已安装最新版本，无需更新。");
                         }
                     }
                 }

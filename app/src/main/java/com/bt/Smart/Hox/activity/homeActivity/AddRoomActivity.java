@@ -99,45 +99,47 @@ public class AddRoomActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void addRoom(final String room_name) {
-        JSONArray jsonArray = new JSONArray();
-        for (int i = 0; i < 1; i++) {
-            JSONObject jsonObject = new JSONObject();
+        if (null != getIntent().getStringExtra("homeID") && !"".equals(getIntent().getStringExtra("homeID"))) {
+            JSONArray jsonArray = new JSONArray();
             try {
+                JSONObject jsonObject = new JSONObject();
                 jsonObject.put("house_name", room_name);
                 jsonArray.put(jsonObject);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }
-        RequestParamsFM params = new RequestParamsFM();
-        params.put("home_id", getIntent().getStringExtra("homeID"));
-        params.put("register_id", MyApplication.userID);
-        params.put("house_member", jsonArray);
-        params.setUseJsonStreamer(true);
-        HttpOkhUtils.getInstance().doPostBeanToString(NetConfig.HOUSE, params, new HttpOkhUtils.HttpCallBack() {
-            @Override
-            public void onError(Request request, IOException e) {
-                ProgressDialogUtil.hideDialog();
-                ToastUtils.showToast(AddRoomActivity.this, "网络连接错误");
-            }
+            RequestParamsFM params = new RequestParamsFM();
+            params.put("home_id", getIntent().getStringExtra("homeID"));
+            params.put("register_id", MyApplication.userID);
+            params.put("house_member", jsonArray);
+            params.setUseJsonStreamer(true);
+            HttpOkhUtils.getInstance().doPostBean(NetConfig.HOUSE, params, new HttpOkhUtils.HttpCallBack() {
+                @Override
+                public void onError(Request request, IOException e) {
+                    ProgressDialogUtil.hideDialog();
+                    ToastUtils.showToast(AddRoomActivity.this, "网络连接错误");
+                }
 
-            @Override
-            public void onSuccess(int code, String resbody) {
-                ProgressDialogUtil.hideDialog();
-                if (code != 200) {
-                    ToastUtils.showToast(AddRoomActivity.this, "网络错误" + code);
-                    return;
+                @Override
+                public void onSuccess(int code, String resbody) {
+                    ProgressDialogUtil.hideDialog();
+                    if (code != 200) {
+                        ToastUtils.showToast(AddRoomActivity.this, "网络错误" + code);
+                        return;
+                    }
+                    Gson gson = new Gson();
+                    CommonInfo sendSMSInfo = gson.fromJson(resbody, CommonInfo.class);
+                    ToastUtils.showToast(AddRoomActivity.this, sendSMSInfo.getMessage());
+                    if (1 == sendSMSInfo.getCode()) {
+                        finish();
+                    }
                 }
-                Gson gson = new Gson();
-                CommonInfo sendSMSInfo = gson.fromJson(resbody, CommonInfo.class);
-                ToastUtils.showToast(AddRoomActivity.this, sendSMSInfo.getMessage());
-                if (1 == sendSMSInfo.getCode()) {
-                    Intent intent = getIntent();
-                    intent.putExtra("roomName", room_name);
-                    setResult(REQUEST_CODE,intent);
-                    finish();
-                }
-            }
-        });
+            });
+        } else {
+            Intent intent = getIntent();
+            intent.putExtra("roomName", room_name);
+            setResult(REQUEST_CODE, intent);
+            finish();
+        }
     }
 }

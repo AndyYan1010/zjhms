@@ -196,23 +196,10 @@ public class LvRoomAdapter extends BaseAdapter {
                 }
             }
         });
-
-//        openHelper.setDataNoView(mContext, "温馨提示", "该操作会将该房间下的所有设备一起删除，确定删除？");
-//        openHelper.setDialogClicker("确定", "取消", new MyAlertDialogHelper.DialogClickListener() {
-//            @Override
-//            public void onPositive() {
-//                //删除房间
-//                doDeleteRoom(position);
-//            }
-//
-//            @Override
-//            public void onNegative() {
-//            }
-//        });
-//        openHelper.show();
     }
 
     private void doDeleteRoom(final int position) {
+        openHelper.disMiss();
         RequestParamsFM params = new RequestParamsFM();
         params.put("register_id", MyApplication.userID);
         params.put("house_id", mList.get(position).getId());

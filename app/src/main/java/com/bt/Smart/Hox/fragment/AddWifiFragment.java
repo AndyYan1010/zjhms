@@ -534,6 +534,4 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
             searchWifi();
         }
     }
-
-
 }

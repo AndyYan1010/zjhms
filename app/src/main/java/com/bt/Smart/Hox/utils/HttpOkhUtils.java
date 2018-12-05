@@ -2,6 +2,9 @@ package com.bt.Smart.Hox.utils;
 
 import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
@@ -105,7 +108,8 @@ public class HttpOkhUtils {
             //使用Gson将对象转换为json字符串
             String json = bean.toString();
             //MediaType  设置Content-Type 标头中包含的媒体类型值
-            requestBody = FormBody.create(MediaType.parse("application/json; charset=utf-8"), json);
+            //            requestBody = FormBody.create(MediaType.parse("application/json; charset=utf-8"), json);
+            requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
         } else {
             FormBody.Builder builder = new FormBody.Builder();
             Set<String> set = bean.keySet();
@@ -118,6 +122,39 @@ public class HttpOkhUtils {
         Request request = new Request.Builder().url(url).post(requestBody).build();
         client.newCall(request).enqueue(new StringCallBack(request, httpCallBack));
     }
+
+    public void doPostBean(String url, RequestParamsFM bean, HttpCallBack httpCallBack) {
+        RequestBody requestBody;
+        boolean toJson = bean.getIsUseJsonStreamer();
+        if (toJson) {
+            String json;
+            JSONObject jsonObject = new JSONObject();
+            Set<String> set1 = bean.keySet();
+            for (Iterator<String> it = set1.iterator(); it.hasNext(); ) {
+                String key = it.next();
+                try {
+                    jsonObject.put(key, bean.get(key));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            json = jsonObject.toString();
+            //MediaType  设置Content-Type 标头中包含的媒体类型值
+            //requestBody = FormBody.create(MediaType.parse("application/json; charset=utf-8"), json);
+            requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
+        } else {
+            FormBody.Builder builder = new FormBody.Builder();
+            Set<String> set = bean.keySet();
+            for (String key : set) {
+                String value = bean.get(key).toString();
+                builder.add(key, value);
+            }
+            requestBody = builder.build();
+        }
+        Request request = new Request.Builder().url(url).post(requestBody).build();
+        client.newCall(request).enqueue(new StringCallBack(request, httpCallBack));
+    }
+
 
     public void doPostWithHeader(String url, RequestParamsFM headeBean, RequestParamsFM bean, HttpCallBack httpCallBack) {
         Request.Builder builder1 = new Request.Builder();

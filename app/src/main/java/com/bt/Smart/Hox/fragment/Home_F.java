@@ -267,9 +267,9 @@ public class Home_F extends Fragment implements View.OnClickListener {
                                 deName = bean.getHome_name();
                             }
                         }
-                        if (!hDefault) {
+                        if (!hDefault) {//没有设置默认家
                             hDefID = userHomeInfo.getHomeList().get(0).getHome_id();
-                            tv_mine.setText(userHomeInfo.getHomeList().get(0).getHome_name());
+                            deName = userHomeInfo.getHomeList().get(0).getHome_name();
                         }
                         //显示，显示的是哪个家
                         tv_mine.setText(deName);

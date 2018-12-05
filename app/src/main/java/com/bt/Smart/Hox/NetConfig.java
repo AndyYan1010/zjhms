@@ -72,11 +72,12 @@ public class NetConfig {
 
 
     //主控列表//更新主控
-    public static String MAINCONTROL    = ROOT + "mainControl";
+    public static String MAINCONTROL     = ROOT + "mainControl";
+    public static String MAINCONTROLCODE = ROOT + "mainControlCode";
     //从控列表
-    public static String SECONDCONTROL  = ROOT + "secondControl";
+    public static String SECONDCONTROL   = ROOT + "secondControl";
     //获取命令序号
-    public static String DEVICESEQUENCE = ROOT + "deviceSequence";
+    public static String DEVICESEQUENCE  = ROOT + "deviceSequence";
 
 
     //设备控制

@@ -48,7 +48,7 @@ public class LvAddRoomAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
-        MyViewholder viewholder;
+        final MyViewholder viewholder;
         if (null == view) {
             viewholder = new MyViewholder();
             view = View.inflate(mContext, R.layout.adpter_add_room, null);
