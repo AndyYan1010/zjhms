@@ -79,6 +79,7 @@ import okhttp3.Request;
 public class HomeDetailActivity extends BaseActivity implements View.OnClickListener {
     private ImageView                          img_back;
     private TextView                           tv_title;
+    private TextView                           tv_save;
     private ImageView                          img_head;//家庭照片
     private RelativeLayout                     rtv_name;//家庭名称
     private TextView                           tv_name;//名称
@@ -106,6 +107,7 @@ public class HomeDetailActivity extends BaseActivity implements View.OnClickList
     private void setView() {
         img_back = (ImageView) findViewById(R.id.img_back);
         tv_title = (TextView) findViewById(R.id.tv_title);
+        tv_save = (TextView) findViewById(R.id.tv_save);
         img_head = (ImageView) findViewById(R.id.img_head);
         rtv_name = (RelativeLayout) findViewById(R.id.rtv_name);
         rtv_address = (RelativeLayout) findViewById(R.id.rtv_address);
@@ -120,7 +122,9 @@ public class HomeDetailActivity extends BaseActivity implements View.OnClickList
 
     private void setData() {
         img_back.setVisibility(View.VISIBLE);
+        tv_save.setVisibility(View.VISIBLE);
         img_back.setOnClickListener(this);
+        tv_save.setOnClickListener(this);
         tv_title.setText("家庭信息");
 
         homeID = getIntent().getStringExtra("homeID");
@@ -135,9 +139,9 @@ public class HomeDetailActivity extends BaseActivity implements View.OnClickList
                     Intent intent = new Intent(HomeDetailActivity.this, ShareRoomActivity.class);
                     intent.putExtra("memberID", mData.get(i).getId());//成员id
                     intent.putExtra("homeID", homeID);//家id
-                    intent.putExtra("name", mData.get(i).getFtelephone());//成员名称
+                    intent.putExtra("name", mData.get(i).getFname());//成员名称
                     intent.putExtra("phone", mData.get(i).getFtelephone());//成员电话
-                    intent.putExtra("headPic", mData.get(i).getWx_pic());//成员头像
+                    intent.putExtra("headPic", mData.get(i).getHead_pic());//成员头像
                     startActivityForResult(intent, REQUEST_DELETE_MEMBER);
                 }
             }
@@ -158,6 +162,19 @@ public class HomeDetailActivity extends BaseActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_save:
+                String homeName = String.valueOf(tv_name.getText()).trim();
+                String address = String.valueOf(tv_address.getText()).trim();
+                if ("".equals(homeName) || "请输入家庭名称".equals(homeName)) {
+                    ToastUtils.showToast(HomeDetailActivity.this, "家名称不能为空");
+                    return;
+                }
+                if ("".equals(address) || "请选择家庭地址".equals(address)) {
+                    ToastUtils.showToast(HomeDetailActivity.this, "家地址不能为空");
+                    return;
+                }
+                saveHomeName(homeName, address);
+                break;
             case R.id.img_back:
                 finish();
                 break;
@@ -245,11 +262,10 @@ public class HomeDetailActivity extends BaseActivity implements View.OnClickList
     }
 
     private void sendImgToService(Bitmap bm) {
-        String strByBase64 = Bitmap2StrByBase64(bm);
+        String strByBase64 = Bitmap2StrByBase64(bm).replace("/", "%2F").replace("+", "%2B");
         RequestParamsFM params = new RequestParamsFM();
         params.put("imgStr", strByBase64);
-        params.setUseJsonStreamer(true);
-        HttpOkhUtils.getInstance().doPostBeanToString(NetConfig.UPLOADBASE64, params, new HttpOkhUtils.HttpCallBack() {
+        HttpOkhUtils.getInstance().doGetWithParams(NetConfig.UPLOADBASE64ANDROID, params, new HttpOkhUtils.HttpCallBack() {
             @Override
             public void onError(Request request, IOException e) {
                 ProgressDialogUtil.hideDialog();
@@ -267,7 +283,7 @@ public class HomeDetailActivity extends BaseActivity implements View.OnClickList
                 CommonInfo commonInfo = gson.fromJson(resbody, CommonInfo.class);
                 if (1 == commonInfo.getResult()) {
                     ToastUtils.showToast(HomeDetailActivity.this, "上传成功");
-                    mImgUrl = commonInfo.getFileName();
+                    mImgUrl = NetConfig.IMG_HEAD_IP + commonInfo.getFileName();
                 } else {
                     ToastUtils.showToast(HomeDetailActivity.this, "上传失败");
                 }
@@ -642,7 +658,8 @@ public class HomeDetailActivity extends BaseActivity implements View.OnClickList
                 CommonInfo sendSMSInfo = gson.fromJson(resbody, CommonInfo.class);
                 if (1 == sendSMSInfo.getCode()) {
                     ToastUtils.showToast(HomeDetailActivity.this, "更新成功");
-                    popupWindow.dismiss();
+                    if (null != popupWindow)
+                        popupWindow.dismiss();
                     tv_name.setText(homeName);
                 } else {
                     ToastUtils.showToast(HomeDetailActivity.this, "更新失败");
@@ -783,6 +800,7 @@ public class HomeDetailActivity extends BaseActivity implements View.OnClickList
                         tv_name.setText(homeDetailInfo.getHome().getHome_name());
                         tv_address.setText(homeDetailInfo.getHome().getFaddress());
                         mImgUrl = homeDetailInfo.getHome().getHome_pic();
+                        GlideLoaderUtil.showImgWithIcon(HomeDetailActivity.this, mImgUrl, R.drawable.iman, R.drawable.iman, img_head);
                     }
                 } else {
                     ToastUtils.showToast(HomeDetailActivity.this, "家庭信息查询失败");

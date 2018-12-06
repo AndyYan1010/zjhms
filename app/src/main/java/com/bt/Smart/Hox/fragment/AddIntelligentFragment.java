@@ -48,9 +48,10 @@ public class AddIntelligentFragment extends Fragment implements View.OnClickList
     private LvSceneAutoAdapter sceneAutoAdapter;
     private ListView           lv_scene;
     private LinearLayout       lin_nomsg;//没有场景
-//    private LinearLayout       lin_add;//添加
+    //    private LinearLayout       lin_add;//添加
     private Button             bt_add;//添加
     private String             mKind;
+    private boolean            mChangeUI;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,7 +66,7 @@ public class AddIntelligentFragment extends Fragment implements View.OnClickList
         tv_title = mRootView.findViewById(R.id.tv_title);
         lin_nomsg = mRootView.findViewById(R.id.lin_nomsg);
         lv_scene = mRootView.findViewById(R.id.lv_scene);
-//        lin_add = mRootView.findViewById(R.id.lin_add);
+        //        lin_add = mRootView.findViewById(R.id.lin_add);
         bt_add = mRootView.findViewById(R.id.bt_add);
     }
 

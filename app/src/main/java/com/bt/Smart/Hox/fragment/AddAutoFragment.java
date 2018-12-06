@@ -152,6 +152,15 @@ public class AddAutoFragment extends Fragment implements View.OnClickListener {
                     ToastUtils.showToast(getContext(), "请输入名称");
                     return;
                 }
+                String dateCont = String.valueOf(tv_cont.getText());
+                if (mConData.size() == 0 && "".equals(dateCont)) {
+                    ToastUtils.showToast(getContext(), "定时或者条件不能为空");
+                    return;
+                }
+                if (null == mActData || mActData.size() == 0) {
+                    ToastUtils.showToast(getContext(), "执行动作不能为空");
+                    return;
+                }
                 if ("1".equals(mKind)) {
                     //更新自动化
                     upDateAuto(name);
@@ -202,8 +211,9 @@ public class AddAutoFragment extends Fragment implements View.OnClickListener {
                 Gson gson = new Gson();
                 CommonInfo commonInfo = gson.fromJson(resbody, CommonInfo.class);
                 ToastUtils.showToast(getContext(), commonInfo.getMessage());
-                MyFragmentManagerUtil.closeTopFragment(AddAutoFragment.this);
                 if (1 == commonInfo.getResult()) {
+                    mAddIntelligentFragment.refreshDataList();
+                    MyFragmentManagerUtil.closeTopFragment(AddAutoFragment.this);
                 }
             }
         });
@@ -219,7 +229,7 @@ public class AddAutoFragment extends Fragment implements View.OnClickListener {
                 atExtDevBean.setDevice_id(devListInfo.getDevice_id());
                 atExtDevBean.setDevice_status(devListInfo.getDevice_status());
                 atExtDevBean.setDevice_value(devListInfo.getDevice_value());
-//                atExtDevBean.setDeviceType(devListInfo.getDeviceType());
+                //                atExtDevBean.setDeviceType(devListInfo.getDeviceType());
                 atExtDevBean.setMain_control_code(devListInfo.getMain_control_code());
                 auto_execute_device.add(atExtDevBean);
             }

@@ -14,7 +14,7 @@ import java.util.List;
 public class HomeMembersInfo {
 
     /**
-     * homeList : [{"wx_name":"Andy Yan","ismanager":"1","wx_pic":"https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJSoHRiasmEsSO62akEkah2pWGbicFPjeOWlL69alkicTOrvicVciaE8OYqHPMXQUFJNlsTovQu2LtK4rw/132","id":"74ee5a6bdb5911e8813c000c2950df04","ftelephone":"18036215618"},{"wx_name":"15288888888","ismanager":"0","id":"2ba13464d73211e8813c000c2950df04","ftelephone":"15288888888"}]
+     * homeList : [{"wx_name":"18036215611","fname":"haha","ismanager":"1","head_pic":"http://112.90.178.68:8081/upFiles/1544055659244.jpeg","id":"b35e098dddb511e89c91000c2950df04","ftelephone":"18036215611"},{"wx_name":"Andy Yan","fname":"哈哈","ismanager":"0","wx_pic":"https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJSoHRiasmEsSO62akEkah2pWGbicFPjeOWlL69alkicTOrvicVciaE8OYqHPMXQUFJNlsTovQu2LtK4rw/132","head_pic":"http://112.90.178.68:8081/upFiles/1543834506992.jpeg","id":"74ee5a6bdb5911e8813c000c2950df04","ftelephone":"18036215618"}]
      * message : 家庭成员列表查询成功
      * code : 1
      */
@@ -49,18 +49,22 @@ public class HomeMembersInfo {
 
     public static class HomeListBean {
         /**
-         * wx_name : Andy Yan
+         * wx_name : 18036215611
+         * fname : haha
          * ismanager : 1
+         * head_pic : http://112.90.178.68:8081/upFiles/1544055659244.jpeg
+         * id : b35e098dddb511e89c91000c2950df04
+         * ftelephone : 18036215611
          * wx_pic : https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJSoHRiasmEsSO62akEkah2pWGbicFPjeOWlL69alkicTOrvicVciaE8OYqHPMXQUFJNlsTovQu2LtK4rw/132
-         * id : 74ee5a6bdb5911e8813c000c2950df04
-         * ftelephone : 18036215618
          */
 
         private String wx_name;
+        private String fname;
         private String ismanager;
-        private String wx_pic;
+        private String head_pic;
         private String id;
         private String ftelephone;
+        private String wx_pic;
 
         public String getWx_name() {
             return wx_name;
@@ -68,6 +72,14 @@ public class HomeMembersInfo {
 
         public void setWx_name(String wx_name) {
             this.wx_name = wx_name;
+        }
+
+        public String getFname() {
+            return fname;
+        }
+
+        public void setFname(String fname) {
+            this.fname = fname;
         }
 
         public String getIsmanager() {
@@ -78,12 +90,12 @@ public class HomeMembersInfo {
             this.ismanager = ismanager;
         }
 
-        public String getWx_pic() {
-            return wx_pic;
+        public String getHead_pic() {
+            return head_pic;
         }
 
-        public void setWx_pic(String wx_pic) {
-            this.wx_pic = wx_pic;
+        public void setHead_pic(String head_pic) {
+            this.head_pic = head_pic;
         }
 
         public String getId() {
@@ -100,6 +112,14 @@ public class HomeMembersInfo {
 
         public void setFtelephone(String ftelephone) {
             this.ftelephone = ftelephone;
+        }
+
+        public String getWx_pic() {
+            return wx_pic;
+        }
+
+        public void setWx_pic(String wx_pic) {
+            this.wx_pic = wx_pic;
         }
     }
 }

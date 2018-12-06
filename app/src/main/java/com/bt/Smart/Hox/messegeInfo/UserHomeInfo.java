@@ -14,7 +14,7 @@ import java.util.List;
 public class UserHomeInfo {
 
     /**
-     * homeList : [{"faddress":"江苏省南通市海门市","home_name":"家","home_id":"c340f6101d844659a7f6fc97493e51bc","isdefault":"1","register_id":"74ee5a6bdb5911e8813c000c2950df04"},{"faddress":"河北省石家庄市长安区","home_name":"测试家02","home_id":"300b188b02514128ac3de8a8669a5ad0","isdefault":"0","register_id":"74ee5a6bdb5911e8813c000c2950df04"}]
+     * homeList : [{"home_pic":"1544057849424.jpeg","faddress":"江苏省南通市海门市","home_name":"igvb","home_id":"f67e15b2b940416480cbc042882874df","isdefault":"0","register_id":"b35e098dddb511e89c91000c2950df04"}]
      * message : 家列表查询成功
      * code : 1
      */
@@ -49,18 +49,28 @@ public class UserHomeInfo {
 
     public static class HomeListBean {
         /**
+         * home_pic : 1544057849424.jpeg
          * faddress : 江苏省南通市海门市
-         * home_name : 家
-         * home_id : c340f6101d844659a7f6fc97493e51bc
-         * isdefault : 1
-         * register_id : 74ee5a6bdb5911e8813c000c2950df04
+         * home_name : igvb
+         * home_id : f67e15b2b940416480cbc042882874df
+         * isdefault : 0
+         * register_id : b35e098dddb511e89c91000c2950df04
          */
 
+        private String home_pic;
         private String faddress;
         private String home_name;
         private String home_id;
         private String isdefault;
         private String register_id;
+
+        public String getHome_pic() {
+            return home_pic;
+        }
+
+        public void setHome_pic(String home_pic) {
+            this.home_pic = home_pic;
+        }
 
         public String getFaddress() {
             return faddress;

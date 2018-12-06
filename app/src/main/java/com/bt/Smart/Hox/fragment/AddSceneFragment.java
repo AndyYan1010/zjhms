@@ -176,6 +176,10 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
                     ToastUtils.showToast(getContext(), "场景名称不能为空");
                     return;
                 }
+                if (null == mData || mData.size() == 0) {
+                    ToastUtils.showToast(getContext(), "执行动作不能为空");
+                    return;
+                }
                 if ("1".equals(mKind)) {//显示详情，修改场景
                     //修改场景
                     upDataScene(name);
@@ -258,6 +262,9 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
                 CommonInfo commonInfo = gson.fromJson(resbody, CommonInfo.class);
                 ToastUtils.showToast(getContext(), commonInfo.getMessage());
                 if (1 == commonInfo.getResult()) {
+                    if (null != mAddIntelligentFragment) {
+                        mAddIntelligentFragment.refreshDataList();
+                    }
                     MyFragmentManagerUtil.closeTopFragment(AddSceneFragment.this);
                 }
             }
@@ -302,7 +309,7 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
             bean.setDevice_status(devListInfo.getDevice_status());
             bean.setDevice_value(devListInfo.getDevice_value());
             bean.setMain_control_code(devListInfo.getMain_control_code());
-//            bean.setDeviceType(devListInfo.getDeviceType());
+            //            bean.setDeviceType(devListInfo.getDeviceType());
             mSceList.add(bean);
         }
         paramSceneInfo.setDevicelist(mSceList);
@@ -389,7 +396,7 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
                         devListInfo.setDevice_name(bean.getDevice_name());
                         devListInfo.setDevice_status(bean.getDevice_status());
                         devListInfo.setDevice_value(bean.getDevice_value());
-//                        devListInfo.setDeviceType(bean.getDefault_device_type());
+                        //devListInfo.setDeviceType(bean.getDefault_device_type());
                         devListInfo.setMain_control_code(bean.getMain_control_code());
                         mData.add(devListInfo);
                     }
@@ -408,7 +415,7 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
             bean.setDevice_id(devListInfo.getDevice_id());
             bean.setDevice_status(devListInfo.getDevice_status());
             bean.setDevice_value(devListInfo.getDevice_value());
-//            bean.setDeviceType(devListInfo.getDeviceType());
+            //bean.setDeviceType(devListInfo.getDeviceType());
             bean.setMain_control_code(devListInfo.getMain_control_code());
             mSceList.add(bean);
         }
@@ -635,7 +642,7 @@ public class AddSceneFragment extends Fragment implements View.OnClickListener {
                 devListInfo.setDevice_status("1");
                 devListInfo.setDevice_value("0001");
                 devListInfo.setMain_control_code(bean.getMain_control_code());
-//                devListInfo.setDeviceType(bean.getDefault_device_type());
+                //                devListInfo.setDeviceType(bean.getDefault_device_type());
                 mData.add(devListInfo);
             }
         }

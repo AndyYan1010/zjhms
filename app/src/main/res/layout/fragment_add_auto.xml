@@ -59,7 +59,7 @@
                                 android:id="@+id/tv_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="编辑名字"
+                                android:text="编辑名称"
                                 android:textColor="@color/word_black"
                                 android:textSize="14sp"/>
 

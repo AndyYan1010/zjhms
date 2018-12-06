@@ -4,10 +4,12 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.messegeInfo.UserHomeInfo;
+import com.bt.Smart.Hox.util.GlideLoaderUtil;
 
 import java.util.List;
 
@@ -50,16 +52,19 @@ public class LvHomeAdapter extends BaseAdapter {
         if (null == view) {
             viewholder = new MyViewholder();
             view = View.inflate(mContext, R.layout.adpter_home_name, null);
+            viewholder.img_home = view.findViewById(R.id.img_home);
             viewholder.tv_name = view.findViewById(R.id.tv_name);
             view.setTag(viewholder);
         } else {
             viewholder = (MyViewholder) view.getTag();
         }
+        GlideLoaderUtil.showImgWithIcon(mContext, mList.get(i).getHome_pic(), R.drawable.iman, R.drawable.iman, viewholder.img_home);
         viewholder.tv_name.setText(mList.get(i).getHome_name());
         return view;
     }
 
     private class MyViewholder {
-        TextView tv_name;
+        ImageView img_home;
+        TextView  tv_name;
     }
 }

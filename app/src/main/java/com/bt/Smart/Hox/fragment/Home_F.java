@@ -223,8 +223,8 @@ public class Home_F extends Fragment implements View.OnClickListener {
                     mData.clear();
                     if (sceneInfo.getScenelist().size() > 0) {
                         mData.addAll(sceneInfo.getScenelist());
-                        recSceneAdapter.notifyDataSetChanged();
                     }
+                    recSceneAdapter.notifyDataSetChanged();
                 }
             }
         });

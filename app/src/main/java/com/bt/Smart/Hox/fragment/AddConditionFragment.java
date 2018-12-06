@@ -93,8 +93,8 @@ public class AddConditionFragment extends Fragment implements View.OnClickListen
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String name = String.valueOf(tv_name.getText()).trim();
-                if ("正在加载设备...".equals(name)) {
-                    ToastUtils.showToast(getContext(), "正在加载设备...");
+                if ("正在加载设备...".equals(name) || "未查找到设备".equals(name)) {
+                    ToastUtils.showToast(getContext(), "未查找到设备...");
                     return;
                 }
                 //选择空气哨兵的值
@@ -215,6 +215,8 @@ public class AddConditionFragment extends Fragment implements View.OnClickListen
                         devID = autoOnlyCGQListInfo.getHA3list().get(0).getId();
                         devCode = autoOnlyCGQListInfo.getHA3list().get(0).getDevice_code();
                         main_Code = autoOnlyCGQListInfo.getHA3list().get(0).getMain_control_code();
+                    } else {
+                        tv_name.setText("未查找到设备");
                     }
                     for (AutoOnlyCGQListInfo.HA3listBean bean : autoOnlyCGQListInfo.getHA3list()) {
                         qgqItems.add(bean.getDevice_name());

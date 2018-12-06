@@ -185,6 +185,7 @@ public class AddDevDetailActivity extends BaseActivity implements View.OnClickLi
                     ToastUtils.showToast(this, "请输入设备验证码");
                     return;
                 }
+                MyApplication.isLoading = true;
                 if ("0".equals(mKind)) {//添加主控
                     if ("".equals(name)) {
                         ToastUtils.showToast(this, "请填写主控名称");
@@ -327,7 +328,7 @@ public class AddDevDetailActivity extends BaseActivity implements View.OnClickLi
                 ToastUtils.showToast(AddDevDetailActivity.this, commonInfo.getMessage());
                 if (1 == commonInfo.getCode()) {
                     //自动添加设备
-                    autoAddDev(mZkList.get(choiceItem).getMain_control_code(), mZkList.get(choiceItem).getId(), kcode,commonInfo.getId() , second_control_category, deviceType, kcode, name);
+                    autoAddDev(mZkList.get(choiceItem).getMain_control_code(), mZkList.get(choiceItem).getId(), kcode, commonInfo.getId(), second_control_category, deviceType, kcode, name);
                 }
             }
         });

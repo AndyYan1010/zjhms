@@ -61,12 +61,8 @@ public class LvMemberAdapter extends BaseAdapter {
         } else {
             viewholder = (MyViewholder) view.getTag();
         }
-        if (null == mList.get(i).getWx_name() || "".equals(mList.get(i).getWx_name())) {
-            viewholder.tv_name.setText(mList.get(i).getWx_name());
-        } else {
-            viewholder.tv_name.setText(mList.get(i).getFtelephone());
-        }
-        GlideLoaderUtil.showImgWithIcon(mContext, mList.get(i).getWx_pic(), R.drawable.iman, R.drawable.iman, viewholder.img_head);
+        GlideLoaderUtil.showImgWithIcon(mContext, mList.get(i).getHead_pic(), R.drawable.iman, R.drawable.iman, viewholder.img_head);
+        viewholder.tv_name.setText(mList.get(i).getFname());
         viewholder.tv_phone.setText(mList.get(i).getFtelephone());
         if ("1".equals(mList.get(i).getIsmanager())) {
             viewholder.img_next.setVisibility(View.GONE);

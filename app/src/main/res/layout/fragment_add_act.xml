@@ -73,6 +73,37 @@
             android:textSize="14sp"/>
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/lin_nomsg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="5dp">
+
+        <ImageView
+            android:id="@+id/img_loading"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"/>
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/msg_empty"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="暂无设备"
+            android:textColor="@color/vm_black_54"
+            android:textSize="14sp"/>
+    </LinearLayout>
+
     <com.bt.Smart.Hox.viewmodle.MyListView
         android:id="@+id/lv_dev"
         android:layout_width="match_parent"

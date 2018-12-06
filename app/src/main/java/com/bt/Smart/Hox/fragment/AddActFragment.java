@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import com.bt.Smart.Hox.utils.MyFragmentManagerUtil;
 import com.bt.Smart.Hox.utils.ProgressDialogUtil;
 import com.bt.Smart.Hox.utils.RequestParamsFM;
 import com.bt.Smart.Hox.utils.ToastUtils;
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -42,6 +44,8 @@ public class AddActFragment extends Fragment implements View.OnClickListener {
     private ImageView                           img_back;
     private TextView                            tv_title;
     private TextView                            tv_save;//下一步
+    private LinearLayout                        lin_nomsg;//没有信息
+    private ImageView                           img_loading;//加载设备信息
     private RelativeLayout                      rlt_choice_auto;
     private ListView                            lv_dev;
     private List<NotHA3ListInfo.NotHA3listBean> mData;
@@ -60,6 +64,8 @@ public class AddActFragment extends Fragment implements View.OnClickListener {
     private void initView() {
         img_back = mRootView.findViewById(R.id.img_back);
         tv_title = mRootView.findViewById(R.id.tv_title);
+        lin_nomsg = mRootView.findViewById(R.id.lin_nomsg);
+        img_loading = mRootView.findViewById(R.id.img_loading);
         tv_save = mRootView.findViewById(R.id.tv_save);
         rlt_choice_auto = mRootView.findViewById(R.id.rlt_choice_auto);
         lv_dev = mRootView.findViewById(R.id.lv_dev);
@@ -74,8 +80,9 @@ public class AddActFragment extends Fragment implements View.OnClickListener {
         tv_save.setOnClickListener(this);
         rlt_choice_auto.setOnClickListener(this);
         mData = new ArrayList();
-        selectDevAdapter = new LvSelectDevAdapter(getContext(), mData,"dev");
+        selectDevAdapter = new LvSelectDevAdapter(getContext(), mData, "dev");
         lv_dev.setAdapter(selectDevAdapter);
+        Glide.with(getContext()).load(R.drawable.loadgif).into(img_loading);
         //获取家下设备
         getHomeDeviceList();
     }
@@ -129,8 +136,14 @@ public class AddActFragment extends Fragment implements View.OnClickListener {
                 NotHA3ListInfo notHA3ListInfo = gson.fromJson(resbody, NotHA3ListInfo.class);
                 ToastUtils.showToast(getContext(), notHA3ListInfo.getMessage());
                 if (1 == notHA3ListInfo.getCode()) {
-                    mData.addAll(notHA3ListInfo.getNotHA3list());
-                    selectDevAdapter.notifyDataSetChanged();
+                    if (null != notHA3ListInfo.getNotHA3list() && notHA3ListInfo.getNotHA3list().size() > 0) {
+                        lin_nomsg.setVisibility(View.GONE);
+                        mData.clear();
+                        mData.addAll(notHA3ListInfo.getNotHA3list());
+                        selectDevAdapter.notifyDataSetChanged();
+                    } else {
+                        lin_nomsg.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         });
