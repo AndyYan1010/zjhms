@@ -23,7 +23,6 @@ import com.google.gson.Gson;
 import java.io.IOException;
 
 import okhttp3.Request;
-import util.UpdateAppUtils;
 
 /**
  * @创建者 AndyYan
@@ -117,11 +116,11 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
 
     private void showDialogToDown(NewApkInfo newApkInfo) {
         MyApplication.loadUrl = NetConfig.IMG_HEAD_IP + newApkInfo.getNewAppVersion().getApk_file();
-        UpdateAppUtils.from(getActivity())
-                .serverVersionCode(newApkInfo.getNewAppVersion().getId())  //服务器versionCode
-                .serverVersionName(newApkInfo.getNewAppVersion().getShow_code()) //服务器versionName
-                .apkPath(MyApplication.loadUrl) //最新apk下载地址
-                .updateInfo(newApkInfo.getNewAppVersion().getChange_message())
-                .update();
+//        UpdateAppUtils.from(getActivity())
+//                .serverVersionCode(newApkInfo.getNewAppVersion().getId())  //服务器versionCode
+//                .serverVersionName(newApkInfo.getNewAppVersion().getShow_code()) //服务器versionName
+//                .apkPath(MyApplication.loadUrl) //最新apk下载地址
+//                .updateInfo(newApkInfo.getNewAppVersion().getChange_message())
+//                .update();
     }
 }

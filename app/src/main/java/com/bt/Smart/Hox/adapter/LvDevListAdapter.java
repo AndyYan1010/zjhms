@@ -86,7 +86,7 @@ public class LvDevListAdapter extends BaseAdapter {
         } else {
             viewholder = (MyViewholder) view.getTag();
         }
-        if ("zk".equals(mKind) || "ck".equals(mKind)) {
+        if ("zk".equals(mKind) || "wf".equals(mKind)) {
             viewholder.tv_name.setText(((DeviceTypeListInfo.DeviceTypeListBean) mList.get(i)).getDeviceDescibe());
             GlideLoaderUtil.showImageView(mContext, NetConfig.IMG_FOR_DEV + ((DeviceTypeListInfo.DeviceTypeListBean) mList.get(i)).getDevcieTypePic().replaceAll("\\\\", "/"), viewholder.img_kind);
         } else {
@@ -149,7 +149,7 @@ public class LvDevListAdapter extends BaseAdapter {
                     //删除主控、从控、设备
                     if ("zk".equals(mKind)) {
                         doDeleteZKDev(position);
-                    } else if ("ck".equals(mKind)) {
+                    } else if ("wf".equals(mKind)) {
                         doDeleteCKDev(position);
                     } else {
                         doDeleteSBDev(position);
@@ -347,7 +347,7 @@ public class LvDevListAdapter extends BaseAdapter {
                 }
                 if ("zk".equals(mKind)) {
                     editZK(position, newName);
-                } else if ("ck".equals(mKind)) {
+                } else if ("wf".equals(mKind)) {
                     editCK(position, newName);
                 } else {
                     editSB(position, newName);

@@ -151,19 +151,19 @@ public class AddDeviceActivity extends BaseActivity implements View.OnClickListe
                 intentDevZ.putExtra("allRoomInfo", getIntent().getStringExtra("roomInfo"));
                 startActivity(intentDevZ);
                 break;
-            case R.id.lin_ck://跳转从控列表
+            case R.id.lin_ck://跳转wifi设备列表
                 if (0 == zknum) {
                     //提示没有主控，先添加主控
                     showNoZkDialog();
                     return;
                 }
                 Intent intentDevC = new Intent(this, DeviceListActivity.class);
-                intentDevC.putExtra("devKind", "ck");
+                intentDevC.putExtra("devKind", "wf");
                 intentDevC.putExtra("homeID", homeID);
                 intentDevC.putExtra("allRoomInfo", getIntent().getStringExtra("roomInfo"));
                 startActivity(intentDevC);
                 break;
-            case R.id.lin_sb://跳转设备列表
+            case R.id.lin_sb://跳转所有设备列表
                 if (0 == zknum) {
                     //提示没有主控，先添加主控
                     showNoZkDialog();

@@ -91,18 +91,18 @@ public class DeviceListActivity extends BaseActivity implements View.OnClickList
                     intent.putExtra("homeID", mHomeID);
                     intent.putExtra("roomID", mRoomID);
                     intent.putExtra("allRoomInfo", getIntent().getStringExtra("allRoomInfo"));
-                    intent.putExtra("devType", "0");//主控/从控/单品
+                    intent.putExtra("devType", ((DeviceTypeListInfo.DeviceTypeListBean) mData.get(i)).getDevcieType());//主控/从控/单品
                     intent.putExtra("name", ((DeviceTypeListInfo.DeviceTypeListBean) mData.get(i)).getDeviceDescibe());
                     intent.putExtra("control_type", ((DeviceTypeListInfo.DeviceTypeListBean) mData.get(i)).getDevcieType());
                     intent.putExtra("device_type_id", ((DeviceTypeListInfo.DeviceTypeListBean) mData.get(i)).getId());
                     intent.putExtra("devcieTypePic", ((DeviceTypeListInfo.DeviceTypeListBean) mData.get(i)).getDevcieTypePic());
                     startActivity(intent);
-                } else if ("ck".equals(mKind)) {
+                } else if ("wf".equals(mKind)) {
                     Intent intent = new Intent(DeviceListActivity.this, AddDevDetailActivity.class);
                     intent.putExtra("homeID", mHomeID);
                     intent.putExtra("roomID", mRoomID);
                     intent.putExtra("allRoomInfo", getIntent().getStringExtra("allRoomInfo"));
-                    intent.putExtra("devType", "1");//主控/从控/单品
+                    intent.putExtra("devType", ((DeviceTypeListInfo.DeviceTypeListBean) mData.get(i)).getDevcieType());//主控/从控/单品
                     intent.putExtra("fromLin", "1");
                     intent.putExtra("name", ((DeviceTypeListInfo.DeviceTypeListBean) mData.get(i)).getDeviceDescibe());
                     intent.putExtra("control_type", ((DeviceTypeListInfo.DeviceTypeListBean) mData.get(i)).getDevcieType());
@@ -114,7 +114,7 @@ public class DeviceListActivity extends BaseActivity implements View.OnClickList
                     intent.putExtra("homeID", mHomeID);
                     intent.putExtra("roomID", mRoomID);
                     intent.putExtra("allRoomInfo", getIntent().getStringExtra("allRoomInfo"));
-                    intent.putExtra("devType", "2");//主控/从控/单品
+                    intent.putExtra("devType", ((DeviceTypeAllInfo.DeviceTypeListBean.DataBean) mData.get(i)).getDevcieType());//主控/从控/单品
                     intent.putExtra("name", ((DeviceTypeAllInfo.DeviceTypeListBean.DataBean) mData.get(i)).getDeviceDescibe());
                     intent.putExtra("control_type", ((DeviceTypeAllInfo.DeviceTypeListBean.DataBean) mData.get(i)).getDevcieType());
                     intent.putExtra("device_type_id", ((DeviceTypeAllInfo.DeviceTypeListBean.DataBean) mData.get(i)).getId());
@@ -128,7 +128,7 @@ public class DeviceListActivity extends BaseActivity implements View.OnClickList
             tv_title.setText("主控设备列表");
             //获取主控
             getZkOrWiFiList("0");
-        } else if ("ck".equals(mKind)) {//显示WiFi设备列表
+        } else if ("wf".equals(mKind)) {//显示WiFi设备列表
             tv_title.setText("无线设备列表");
             getZkOrWiFiList("1");
         } else {//设备列表

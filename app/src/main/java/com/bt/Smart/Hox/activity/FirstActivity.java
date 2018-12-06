@@ -47,7 +47,7 @@ public class FirstActivity extends Activity implements View.OnClickListener {
         MyApplication.flag = 0;
         getView();
         setData();
-        verifyStoragePermissions(this);
+//        verifyStoragePermissions(this);
         //获取最新的版本
         getNewApkInfo();
     }

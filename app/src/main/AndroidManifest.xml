@@ -95,6 +95,7 @@
         <activity
             android:name=".activity.homeActivity.TypeMeasureLightDetailActivity"
             android:hardwareAccelerated="true"/>
+        <!--<activity android:name=".util.MyUpdateAppActivity"/>-->
 
 
         <!--qq注册activity-->

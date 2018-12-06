@@ -65,11 +65,11 @@ public class LightMeasureInfoActivity extends BaseActivity implements View.OnCli
         String dev_id = getIntent().getStringExtra("dev_ID");
         mData = new ArrayList();
         recy_hair_info.setLayoutManager(new GridLayoutManager(this, 2));
-        lightInfoAdapter = new RecLightInfoAdapter(this, mData, "0211800001");
+        lightInfoAdapter = new RecLightInfoAdapter(this, mData, dev_id);
         recy_hair_info.setAdapter(lightInfoAdapter);
 
         //获取空气哨兵的检测值
-        getLightMeasureInfo("0211800001");
+        getLightMeasureInfo(dev_id);
     }
 
     @Override

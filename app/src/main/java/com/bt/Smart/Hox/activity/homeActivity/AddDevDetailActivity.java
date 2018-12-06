@@ -135,7 +135,7 @@ public class AddDevDetailActivity extends BaseActivity implements View.OnClickLi
         if ("0".equals(mKind)) {//主控
             rlt_choicezk.setVisibility(View.GONE);
             tv_warn.setVisibility(View.GONE);
-        } else if ("1".equals(mKind)) {//无线设备
+        } else if ("1".equals(mKind)) {//有线设备
             options1Items = new ArrayList<>();
             mZkList = new ArrayList<>();
             tv_ttname.setText("从控名称");
@@ -146,15 +146,19 @@ public class AddDevDetailActivity extends BaseActivity implements View.OnClickLi
             }
             //获取家下面的主控列表
             getZKDevList();
-        } else {//单品 if ("3".equals(mKind))
-            //            options1Items = new ArrayList<>();
-            //            mZkList = new ArrayList<>();
+        } else if ("2".equals(mKind)) {
+            rlt_choicezk.setVisibility(View.GONE);
+            tv_ttname.setText("单品名称");
+            tv_ttcode.setText("单品码    ");
+            if (null != getIntent().getStringExtra("fromLin") && "1".equals(getIntent().getStringExtra("fromLin"))) {
+                Intent intent = new Intent(AddDevDetailActivity.this, AddWifiDeviceActivity.class);
+                startActivityForResult(intent, REQUEST_NO_SET);
+            }
+        } else {//红外
             rlt_choicezk.setVisibility(View.GONE);
             lin_ycode.setVisibility(View.GONE);
-            tv_ttname.setText("单品名称");
-            tv_ttcode.setText("单品码");
-            //获取家下面的主控列表
-            //            getZKDevList();
+            tv_ttname.setText("红外名称名称");
+            tv_ttcode.setText("红外设备码");
         }
         lin_choicezk.setOnClickListener(this);
         lin_choiceroom.setOnClickListener(this);
@@ -211,7 +215,17 @@ public class AddDevDetailActivity extends BaseActivity implements View.OnClickLi
                         return;
                     }
                     addCK(name, kcode, ycode, getIntent().getStringExtra("control_type"), mKind, getIntent().getStringExtra("device_type_id"));
-                } else {//添加单品
+                } else if ("2".equals(mKind)) {//添加单品
+                    if ("".equals(name)) {
+                        ToastUtils.showToast(this, "请填写从控名称");
+                        return;
+                    }
+                    if ("".equals(kcode) || "点击右侧图标扫描填入".equals(kcode)) {
+                        ToastUtils.showToast(this, "请填写从控码");
+                        return;
+                    }
+                    addSingleDev(name, kcode, ycode, getIntent().getStringExtra("control_type"), mKind);
+                } else {//添加红外
                     if ("".equals(name)) {
                         ToastUtils.showToast(this, "请填写单品名称");
                         return;
@@ -224,6 +238,49 @@ public class AddDevDetailActivity extends BaseActivity implements View.OnClickLi
                 }
                 break;
         }
+    }
+
+    private void addSingleDev(final String name, final String kcode, String ycode, final String second_control_category, final String deviceType) {
+        RequestParamsFM params = new RequestParamsFM();
+        params.put("register_id", MyApplication.userID);
+        params.put("home_id", mHomeID);
+        params.put("house_id", mRoomID);
+        params.put("main_control_code", kcode);
+        params.put("main_control_id", "danpin");
+        params.put("second_contrl_code", kcode);
+        params.put("second_control_id", "danpin");
+        params.put("default_device_type", second_control_category);
+        params.put("deviceType", deviceType);
+        params.put("device_code", kcode);
+        params.put("device_type_id", getIntent().getStringExtra("device_type_id"));
+        params.put("device_config", 99);
+        params.put("device_img", getIntent().getStringExtra("devcieTypePic"));
+        params.put("device_name", name);
+        params.put("device_status", 0);
+        params.put("randomCode", ycode);
+        params.setUseJsonStreamer(true);
+        HttpOkhUtils.getInstance().doPostBean(NetConfig.DEVICE, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ProgressDialogUtil.hideDialog();
+                ToastUtils.showToast(AddDevDetailActivity.this, "网络连接错误");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(AddDevDetailActivity.this, "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                CommonInfo commonInfo = gson.fromJson(resbody, CommonInfo.class);
+                ToastUtils.showToast(AddDevDetailActivity.this, commonInfo.getMessage());
+                if (1 == commonInfo.getCode()) {
+                    finish();
+                }
+            }
+        });
     }
 
     private void getZKDevList() {

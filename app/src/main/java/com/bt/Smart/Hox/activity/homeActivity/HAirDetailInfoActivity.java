@@ -65,11 +65,11 @@ public class HAirDetailInfoActivity extends BaseActivity implements View.OnClick
         String dev_id = getIntent().getStringExtra("dev_ID");
         mData = new ArrayList();
         recy_hair_info.setLayoutManager(new GridLayoutManager(this, 2));
-        hAirInfoAdapter = new RecHAirInfoAdapter(this, mData, "0311800001");
+        hAirInfoAdapter = new RecHAirInfoAdapter(this, mData, dev_id);
         recy_hair_info.setAdapter(hAirInfoAdapter);
 
         //获取空气哨兵的检测值
-        getHairMeasureInfo("0311800001");
+        getHairMeasureInfo(dev_id);
     }
 
     private void getHairMeasureInfo(String dev_id) {
