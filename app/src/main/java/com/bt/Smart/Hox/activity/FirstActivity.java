@@ -16,13 +16,13 @@ import com.bt.Smart.Hox.MyApplication;
 import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.messegeInfo.NewApkInfo;
+import com.bt.Smart.Hox.util.UpApkDataFile.UpdateAppUtil;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
 import com.google.gson.Gson;
 
 import java.io.IOException;
 
 import okhttp3.Request;
-import util.UpdateAppUtils;
 
 /**
  * @创建者 AndyYan
@@ -47,7 +47,7 @@ public class FirstActivity extends Activity implements View.OnClickListener {
         MyApplication.flag = 0;
         getView();
         setData();
-//        verifyStoragePermissions(this);
+        //        verifyStoragePermissions(this);
         //获取最新的版本
         getNewApkInfo();
     }
@@ -106,7 +106,7 @@ public class FirstActivity extends Activity implements View.OnClickListener {
 
     private void showDialogToDown(NewApkInfo newApkInfo) {
         MyApplication.loadUrl = NetConfig.IMG_HEAD_IP + newApkInfo.getNewAppVersion().getApk_file();
-        UpdateAppUtils.from(this)
+        UpdateAppUtil.from(this)
                 .serverVersionCode(newApkInfo.getNewAppVersion().getId())  //服务器versionCode
                 .serverVersionName(newApkInfo.getNewAppVersion().getShow_code()) //服务器versionName
                 .apkPath(MyApplication.loadUrl) //最新apk下载地址

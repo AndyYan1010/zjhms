@@ -16,6 +16,7 @@ import com.bt.Smart.Hox.MyApplication;
 import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.messegeInfo.NewApkInfo;
+import com.bt.Smart.Hox.util.UpApkDataFile.UpdateAppUtil;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
 import com.bt.Smart.Hox.utils.ToastUtils;
 import com.google.gson.Gson;
@@ -116,11 +117,11 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
 
     private void showDialogToDown(NewApkInfo newApkInfo) {
         MyApplication.loadUrl = NetConfig.IMG_HEAD_IP + newApkInfo.getNewAppVersion().getApk_file();
-//        UpdateAppUtils.from(getActivity())
-//                .serverVersionCode(newApkInfo.getNewAppVersion().getId())  //服务器versionCode
-//                .serverVersionName(newApkInfo.getNewAppVersion().getShow_code()) //服务器versionName
-//                .apkPath(MyApplication.loadUrl) //最新apk下载地址
-//                .updateInfo(newApkInfo.getNewAppVersion().getChange_message())
-//                .update();
+        UpdateAppUtil.from(getActivity())
+                .serverVersionCode(newApkInfo.getNewAppVersion().getId())  //服务器versionCode
+                .serverVersionName(newApkInfo.getNewAppVersion().getShow_code()) //服务器versionName
+                .apkPath(MyApplication.loadUrl) //最新apk下载地址
+                .updateInfo(newApkInfo.getNewAppVersion().getChange_message())
+                .update();
     }
 }
