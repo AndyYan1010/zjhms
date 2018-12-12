@@ -26,7 +26,4 @@ public class MyListView extends ListView {//自定义listview，可与scrollview
 
 		super.onMeasure(widthMeasureSpec, expandSpec);
 	}
-
-	
-
 }

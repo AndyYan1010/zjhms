@@ -1,13 +1,18 @@
 package com.bt.Smart.Hox.fragment;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -21,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bt.Smart.Hox.MyApplication;
 import com.bt.Smart.Hox.NetConfig;
@@ -28,6 +34,7 @@ import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.activity.homeActivity.AddDeviceActivity;
 import com.bt.Smart.Hox.activity.homeActivity.CreateHomeActivity;
 import com.bt.Smart.Hox.activity.homeActivity.RoomManagerActivity;
+import com.bt.Smart.Hox.activity.homeActivity.WeatherDetailActivity;
 import com.bt.Smart.Hox.activity.meActivity.HomeListActivity;
 import com.bt.Smart.Hox.adapter.LvSetHomeAdapter;
 import com.bt.Smart.Hox.adapter.MyPagerAdapter;
@@ -35,7 +42,9 @@ import com.bt.Smart.Hox.adapter.RecSceneAdapter;
 import com.bt.Smart.Hox.messegeInfo.HouseDetailInfo;
 import com.bt.Smart.Hox.messegeInfo.SceneInfo;
 import com.bt.Smart.Hox.messegeInfo.UserHomeInfo;
+import com.bt.Smart.Hox.messegeInfo.WeatherInfo;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
+import com.bt.Smart.Hox.utils.LocationUtils;
 import com.bt.Smart.Hox.utils.ProgressDialogUtil;
 import com.bt.Smart.Hox.utils.RequestParamsFM;
 import com.bt.Smart.Hox.utils.ToastUtils;
@@ -62,11 +71,17 @@ public class Home_F extends Fragment implements View.OnClickListener {
     private View                            mRootView;
     private TextView                        tv_mine;
     private LinearLayout                    lin_mine;
+    private LinearLayout                    lin_weather;
+    private ImageView                       img_weather;//天气图片
+    private TextView                        tv_weather;
+    private TextView                        tv_temp;
+    private TextView                        tv_pm2d5;
+    private TextView                        tv_aqi;
+    private ImageView                       img_add;//添加设备
     private List<SceneInfo.ScenelistBean>   mData;//场景数据列表
     private RecSceneAdapter                 recSceneAdapter;
     private RecyclerView                    rec_scene;//当前家下场景图标
     private ImageView                       img_more;//设置更多
-    private ImageView                       img_add;//添加设备
     private TabLayout                       mTablayout;//导航标签
     private MyFixedViewpager                mView_pager;//自我viewpager可实现禁止滑动
     private List<String>                    contsList;//tablayout的标题
@@ -77,6 +92,7 @@ public class Home_F extends Fragment implements View.OnClickListener {
     private List<UserHomeInfo.HomeListBean> mHomeList;//家列表数据
     private int REQUEST_HOME_F           = 1003;//修改了家后的响应值
     private int REQUESTCODE_ROOM_MANAGER = 1004;//修改了房间后的响应值
+    private String weatherString;
 
 
     @Override
@@ -91,6 +107,12 @@ public class Home_F extends Fragment implements View.OnClickListener {
         img_more = mRootView.findViewById(R.id.img_more);
         img_add = mRootView.findViewById(R.id.img_add);
         tv_mine = mRootView.findViewById(R.id.tv_mine);
+        lin_weather = mRootView.findViewById(R.id.lin_weather);
+        img_weather = mRootView.findViewById(R.id.img_weather);
+        tv_weather = mRootView.findViewById(R.id.tv_weather);
+        tv_temp = mRootView.findViewById(R.id.tv_temp);
+        tv_pm2d5 = mRootView.findViewById(R.id.tv_pm2d5);
+        tv_aqi = mRootView.findViewById(R.id.tv_aqi);
         lin_mine = mRootView.findViewById(R.id.lin_mine);
         rec_scene = mRootView.findViewById(R.id.rec_scene);
         mTablayout = mRootView.findViewById(R.id.tablayout);
@@ -100,40 +122,55 @@ public class Home_F extends Fragment implements View.OnClickListener {
     private void initData() {
         img_more.setOnClickListener(this);
         img_add.setOnClickListener(this);
+        lin_weather.setOnClickListener(this);
         tv_mine.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+
+        //获取天气信息
+        //申请定位权限
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {//未开启定位权限
+            Toast.makeText(getContext(), "未开启定位权限,不能获取到天气信息", Toast.LENGTH_LONG).show();
+            //开启定位权限,200是标识码
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_FINE_LOACTION);
+        } else {
+            getWeatherInfo();
+        }
+
         //设置场景图标
         rec_scene.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         mData = new ArrayList();
         recSceneAdapter = new RecSceneAdapter(getContext(), mData);
         rec_scene.setAdapter(recSceneAdapter);
 
-        contsList = new ArrayList<>();
-        contsList.add("所有设备");
-        contsList.add("主卧");
-        contsList.add("客厅");
-        contsList.add("餐厅");
-        contsList.add("次卧");
-        contsList.add("书房");
-        // 创建一个集合,装填Fragment
-        fragmentsList = new ArrayList<>();
-        for (int i = 0; i < contsList.size(); i++) {
-            //设备列表界面
-            DeviceListFragment deviceFragment = new DeviceListFragment();
-            fragmentsList.add(deviceFragment);
-        }
-        // 创建ViewPager适配器
-        myPagerAdapter = new MyPagerAdapter(getChildFragmentManager());
-        myPagerAdapter.setFragments(fragmentsList);
-        // 给ViewPager设置适配器
-        mView_pager.setAdapter(myPagerAdapter);
-        //mView_pager.setOffscreenPageLimit(4);
-        //设置viewpager不可滑动
-        //mView_pager_space.setCanScroll(false);
-        //tablayout关联tablayout和viewpager实现联动
-        mTablayout.setupWithViewPager(mView_pager);
-        for (int i = 0; i < contsList.size(); i++) {
-            mTablayout.getTabAt(i).setText(contsList.get(i));
-        }
+
+        //房间和设备填充
+        //        contsList = new ArrayList<>();
+        //        contsList.add("所有设备");
+        //        contsList.add("主卧");
+        //        contsList.add("客厅");
+        //        contsList.add("餐厅");
+        //        contsList.add("次卧");
+        //        contsList.add("书房");
+        //        // 创建一个集合,装填Fragment
+        //        fragmentsList = new ArrayList<>();
+        //        for (int i = 0; i < contsList.size(); i++) {
+        //            //设备列表界面
+        //            DeviceListFragment deviceFragment = new DeviceListFragment();
+        //            fragmentsList.add(deviceFragment);
+        //        }
+        //        // 创建ViewPager适配器
+        //        myPagerAdapter = new MyPagerAdapter(getChildFragmentManager());
+        //        myPagerAdapter.setFragments(fragmentsList);
+        //        // 给ViewPager设置适配器
+        //        mView_pager.setAdapter(myPagerAdapter);
+        //        //mView_pager.setOffscreenPageLimit(4);
+        //        //设置viewpager不可滑动
+        //        //mView_pager_space.setCanScroll(false);
+        //        //tablayout关联tablayout和viewpager实现联动
+        //        mTablayout.setupWithViewPager(mView_pager);
+        //        for (int i = 0; i < contsList.size(); i++) {
+        //            mTablayout.getTabAt(i).setText(contsList.get(i));
+        //        }
         lin_mine.setOnClickListener(this);
         //获取账户下所有家数目
         getHomes();
@@ -163,6 +200,15 @@ public class Home_F extends Fragment implements View.OnClickListener {
                 intent.putExtra("homeID", hDefID);
                 startActivityForResult(intent, REQUESTCODE_ROOM_MANAGER);
                 break;
+            case R.id.lin_weather://跳转天气详情界面
+                if (null == weatherString || "".equals(weatherString)) {
+                    ToastUtils.showToast(getContext(), "未获取到天气信息");
+                    return;
+                }
+                Intent weatherIntent = new Intent(getContext(), WeatherDetailActivity.class);
+                weatherIntent.putExtra("weatherInfo", weatherString);
+                startActivity(weatherIntent);
+                break;
         }
     }
 
@@ -177,7 +223,60 @@ public class Home_F extends Fragment implements View.OnClickListener {
         }
     }
 
-    private int REQUEST_CODE_MOVE = 1005;
+    public void getWeatherInfo() {
+        Location location = LocationUtils.getInstance(getContext()).showLocation();
+        String weatherUrl = "https://jingshangs.com/hky_JK/selecttemperature";
+        RequestParamsFM params = new RequestParamsFM();
+        //获取经纬度
+        if (null != location) {
+            params.put("latitude", location.getLatitude());
+            params.put("longitude", location.getLongitude());
+            LocationUtils.getInstance(getContext()).removeLocationUpdatesListener();
+            return;
+        } else {
+            params.put("latitude", 31.896255);
+            params.put("longitude", 121.182962);
+        }
+        params.setUseJsonStreamer(true);
+        HttpOkhUtils.getInstance().doPostBean(weatherUrl, params, new HttpOkhUtils.HttpCallBack() {
+            @Override
+            public void onError(Request request, IOException e) {
+                ToastUtils.showToast(getContext(), "天气获取失败");
+            }
+
+            @Override
+            public void onSuccess(int code, String resbody) {
+                ProgressDialogUtil.hideDialog();
+                if (code != 200) {
+                    ToastUtils.showToast(getContext(), "网络错误" + code);
+                    return;
+                }
+                Gson gson = new Gson();
+                WeatherInfo weatherInfo = gson.fromJson(resbody, WeatherInfo.class);
+                ToastUtils.showToast(getContext(), weatherInfo.getMessage());
+                if (1 == weatherInfo.getResult()) {
+                    weatherString = resbody;
+                    String weather = weatherInfo.getTemperaturelist().getWeather();
+                    tv_weather.setText(weather);
+                    if (weather.contains("雨")) {
+                        img_weather.setImageResource(R.drawable.icon_rain);
+                    } else if (weather.contains("雪")) {
+                        img_weather.setImageResource(R.drawable.icon_xue);
+                    } else if (weather.contains("阴")) {
+                        img_weather.setImageResource(R.drawable.icon_yin);
+                    } else {
+                        img_weather.setImageResource(R.drawable.clear);
+                    }
+                    tv_temp.setText(weatherInfo.getTemperaturelist().getTemp());
+                    tv_pm2d5.setText(weatherInfo.getTemperaturelist().getPm25());
+                    tv_aqi.setText(weatherInfo.getTemperaturelist().getAqi_levnm());
+                }
+            }
+        });
+    }
+
+    private int REQUEST_CODE_MOVE     = 1005;//刷新房间信息识别符号
+    private int REQUEST_FINE_LOACTION = 2001;//申请定位权限的识别码
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -327,8 +426,9 @@ public class Home_F extends Fragment implements View.OnClickListener {
                         }
                         //添加所有设备界面
                         DeviceListFragment deviceFragmentAll = new DeviceListFragment();
-                        contsList.add("所有设备");
                         deviceFragmentAll.setRoomID(hDefID, "all", "all");
+                        deviceFragmentAll.setHouseInfo(resbody);
+                        contsList.add("所有设备");
                         fragmentsList.add(deviceFragmentAll);
                         for (int i = 0; i < houseDetailInfo.getHouseList().size(); i++) {
                             //创建设备列表界面
@@ -338,10 +438,9 @@ public class Home_F extends Fragment implements View.OnClickListener {
                             contsList.add(houseDetailInfo.getHouseList().get(i).getHouse_name());
                             fragmentsList.add(deviceFragment);
                         }
-                        fragmentsList.get(0).setHouseInfo(resbody);
                         //刷新界面
                         // 创建ViewPager适配器
-                        myPagerAdapter = new MyPagerAdapter(getChildFragmentManager());
+                        myPagerAdapter = new MyPagerAdapter(getActivity().getSupportFragmentManager());//getChildFragmentManager()
                         myPagerAdapter.setFragments(fragmentsList);
                         // 给ViewPager设置适配器
                         mView_pager.setAdapter(myPagerAdapter);
@@ -352,6 +451,7 @@ public class Home_F extends Fragment implements View.OnClickListener {
                         mTablayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                             @Override
                             public void onTabSelected(TabLayout.Tab tab) {
+                                mView_pager.resetHeight(tab.getPosition());
                                 fragmentsList.get(tab.getPosition()).refreshInfo();
                                 MyApplication.slecRoomID = fragmentsList.get(tab.getPosition()).getRoomID();
                             }
@@ -363,6 +463,7 @@ public class Home_F extends Fragment implements View.OnClickListener {
 
                             @Override
                             public void onTabReselected(TabLayout.Tab tab) {
+                                mView_pager.resetHeight(tab.getPosition());
                                 fragmentsList.get(tab.getPosition()).refreshInfo();
                                 MyApplication.slecRoomID = fragmentsList.get(tab.getPosition()).getRoomID();
                             }

@@ -13,6 +13,7 @@
     <!--android:name="com.bt.andy.ZhiHaoShi.permission.JPUSH_MESSAGE"-->
     <!--android:protectionLevel="signature"/>-->
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION"/>
+
     <!-- Required -->
     <uses-permission android:name="com.bt.Smart.Hox.permission.JPUSH_MESSAGE"/>
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT"/>
@@ -88,6 +89,7 @@
         <activity android:name=".activity.meActivity.DeviceManagerActivity"/>
         <activity android:name=".activity.meActivity.MineMsgCenterActivity"/>
         <activity android:name=".activity.meActivity.SceneDetailActivity"/>
+        <activity android:name=".activity.homeActivity.WeatherDetailActivity"/>
         <activity android:name=".activity.homeActivity.LightMeasureInfoActivity"/>
         <activity
             android:name=".activity.homeActivity.TypeMeasureDetailActivity"
@@ -116,6 +118,11 @@
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+
+        <!-- Mqtt服务 -->
+        <service android:name="org.eclipse.paho.android.service.MqttService"/>
+        <service android:name=".service.MQTTService"/>
+
         <!--安装apk广播-->
         <receiver
             android:name=".util.UpApkDataFile.UpdateAppReceiver"

@@ -143,6 +143,7 @@ public class AddActFragment extends Fragment implements View.OnClickListener {
                         selectDevAdapter.notifyDataSetChanged();
                     } else {
                         lin_nomsg.setVisibility(View.VISIBLE);
+                        img_loading.setVisibility(View.GONE);
                     }
                 }
             }

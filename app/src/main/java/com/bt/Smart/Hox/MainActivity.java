@@ -1,7 +1,9 @@
 package com.bt.Smart.Hox;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
@@ -15,6 +17,7 @@ import com.bt.Smart.Hox.fragment.Home_F;
 import com.bt.Smart.Hox.fragment.Play_F;
 import com.bt.Smart.Hox.fragment.Shopp_F;
 import com.bt.Smart.Hox.fragment.User_F;
+import com.bt.Smart.Hox.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -230,6 +233,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_MOVE) {
             home_F.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 2001://刚才的识别码
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {//用户同意权限,执行我们的操作
+                    //搜索附近wifi
+                    home_F.getWeatherInfo();
+                } else {//用户拒绝之后,当然我们也可以弹出一个窗口,直接跳转到系统设置页面
+                    ToastUtils.showToast(this, "未开启定位权限,请手动到设置去开启权限");
+                }
+                break;
+            default:
+                break;
         }
     }
 }

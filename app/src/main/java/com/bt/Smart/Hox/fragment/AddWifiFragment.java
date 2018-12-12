@@ -108,7 +108,6 @@ public class AddWifiFragment extends Fragment implements View.OnClickListener {
                 String[] permissions = {
                         Manifest.permission.ACCESS_COARSE_LOCATION
                 };
-
                 ActivityCompat.requestPermissions((Activity) getContext(), permissions, REQUEST_PERMISSION);
             } else {
                 registerBroadcastReceiver();

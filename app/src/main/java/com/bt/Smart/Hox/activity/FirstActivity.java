@@ -15,9 +15,13 @@ import android.widget.TextView;
 import com.bt.Smart.Hox.MyApplication;
 import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
+import com.bt.Smart.Hox.interfaceFile.IGetMessageCallBack;
 import com.bt.Smart.Hox.messegeInfo.NewApkInfo;
+import com.bt.Smart.Hox.service.MQTTService;
+import com.bt.Smart.Hox.util.MyServiceConnection;
 import com.bt.Smart.Hox.util.UpApkDataFile.UpdateAppUtil;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
+import com.bt.Smart.Hox.utils.ToastUtils;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -33,9 +37,11 @@ import okhttp3.Request;
  * @更新描述 ${TODO}
  */
 
-public class FirstActivity extends Activity implements View.OnClickListener {
-    private TextView tv_new;
-    private TextView tv_old;
+public class FirstActivity extends Activity implements View.OnClickListener, IGetMessageCallBack {
+    private MyServiceConnection serviceConnection;
+    private MQTTService         mqttService;
+    private TextView            tv_new;
+    private TextView            tv_old;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +54,6 @@ public class FirstActivity extends Activity implements View.OnClickListener {
         getView();
         setData();
         //        verifyStoragePermissions(this);
-        //获取最新的版本
-        getNewApkInfo();
     }
 
     private void getView() {
@@ -60,12 +64,32 @@ public class FirstActivity extends Activity implements View.OnClickListener {
     private void setData() {
         tv_new.setOnClickListener(this);
         tv_old.setOnClickListener(this);
+        //获取最新的版本
+        getNewApkInfo();
+
+    }
+
+    private void testMQTT() {
+        //        String TOPIC = "001";
+        //        MqttConsumer consumer =new MqttConsumer();
+        //        consumer.start(TOPIC);
+
+
+        serviceConnection = new MyServiceConnection();
+        serviceConnection.setIGetMessageCallBack(FirstActivity.this);
+        Intent intent = new Intent(this, MQTTService.class);
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+        MQTTService.publish("mytest");
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_new:
+                ToastUtils.showToast(this, "开启MQTT");
+                //MQTT测试
+                testMQTT();
+
                 //跳转注册界面
                 Intent intent1 = new Intent(this, RegisterActivity.class);
                 intent1.putExtra("kind", "rgs");
@@ -145,5 +169,19 @@ public class FirstActivity extends Activity implements View.OnClickListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void setMessage(String message) {
+        ToastUtils.showToast(this, message);
+        mqttService = serviceConnection.getMqttService();
+        mqttService.toCreateNotification(message);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (null != serviceConnection)
+            unbindService(serviceConnection);
+        super.onDestroy();
     }
 }

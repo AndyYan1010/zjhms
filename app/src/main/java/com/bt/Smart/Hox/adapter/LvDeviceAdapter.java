@@ -79,6 +79,8 @@ public class LvDeviceAdapter extends BaseAdapter {
             viewholder.img_move = view.findViewById(R.id.img_move);
             viewholder.tv_name = view.findViewById(R.id.tv_name);
             viewholder.lin_right = view.findViewById(R.id.lin_right);
+            viewholder.lin_zk = view.findViewById(R.id.lin_zk);
+            viewholder.lin_ck = view.findViewById(R.id.lin_ck);
             viewholder.img_onl = view.findViewById(R.id.img_onl);
             viewholder.tv_onl = view.findViewById(R.id.tv_onl);
             viewholder.tv_room = view.findViewById(R.id.tv_room);
@@ -92,6 +94,7 @@ public class LvDeviceAdapter extends BaseAdapter {
 
         final String dev_pic;
         final String device_name;
+        final String device_type;
         final String default_device_type;
         int type;
         final String device_status;
@@ -109,6 +112,7 @@ public class LvDeviceAdapter extends BaseAdapter {
             //设备名称
             dev_pic = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDevice_img();
             device_name = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDevice_name();
+            device_type = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDeviceType();
             room_name = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getHouse_name();
             default_device_type = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDefault_device_type();
             type = ((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getType();
@@ -124,6 +128,7 @@ public class LvDeviceAdapter extends BaseAdapter {
         } else {
             dev_pic = ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getDevice_img();
             device_name = ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getDevice_name();
+            device_type = ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getDeviceType();
             room_name = mRoomName;
             default_device_type = ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getDefault_device_type();
             type = ((HouseDeviceInfo.DeviceHouseListBean) mList.get(i)).getType();
@@ -144,6 +149,11 @@ public class LvDeviceAdapter extends BaseAdapter {
         viewholder.tv_second.setText(second_control_name);
 
         GlideLoaderUtil.showImgWithIcon(mContext, NetConfig.IMG_FOR_DEV + dev_pic.replaceAll("\\\\", "/"), R.drawable.single_production, R.drawable.single_production, viewholder.img_kind);
+        if ("2".equals(device_type)) {
+            viewholder.lin_zk.setVisibility(View.GONE);
+            viewholder.lin_ck.setVisibility(View.GONE);
+        }
+
         if ("010".equals(default_device_type)) {
 
         } else if ("021".equals(default_device_type)) {//计量控制（灯控）
@@ -331,8 +341,8 @@ public class LvDeviceAdapter extends BaseAdapter {
     private int REQUEST_CODE_MOVE = 1005;
 
     private class MyViewholder {
-        LinearLayout lin_right;
-        ImageView    img_kind, img_onl, img_move;
+        LinearLayout lin_right, lin_zk, lin_ck;
+        ImageView img_kind, img_onl, img_move;
         TextView tv_name, tv_onl, tv_room, tv_code, tv_main, tv_second;
     }
 }
