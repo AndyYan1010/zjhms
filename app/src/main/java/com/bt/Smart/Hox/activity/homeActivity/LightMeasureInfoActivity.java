@@ -103,7 +103,11 @@ public class LightMeasureInfoActivity extends BaseActivity implements View.OnCli
                 LightCurrentInfo lightCurrentInfo = gson.fromJson(resbody, LightCurrentInfo.class);
                 ToastUtils.showToast(LightMeasureInfoActivity.this, lightCurrentInfo.getMessage());
                 if (1 == lightCurrentInfo.getCode()) {
-                    mData.add(lightCurrentInfo.getEnergy());
+                    if (null != lightCurrentInfo.getEnergy()) {
+                        mData.add(lightCurrentInfo.getEnergy());
+                    } else {
+                        ToastUtils.showToast(LightMeasureInfoActivity.this, "未搜索到信息");
+                    }
                     lightInfoAdapter.notifyDataSetChanged();
                 }
             }

@@ -232,7 +232,6 @@ public class Home_F extends Fragment implements View.OnClickListener {
             params.put("latitude", location.getLatitude());
             params.put("longitude", location.getLongitude());
             LocationUtils.getInstance(getContext()).removeLocationUpdatesListener();
-            return;
         } else {
             params.put("latitude", 31.896255);
             params.put("longitude", 121.182962);
@@ -263,6 +262,8 @@ public class Home_F extends Fragment implements View.OnClickListener {
                     } else if (weather.contains("雪")) {
                         img_weather.setImageResource(R.drawable.icon_xue);
                     } else if (weather.contains("阴")) {
+                        img_weather.setImageResource(R.drawable.icon_yin);
+                    } else if (weather.contains("多云")) {
                         img_weather.setImageResource(R.drawable.icon_yin);
                     } else {
                         img_weather.setImageResource(R.drawable.clear);

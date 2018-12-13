@@ -94,7 +94,11 @@ public class HAirDetailInfoActivity extends BaseActivity implements View.OnClick
                 HairCurrentInfo hairCurrentInfo = gson.fromJson(resbody, HairCurrentInfo.class);
                 ToastUtils.showToast(HAirDetailInfoActivity.this, hairCurrentInfo.getMessage());
                 if (1 == hairCurrentInfo.getCode()) {
-                    mData.add(hairCurrentInfo.getHair());
+                    if (null != hairCurrentInfo.getHair()) {
+                        mData.add(hairCurrentInfo.getHair());
+                    }else {
+                        ToastUtils.showToast(HAirDetailInfoActivity.this,"未搜索到信息");
+                    }
                     hAirInfoAdapter.notifyDataSetChanged();
                 }
             }
