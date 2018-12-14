@@ -15,6 +15,7 @@ import android.util.Log;
 
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.interfaceFile.IGetMessageCallBack;
+import com.bt.Smart.Hox.utils.HexUtil;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
@@ -24,6 +25,10 @@ import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+
+import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @创建者 AndyYan
@@ -43,7 +48,8 @@ public class MQTTService extends Service {
     private        String host     = "tcp://112.90.178.68:61613";
     private        String userName = "admin";
     private        String passWord = "password";
-    private static String myTopic  = "mytest";//要订阅的主题
+    //private static String myTopic  = "mytest";//要订阅的主题
+    private static String myTopic  = "0321800001/Measure";//要订阅的主题
     private        String clientId = "18036212618";//客户端标识
     private IGetMessageCallBack IGetMessageCallBack;
 
@@ -55,6 +61,7 @@ public class MQTTService extends Service {
     }
 
     public static void publish(String msg) {
+        myTopic = msg + "/Measure";
         String topic = myTopic;
         Integer qos = 0;
         Boolean retained = false;
@@ -72,7 +79,6 @@ public class MQTTService extends Service {
         Log.e(getClass().getName(), "onBind");
         return new CustomBinder();
     }
-
 
     private void init() {
         // 服务器地址（协议+地址+端口号）
@@ -118,7 +124,6 @@ public class MQTTService extends Service {
         if (doConnect) {
             doClientConnection();
         }
-
     }
 
     /**
@@ -162,14 +167,61 @@ public class MQTTService extends Service {
 
         @Override
         public void messageArrived(String topic, MqttMessage message) throws Exception {
-
-            String str1 = new String(message.getPayload());
-            if (IGetMessageCallBack != null) {
-                IGetMessageCallBack.setMessage(str1);
-            }
+            byte[] payload0 = message.getPayload();
+            String str1 = BinaryToHexString(payload0);
             String str2 = topic + ";qos:" + message.getQos() + ";retained:" + message.isRetained();
             Log.i(TAG, "messageArrived:" + str1);
             Log.i(TAG, str2);
+
+            // subscribe后得到的消息会执行到这里面
+            System.out.println("接收消息主题 : " + topic);
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+            System.out.println("接收消息时间: " + df.format(new Date()));
+            System.out.println("接收消息Qos : " + message.getQos());
+            System.out.println("接收消息内容 String类型: " + new String(message.getPayload()));
+            System.out.println("接收消息内容 字节类型: " + message.getPayload());
+            String payload = HexUtil.encode(message.getPayload());
+            System.out.println("接收消息内容 16进制: " + payload);
+
+            String format = df.format(new Date());//接收时间
+
+            byte[] temperature = reverse(subBytes(message.getPayload(), 12, 4));
+            ByteBuffer temperatureBf = ByteBuffer.wrap(temperature);
+            float temperaturefloat = temperatureBf.getFloat();
+
+            byte[] humidity = reverse(subBytes(message.getPayload(), 16, 4));
+            ByteBuffer humidityBf = ByteBuffer.wrap(humidity);
+            float humidityfloat = humidityBf.getFloat();
+
+            byte[] PM25 = reverse(subBytes(message.getPayload(), 20, 4));
+            ByteBuffer PM25Bf = ByteBuffer.wrap(PM25);
+            float PM25float = PM25Bf.getFloat();
+
+            byte[] PM100 = reverse(subBytes(message.getPayload(), 24, 4));
+            ByteBuffer PM100Bf = ByteBuffer.wrap(PM100);
+            float PM100float = PM100Bf.getFloat();
+
+            byte[] formaldehyde = reverse(subBytes(message.getPayload(), 28, 4));
+            ByteBuffer formaldehydeBf = ByteBuffer.wrap(formaldehyde);
+            float formaldehydefloat = formaldehydeBf.getFloat();
+
+            byte[] VOC = reverse(subBytes(message.getPayload(), 32, 4));
+            ByteBuffer VOCBf = ByteBuffer.wrap(VOC);
+            float VOCfloat = VOCBf.getFloat();
+
+            byte[] CO = reverse(subBytes(message.getPayload(), 36, 4));
+            ByteBuffer COBf = ByteBuffer.wrap(CO);
+            float COfloat = COBf.getFloat();
+
+            byte[] CO2 = reverse(subBytes(message.getPayload(), 40, 4));
+            ByteBuffer CO2Bf = ByteBuffer.wrap(CO2);
+            float CO2float = CO2Bf.getFloat();
+
+            Log.i(TAG, "温度：" + temperaturefloat + "，湿度：" + humidityfloat + "，PM2.5：" + PM25float + "，PM100：" + PM100float + "，甲醛：" + formaldehydefloat + "，VOCS：" + VOCfloat + "，CO2：" + CO2float + "，CO：" + COfloat);
+
+            if (IGetMessageCallBack != null) {
+                IGetMessageCallBack.setMessage(format,temperaturefloat, humidityfloat, PM25float, PM100float, formaldehydefloat, VOCfloat, CO2float, COfloat);
+            }
         }
 
         @Override
@@ -238,5 +290,36 @@ public class MQTTService extends Service {
         startForeground(0, notification);
         notificationManager.notify(0, notification);
 
+    }
+
+    private String hexStr = "0123456789ABCDEF";
+
+    private String BinaryToHexString(byte[] bytes) {
+
+        String result = "";
+        String hex = "";
+        for (int i = 0; i < bytes.length; i++) {
+            //字节高4位
+            hex = String.valueOf(hexStr.charAt((bytes[i] & 0xF0) >> 4));
+            //字节低4位
+            hex += String.valueOf(hexStr.charAt(bytes[i] & 0x0F));
+            result += hex + " ";
+        }
+        return result;
+    }
+
+    private byte[] reverse(byte[] parm) {
+        for (int start = 0, end = parm.length - 1; start < end; start++, end--) {
+            byte temp = parm[end];
+            parm[end] = parm[start];
+            parm[start] = temp;
+        }
+        return parm;
+    }
+
+    private byte[] subBytes(byte[] src, int begin, int count) {
+        byte[] bs = new byte[count];
+        System.arraycopy(src, begin, bs, 0, count);
+        return bs;
     }
 }

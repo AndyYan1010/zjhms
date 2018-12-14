@@ -6,8 +6,8 @@ android {
         applicationId "com.bt.Smart.Hox"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 14
-        versionName "1.1.4"
+        versionCode 15
+        versionName "1.1.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             //选择要添加的对应cpu类型的.so库。

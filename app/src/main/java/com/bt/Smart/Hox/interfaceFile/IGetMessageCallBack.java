@@ -10,5 +10,5 @@ package com.bt.Smart.Hox.interfaceFile;
  */
 
 public interface IGetMessageCallBack {
-    public void setMessage(String message);
+    void setMessage(String time, float temperaturefloat, float humidityfloat, float PM25float, float PM100float, float formaldehydefloat, float VOCfloat, float CO2float, float COfloat);
 }

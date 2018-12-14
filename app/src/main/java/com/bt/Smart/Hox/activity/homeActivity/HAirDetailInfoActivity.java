@@ -1,5 +1,7 @@
 package com.bt.Smart.Hox.activity.homeActivity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +13,10 @@ import com.bt.Smart.Hox.BaseActivity;
 import com.bt.Smart.Hox.NetConfig;
 import com.bt.Smart.Hox.R;
 import com.bt.Smart.Hox.adapter.RecHAirInfoAdapter;
+import com.bt.Smart.Hox.interfaceFile.IGetMessageCallBack;
 import com.bt.Smart.Hox.messegeInfo.HairCurrentInfo;
+import com.bt.Smart.Hox.service.MQTTService;
+import com.bt.Smart.Hox.util.MyServiceConnection;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
 import com.bt.Smart.Hox.utils.ProgressDialogUtil;
 import com.bt.Smart.Hox.utils.RequestParamsFM;
@@ -33,7 +38,7 @@ import okhttp3.Request;
  * @更新描述 ${TODO}
  */
 
-public class HAirDetailInfoActivity extends BaseActivity implements View.OnClickListener {
+public class HAirDetailInfoActivity extends BaseActivity implements View.OnClickListener, IGetMessageCallBack {
     private ImageView                      img_back;
     private TextView                       tv_title;
     private TextView                       tv_cont;
@@ -70,6 +75,9 @@ public class HAirDetailInfoActivity extends BaseActivity implements View.OnClick
 
         //获取空气哨兵的检测值
         getHairMeasureInfo(dev_id);
+        //MQTT测试
+        ToastUtils.showToast(this, "开启MQTT");
+        testMQTT(dev_id);
     }
 
     private void getHairMeasureInfo(String dev_id) {
@@ -96,8 +104,8 @@ public class HAirDetailInfoActivity extends BaseActivity implements View.OnClick
                 if (1 == hairCurrentInfo.getCode()) {
                     if (null != hairCurrentInfo.getHair()) {
                         mData.add(hairCurrentInfo.getHair());
-                    }else {
-                        ToastUtils.showToast(HAirDetailInfoActivity.this,"未搜索到信息");
+                    } else {
+                        ToastUtils.showToast(HAirDetailInfoActivity.this, "未搜索到信息");
                     }
                     hAirInfoAdapter.notifyDataSetChanged();
                 }
@@ -112,5 +120,52 @@ public class HAirDetailInfoActivity extends BaseActivity implements View.OnClick
                 finish();
                 break;
         }
+    }
+
+    private MyServiceConnection serviceConnection;
+    private MQTTService         mqttService;
+
+    private void testMQTT(String dev_id) {
+        try {
+            serviceConnection = new MyServiceConnection();
+            serviceConnection.setIGetMessageCallBack(this);
+            Intent intent = new Intent(this, MQTTService.class);
+            bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+            MQTTService.publish(dev_id);
+        } catch (Exception e) {
+            ToastUtils.showToast(HAirDetailInfoActivity.this, "MQTT连接失败");
+            if (null != serviceConnection)
+                unbindService(serviceConnection);
+        }
+    }
+
+    @Override
+    public void setMessage(String time, float temperaturefloat, float humidityfloat, float PM25float, float PM100float, float formaldehydefloat, float VOCfloat, float CO2float, float COfloat) {
+        ToastUtils.showToast(this, "接收到消息");
+        if (null == mData) {
+            mData = new ArrayList<>();
+        } else {
+            mData.clear();
+        }
+        HairCurrentInfo.HairBean bean = new HairCurrentInfo.HairBean();
+        bean.setTemperature((float) (Math.round(temperaturefloat * 100)) / 100);
+        bean.setHumidity((float) (Math.round(humidityfloat * 100)) / 100);
+        bean.setPm25(PM25float);
+        bean.setPm100(PM100float);
+        bean.setFormaldehyde(formaldehydefloat);
+        bean.setVoc(VOCfloat);
+        bean.setCo2(CO2float);
+        bean.setCo(COfloat);
+        mData.add(bean);
+        hAirInfoAdapter.notifyDataSetChanged();
+        mqttService = serviceConnection.getMqttService();
+        mqttService.toCreateNotification("最新MQTT信息" + time);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (null != serviceConnection)
+            unbindService(serviceConnection);
+        super.onDestroy();
     }
 }
