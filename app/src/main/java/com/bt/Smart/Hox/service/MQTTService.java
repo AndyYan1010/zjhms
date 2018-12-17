@@ -147,7 +147,8 @@ public class MQTTService extends Service {
             Log.i(TAG, "连接成功 ");
             try {
                 // 订阅myTopic话题
-                client.subscribe(myTopic, 1);
+                if (null != client)
+                    client.subscribe(myTopic, 1);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -219,7 +220,7 @@ public class MQTTService extends Service {
             Log.i(TAG, "温度：" + temperaturefloat + "，湿度：" + humidityfloat + "，PM2.5：" + PM25float + "，PM100：" + PM100float + "，甲醛：" + formaldehydefloat + "，VOCS：" + VOCfloat + "，CO2：" + CO2float + "，CO：" + COfloat);
 
             if (IGetMessageCallBack != null) {
-                IGetMessageCallBack.setMessage(format,temperaturefloat, humidityfloat, PM25float, PM100float, formaldehydefloat, VOCfloat, CO2float, COfloat);
+                IGetMessageCallBack.setMessage(format, temperaturefloat, humidityfloat, PM25float, PM100float, formaldehydefloat, VOCfloat, CO2float, COfloat);
             }
         }
 
@@ -255,7 +256,8 @@ public class MQTTService extends Service {
     public void onDestroy() {
         stopSelf();
         try {
-            client.disconnect();
+            if (null != client)
+                client.disconnect();
         } catch (Exception e) {
             e.printStackTrace();
         }
