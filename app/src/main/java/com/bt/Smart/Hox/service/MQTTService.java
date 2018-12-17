@@ -23,7 +23,6 @@ import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
-import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.nio.ByteBuffer;
@@ -69,7 +68,7 @@ public class MQTTService extends Service {
             if (client != null) {
                 client.publish(topic, msg.getBytes(), qos.intValue(), retained.booleanValue());
             }
-        } catch (MqttException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -133,7 +132,7 @@ public class MQTTService extends Service {
         if (!client.isConnected() && isConnectIsNormal()) {
             try {
                 client.connect(conOpt, null, iMqttActionListener);
-            } catch (MqttException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -149,7 +148,7 @@ public class MQTTService extends Service {
             try {
                 // 订阅myTopic话题
                 client.subscribe(myTopic, 1);
-            } catch (MqttException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -257,7 +256,7 @@ public class MQTTService extends Service {
         stopSelf();
         try {
             client.disconnect();
-        } catch (MqttException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         super.onDestroy();

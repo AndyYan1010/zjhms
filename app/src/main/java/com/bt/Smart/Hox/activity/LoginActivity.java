@@ -1,7 +1,12 @@
 package com.bt.Smart.Hox.activity;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.StyleSpan;
+import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -50,6 +55,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private LinearLayout   lin_qq;
     private LinearLayout   lin_wx;
     private TextView       tv_fgt;//忘记密码
+    private TextView       tv_seragree;//服务协议
+    private TextView       tv_pripolicy;//隐私政策
     private Tencent        mTencent;
     private BaseUiListener mIUiListener;
     private boolean isRem = false;
@@ -72,9 +79,26 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         lin_qq = (LinearLayout) findViewById(R.id.lin_qq);
         lin_wx = (LinearLayout) findViewById(R.id.lin_wx);
         tv_fgt = (TextView) findViewById(R.id.tv_fgt);
+        tv_seragree = (TextView) findViewById(R.id.tv_seragree);
+        tv_pripolicy = (TextView) findViewById(R.id.tv_pripolicy);
     }
 
     private void setData() {
+        UnderlineSpan underlineSpan = new UnderlineSpan();
+        StyleSpan styleSpan_B = new StyleSpan(Typeface.BOLD);
+        SpannableString spannableString = new SpannableString("服务协议");
+        spannableString.setSpan(underlineSpan, 0, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(styleSpan_B, 0, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        tv_seragree.setText(spannableString);
+
+        SpannableString spannableString2 = new SpannableString("隐私政策");
+        spannableString2.setSpan(underlineSpan, 0, spannableString2.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        spannableString2.setSpan(styleSpan_B, 0, spannableString2.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        tv_pripolicy.setText(spannableString2);
+
+        tv_seragree.setOnClickListener(this);
+        tv_pripolicy.setOnClickListener(this);
+
         cb_agree.setChecked(true);
         Boolean isRemem = SpUtils.getBoolean(LoginActivity.this, "isRem", false);
         if (isRemem) {
@@ -105,6 +129,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         switch (view.getId()) {
             case R.id.img_back:
                 finish();
+                break;
+            case R.id.tv_seragree://跳转服务协议
+                Intent intentAgree = new Intent(this,WebRuleActivity.class);
+                intentAgree.putExtra("rule_type", "0");
+                startActivity(intentAgree);
+                break;
+            case R.id.tv_pripolicy://跳转隐私政策
+                Intent intentRule = new Intent(this,WebRuleActivity.class);
+                intentRule.putExtra("rule_type", "1");
+                startActivity(intentRule);
                 break;
             case R.id.tv_fgt://跳转忘记密码界面
                 Intent intent = new Intent(this, RegisterActivity.class);

@@ -91,6 +91,7 @@
         <activity android:name=".activity.meActivity.SceneDetailActivity"/>
         <activity android:name=".activity.homeActivity.WeatherDetailActivity"/>
         <activity android:name=".activity.homeActivity.LightMeasureInfoActivity"/>
+        <activity android:name=".activity.WebRuleActivity"/>
         <activity
             android:name=".activity.homeActivity.TypeMeasureDetailActivity"
             android:hardwareAccelerated="true"/>
