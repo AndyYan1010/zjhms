@@ -7,6 +7,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
 import com.bt.Smart.Hox.utils.ExceptionUtil;
+import com.bt.Smart.Hox.utils.SoundPoolUtil;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ public class MyApplication extends Application {
         ZXingLibrary.initDisplayOpinion(this);
         //        JPushInterface.setDebugMode(true);
         //        JPushInterface.init(this);
+        SoundPoolUtil.getInstance(this);
     }
 
     public static void exit() {

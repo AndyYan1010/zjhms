@@ -216,6 +216,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
+                        android:thumb="@drawable/thumb_selctor"
+                        app:track="@drawable/track_selector"
                         android:layout_marginRight="15dp"
                         android:checked="true"/>
                 </RelativeLayout>
@@ -252,6 +254,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
+                        android:thumb="@drawable/thumb_selctor"
+                        app:track="@drawable/track_selector"
                         android:layout_marginRight="15dp"
                         android:checked="true"/>
                 </RelativeLayout>

@@ -35,11 +35,12 @@
                 android:src="@drawable/icon_zk"/>
 
             <TextView
+                android:id="@+id/tv_zk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:text="主控"
-                android:textColor="@color/vm_black_87"
+                android:textColor="@color/word_black"
                 android:textSize="16sp"/>
         </LinearLayout>
 
@@ -60,11 +61,12 @@
                 android:src="@drawable/master_control"/>
 
             <TextView
+                android:id="@+id/tv_ck"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:text="从控"
-                android:textColor="@color/vm_black_87"
+                android:textColor="@color/word_black"
                 android:textSize="16sp"/>
         </LinearLayout>
 
@@ -85,11 +87,12 @@
                 android:src="@drawable/second_control"/>
 
             <TextView
+                android:id="@+id/tv_sb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:text="设备"
-                android:textColor="@color/vm_black_87"
+                android:textColor="@color/word_black"
                 android:textSize="16sp"/>
         </LinearLayout>
     </RelativeLayout>

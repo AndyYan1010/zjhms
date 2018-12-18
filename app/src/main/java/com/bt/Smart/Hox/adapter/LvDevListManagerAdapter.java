@@ -23,6 +23,7 @@ import com.bt.Smart.Hox.messegeInfo.AllDevListInfo;
 import com.bt.Smart.Hox.messegeInfo.CommonInfo;
 import com.bt.Smart.Hox.messegeInfo.CongKongListInfo;
 import com.bt.Smart.Hox.messegeInfo.ZhuKongListInfo;
+import com.bt.Smart.Hox.util.GlideLoaderUtil;
 import com.bt.Smart.Hox.utils.HttpOkhUtils;
 import com.bt.Smart.Hox.utils.MyAlertDialogHelper;
 import com.bt.Smart.Hox.utils.ProgressDialogUtil;
@@ -136,20 +137,6 @@ public class LvDevListManagerAdapter extends BaseAdapter {
             viewholder.tv_name.setText(((CongKongListInfo.SecondControlListBean) mList.get(i)).getSecond_control_name());
             viewholder.tv_code.setText(((CongKongListInfo.SecondControlListBean) mList.get(i)).getSecond_contrl_code());
             viewholder.lin_statue.setVisibility(View.GONE);
-            //            viewholder.img_edit.setOnClickListener(new View.OnClickListener() {
-            //                @Override
-            //                public void onClick(View view) {//编辑从控
-            //                    //弹出popupwindow
-            //                    openPopupWindow(viewholder.img_edit, i);
-            //                }
-            //            });
-            //            viewholder.img_delet.setOnClickListener(new View.OnClickListener() {
-            //                @Override
-            //                public void onClick(View view) {//删除从控
-            //                    //弹出dailog提示
-            //                    deleteWarnning(i);
-            //                }
-            //            });
         } else if (2 == mSearchKind) {
             viewholder.tv_name.setText(((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getDevice_name());//
             viewholder.tv_room.setText(((AllDevListInfo.DeviceHomeListBean) mList.get(i)).getHouse_name());

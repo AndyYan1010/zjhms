@@ -1,5 +1,6 @@
 package com.bt.Smart.Hox.activity.meActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -40,6 +41,9 @@ public class DeviceManagerActivity extends BaseActivity implements View.OnClickL
     private ImageView               img_back;
     private ImageView               img_more;//扫描
     private TextView                tv_title;//标题
+    private TextView                tv_zk;//主控
+    private TextView                tv_ck;//从控
+    private TextView                tv_sb;//设备
     private LinearLayout            lin_zk;
     private LinearLayout            lin_ck;
     private LinearLayout            lin_sb;
@@ -66,6 +70,9 @@ public class DeviceManagerActivity extends BaseActivity implements View.OnClickL
     private void getView() {
         img_back = (ImageView) findViewById(R.id.img_back);
         tv_title = (TextView) findViewById(R.id.tv_title);
+        tv_zk = (TextView) findViewById(R.id.tv_zk);
+        tv_ck = (TextView) findViewById(R.id.tv_ck);
+        tv_sb = (TextView) findViewById(R.id.tv_sb);
         img_loading = (ImageView) findViewById(R.id.img_loading);
         lin_nomsg = (LinearLayout) findViewById(R.id.lin_nomsg);
         lin_zk = (LinearLayout) findViewById(R.id.lin_zk);
@@ -94,6 +101,7 @@ public class DeviceManagerActivity extends BaseActivity implements View.OnClickL
         lin_zk.setOnClickListener(this);
         lin_ck.setOnClickListener(this);
         lin_sb.setOnClickListener(this);
+        tv_zk.setTextColor(Color.BLUE);
         getZkList();
     }
 
@@ -104,12 +112,21 @@ public class DeviceManagerActivity extends BaseActivity implements View.OnClickL
                 finish();
                 break;
             case R.id.lin_zk://获取主控列表
+                tv_zk.setTextColor(Color.BLUE);
+                tv_ck.setTextColor(getResources().getColor(R.color.word_black));
+                tv_sb.setTextColor(getResources().getColor(R.color.word_black));
                 getZkList();
                 break;
             case R.id.lin_ck://获取从控列表
+                tv_zk.setTextColor(getResources().getColor(R.color.word_black));
+                tv_ck.setTextColor(Color.BLUE);
+                tv_sb.setTextColor(getResources().getColor(R.color.word_black));
                 getCkList();
                 break;
             case R.id.lin_sb://获取设备列表
+                tv_zk.setTextColor(getResources().getColor(R.color.word_black));
+                tv_ck.setTextColor(getResources().getColor(R.color.word_black));
+                tv_sb.setTextColor(Color.BLUE);
                 getDeviceOfRoom();
                 break;
 

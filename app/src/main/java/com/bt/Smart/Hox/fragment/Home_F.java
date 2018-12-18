@@ -47,6 +47,7 @@ import com.bt.Smart.Hox.utils.HttpOkhUtils;
 import com.bt.Smart.Hox.utils.LocationUtils;
 import com.bt.Smart.Hox.utils.ProgressDialogUtil;
 import com.bt.Smart.Hox.utils.RequestParamsFM;
+import com.bt.Smart.Hox.utils.SoundPoolUtil;
 import com.bt.Smart.Hox.utils.ToastUtils;
 import com.bt.Smart.Hox.viewmodle.MyFixedViewpager;
 import com.bt.Smart.Hox.viewmodle.MyListView;
@@ -94,7 +95,6 @@ public class Home_F extends Fragment implements View.OnClickListener {
     private int REQUESTCODE_ROOM_MANAGER = 1004;//修改了房间后的响应值
     private String weatherString;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mRootView = LayoutInflater.from(getActivity()).inflate(R.layout.home_f, null);
@@ -141,36 +141,6 @@ public class Home_F extends Fragment implements View.OnClickListener {
         mData = new ArrayList();
         recSceneAdapter = new RecSceneAdapter(getContext(), mData);
         rec_scene.setAdapter(recSceneAdapter);
-
-
-        //房间和设备填充
-        //        contsList = new ArrayList<>();
-        //        contsList.add("所有设备");
-        //        contsList.add("主卧");
-        //        contsList.add("客厅");
-        //        contsList.add("餐厅");
-        //        contsList.add("次卧");
-        //        contsList.add("书房");
-        //        // 创建一个集合,装填Fragment
-        //        fragmentsList = new ArrayList<>();
-        //        for (int i = 0; i < contsList.size(); i++) {
-        //            //设备列表界面
-        //            DeviceListFragment deviceFragment = new DeviceListFragment();
-        //            fragmentsList.add(deviceFragment);
-        //        }
-        //        // 创建ViewPager适配器
-        //        myPagerAdapter = new MyPagerAdapter(getChildFragmentManager());
-        //        myPagerAdapter.setFragments(fragmentsList);
-        //        // 给ViewPager设置适配器
-        //        mView_pager.setAdapter(myPagerAdapter);
-        //        //mView_pager.setOffscreenPageLimit(4);
-        //        //设置viewpager不可滑动
-        //        //mView_pager_space.setCanScroll(false);
-        //        //tablayout关联tablayout和viewpager实现联动
-        //        mTablayout.setupWithViewPager(mView_pager);
-        //        for (int i = 0; i < contsList.size(); i++) {
-        //            mTablayout.getTabAt(i).setText(contsList.get(i));
-        //        }
         lin_mine.setOnClickListener(this);
         //获取账户下所有家数目
         getHomes();
@@ -178,6 +148,7 @@ public class Home_F extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        SoundPoolUtil.play(1);
         switch (view.getId()) {
             case R.id.lin_mine:
                 //弹出popupwindow展示家列表

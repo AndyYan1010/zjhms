@@ -64,6 +64,8 @@ public class WeatherDetailActivity extends BaseActivity implements View.OnClickL
             img_weather.setImageResource(R.drawable.icon_xue);
         } else if (weather.contains("阴")) {
             img_weather.setImageResource(R.drawable.icon_yin);
+        }else if (weather.contains("多云")) {
+            img_weather.setImageResource(R.drawable.icon_yin);
         } else {
             img_weather.setImageResource(R.drawable.clear);
         }

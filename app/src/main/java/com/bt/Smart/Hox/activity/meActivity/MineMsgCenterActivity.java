@@ -3,6 +3,7 @@ package com.bt.Smart.Hox.activity.meActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -36,6 +37,7 @@ import okhttp3.Request;
 public class MineMsgCenterActivity extends BaseActivity implements View.OnClickListener {
     private ImageView                                   img_back;
     private TextView                                    tv_title;//标题
+    private LinearLayout                                lin_nomsg;
     private List<MineMsgInfo.DevListBean.DevStatusBean> mData;//消息数据
     private ListView                                    lv_dev;//列表
     private LvMsgCenterAdapter                          msgAdapter;
@@ -51,6 +53,7 @@ public class MineMsgCenterActivity extends BaseActivity implements View.OnClickL
     private void getView() {
         img_back = (ImageView) findViewById(R.id.img_back);
         tv_title = (TextView) findViewById(R.id.tv_title);
+        lin_nomsg = (LinearLayout) findViewById(R.id.lin_nomsg);
         lv_dev = (ListView) findViewById(R.id.lv_dev);
     }
 
@@ -95,10 +98,17 @@ public class MineMsgCenterActivity extends BaseActivity implements View.OnClickL
                 MineMsgInfo mineMsgInfo = gson.fromJson(resbody, MineMsgInfo.class);
                 ToastUtils.showToast(MineMsgCenterActivity.this, mineMsgInfo.getMessage());
                 if (1 == mineMsgInfo.getCode()) {
-                    if (mineMsgInfo.getDevList().size() > 0) {
+                    if (mineMsgInfo.getDevList().size() > 0 && mineMsgInfo.getDevList().get(0).getDevStatus().size() > 0) {
+                        lin_nomsg.setVisibility(View.GONE);
                         mData.addAll(mineMsgInfo.getDevList().get(0).getDevStatus());
                         msgAdapter.notifyDataSetChanged();
+                    } else {
+                        lin_nomsg.setVisibility(View.VISIBLE);
                     }
+                } else {
+                    mData.clear();
+                    msgAdapter.notifyDataSetChanged();
+                    lin_nomsg.setVisibility(View.VISIBLE);
                 }
             }
         });

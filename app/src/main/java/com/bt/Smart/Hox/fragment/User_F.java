@@ -18,6 +18,7 @@ import com.bt.Smart.Hox.activity.meActivity.DeviceManagerActivity;
 import com.bt.Smart.Hox.activity.meActivity.FeedBackActivity;
 import com.bt.Smart.Hox.activity.meActivity.HomeListActivity;
 import com.bt.Smart.Hox.activity.meActivity.MineMsgCenterActivity;
+import com.bt.Smart.Hox.activity.meActivity.NormalQuestionActivity;
 import com.bt.Smart.Hox.activity.meActivity.PersonalActivity;
 import com.bt.Smart.Hox.activity.meActivity.SceneListActivity;
 import com.bt.Smart.Hox.activity.meActivity.SettingActivity;
@@ -47,6 +48,7 @@ public class User_F extends Fragment implements View.OnClickListener {
     private RelativeLayout rtv_dev;//设备管理
     private RelativeLayout rtv_msg_center;//消息中心
     private RelativeLayout rtv_setting;//通用设置
+    private RelativeLayout rtv_norques;//常见问题
     private RelativeLayout rtv_feedback;//意见反馈
 
     @Override
@@ -68,6 +70,7 @@ public class User_F extends Fragment implements View.OnClickListener {
         rtv_person = mRootView.findViewById(R.id.rtv_person);
         rtv_home = mRootView.findViewById(R.id.rtv_home);
         rtv_dev = mRootView.findViewById(R.id.rtv_dev);
+        rtv_norques = mRootView.findViewById(R.id.rtv_norques);
         rtv_msg_center = mRootView.findViewById(R.id.rtv_msg_center);
         rtv_setting = mRootView.findViewById(R.id.rtv_setting);
         rtv_feedback = mRootView.findViewById(R.id.rtv_feedback);
@@ -81,6 +84,7 @@ public class User_F extends Fragment implements View.OnClickListener {
         rtv_setting.setOnClickListener(this);
         rtv_dev.setOnClickListener(this);
         rtv_msg_center.setOnClickListener(this);
+        rtv_norques.setOnClickListener(this);
         rtv_feedback.setOnClickListener(this);
     }
 
@@ -123,6 +127,9 @@ public class User_F extends Fragment implements View.OnClickListener {
                 break;
             case R.id.rtv_setting://跳转通用设置
                 startActivity(new Intent(getContext(), SettingActivity.class));
+                break;
+            case R.id.rtv_norques://跳转常见问题界面
+                startActivity(new Intent(getContext(), NormalQuestionActivity.class));
                 break;
             case R.id.rtv_feedback://跳转反馈界面
                 startActivity(new Intent(getContext(), FeedBackActivity.class));
