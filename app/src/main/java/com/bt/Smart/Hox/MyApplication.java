@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 
 import com.bt.Smart.Hox.utils.ExceptionUtil;
 import com.bt.Smart.Hox.utils.SoundPoolUtil;
+import com.bt.Smart.Hox.utils.SpUtils;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 import java.util.ArrayList;
@@ -44,7 +45,17 @@ public class MyApplication extends Application {
         ZXingLibrary.initDisplayOpinion(this);
         //        JPushInterface.setDebugMode(true);
         //        JPushInterface.init(this);
+        openVoice();
+    }
+
+    private void openVoice() {
         SoundPoolUtil.getInstance(this);
+        Boolean isOpenVoice = SpUtils.getBoolean(MyApplication.this, "isOpenVoice", false);
+        if (isOpenVoice) {
+            SoundPoolUtil.openSoundPlay();
+        } else {
+            SoundPoolUtil.closeSoundPlay();
+        }
     }
 
     public static void exit() {

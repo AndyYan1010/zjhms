@@ -100,6 +100,7 @@ public class DeviceListFragment extends Fragment implements View.OnClickListener
             addActAdapter = new RecyDevAdapter(R.layout.adpter_dev, getContext(), mData);
             addActAdapter.openLoadAnimation(SLIDEIN_RIGHT);
             rec_dev.setAdapter(addActAdapter);
+            rec_dev.setNestedScrollingEnabled(false);
             addActAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                 @Override
                 public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {

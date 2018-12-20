@@ -78,6 +78,7 @@ public class MineMsgCenterActivity extends BaseActivity implements View.OnClickL
     }
 
     private void getMsgInfo() {
+        ProgressDialogUtil.startShow(this,"正在查询...");
         RequestParamsFM params = new RequestParamsFM();
         params.put("home_id", MyApplication.slecHomeID);
         HttpOkhUtils.getInstance().doGetWithParams(NetConfig.MYMESSAGE, params, new HttpOkhUtils.HttpCallBack() {

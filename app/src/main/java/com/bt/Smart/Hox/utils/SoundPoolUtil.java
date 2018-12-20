@@ -3,7 +3,6 @@ package com.bt.Smart.Hox.utils;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
-import android.util.Log;
 
 import com.bt.Smart.Hox.R;
 
@@ -19,6 +18,8 @@ import com.bt.Smart.Hox.R;
 public class SoundPoolUtil {
     private static SoundPoolUtil soundPoolUtil;
     private static SoundPool     soundPool;
+    private static boolean       canPlay;
+    private static int[] soundGruop = new int[2];
 
     //单例模式
     public static SoundPoolUtil getInstance(Context context) {
@@ -27,17 +28,39 @@ public class SoundPoolUtil {
         return soundPoolUtil;
     }
 
-    private SoundPoolUtil(Context context) {
-        soundPool = new SoundPool(3, AudioManager.STREAM_SYSTEM, 0);
+    private SoundPoolUtil(final Context context) {
+        canPlay = true;
+        soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
         //加载音频文件
-        soundPool.load(context, R.raw.yulu, 1);
-        soundPool.load(context, R.raw.duing, 1);
-        soundPool.load(context, R.raw.yulu, 1);
+        int load0 = soundPool.load(context, R.raw.duing, 1);
+        int load1 = soundPool.load(context, R.raw.yulu, 1);
+        soundGruop[0] = load0;
+        soundGruop[1] = load1;
+        //        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+        //            @Override
+        //            public void onLoadComplete(SoundPool soundPool, int i, int i1) {
+        //                ToastUtils.showToast(context,"音频文件加载完毕.");
+        //            }
+        //        });
     }
 
     public static void play(int number) {
-        Log.d("tag", "number " + number);
         //播放音频
-        soundPool.play(number, 1, 1, 0, 0, 1);
+        if (null != soundPool && canPlay) {
+            if (number < 0) {
+                number = 0;
+            } else if (number > 1) {
+                number = 1;
+            }
+            soundPool.play(soundGruop[number], 1, 1, 0, 0, 1);
+        }
+    }
+
+    public static void closeSoundPlay() {
+        canPlay = false;
+    }
+
+    public static void openSoundPlay() {
+        canPlay = true;
     }
 }

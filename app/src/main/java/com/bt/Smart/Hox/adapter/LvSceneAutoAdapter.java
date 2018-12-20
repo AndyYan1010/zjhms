@@ -110,17 +110,18 @@ public class LvSceneAutoAdapter extends BaseAdapter {
                     } else {
                         statue = "1";
                     }
-                    //更新场景
-                    upDataAuto(((AutoListInfo.AutolistBean) mList.get(i)).getId(), statue);
+                    //更新自动化
+                    upDataAuto(((AutoListInfo.AutolistBean) mList.get(i)).getId(), ((AutoListInfo.AutolistBean) mList.get(i)).getIf_ha3_code(), statue);
                 }
             });
         }
         return view;
     }
 
-    private void upDataAuto(String id, String statue) {
+    private void upDataAuto(String id, String main_control_code, String statue) {
         RequestParamsFM params = new RequestParamsFM();
         params.put("id", id);
+        params.put("main_control_code", main_control_code);
         params.put("status", statue);
         HttpOkhUtils.getInstance().doPut(NetConfig.UPDATEAUTOSTATUS, params, new HttpOkhUtils.HttpCallBack() {
             @Override
