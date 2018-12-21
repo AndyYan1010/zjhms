@@ -19,6 +19,7 @@ public class SoundPoolUtil {
     private static SoundPoolUtil soundPoolUtil;
     private static SoundPool     soundPool;
     private static boolean       canPlay;
+    private static boolean       isLoadFinish;
     private static int[] soundGruop = new int[2];
 
     //单例模式
@@ -36,31 +37,37 @@ public class SoundPoolUtil {
         int load1 = soundPool.load(context, R.raw.yulu, 1);
         soundGruop[0] = load0;
         soundGruop[1] = load1;
-        //        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
-        //            @Override
-        //            public void onLoadComplete(SoundPool soundPool, int i, int i1) {
-        //                ToastUtils.showToast(context,"音频文件加载完毕.");
-        //            }
-        //        });
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int i, int i1) {
+                isLoadFinish = true;
+                ToastUtils.showToast(context, "点击音效文件加载完毕.");
+            }
+        });
     }
 
     public static void play(int number) {
-        //播放音频
-        if (null != soundPool && canPlay) {
-            if (number < 0) {
-                number = 0;
-            } else if (number > 1) {
-                number = 1;
+        if (isLoadFinish)
+            //播放音频
+            if (null != soundPool && canPlay) {
+                if (number < 0) {
+                    number = 0;
+                } else if (number > 1) {
+                    number = 1;
+                }
+                soundPool.play(soundGruop[number], 1, 1, 0, 0, 1);
             }
-            soundPool.play(soundGruop[number], 1, 1, 0, 0, 1);
-        }
     }
 
-    public static void closeSoundPlay() {
+    public static void pauseSoundPlay() {
         canPlay = false;
     }
 
-    public static void openSoundPlay() {
+    public static void restartSoundPlay() {
         canPlay = true;
+    }
+    public static void closeSoundPlay() {
+        canPlay = false;
+        soundPool.release();
     }
 }

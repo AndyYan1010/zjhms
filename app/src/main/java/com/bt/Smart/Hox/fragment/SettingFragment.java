@@ -43,6 +43,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
     private ImageView      img_back;
     private TextView       tv_title;
     private SwitchCompat   swc_yy;
+    private SwitchCompat   swc_zd;
     private RelativeLayout rlt_upgrade;
 
     @Override
@@ -57,6 +58,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
         img_back = mRootView.findViewById(R.id.img_back);
         tv_title = mRootView.findViewById(R.id.tv_title);
         swc_yy = mRootView.findViewById(R.id.swc_yy);
+        swc_zd = mRootView.findViewById(R.id.swc_zd);
         rlt_upgrade = mRootView.findViewById(R.id.rlt_upgrade);
 
     }
@@ -67,26 +69,11 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
         tv_title.setText("设置");
         rlt_upgrade.setOnClickListener(this);
 
-        Boolean isOpenVoice = SpUtils.getBoolean(getContext(), "isOpenVoice", false);
-        if (isOpenVoice){
-            swc_yy.setChecked(true);
-        }else {
-            swc_yy.setChecked(false);
-        }
-        swc_yy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b){
-                    SpUtils.putBoolean(getContext(),"isOpenVoice",true);
-                    SoundPoolUtil.openSoundPlay();
-                    ToastUtils.showToast(getContext(),"按键声音已开启。");
-                }else {
-                    SpUtils.putBoolean(getContext(),"isOpenVoice",false);
-                    SoundPoolUtil.closeSoundPlay();
-                    ToastUtils.showToast(getContext(),"按键声音已关闭。");
-                }
-            }
-        });
+        //初始化并设置点击音效开关事件
+        setOpenMus();
+        //初始化并设置振动开关事件
+        setVibration();
+
     }
 
     @Override
@@ -100,6 +87,48 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
                 getNewApkInfo();
                 break;
         }
+    }
+
+    private void setVibration() {
+        Boolean isOpenVoice = SpUtils.getBoolean(getContext(), "isOpenVibration", false);
+        if (isOpenVoice) {
+            swc_zd.setChecked(true);
+        } else {
+            swc_zd.setChecked(false);
+        }
+        swc_zd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+
+                } else {
+
+                }
+            }
+        });
+    }
+
+    private void setOpenMus() {
+        Boolean isOpenVoice = SpUtils.getBoolean(getContext(), "isOpenVoice", false);
+        if (isOpenVoice) {
+            swc_yy.setChecked(true);
+        } else {
+            swc_yy.setChecked(false);
+        }
+        swc_yy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    SpUtils.putBoolean(getContext(), "isOpenVoice", true);
+                    SoundPoolUtil.restartSoundPlay();
+                    ToastUtils.showToast(getContext(), "按键声音已开启。");
+                } else {
+                    SpUtils.putBoolean(getContext(), "isOpenVoice", false);
+                    SoundPoolUtil.pauseSoundPlay();
+                    ToastUtils.showToast(getContext(), "按键声音已关闭。");
+                }
+            }
+        });
     }
 
     private void getNewApkInfo() {

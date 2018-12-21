@@ -52,9 +52,9 @@ public class MyApplication extends Application {
         SoundPoolUtil.getInstance(this);
         Boolean isOpenVoice = SpUtils.getBoolean(MyApplication.this, "isOpenVoice", false);
         if (isOpenVoice) {
-            SoundPoolUtil.openSoundPlay();
+            SoundPoolUtil.restartSoundPlay();
         } else {
-            SoundPoolUtil.closeSoundPlay();
+            SoundPoolUtil.pauseSoundPlay();
         }
     }
 

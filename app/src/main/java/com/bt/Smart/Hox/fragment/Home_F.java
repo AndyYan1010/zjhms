@@ -148,7 +148,7 @@ public class Home_F extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        SoundPoolUtil.play(1);
+        SoundPoolUtil.play(0);
         switch (view.getId()) {
             case R.id.lin_mine:
                 //弹出popupwindow展示家列表
