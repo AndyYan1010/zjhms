@@ -90,6 +90,7 @@ public class DeviceListFragment extends Fragment implements View.OnClickListener
         Glide.with(getContext()).load(R.drawable.loadgif).into(img_loading);
 
         if ("all".equals(mRoomID)) {//获取家下所有设备
+            lv_dev.setVisibility(View.GONE);
             rec_dev.setLayoutManager(new LinearLayoutManager(getContext()));
             //            //解决数据加载不完的问题
             //            rec_dev.setNestedScrollingEnabled(false);
@@ -129,6 +130,7 @@ public class DeviceListFragment extends Fragment implements View.OnClickListener
                 }
             });
         } else {
+            rec_dev.setVisibility(View.GONE);
             deviceAdapter = new LvDeviceAdapter(getContext(), mData, mRoomID, mRoomName);
             lv_dev.setAdapter(deviceAdapter);
         }

@@ -14,9 +14,20 @@ import java.util.List;
 public class UserHomeInfo {
 
     /**
-     * homeList : [{"home_pic":"1544057849424.jpeg","faddress":"江苏省南通市海门市","home_name":"igvb","home_id":"f67e15b2b940416480cbc042882874df","isdefault":"0","register_id":"b35e098dddb511e89c91000c2950df04"}]
-     * message : 家列表查询成功
-     * code : 1
+     {
+     "homeList": [
+     {
+     "home_pic": "http://112.90.178.68:8081/upFiles/1545275556862.jpeg",
+     "faddress": "江苏省南通市海门市",
+     "home_name": "igvb",
+     "home_id": "f67e15b2b940416480cbc042882874df",
+     "isdefault": "1",
+     "register_id": "b35e098dddb511e89c91000c2950df04"
+     }
+     ],
+     "message": "家列表查询成功",
+     "code": 1
+     }
      */
 
     private String message;

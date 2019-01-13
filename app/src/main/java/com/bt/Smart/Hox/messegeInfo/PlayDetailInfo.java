@@ -14,9 +14,52 @@ import java.util.List;
 public class PlayDetailInfo {
 
     /**
-     * playdetail : [{"sys_org_code":"A03","play_introduce":"介绍晒撒大1","play_content":"<p style=\"text-align: center;\"><strong><span style=\"font-size: 20px;\"><img title=\"huawei.jpg\" src=\"http://112.90.178.68:8081/hox/plug-in/ueditor/jsp/upload1/20181106/87851541492034257.jpg\"/><\/span><\/strong><\/p><p style=\"line-height: 1.75em;\">&nbsp;<\/p><p style=\"line-height: 1.75em;\"><strong><span style=\"font-size: 20px;\"><br/><\/span><\/strong><\/p><p><strong><span style=\"font-size: 20px;\">荣耀路由X2开启预售，1元订金享好礼！<\/span><\/strong><br/><\/p><p><br/><\/p><p><br/><\/p><section class=\"findDetails\"><section class=\"content\"><p><br/><\/p><p style=\"line-height: 1.75em;\"><span style=\"color: rgb(34, 34, 34); font-family:;\" helvetica=\"\" micro=\"\" wenquanyi=\"\" microsoft=\"\" sans=\"\" hiragino=\"\" pingfang=\"\">双11的战争越来越响，<\/span><span style=\"color: rgb(34, 34, 34); font-family:;\" helvetica=\"\" micro=\"\" wenquanyi=\"\" microsoft=\"\" sans=\"\" hiragino=\"\" pingfang=\"\">对于消费者来说，<\/span><span style=\"color: rgb(34, 34, 34); font-family:;\" helvetica=\"\" micro=\"\" wenquanyi=\"\" microsoft=\"\" sans=\"\" hiragino=\"\" pingfang=\"\"><span style=\"color: rgb(34, 34, 34); font-family:;\" helvetica=\"\" micro=\"\" wenquanyi=\"\" microsoft=\"\" sans=\"\" hiragino=\"\" pingfang=\"\">则是一场拼手速、拼运气的战役，<\/span><span style=\"color: rgb(34, 34, 34); font-family:;\" helvetica=\"\" micro=\"\" wenquanyi=\"\" microsoft=\"\" sans=\"\" hiragino=\"\" pingfang=\"\">网速就是抢占先机的利器，基于此，一款强大的路由器自然是剁手必备法宝。<\/span><\/span><\/p><p style=\"line-height: 1.75em;\"><span style=\"color: rgb(34, 34, 34); font-family:;\" helvetica=\"\" micro=\"\" wenquanyi=\"\" microsoft=\"\" sans=\"\" hiragino=\"\" pingfang=\"\"><span style=\"color: rgb(34, 34, 34); font-family:;\" helvetica=\"\" micro=\"\" wenquanyi=\"\" microsoft=\"\" sans=\"\" hiragino=\"\" pingfang=\"\"><br/><\/span><\/span><\/p><p style=\"line-height: 1.75em;\"><span style=\"color: rgb(34, 34, 34); font-family:;\" helvetica=\"\" micro=\"\" wenquanyi=\"\" microsoft=\"\" sans=\"\" hiragino=\"\" pingfang=\"\">10月22日，荣耀路由新品-荣耀路由X2首发预售，新品主打五大核心卖点，即：双核芯片、双千兆、双独立信号放大器、双频优选以及双网双通，号称卓越\u201c五\u201d双。<\/span><span style=\"color: rgb(34, 34, 34); font-family:;\" helvetica=\"\" micro=\"\" wenquanyi=\"\" microsoft=\"\" sans=\"\" hiragino=\"\" pingfang=\"\">涵盖如此多功能特性的荣耀路由X2仅售<\/span><strong style=\"color: rgb(34, 34, 34); font-family:;\" helvetica=\"\" micro=\"\" wenquanyi=\"\" microsoft=\"\" sans=\"\" hiragino=\"\" pingfang=\"\">149元<\/strong><span style=\"color: rgb(34, 34, 34); font-family:;\" helvetica=\"\" micro=\"\" wenquanyi=\"\" microsoft=\"\" sans=\"\" hiragino=\"\" pingfang=\"\">，非常适合对网速、性价比有高要求的小伙伴！<\/span><\/p><p style=\"line-height: 1.75em;\"><span style=\"color: rgb(34, 34, 34); font-family:;\" helvetica=\"\" micro=\"\" wenquanyi=\"\" microsoft=\"\" sans=\"\" hiragino=\"\" pingfang=\"\"><br/><\/span><\/p><p style=\"line-height: 1.75em;\"><span style=\"color: rgb(34, 34, 34); font-family:;\" helvetica=\"\" micro=\"\" wenquanyi=\"\" microsoft=\"\" sans=\"\" hiragino=\"\" pingfang=\"\">这款路由器有何出众之处？为何能成为刷新性价比的百元路由器？往下看！为你一一剖析：<\/span><\/p><\/section><\/section><p><br/><\/p><p><br/><\/p><p>&nbsp;<\/p>","play_label":"1","update_name":"管理员","update_date":{"date":6,"day":2,"hours":16,"minutes":56,"month":10,"nanos":0,"seconds":33,"time":1541494593000,"timezoneOffset":-480,"year":118},"create_by":"admin","fstatus":"1","sys_company_code":"A03","bpm_status":"1","play_title":"智能控制HoxONE多协议接入上线","id":4,"create_date":{"date":1,"day":4,"hours":11,"minutes":4,"month":10,"nanos":0,"seconds":58,"time":1541041498000,"timezoneOffset":-480,"year":118},"update_by":"admin","create_name":"管理员","play_pic":"upload/files/20181106/Desert_1541487369145.jpg"}]
-     * message : 适玩详情查询成功
-     * code : 1
+     {
+     "playdetail": [
+     {
+     "sys_org_code": "A03",
+     "play_introduce": "在科幻电影里面经常见到这样一个桥段，主角对着自己的智能管家发出语音命令，家里的电器就会随之响应。",
+     "play_content": "<p style=\"text-align: justify; margin-right: 16px; margin-left: 16px;\"><span style=\"font-size: 14px;\"><br/></span></p><p style=\"text-align: justify; margin-right: 16px; margin-left: 16px;\"><span style=\"font-size: 14px;\"><img src=\"http://112.90.178.68:8081/hox/plug-in/ueditor/jsp/upload1/20181123/86371542950863210.png\"/></span></p><p style=\"text-align: justify; margin-right: 16px; margin-left: 16px;\"><span style=\"font-size: 14px;\"><br/></span></p><p style=\"text-align: justify; margin-right: 16px; margin-left: 16px;\"><span style=\"font-size: 14px;\">在科幻电影里面经常见到这样一个桥段，主角对着自己的智能管家发出语音命令，家里的电器就会随之响应。</span></p><p><br/></p><p style=\"text-align: justify; margin-right: 16px; margin-left: 16px;\"><span style=\"font-size: 14px;\">这一切，想在自己家里实现吗？</span></p><p style=\"text-align: justify; margin-right: 16px; margin-left: 16px;\"><br/></p><p style=\"text-align: justify; margin-right: 16px; margin-left: 16px;\"><span style=\"font-size: 14px;\">事实上，<strong>一台iPhone 和一套SmartHox家居装备，就能帮你完成这个想法。</strong></span></p><p><br/></p><p><img src=\"http://112.90.178.68:8081/hox/plug-in/ueditor/jsp/upload1/20181123/92491542950920220.png\"/></p><p style=\"margin-right: 16px; margin-left: 16px;\"><span style=\"font-size: 14px;\">当你起床时对Siri说一声 “ hey，Siri 我起床了”。</span></p><p style=\"text-align: justify; margin-right: 16px; margin-left: 16px;\"><br/></p><p style=\"text-align: justify; margin-right: 16px; margin-left: 16px;\"><span style=\"font-size: 14px;\">窗帘与灯光就会自动打开，为你带来最舒适的晨间阳光，厨房里的电饭煲自动开始为你烹饪美味的早餐，美好的一天由 Siri 和涂鸦智能家居为你开启</span></p><p><br/></p><p><img src=\"http://112.90.178.68:8081/hox/plug-in/ueditor/jsp/upload1/20181123/98991542950965061.png\"/></p><p style=\"text-align: justify; margin-right: 16px; margin-left: 16px;\"><span style=\"font-size: 14px;\">当你回家时对Siri说一声：“hey，Siri 我回来了”。</span></p><p style=\"text-align: justify; margin-right: 16px; margin-left: 16px;\"><br/></p><p style=\"text-align: justify; margin-right: 16px; margin-left: 16px;\"><span style=\"font-size: 14px;\">家里的灯和空调会自动打开，为你照亮回家的方向，温暖家的温度，热水器在听到你的归来后开始预热，一天的辛苦与疲惫在此刻由Siri和涂鸦智能家居为你卸下。</span></p><p style=\"text-align: justify; margin-right: 16px; margin-left: 16px;\"><span style=\"font-size: 14px;\"><br/></span></p><p style=\"text-align: justify; margin-right: 16px; margin-left: 16px;\"><span style=\"font-size: 14px;\">舒适的智能体验让生活变得更简单，这一切在此刻就会都将变成事实。</span></p><p><br/></p><p><img src=\"http://112.90.178.68:8081/hox/plug-in/ueditor/jsp/upload1/20181123/35181542951002196.png\"/></p><p><br/></p><p style=\"text-align: justify; margin-right: 16px; margin-left: 16px;\"><span style=\"font-size: 14px;\">所以当我们脱离智能音箱的时候，还可以用什么来控制智能家居呢？</span></p><p style=\"text-align: justify; margin-right: 16px; margin-left: 16px;\"><span style=\"font-size: 14px;\">这一刻答案就是： </span><span style=\"color: rgb(255, 104, 0); font-size: 14px;\"><strong>App 和 Siri</strong></span></p><p style=\"text-align: justify; margin-right: 16px; margin-left: 16px;\"><span style=\"font-size: 14px;\">&nbsp;</span></p><p style=\"text-align: justify; margin-right: 16px; margin-left: 16px;\"><span style=\"font-size: 14px;\">就在11月，SmartHox&nbsp;<strong>App发布了新版，其中一项功能就包含 Siri场景唤醒</strong>，此项功能主要是利用 iOS 12 系统捷径功能进行开发，伴随着 iOS 12的普及度越来越高，</span><span style=\"color: rgb(255, 104, 0); font-size: 14px;\">使得用户可以做到利用 Siri 直接唤醒涂鸦智能App上已设置好的<strong>自动化场景</strong></span><span style=\"font-size: 14px;\">。这种黑科技体验，你值得尝试。</span></p><p><br/></p>",
+     "play_label": "0",
+     "update_name": "管理员",
+     "update_date": {
+     "date": 23,
+     "day": 5,
+     "hours": 13,
+     "minutes": 30,
+     "month": 10,
+     "nanos": 0,
+     "seconds": 7,
+     "time": 1542951007000,
+     "timezoneOffset": -480,
+     "year": 118
+     },
+     "create_by": "admin",
+     "fstatus": "1",
+     "sys_company_code": "A03",
+     "bpm_status": "1",
+     "play_title": "“ Hey , Siri ” 唤醒我的智能生活",
+     "id": 9,
+     "create_date": {
+     "date": 8,
+     "day": 4,
+     "hours": 21,
+     "minutes": 39,
+     "month": 10,
+     "nanos": 0,
+     "seconds": 15,
+     "time": 1541684355000,
+     "timezoneOffset": -480,
+     "year": 118
+     },
+     "update_by": "admin",
+     "create_name": "管理员",
+     "play_pic": "upload/files/20181123/640_1542950564703.jpg"
+     }
+     ],
+     "message": "适玩详情查询成功",
+     "code": 1
+     }
      */
 
     private String message;

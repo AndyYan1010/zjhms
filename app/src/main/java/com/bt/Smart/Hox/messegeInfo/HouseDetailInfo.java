@@ -14,9 +14,42 @@ import java.util.List;
 public class HouseDetailInfo {
 
     /**
-     * houseList : [{"house_name":"次卧","home_id":"c340f6101d844659a7f6fc97493e51bc","id":"08e70f9e59df4c7fbb119add8490a63d","register_id":"74ee5a6bdb5911e8813c000c2950df04"},{"house_name":"书房","home_id":"c340f6101d844659a7f6fc97493e51bc","id":"7862ab7cc5524f779bfc43dd5e9daf34","register_id":"74ee5a6bdb5911e8813c000c2950df04"},{"house_name":"主卧","home_id":"c340f6101d844659a7f6fc97493e51bc","id":"9a558adc48e644b6965f7bb02f16aa3d","register_id":"74ee5a6bdb5911e8813c000c2950df04"},{"house_name":"衣帽间","home_id":"c340f6101d844659a7f6fc97493e51bc","id":"bf7e3562c14d4d95ae5dfc3dd202fb4e","register_id":"74ee5a6bdb5911e8813c000c2950df04"},{"house_name":"厨房","home_id":"c340f6101d844659a7f6fc97493e51bc","id":"cd8e7523361849bc8705f2256a50d19c","register_id":"74ee5a6bdb5911e8813c000c2950df04"},{"house_name":"客厅","home_id":"c340f6101d844659a7f6fc97493e51bc","id":"e158159b75e1433088bd8e4e05beceb3","register_id":"74ee5a6bdb5911e8813c000c2950df04"}]
-     * message : 家中房间列表查询成功
-     * code : 1
+     {
+     "houseList": [
+     {
+     "house_name": "主卧",
+     "home_id": "f67e15b2b940416480cbc042882874df",
+     "id": "0b2478550c1d4703b7e89914c3f2bce1",
+     "register_id": "b35e098dddb511e89c91000c2950df04"
+     },
+     {
+     "house_name": "餐厅",
+     "home_id": "f67e15b2b940416480cbc042882874df",
+     "id": "0e56cd272fc341c5af08073255053096",
+     "register_id": "b35e098dddb511e89c91000c2950df04"
+     },
+     {
+     "house_name": "次卧",
+     "home_id": "f67e15b2b940416480cbc042882874df",
+     "id": "12a04eb56c184796af12269191e80822",
+     "register_id": "b35e098dddb511e89c91000c2950df04"
+     },
+     {
+     "house_name": "客厅",
+     "home_id": "f67e15b2b940416480cbc042882874df",
+     "id": "156987723b6c4fa2849784df72feecf3",
+     "register_id": "b35e098dddb511e89c91000c2950df04"
+     },
+     {
+     "house_name": "帽间jdn",
+     "home_id": "f67e15b2b940416480cbc042882874df",
+     "id": "2880841ae31d49b1af350426fa281b75",
+     "register_id": "b35e098dddb511e89c91000c2950df04"
+     }
+     ],
+     "message": "家中房间列表查询成功",
+     "code": 1
+     }
      */
 
     private String message;

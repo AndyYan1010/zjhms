@@ -14,9 +14,66 @@ import java.util.List;
 public class NotHA3ListInfo {
 
     /**
-     * notHA3list : [{"deviceType":"1","device_config":"1","device_status":"1","house_id":"3161cffdb2654e9b805bc81c7280cdd6","create_time":{"date":20,"day":2,"hours":13,"minutes":13,"month":10,"nanos":0,"seconds":9,"time":1542690789000,"timezoneOffset":-480,"year":118},"second_control_id":"f84fe4afec8211e8b051000c29b0f385","main_control_id":"9753f046ebba11e8b051000c29b0f385","main_control_code":"0101800001","device_img":"","device_name":"计量控制（灯控）","device_code":"0211800001","default_device_type":"021","home_id":"d03949369e494186add23a2211858f5b","id":"1b1db0203a7f401f9cedbc1d5783c2e4"}]
-     * message : 查看家下面的除传感器查询成功
-     * code : 1
+     {
+     "notHA3list": [
+     {
+     "deviceType": "1",
+     "device_config": "1",
+     "device_status": "0",
+     "house_id": "0b2478550c1d4703b7e89914c3f2bce1",
+     "create_time": {
+     "date": 12,
+     "day": 3,
+     "hours": 9,
+     "minutes": 33,
+     "month": 11,
+     "nanos": 0,
+     "seconds": 51,
+     "time": 1544578431000,
+     "timezoneOffset": -480,
+     "year": 118
+     },
+     "second_control_id": "fa9f7ad0fdad11e8b051000c29b0f385",
+     "main_control_id": "0ab841faf90411e8b051000c29b0f385",
+     "main_control_code": "0101800001",
+     "device_img": "upload/files\\20181019\\Tulips.jpg",
+     "device_name": "计量控制（灯控）ghj",
+     "device_code": "0211800008",
+     "default_device_type": "021",
+     "home_id": "f67e15b2b940416480cbc042882874df",
+     "id": "0e73b856fcc648558d119e6f5a980529"
+     },
+     {
+     "deviceType": "1",
+     "device_config": "1",
+     "device_status": "0",
+     "house_id": "0b2478550c1d4703b7e89914c3f2bce1",
+     "create_time": {
+     "date": 12,
+     "day": 3,
+     "hours": 9,
+     "minutes": 5,
+     "month": 11,
+     "nanos": 0,
+     "seconds": 36,
+     "time": 1544576736000,
+     "timezoneOffset": -480,
+     "year": 118
+     },
+     "second_control_id": "08a97dfbfdaa11e8b051000c29b0f385",
+     "main_control_id": "0ab841faf90411e8b051000c29b0f385",
+     "main_control_code": "0101800001",
+     "device_img": "upload/files\\20181019\\Tulips.jpg",
+     "device_name": "计量控制（灯控）",
+     "device_code": "0211800001",
+     "default_device_type": "021",
+     "home_id": "f67e15b2b940416480cbc042882874df",
+     "id": "1cdf76675ff8410a8e42978542f8f5a4"
+     }
+     ],
+     "message": "查看家下面的除传感器查询成功",
+     "code": 1
+     }
      */
 
     private String message;

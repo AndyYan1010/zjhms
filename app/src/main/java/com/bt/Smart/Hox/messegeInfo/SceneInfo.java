@@ -14,9 +14,32 @@ import java.util.List;
 public class SceneInfo {
 
     /**
-     * scenelist : [{"scene_status":"0","home_id":"d03949369e494186add23a2211858f5b","id":"8ea296e5-7501-4f93-86a7-f0e36967d6b9","create_date":{"date":22,"day":4,"hours":10,"minutes":37,"month":10,"nanos":0,"seconds":0,"time":1542854220000,"timezoneOffset":-480,"year":118},"scene_name":"是多少","scene_pic":"http://www.smart-hox.com:8081/upFiles/upload/files/20181108/vmw-hp-hero-vsan-innovations_1541681849443.jpg"},{"scene_status":"0","home_id":"d03949369e494186add23a2211858f5b","id":"9a327794-c2d1-485a-a71d-683d847122bc","create_date":{"date":22,"day":4,"hours":11,"minutes":34,"month":10,"nanos":0,"seconds":49,"time":1542857689000,"timezoneOffset":-480,"year":118},"scene_name":"顾客","scene_pic":"http://www.smart-hox.com:8081/upFiles/upload/files/20181108/vmw-vforum-banner-muti-san-pics_1541681958703.jpg"},{"scene_status":"0","home_id":"d03949369e494186add23a2211858f5b","id":"bdf5a360-ca6d-4940-9fe3-6a71fd8dac7b","create_date":{"date":22,"day":4,"hours":9,"minutes":0,"month":10,"nanos":0,"seconds":29,"time":1542848429000,"timezoneOffset":-480,"year":118},"scene_name":"测试","scene_pic":"http://www.smart-hox.com:8081/upFiles/upload/files/20181108/vmw-hp-hero-vsan-innovations_1541681849443.jpg"},{"scene_status":"0","home_id":"d03949369e494186add23a2211858f5b","id":"d1a7efc5-0c76-4a3b-9b61-7bb047343e72","create_date":{"date":22,"day":4,"hours":11,"minutes":28,"month":10,"nanos":0,"seconds":6,"time":1542857286000,"timezoneOffset":-480,"year":118},"scene_name":"发货快","scene_pic":"http://www.smart-hox.com:8081/upFiles/upload/files/20181108/vmw-vforum-banner-muti-san-pics_1541681958703.jpg"}]
-     * message : 场景查询成功
-     * code : 1
+     {
+     "scenelist": [
+     {
+     "scene_status": "1",
+     "home_id": "f67e15b2b940416480cbc042882874df",
+     "id": "fedb29fc-d578-463c-a685-faf7bf34f8bf",
+     "create_date": {
+     "date": 18,
+     "day": 2,
+     "hours": 16,
+     "minutes": 20,
+     "month": 11,
+     "nanos": 0,
+     "seconds": 6,
+     "time": 1545121206000,
+     "timezoneOffset": -480,
+     "year": 118
+     },
+     "show_status": "1",
+     "scene_name": "dh",
+     "scene_pic": "http://www.smart-hox.com:8081/upFiles/upload/files/20181108/vmw-hp-hero-vsan-innovations_1541681849443.jpg"
+     }
+     ],
+     "message": "场景查询成功",
+     "code": 1
+     }
      */
 
     private String              message;

@@ -14,10 +14,33 @@ import java.util.List;
 public class SceneDetailInfoNew {
 
     /**
-     * sceneDetail : [{"scene_status":"0","home_id":"d03949369e494186add23a2211858f5b","id":"8ea296e5-7501-4f93-86a7-f0e36967d6b9","create_date":{"date":22,"day":4,"hours":13,"minutes":18,"month":10,"nanos":0,"seconds":13,"time":1542863893000,"timezoneOffset":-480,"year":118},"scene_name":"是多少","scene_pic":"http://www.smart-hox.com:8081/upFiles/upload/files/20181108/vmw-hp-hero-vsan-innovations_1541681849443.jpg"}]
-     * sceneDeviceDetail : [{"device_status":"1","device_name":"调光控制（灯控）","device_id":"00f5350d73b14d87b54e23d58d03e3e0","device_value":"50","default_device_type":"022","id":"7d464828edff11e8b051000c29b0f385"},{"device_status":"1","device_name":"计量控制（灯控）","device_id":"1b1db0203a7f401f9cedbc1d5783c2e4","device_value":"1","default_device_type":"021","id":"7d48827cedff11e8b051000c29b0f385"},{"device_status":"1","device_name":"空气哨兵","device_id":"b0dd9a6e0f144deaa38939128c3613ae","device_value":"50","default_device_type":"022","id":"7d4aef9cedff11e8b051000c29b0f385"}]
-     * message : 场景详情查询成功
-     * code : 1
+     {
+     "sceneDetail": [
+     {
+     "scene_status": "1",
+     "home_id": "f67e15b2b940416480cbc042882874df",
+     "id": "fedb29fc-d578-463c-a685-faf7bf34f8bf",
+     "create_date": {
+     "date": 18,
+     "day": 2,
+     "hours": 16,
+     "minutes": 20,
+     "month": 11,
+     "nanos": 0,
+     "seconds": 6,
+     "time": 1545121206000,
+     "timezoneOffset": -480,
+     "year": 118
+     },
+     "show_status": "1",
+     "scene_name": "dh",
+     "scene_pic": "http://www.smart-hox.com:8081/upFiles/upload/files/20181108/vmw-hp-hero-vsan-innovations_1541681849443.jpg"
+     }
+     ],
+     "sceneDeviceDetail": [],
+     "message": "场景详情查询成功",
+     "code": 1
+     }
      */
 
     private String message;

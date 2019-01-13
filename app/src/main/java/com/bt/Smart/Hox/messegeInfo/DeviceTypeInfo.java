@@ -14,9 +14,65 @@ import java.util.List;
 public class DeviceTypeInfo {
 
     /**
-     * deviceTypeList : {"code":1,"data":[{"devcieType":"0","deviceDescibe":"中央控制器（POE/Lora）","deviceTypeName":"010","devcieTypePic":"upload/files\\20181019\\Hydrangeas.jpg","id":"8a8a8a8a65f586b70165f590e3080007"},{"devcieType":"1","deviceDescibe":"空气哨兵","deviceTypeName":"031","devcieTypePic":"upload/files\\20181019\\Lighthouse.jpg","id":"8a8a8a8a65f586b70165f5921dd30009"},{"devcieType":"1","deviceDescibe":"计量控制（灯控）","deviceTypeName":"021","devcieTypePic":"upload/files\\20181019\\Tulips.jpg","id":"8a8a8a8a667fd18b0166808d3bb50954"},{"devcieType":"1","deviceDescibe":"调光控制（灯控）","deviceTypeName":"022","devcieTypePic":"upload/files\\20181019\\Penguins.jpg","id":"4d2881e9670b704601670b7681c50005"},{"devcieType":"3","deviceDescibe":"红外遥控","deviceTypeName":"051","devcieTypePic":"upload/files\\20181019\\Penguins.jpg","id":"8a8a8a8a65a7c55f0165a82d22170016"}],"message":"类型查询查询成功"}
-     * message : 设备分类查询成功
-     * code : 1
+     {
+     "deviceTypeList": {
+     "code": 1,
+     "data": [
+     {
+     "devcieType": "0",
+     "deviceDescibe": "中央控制器（POE/Lora）",
+     "deviceTypeName": "010",
+     "devcieTypePic": "upload/files\\20181019\\Hydrangeas.jpg",
+     "id": "8a8a8a8a65f586b70165f590e3080007"
+     },
+     {
+     "devcieType": "1",
+     "deviceDescibe": "空气哨兵",
+     "deviceTypeName": "031",
+     "devcieTypePic": "upload/files\\20181019\\Lighthouse.jpg",
+     "id": "8a8a8a8a65f586b70165f5921dd30009"
+     },
+     {
+     "devcieType": "1",
+     "deviceDescibe": "调光控制（灯控）",
+     "deviceTypeName": "022",
+     "devcieTypePic": "upload/files\\20181019\\Penguins.jpg",
+     "id": "4d2881e9670b704601670b7681c50005"
+     },
+     {
+     "devcieType": "1",
+     "deviceDescibe": "计量控制（灯控）",
+     "deviceTypeName": "021",
+     "devcieTypePic": "upload/files\\20181019\\Tulips.jpg",
+     "id": "8a8a8a8a667fd18b0166808d3bb50954"
+     },
+     {
+     "devcieType": "2",
+     "deviceDescibe": "体脂秤",
+     "deviceTypeName": "091",
+     "devcieTypePic": "upload/files\\20181019\\Jellyfish.jpg",
+     "id": "4d2881e9670b704601670b80de6d0021"
+     },
+     {
+     "devcieType": "2",
+     "deviceDescibe": "空气哨兵WIFI",
+     "deviceTypeName": "032",
+     "devcieTypePic": "upload/files\\20181019\\Jellyfish.jpg",
+     "id": "8a8a8a8a65f586b701661375eb180026"
+     },
+     {
+     "devcieType": "3",
+     "deviceDescibe": "红外遥控",
+     "deviceTypeName": "051",
+     "devcieTypePic": "upload/files\\20181019\\Penguins.jpg",
+     "id": "8a8a8a8a65a7c55f0165a82d22170016"
+     }
+     ],
+     "message": "类型查询查询成功"
+     },
+     "message": "设备分类查询成功",
+     "code": 1
+     }
      */
 
     private DeviceTypeListBean deviceTypeList;

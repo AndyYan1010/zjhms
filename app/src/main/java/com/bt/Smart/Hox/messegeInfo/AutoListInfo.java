@@ -13,9 +13,32 @@ import java.util.List;
 
 public class AutoListInfo {
     /**
-     * autolist : [{"create_time":{"date":6,"day":4,"hours":12,"minutes":27,"month":11,"nanos":0,"seconds":1,"time":1544070421000,"timezoneOffset":-480,"year":118},"auto_status":"0","if_ha3_code":"0311800005","auto_name":"编辑名字","home_id":"f67e15b2b940416480cbc042882874df","id":"b0c5dce2-b4d9-4226-8586-0e9787957ba9","auto_type":"0"}]
-     * message : 自动化查询成功
-     * code : 1
+     {
+     "autolist": [
+     {
+     "create_time": {
+     "date": 6,
+     "day": 4,
+     "hours": 12,
+     "minutes": 27,
+     "month": 11,
+     "nanos": 0,
+     "seconds": 1,
+     "time": 1544070421000,
+     "timezoneOffset": -480,
+     "year": 118
+     },
+     "auto_status": "0",
+     "if_ha3_code": "0311800005",
+     "auto_name": "编辑名字",
+     "home_id": "f67e15b2b940416480cbc042882874df",
+     "id": "b0c5dce2-b4d9-4226-8586-0e9787957ba9",
+     "auto_type": "0"
+     }
+     ],
+     "message": "自动化查询成功",
+     "code": 1
+     }
      */
 
     private String message;

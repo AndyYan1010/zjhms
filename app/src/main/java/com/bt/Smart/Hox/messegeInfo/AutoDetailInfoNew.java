@@ -14,14 +14,42 @@ import java.util.List;
 public class AutoDetailInfoNew {
 
     /**
-     * autodetail : [{"create_time":{"date":22,"day":4,"hours":16,"minutes":55,"month":10,"nanos":0,"seconds":13,"time":1542876913000,"timezoneOffset":-480,"year":118},"auto_status":"0","auto_name":"测试001","home_id":"d03949369e494186add23a2211858f5b","id":"48b2d18e-f7cc-4177-973c-685bb89ada81","auto_type":"0"}]
-     * auto_iftime_list : [{"auto_id":"48b2d18e-f7cc-4177-973c-685bb89ada81","if_type":"0","id":"45479ad5ee3411e8b051000c29b0f385","if_begin_time":"03:02:05","if_end_time":"07:02:08"}]
-     * auto_ifha3_list : [{"if_value":"5","auto_id":"48b2d18e-f7cc-4177-973c-685bb89ada81","if_type":"1","if_ha3_id":"af71298bddd24516b9fa9cbb6a748eea","device_name":"空气哨兵001","if_select":"小于","if_select_type":"CO2"}]
-     * auto_time_list : [{"auto_id":"48b2d18e-f7cc-4177-973c-685bb89ada81","id":"453e8082ee3411e8b051000c29b0f385","fval":"1"},{"auto_id":"48b2d18e-f7cc-4177-973c-685bb89ada81","id":"4540ec9eee3411e8b051000c29b0f385","fval":"3"},{"auto_id":"48b2d18e-f7cc-4177-973c-685bb89ada81","id":"4543588fee3411e8b051000c29b0f385","fval":"5"},{"auto_id":"48b2d18e-f7cc-4177-973c-685bb89ada81","id":"4545c5d1ee3411e8b051000c29b0f385","fval":"7"}]
-     * auto_execute_device_list : [{"deviceType":"021","auto_id":"48b2d18e-f7cc-4177-973c-685bb89ada81","device_status":"1","device_name":"计量控制（灯控）","device_id":"1b1db0203a7f401f9cedbc1d5783c2e4","device_value":"1","id":"455640b1ee3411e8b051000c29b0f385"},{"deviceType":"022","auto_id":"48b2d18e-f7cc-4177-973c-685bb89ada81","device_status":"1","device_name":"调光控制（灯控）","device_id":"00f5350d73b14d87b54e23d58d03e3e0","device_value":"50","id":"455a8662ee3411e8b051000c29b0f385"},{"deviceType":"022","auto_id":"48b2d18e-f7cc-4177-973c-685bb89ada81","device_status":"1","device_name":"空气哨兵","device_id":"b0dd9a6e0f144deaa38939128c3613ae","device_value":"50","id":"455e2f79ee3411e8b051000c29b0f385"}]
-     * auto_execute_scene_list : [{"scene_status":"1","auto_id":"48b2d18e-f7cc-4177-973c-685bb89ada81","scene_id":"9a327794-c2d1-485a-a71d-683d847122bc","id":"45609b26ee3411e8b051000c29b0f385","scene_name":"顾客","scene_pic":"http://www.smart-hox.com:8081/upFiles/upload/files/20181108/vmw-vforum-banner-muti-san-pics_1541681958703.jpg"},{"scene_status":"1","auto_id":"48b2d18e-f7cc-4177-973c-685bb89ada81","scene_id":"bdf5a360-ca6d-4940-9fe3-6a71fd8dac7b","id":"456447e4ee3411e8b051000c29b0f385","scene_name":"测试","scene_pic":"http://www.smart-hox.com:8081/upFiles/upload/files/20181108/vmw-hp-hero-vsan-innovations_1541681849443.jpg"}]
-     * message : 自动化详情查询成功
-     * code : 1
+     {
+     "autodetail": [
+     {
+     "create_time": {
+     "date": 6,
+     "day": 4,
+     "hours": 12,
+     "minutes": 27,
+     "month": 11,
+     "nanos": 0,
+     "seconds": 1,
+     "time": 1544070421000,
+     "timezoneOffset": -480,
+     "year": 118
+     },
+     "auto_status": "0",
+     "if_ha3_code": "0311800005",
+     "auto_name": "编辑名字",
+     "home_id": "f67e15b2b940416480cbc042882874df",
+     "id": "b0c5dce2-b4d9-4226-8586-0e9787957ba9",
+     "auto_type": "0"
+     }
+     ],
+     "auto_iftime_list": [
+     {
+     "auto_id": "b0c5dce2-b4d9-4226-8586-0e9787957ba9",
+     "if_type": "0",
+     "id": "2d50ad55f90f11e8b051000c29b0f385"
+     }
+     ],
+     "auto_ifha3_list": [],
+     "auto_time_list": [],
+     "auto_execute_device_list": [],
+     "message": "自动化详情查询成功",
+     "code": 1
+     }
      */
 
     private String message;

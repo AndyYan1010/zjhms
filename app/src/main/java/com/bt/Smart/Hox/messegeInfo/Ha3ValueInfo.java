@@ -14,9 +14,44 @@ import java.util.List;
 public class Ha3ValueInfo {
 
     /**
-     * ha3TypeVlaueList : [{"fname":"温度","fval":"temperature"},{"fname":"湿度","fval":"humidity"},{"fname":"PM2.5","fval":"pm25"},{"fname":"PM100","fval":"pm100"},{"fname":"甲醛","fval":"formaldehyde"},{"fname":"VOCs","fval":"voc"},{"fname":"CO2","fval":"co2"},{"fname":"CO","fval":"co"}]
-     * message : 空气哨兵指标值
-     * code : 1
+     {
+     "ha3TypeVlaueList": [
+     {
+     "fname": "温度",
+     "fval": "temperature"
+     },
+     {
+     "fname": "湿度",
+     "fval": "humidity"
+     },
+     {
+     "fname": "PM2.5",
+     "fval": "pm25"
+     },
+     {
+     "fname": "PM100",
+     "fval": "pm100"
+     },
+     {
+     "fname": "甲醛",
+     "fval": "formaldehyde"
+     },
+     {
+     "fname": "VOCs",
+     "fval": "voc"
+     },
+     {
+     "fname": "CO2",
+     "fval": "co2"
+     },
+     {
+     "fname": "CO",
+     "fval": "co"
+     }
+     ],
+     "message": "空气哨兵指标值",
+     "code": 1
+     }
      */
 
     private String message;

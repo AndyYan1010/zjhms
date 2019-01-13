@@ -12,9 +12,31 @@ package com.bt.Smart.Hox.messegeInfo;
 public class LoginInfo {
 
     /**
-     * message : 用户登录成功
-     * memberInfo : {"wx_name":"QW5keSBZYW4=","fname":"undefined","fstatus":"0","wx_openid":"oGm3u0BHZwOPxMrEs-187NnVIquM","wx_pic":"https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJSoHRiasmEsSO62akEkah2pWGbicFPjeOWlL69alkicTOrvicVciaE8OYqHPMXQUFJNlsTovQu2LtK4rw/132","head_pic":"http://112.90.178.68:8081/upFiles/1542796099214.jpeg","bpmstatus":"1","id":"74ee5a6bdb5911e8813c000c2950df04","fpassword":"e10adc3949ba59abbe56e057f20f883e","create_date":{"date":29,"day":1,"hours":17,"minutes":4,"month":9,"nanos":0,"seconds":30,"time":1540803870000,"timezoneOffset":-480,"year":118},"ftelephone":"18036215618"}
-     * code : 1
+     * {
+     "message": "用户登录成功",
+     "memberInfo": {
+     "fname": "haha",
+     "fstatus": "0",
+     "head_pic": "http://112.90.178.68:8081/upFiles/1544055659244.jpeg",
+     "bpmstatus": "1",
+     "id": "b35e098dddb511e89c91000c2950df04",
+     "fpassword": "e10adc3949ba59abbe56e057f20f883e",
+     "create_date": {
+     "date": 1,
+     "day": 4,
+     "hours": 17,
+     "minutes": 8,
+     "month": 10,
+     "nanos": 0,
+     "seconds": 30,
+     "time": 1541063310000,
+     "timezoneOffset": -480,
+     "year": 118
+     },
+     "ftelephone": "18036215611"
+     },
+     "code": 1
+     }
      */
 
     private String         message;
